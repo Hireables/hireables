@@ -3,14 +3,17 @@ class OrganizationsController < ApplicationController
   # GET /organizations
   # GET /organizations.json
   def index
-    @organizations = Octokit.organizations
-    render json: @organizations
+    @organizations = $github_client.all_organizations
+    respond_to do |format|
+      format.html
+      format.json {render json: @organizations}
+    end
   end
 
-  # GET /organizations/:username
-  # GET /organizations/:username.json
+  # GET /organizations/:id
+  # GET /organizations/:id.json
   def show
-    @organization = Octokit.organization(params[:username])
+    @organization = $github_client.organization(params[:id])
     render json: @organization
   end
 
