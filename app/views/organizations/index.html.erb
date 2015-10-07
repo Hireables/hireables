@@ -1,6 +1,9 @@
 <header class="header header--bg">
   <div class="container">
-    <%= react_component 'app.OrganizationSearch' %>
+    <div class="jumbotron jumbotron--small">
+    <h3 class="bold">Enter company name to search</h3>
+    <%= react_component 'app.Search', {action: "/organizations"} %>
+    </div>
   </div>
 </header>
 <%= react_component 'app.OrganizationsList' %>

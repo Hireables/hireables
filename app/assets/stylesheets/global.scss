@@ -1,7 +1,7 @@
 
-/* Global Styles */
-
-/* Setup Helpers */
+/* Global Styles
+  Setup Helpers
+*/
 
 .no-style {
   list-style: none;
@@ -42,6 +42,12 @@
 .pull-right {
   float: right;
 }
+.col-8 {
+  width: 80%;
+}
+.col-6 {
+  width: 60%;
+}
 .bg-horizon {
   background: -webkit-linear-gradient(90deg, #136a8a 10%, #267871 90%);
   background:    -moz-linear-gradient(90deg, #136a8a 10%, #267871 90%);
@@ -50,28 +56,42 @@
   background:         linear-gradient(90deg, #136a8a 10%, #267871 90%);
 }
 
-/* Standard Styles */
+/*
+  Standard Styles : Body elements
+*/
+
 body {
   margin: 0;
   padding: 0;
   font-family: 'Roboto', sans-serif;
 }
+.content {
+  padding-bottom: 100px;
+}
 .container {
   max-width: 960px;
   margin: 0 auto;
 }
-.muidocs-icon-custom-github:before {
-  content: "\e625";
-}
 .jumbotron--small {
   padding: 60px 0;
+}
+.not_available {
+  background-color: #ef5350;
+}
+.available {
+  background-color: #66bb6a;
+}
+.company_shown {
+  background-color: #2196f3;
+}
+.company_hidden {
+  background-color: #455a64;
 }
 .header--bg {
   background: #fafafa;
 }
-.col-8 {
-  width: 80%;
-}
-.col-6 {
-  width: 60%;
+.members-list {
+  .members--small {
+    padding: 40px 0 0;
+  }
 }

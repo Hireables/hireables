@@ -4,7 +4,7 @@ React = require('react/addons');
 // import material UI
 import mui from 'material-ui';
 var $ = require('jquery-browserify');
-
+// Dependent component
 import OrganizationMeta from './organization_meta.es6.js'
 
 let RaisedButton = mui.RaisedButton;
@@ -64,14 +64,21 @@ const OrganizationsList = React.createClass({
   },
 
   render() {
+
     let listContainerStyle = {
       paddingTop: '50px'
+    };
+
+    let subHeaderStyles = {
+      fontSize: '25px',
+      marginBottom: '20px',
+      padding: '0'
     };
 
     return (
         <div className="organizations_show">
           <div className="container" style={listContainerStyle}>
-            <List subheader="All companies">
+            <List subheader="All companies" subheaderStyle={subHeaderStyles}>
               {this.state.organizations.map(org => (
                 <div key={org.id} onClick={this.showOrganization.bind(this, org.login)}>
                   <ListItem

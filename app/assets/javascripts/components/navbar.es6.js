@@ -3,6 +3,7 @@ React = require('react/addons');
 
 import mui from 'material-ui';
 
+// Material Component
 let Toolbar = mui.Toolbar;
 let ToolbarGroup = mui.ToolbarGroup;
 let ToolbarTitle = mui.ToolbarTitle;
@@ -36,7 +37,6 @@ const NavBar = React.createClass({
     let newMuiTheme = ThemeManager.modifyRawThemePalette(this.state.muiTheme, {
       accent1Color: Colors.blueA400
     });
-
     this.setState({muiTheme: newMuiTheme});
   },
 
@@ -47,18 +47,23 @@ const NavBar = React.createClass({
       width: '980px',
       padding: '0',
       margin: '0 auto'
-    }
+    };
 
     let fontStyles = {
       paddingLeft: '0px',
-      marginRight: '5px',
+      marginRight: '10px',
       color: '#fff'
-    }
+    };
 
     let toolbarTitleStyles = {
-      fontSize: '18px',
+      fontSize: '16px',
       color: '#fff'
-    }
+    };
+
+    let toolbarSeperatorStyles = {
+      fontSize: '16px',
+      color: '#fff'
+    };
 
     return (
         <div className="nav bg-horizon">
@@ -73,7 +78,7 @@ const NavBar = React.createClass({
               </a>
             </ToolbarGroup>
             <ToolbarGroup key={1} float="right">
-              <ToolbarSeparator/>
+              <ToolbarSeparator style={toolbarSeperatorStyles} />
               <RaisedButton label="Login" primary={true} />
             </ToolbarGroup>
           </Toolbar>
