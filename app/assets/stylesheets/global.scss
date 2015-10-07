@@ -18,11 +18,60 @@
 .m-r-20 {
   margin-right: 20px;
 }
+.m-t-5 {
+  margin-top: 5px;
+}
+.bold {
+  font-weight: bold;
+}
+.block {
+  display: block;
+}
+.p-r-60 {
+  padding-right: 60px;
+}
+.text-center {
+  text-align: center;
+}
+.fs-13 {
+  font-size: 13px;
+}
+.fs-14 {
+  font-size: 14px;
+}
+.pull-right {
+  float: right;
+}
+.bg-horizon {
+  background: -webkit-linear-gradient(90deg, #136a8a 10%, #267871 90%);
+  background:    -moz-linear-gradient(90deg, #136a8a 10%, #267871 90%);
+  background:     -ms-linear-gradient(90deg, #136a8a 10%, #267871 90%);
+  background:      -o-linear-gradient(90deg, #136a8a 10%, #267871 90%);
+  background:         linear-gradient(90deg, #136a8a 10%, #267871 90%);
+}
+
+/* Standard Styles */
 body {
   margin: 0;
   padding: 0;
+  font-family: 'Roboto', sans-serif;
 }
 .container {
-  max-width: 980px;
+  max-width: 960px;
   margin: 0 auto;
+}
+.muidocs-icon-custom-github:before {
+  content: "\e625";
+}
+.jumbotron--small {
+  padding: 60px 0;
+}
+.header--bg {
+  background: #fafafa;
+}
+.col-8 {
+  width: 80%;
+}
+.col-6 {
+  width: 60%;
 }

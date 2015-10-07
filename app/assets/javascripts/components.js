@@ -8,10 +8,18 @@ var app = window.app = global.app = {};
 
 // Requite React componets/modules into global app namespace
 var NavBar = require('./components/navbar.es6.js');
+var Jumbotron = require('./components/jumbotron.es6.js');
 var Home = require('./components/home.es6.js');
 var OrganizationsList = require('./components/organizations_list.es6.js');
+var OrganizationsShow = require('./components/organizations_show.es6.js');
+var OrganizationSearch = require('./components/organization_search.es6.js');
+var OrganizationMeta = require('./components/organization_meta.es6.js');
 
 // Include into app namespace
 app.NavBar = NavBar;
+app.Jumbotron = Jumbotron;
 app.Home = Home;
 app.OrganizationsList = OrganizationsList;
+app.OrganizationsShow = OrganizationsShow;
+app.OrganizationSearch = OrganizationSearch;
+app.OrganizationMeta = OrganizationMeta;

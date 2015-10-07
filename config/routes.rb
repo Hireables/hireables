@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
   root to: 'pages#home'
-  resources :organizations, only: [:index, :show]
+  resources :organizations, only: [:index, :show] do
+    collection do
+      post :search
+    end
+  end
 end

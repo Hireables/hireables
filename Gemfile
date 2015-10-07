@@ -7,9 +7,6 @@ gem 'rails-api'
 # Setup server
 gem 'passenger'
 
-# Use jquery as the JavaScript library
-gem 'jquery-rails'
-
 # Asset compilation and NPM modules
 gem 'browserify-rails'
 gem 'sass-rails', '~> 5.0'
@@ -30,6 +27,10 @@ gem 'oj'
 
 # Throttle Malacious requests
 gem 'rack-attack'
+
+#Speed up links
+gem 'turbolinks', github: 'rails/turbolinks'
+gem 'jquery-turbolinks'
 
 #Secure headers HTTPS headers
 gem "secure_headers", :require => 'secure_headers'

@@ -1,6 +1,6 @@
 # Setup Faraday cache
 stack = Faraday::RackBuilder.new do |builder|
-  builder.use Faraday::HttpCache, shared_cache: false, store: Rails.cache
+  builder.use Faraday::HttpCache, shared_cache: false, store: Rails.cache, serializer: Marshal
   builder.response :logger
   builder.use Octokit::Response::RaiseError
   builder.adapter Faraday.default_adapter

@@ -1,1 +1,6 @@
-<%= react_component 'app.OrganizationsList', {organizations: @organizations} %>
+<header class="header header--bg">
+  <div class="container">
+    <%= react_component 'app.OrganizationSearch' %>
+  </div>
+</header>
+<%= react_component 'app.OrganizationsList' %>

@@ -3,8 +3,11 @@ React = require('react/addons');
 
 // import material UI
 import mui from 'material-ui';
+var $ = require('jquery-browserify');
+
+import OrganizationMeta from './organization_meta.es6.js'
+
 let RaisedButton = mui.RaisedButton;
-let Dialog = mui.Dialog;
 let List = mui.List;
 let ListItem = mui.ListItem;
 let ListDivider = mui.ListDivider;
@@ -12,8 +15,6 @@ let Avatar = mui.Avatar
 let ThemeManager = mui.Styles.ThemeManager;
 let LightRawTheme = mui.Styles.LightRawTheme;
 let Colors = mui.Styles.Colors
-
-import request from 'superagent';
 
 // Define component
 const OrganizationsList = React.createClass({
@@ -36,11 +37,11 @@ const OrganizationsList = React.createClass({
   },
 
   fetchOrganizations() {
-    request
-      .get('/organizations')
-      .set('Accept', 'application/json')
-      .end(function(err, res){
-        this.setState({organizations: JSON.parse(res.text)});
+    $.ajaxSetup({
+      cache: false
+    });
+    $.getJSON('/organizations', function(json, textStatus) {
+      this.setState({organizations: json});
     }.bind(this));
   },
 
@@ -58,41 +59,42 @@ const OrganizationsList = React.createClass({
     }
   },
 
+  showOrganization(id) {
+    Turbolinks.visit("/organizations/" + id);
+  },
+
   render() {
-    let containerStyle = {
-      width: '960px',
-      margin: '0 auto',
-      paddingTop: '100px'
+    let listContainerStyle = {
+      paddingTop: '50px'
     };
 
-    let standardActions = [
-      { text: 'Okay' }
-    ];
-
     return (
-        <div style={containerStyle}>
-          <List subheader="Today">
-            {this.state.organizations.map(org => (
-              <div key={org.id}>
-                <ListItem
-                  leftAvatar={<Avatar src={org.avatar_url} />}
-                  primaryText={org.login}
-                  secondaryText={
-                    <p dangerouslySetInnerHTML={{__html: org.description}}>
-                    </p>
-                  }
+        <div className="organizations_show">
+          <div className="container" style={listContainerStyle}>
+            <List subheader="All companies">
+              {this.state.organizations.map(org => (
+                <div key={org.id} onClick={this.showOrganization.bind(this, org.login)}>
+                  <ListItem
+                    leftAvatar={<Avatar src={org.avatar_url} />}
+                    primaryText={org.name || "No Name"}
+                    rightIconButton={<div className="pull-right"><OrganizationMeta followers={org.followers} gists={org.public_gists} repos={org.public_repos} /></div>}
+                    secondaryText={
+                      <p>
+                        <span style={{color: Colors.darkBlack}}>{org.login}</span><br/>
+                        <div style={{color: Colors.grey600}} dangerouslySetInnerHTML={{__html: org.description}}>
+                        </div>
+                      </p>
+                    }
                   secondaryTextLines={2} />
                   <ListDivider inset={true} />
                 </div>
-              ))}
-          </List>
+                ))}
+            </List>
+          </div>
         </div>
       );
-  },
-
-  _handleTouchTap() {
-    this.refs.superSecretPasswordDialog.show();
   }
+
 });
 
 module.exports = OrganizationsList;
