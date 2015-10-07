@@ -2,7 +2,6 @@
 React = require('react/addons');
 
 import mui from 'material-ui';
-import { Router, Route, Link } from 'react-router'
 
 let Toolbar = mui.Toolbar;
 let ToolbarGroup = mui.ToolbarGroup;
@@ -46,7 +45,12 @@ const NavBar = React.createClass({
         <div className="nav">
           <Toolbar>
             <ToolbarGroup key={0} float="left">
-              <ToolbarTitle text="Github Hire" />
+              <a href="/" className="link m-r-20">
+                <ToolbarTitle text="Github Hire" />
+              </a>
+              <a href="/organizations" className="link">
+                <ToolbarTitle text="All organizations" />
+              </a>
             </ToolbarGroup>
             <ToolbarGroup key={1} float="right">
               <ToolbarTitle text="Options" />

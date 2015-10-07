@@ -8,11 +8,12 @@ let Dialog = mui.Dialog;
 let List = mui.List;
 let ListItem = mui.ListItem;
 let ListDivider = mui.ListDivider;
-let rightIconMenu = mui.List.rightIconMenu;
 let Avatar = mui.Avatar
 let ThemeManager = mui.Styles.ThemeManager;
 let LightRawTheme = mui.Styles.LightRawTheme;
 let Colors = mui.Styles.Colors
+
+import request from 'superagent';
 
 // Define component
 const OrganizationsList = React.createClass({
@@ -24,6 +25,7 @@ const OrganizationsList = React.createClass({
   getInitialState () {
     return {
       muiTheme: ThemeManager.getMuiTheme(LightRawTheme),
+      organizations: []
     };
   },
 
@@ -31,6 +33,15 @@ const OrganizationsList = React.createClass({
     return {
       muiTheme: this.state.muiTheme,
     };
+  },
+
+  fetchOrganizations() {
+    request
+      .get('/organizations')
+      .set('Accept', 'application/json')
+      .end(function(err, res){
+        this.setState({organizations: JSON.parse(res.text)});
+    }.bind(this));
   },
 
   componentWillMount() {
@@ -41,8 +52,13 @@ const OrganizationsList = React.createClass({
     this.setState({muiTheme: newMuiTheme});
   },
 
-  render() {
+  componentDidMount() {
+    if(this.isMounted()) {
+      this.fetchOrganizations();
+    }
+  },
 
+  render() {
     let containerStyle = {
       width: '960px',
       margin: '0 auto',
@@ -56,65 +72,19 @@ const OrganizationsList = React.createClass({
     return (
         <div style={containerStyle}>
           <List subheader="Today">
-            <ListItem
-              leftAvatar={<Avatar src="https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png" />}
-              rightIconButton={rightIconMenu}
-              primaryText="Brendan Lim"
-              secondaryText={
-                <p>
-                  <span style={{color: Colors.darkBlack}}>Brunch this weekend?</span><br/>
-                  I&apos;ll be in your neighborhood doing errands this weekend. Do you want to grab brunch?
-                </p>
-              }
-              secondaryTextLines={2} />
-            <ListDivider inset={true} />
-            <ListItem
-              leftAvatar={<Avatar src="https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png" />}
-              rightIconButton={rightIconMenu}
-              primaryText="me, Scott, Jennifer"
-              secondaryText={
-                <p>
-                  <span style={{color: Colors.darkBlack}}>Summer BBQ</span><br/>
-                  Wish I could come, but I&apos;m out of town this weekend.
-                </p>
-              }
-              secondaryTextLines={2} />
-            <ListDivider inset={true} />
-            <ListItem
-              leftAvatar={<Avatar src="https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png" />}
-              rightIconButton={rightIconMenu}
-              primaryText="Grace Ng"
-              secondaryText={
-                <p>
-                  <span style={{color: Colors.darkBlack}}>Oui oui</span><br/>
-                  Do you have any Paris recs? Have you ever been?
-                </p>
-              }
-              secondaryTextLines={2} />
-            <ListDivider inset={true} />
-            <ListItem
-              leftAvatar={<Avatar src="https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png" />}
-              rightIconButton={rightIconMenu}
-              primaryText="Kerem Suer"
-              secondaryText={
-                <p>
-                  <span style={{color: Colors.darkBlack}}>Birthday gift</span><br/>
-                  Do you have any ideas what we can get Heidi for her birthday? How about a pony?
-                </p>
-              }
-              secondaryTextLines={2} />
-            <ListDivider inset={true} />
-            <ListItem
-              leftAvatar={<Avatar src="https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png" />}
-              rightIconButton={rightIconMenu}
-              primaryText="Raquel Parrado"
-              secondaryText={
-                <p>
-                  <span style={{color: Colors.darkBlack}}>Recipe to try</span><br/>
-                  We should eat this: grated squash. Corn and tomatillo tacos.
-                </p>
-              }
-              secondaryTextLines={2} />
+            {this.state.organizations.map(org => (
+              <div key={org.id}>
+                <ListItem
+                  leftAvatar={<Avatar src={org.avatar_url} />}
+                  primaryText={org.login}
+                  secondaryText={
+                    <p dangerouslySetInnerHTML={{__html: org.description}}>
+                    </p>
+                  }
+                  secondaryTextLines={2} />
+                  <ListDivider inset={true} />
+                </div>
+              ))}
           </List>
         </div>
       );

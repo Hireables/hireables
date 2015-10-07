@@ -9,7 +9,8 @@
     "react-dom": "^0.14.0-rc1",
     "react-router": "^0.13.4",
     "react-tap-event-plugin": "^0.1.8",
-    "superagent": "^1.4.0"
+    "superagent": "^1.4.0",
+    "underscore": "^1.8.3"
   },
   "license": "MIT",
   "engines": {

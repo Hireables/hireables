@@ -3,10 +3,12 @@ class OrganizationsController < ApplicationController
   # GET /organizations
   # GET /organizations.json
   def index
-    @organizations = $github_client.all_organizations
+    @organizations = $github_client.all_orgs since: 44
+    rels = $github_client.last_response.rels
+    @organizations.concat(rels[:next].get.data)
     respond_to do |format|
       format.html
-      format.json {render json: @organizations}
+      format.json {render json: Oj.dump(@organizations, :mode => :compat)}
     end
   end
 

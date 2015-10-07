@@ -11,10 +11,9 @@ Rails.application.configure do
     expires_in: 2.weeks.to_i,
     namespace: 'cache',
     compress: true,
-    marshal: Oj,
     pool_size: 25,
     compression_threshold: 2.kilobytes,
-    redis: { url: ENV.fetch('redis_url'), driver: :hiredis }
+    redis: { url: ENV['redis_url'], driver: :hiredis }
   }
 
   config.serve_static_files = ENV['RAILS_SERVE_STATIC_FILES'].present?

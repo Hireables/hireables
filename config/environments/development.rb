@@ -1,5 +1,4 @@
 require "active_support/core_ext"
-
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -16,10 +15,9 @@ Rails.application.configure do
     expires_in: 2.weeks.to_i,
     namespace: 'cache',
     compress: true,
-    marshal: Oj,
     pool_size: 5,
     compression_threshold: 2.kilobytes,
-    redis: { url: ENV.fetch('redis_url'), driver: :hiredis }
+    redis: { url: ENV['redis_url'], driver: :hiredis }
   }
 
   # Show full error reports and disable caching.

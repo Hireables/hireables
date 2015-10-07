@@ -1,6 +1,23 @@
 
 /* Global Styles */
 
+/* Setup Helpers */
+
+.no-style {
+  list-style: none;
+}
+.no-padding {
+  padding: 0;
+}
+.no-margin {
+  margin: 0;
+}
+.inline {
+  display: inline-block;
+}
+.m-r-20 {
+  margin-right: 20px;
+}
 body {
   margin: 0;
   padding: 0;
