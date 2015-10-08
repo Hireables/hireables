@@ -1,3 +1,4 @@
+ruby '2.2.2'
 source 'https://rubygems.org'
 
 # Setup Rails and API
@@ -30,7 +31,6 @@ gem 'rack-attack'
 
 #Speed up links
 gem 'turbolinks', github: 'rails/turbolinks'
-gem 'jquery-turbolinks'
 
 #Secure headers HTTPS headers
 gem "secure_headers", :require => 'secure_headers'
