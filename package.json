@@ -1,7 +1,7 @@
 {
   "name": "GithubHire",
   "dependencies": {
-    "browserify": "~> 10.2.4",
+    "browserify": "^10.2.6",
     "browserify-incremental": "^3.0.1",
     "classnames": "^2.1.5",
     "fbjs": "^0.2.1",
@@ -20,7 +20,6 @@
   },
   "devDependencies": {
     "babelify": "^6.3.0",
-    "browserify": "^10.2.6",
     "browserify-incremental": "^3.0.1"
   }
 }
