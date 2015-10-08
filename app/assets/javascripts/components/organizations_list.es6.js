@@ -65,7 +65,7 @@ const OrganizationsList = React.createClass({
             <List subheader={this.props.meta? "All companies" : "Popular Companies"} subheaderStyle={subHeaderStyles}>
               <Loader loaded={this.state.loaded}>
                 {this.state.organizations.map(org => (
-                  <Organization org={org} key={org.id} />
+                  <Organization org={org} key={org.id} meta={this.props.meta} />
                 ))}
               </Loader>
             </List>

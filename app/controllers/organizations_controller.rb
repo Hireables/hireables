@@ -6,13 +6,9 @@ class OrganizationsController < ApplicationController
     if params[:id].present?
       redirect_to organization_path(id: params[:id])
     else
-      # Fetch all org members
-      orgs = Rails.cache.fetch("organizations_#{params[:page]}", expires_in: 1.hour) do
-        $github_client.all_orgs(since: 1000, page: params[:page])
-      end
 
-      @organizations = Rails.cache.fetch("organizations_full_#{params[:page]}", expires_in: 1.hour) do
-        orgs.map{|org| $github_client.organization(org.login) }.select{
+      @organizations = Rails.cache.fetch("all_orgs", expires_in: 1.hour) do
+        $github_client.all_orgs(since: 1000).map{|org| $github_client.organization(org.login) }.select{
             |o| o.public_repos > 5
           }
       end
