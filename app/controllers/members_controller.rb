@@ -1,8 +1,6 @@
 class MembersController < ApplicationController
 
-  # GET /organizations/:organization_id/members
   # GET /organizations/:organization_id/members.json
-
   def index
 
     # Fetch all org members
