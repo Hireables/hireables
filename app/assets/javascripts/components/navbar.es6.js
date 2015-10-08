@@ -44,7 +44,7 @@ const NavBar = React.createClass({
 
     let toolbarStyles = {
       backgroundColor: 'transparent',
-      width: '980px',
+      maxWidth: '980px',
       padding: '0',
       margin: '0 auto'
     };
@@ -60,24 +60,26 @@ const NavBar = React.createClass({
       color: '#fff'
     };
 
-    let toolbarSeperatorStyles = {
-      fontSize: '16px',
-      color: '#fff',
-      backgroundColor: '#fff'
+    let betaStyles = {
+      fontSize: '11px',
+      color: '#fff'
     };
+
 
     return (
         <div className="nav bg-horizon">
-          <Toolbar style={toolbarStyles}>
+          <Toolbar style={toolbarStyles} className="nav--toolbar">
             <ToolbarGroup key={0} float="left">
-              <FontIcon className="muidocs-icon-custom-github" style={fontStyles} />
-              <a href="/" className="link m-r-20">
-                <ToolbarTitle text="Github Hire" style={toolbarTitleStyles}  />
+              <a href="/" className="link">
+                <ToolbarTitle text="GithubHire" style={toolbarTitleStyles}  />
               </a>
+              <span style={betaStyles}>BETA</span>
             </ToolbarGroup>
             <ToolbarGroup key={1} float="right">
-              <ToolbarSeparator style={toolbarSeperatorStyles} />
-              <RaisedButton label="BETA" primary={true} />
+              <FontIcon className="muidocs-icon-custom-github" style={fontStyles} hoverColor={Colors.white} />
+              <a href="https://github.com/gauravtiwari/githubhire" target="_blank" className="github--link">
+                <ToolbarTitle text="Code" style={toolbarTitleStyles}  />
+              </a>
             </ToolbarGroup>
           </Toolbar>
         </div>

@@ -1,6 +1,5 @@
 // Require React
 React = require('react/addons');
-
 // Material UI
 import mui from 'material-ui';
 let Colors = mui.Styles.Colors;
@@ -9,11 +8,9 @@ let ListDivider = mui.ListDivider;
 let ThemeManager = mui.Styles.ThemeManager;
 let LightRawTheme = mui.Styles.LightRawTheme;
 let Avatar = mui.Avatar
-
 // Dependent component
 import NoContent from './no_content.es6.js'
 import OrganizationMeta from './organization_meta.es6.js'
-
 // Define component
 const Organization = React.createClass({
 

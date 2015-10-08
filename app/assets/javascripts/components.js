@@ -4,6 +4,7 @@ require("babelify/polyfill");
 var app = window.app = global.app = {};
 // Component::Manifest
 var NavBar = require('./components/navbar.es6.js');
+var Footer = require('./components/footer.es6.js');
 var Jumbotron = require('./components/jumbotron.es6.js');
 var OrganizationsList = require('./components/organizations_list.es6.js');
 var OrganizationsShow = require('./components/organizations_show.es6.js');
@@ -16,6 +17,7 @@ var Pagination = require('./components/pagination.es6.js');
 var NoContent = require('./components/no_content.es6.js');
 // Include into app namespace
 app.NavBar = NavBar;
+app.Footer = Footer;
 app.Jumbotron = Jumbotron;
 app.OrganizationsList = OrganizationsList;
 app.OrganizationsShow = OrganizationsShow;

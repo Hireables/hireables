@@ -16,7 +16,7 @@ const Jumbotron = React.createClass({
               name and find developers who are looking to be hired.
             </p>
           </div>
-          <div className="organizations-list organizations--small">
+          <div className="organizations-list organizations--small sm-pull-reset">
             <Search action= {"/organizations"} />
           </div>
         </div>

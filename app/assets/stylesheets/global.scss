@@ -103,6 +103,28 @@ body {
     padding: 0px 0 40px;
   }
 }
+
+/* Setup mobile media queries */
+@media (max-width: 600px) {
+  .hidden-sm {
+    display:none;
+  }
+  .col-6 {
+    width: 100%;
+    padding: 15px;
+  }
+  .sm-pull-reset {
+    float: none;
+    padding: 15px!important;
+  }
+  .nav {
+    .nav--toolbar {
+      padding-left: 15px!important;
+    }
+  }
+}
+
+/* Loader for react component */
 .loader {
   position: fixed;
   top: 70%;
