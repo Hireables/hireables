@@ -35,6 +35,10 @@ gem 'jquery-turbolinks'
 #Secure headers HTTPS headers
 gem "secure_headers", :require => 'secure_headers'
 
+group :production do
+  gem 'rails_12factor'
+end
+
 group :development do
   gem 'spring'
   gem 'foreman'
