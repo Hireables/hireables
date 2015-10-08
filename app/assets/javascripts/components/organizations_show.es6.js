@@ -8,6 +8,7 @@ var $ = require('jquery-browserify')
 // Dependent component
 import OrganizationMeta from './organization_meta.es6.js'
 import MembersList from './members_list.es6.js'
+import Search from './search.es6.js'
 
 // Material UI
 let Avatar = mui.Avatar;
@@ -37,13 +38,6 @@ const OrganizationsShow = React.createClass({
     };
   },
 
-  componentWillMount() {
-    let newMuiTheme = ThemeManager.modifyRawThemePalette(this.state.muiTheme, {
-      accent1Color: Colors.deepOrange500
-    });
-    this.setState({muiTheme: newMuiTheme});
-  },
-
   componentDidMount() {
     this._fetchOrganization(this.state.id);
   },
@@ -66,6 +60,7 @@ const OrganizationsShow = React.createClass({
                   {this.state.org.name}
                 </h1>
                 <p dangerouslySetInnerHTML={{__html: this.state.org.description}}></p>
+                <Search action={"/organizations"} />
               </div>
             </div>
           </header>

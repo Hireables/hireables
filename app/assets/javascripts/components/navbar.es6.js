@@ -62,7 +62,8 @@ const NavBar = React.createClass({
 
     let toolbarSeperatorStyles = {
       fontSize: '16px',
-      color: '#fff'
+      color: '#fff',
+      backgroundColor: '#fff'
     };
 
     return (

@@ -11,7 +11,6 @@ let Checkbox = mui.Checkbox;
 
 // Dependent component
 import Member from './member.es6.js'
-import Search from './search.es6.js'
 import NoContent from './no_content.es6.js'
 import Pagination from './pagination.es6.js'
 
@@ -62,11 +61,6 @@ const MembersList = React.createClass({
 
     return (
         <div className="members-list">
-          <div className="container">
-            <div className="members-list members--small">
-              <Search action={"/organizations/" + this.props.id + "/members"} />
-            </div>
-          </div>
           <List subheader="Members" subheaderStyle={subHeaderStyles} className="container" style={containerStyle}>
             <Checkbox
               name="hireable"

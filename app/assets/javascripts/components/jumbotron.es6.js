@@ -1,5 +1,7 @@
 // Require React
 React = require('react/addons');
+import Search from './search.es6.js'
+
 // Define component
 const Jumbotron = React.createClass({
 
@@ -13,6 +15,9 @@ const Jumbotron = React.createClass({
               GithubHire lets you find hireable developers on Github.
               Just type the company name and sort developers who are hireable.
             </p>
+          </div>
+          <div className="organizations-list organizations--small">
+            <Search action= {"/organizations"} />
           </div>
         </div>
       );

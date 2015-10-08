@@ -6,7 +6,6 @@ const NoContent = React.createClass({
   render() {
     return (
         <span className="no_content">
-
         </span>
       );
   },
