@@ -10,6 +10,7 @@ let ToolbarTitle = mui.ToolbarTitle;
 let ThemeManager = mui.Styles.ThemeManager;
 let FontIcon = mui.FontIcon;
 let LightRawTheme = mui.Styles.LightRawTheme;
+
 // Define component
 const Footer = React.createClass({
 
@@ -53,7 +54,6 @@ const Footer = React.createClass({
       fontSize: '11px',
       color: '#bdbdbd'
     };
-
 
     return (
         <div className="footer">

@@ -65,7 +65,6 @@ const NavBar = React.createClass({
       color: '#fff'
     };
 
-
     return (
         <div className="nav bg-horizon">
           <Toolbar style={toolbarStyles} className="nav--toolbar">
@@ -84,7 +83,8 @@ const NavBar = React.createClass({
           </Toolbar>
         </div>
       );
-  },
+  }
+
 });
 
 module.exports = NavBar;
