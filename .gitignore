@@ -20,3 +20,4 @@ node_modules
 passenger.3000.pid
 passenger.3000.pid.lock
 ProcfileDevelopment
+dump.rdb
