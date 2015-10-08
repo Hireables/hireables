@@ -77,7 +77,7 @@ const NavBar = React.createClass({
             </ToolbarGroup>
             <ToolbarGroup key={1} float="right">
               <ToolbarSeparator style={toolbarSeperatorStyles} />
-              <RaisedButton label="Login" primary={true} />
+              <RaisedButton label="BETA" primary={true} />
             </ToolbarGroup>
           </Toolbar>
         </div>

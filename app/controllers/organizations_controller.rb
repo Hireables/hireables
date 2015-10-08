@@ -19,7 +19,7 @@ class OrganizationsController < ApplicationController
 
       respond_to do |format|
         format.html
-        format.json {render json: Oj.dump(@organizations, :mode => :compat)}
+        format.json {render json: Oj.dump(@organizations)}
       end
     end
   end
@@ -39,7 +39,7 @@ class OrganizationsController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.json {render json: Oj.dump(@organization, :mode => :compat)}
+      format.json {render json: Oj.dump(@organization)}
     end
   end
 

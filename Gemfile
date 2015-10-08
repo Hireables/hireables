@@ -3,7 +3,6 @@ source 'https://rubygems.org'
 
 # Setup Rails and API
 gem 'rails', '4.2.4'
-gem 'rails-api'
 
 # Setup server
 gem 'passenger'
