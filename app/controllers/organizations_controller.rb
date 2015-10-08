@@ -8,7 +8,7 @@ class OrganizationsController < ApplicationController
     else
 
       @organizations = Rails.cache.fetch("all_orgs", expires_in: 1.hour) do
-        $github_client.all_orgs(since: 1000).map{|org| $github_client.organization(org.login) }.select{
+        GITHUB_CLIENT.all_orgs(since: 1000).map{|org| GITHUB_CLIENT.organization(org.login) }.select{
             |o| o.public_repos > 5
           }
       end
@@ -25,7 +25,7 @@ class OrganizationsController < ApplicationController
   def show
     @organization = Rails.cache.fetch("organization_#{params[:id]}", expires_in: 1.hour) do
       begin
-        $github_client.organization(params[:id])
+        GITHUB_CLIENT.organization(params[:id])
       rescue Octokit::NotFound => e
         raise ActionController::RoutingError.new('Not Found')
       rescue Exception => e

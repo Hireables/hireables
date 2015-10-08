@@ -10,4 +10,4 @@ end
 Octokit.middleware = stack
 
 # Setup github client with private access token for now to play
-$github_client = Octokit::Client.new(:access_token => ENV["github_access_token"])
+GITHUB_CLIENT = Octokit::Client.new(:access_token => ENV["github_access_token"])
