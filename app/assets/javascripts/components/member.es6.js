@@ -10,6 +10,7 @@ let ListDivider = mui.ListDivider;
 let Avatar = mui.Avatar
 
 // Dependent component
+import NoContent from './no_content.es6.js'
 import OrganizationMeta from './organization_meta.es6.js'
 
 // Define component
@@ -47,10 +48,10 @@ const Member = React.createClass({
            leftAvatar={<Avatar src={this.props.member.avatar_url} />}
            primaryText={this.props.member.name}
            style={paragraphStyles}
-           rightIconButton={
+           rightIconButton={ this.props.meta?
             <div className="pull-right">
               <OrganizationMeta followers={this.props.member.followers} gists={this.props.member.public_gists} repos={this.props.member.public_repos} />
-              </div>
+            </div> : <NoContent />
             }
            secondaryText={
              <p style={paragraphStyles}>

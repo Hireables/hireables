@@ -73,9 +73,6 @@ const NavBar = React.createClass({
               <a href="/" className="link m-r-20">
                 <ToolbarTitle text="Github Hire" style={toolbarTitleStyles}  />
               </a>
-              <a href="/organizations" className="link">
-                <ToolbarTitle text="Companies" style={toolbarTitleStyles} />
-              </a>
             </ToolbarGroup>
             <ToolbarGroup key={1} float="right">
               <ToolbarSeparator style={toolbarSeperatorStyles} />

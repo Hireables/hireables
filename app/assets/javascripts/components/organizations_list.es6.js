@@ -4,10 +4,15 @@ React = require('react/addons');
 // import material UI
 import mui from 'material-ui';
 var $ = require('jquery-browserify');
+var Loader = require('react-loader');
+
 // Dependent component
 import OrganizationMeta from './organization_meta.es6.js'
+import NoContent from './no_content.es6.js'
+import Jumbotron from './jumbotron.es6.js'
+import Search from './search.es6.js'
+import Pagination from './pagination.es6.js'
 
-let RaisedButton = mui.RaisedButton;
 let List = mui.List;
 let ListItem = mui.ListItem;
 let ListDivider = mui.ListDivider;
@@ -26,7 +31,8 @@ const OrganizationsList = React.createClass({
   getInitialState () {
     return {
       muiTheme: ThemeManager.getMuiTheme(LightRawTheme),
-      organizations: []
+      organizations: [],
+      loaded: false
     };
   },
 
@@ -40,8 +46,8 @@ const OrganizationsList = React.createClass({
     $.ajaxSetup({
       cache: false
     });
-    $.getJSON('/organizations', function(json, textStatus) {
-      this.setState({organizations: json});
+    $.getJSON(this.props.path, function(json, textStatus) {
+      this.setState({organizations: json, loaded: true});
     }.bind(this));
   },
 
@@ -76,26 +82,42 @@ const OrganizationsList = React.createClass({
     };
 
     return (
-        <div className="organizations_show">
+        <div className="organizations-list">
+          <header className="header header--bg">
+            <div className="container">
+              <Jumbotron />
+            </div>
+          </header>
           <div className="container" style={listContainerStyle}>
-            <List subheader="All companies" subheaderStyle={subHeaderStyles}>
-              {this.state.organizations.map(org => (
-                <div key={org.id} onClick={this.showOrganization.bind(this, org.login)}>
-                  <ListItem
-                    leftAvatar={<Avatar src={org.avatar_url} />}
-                    primaryText={org.name || "No Name"}
-                    rightIconButton={<div className="pull-right"><OrganizationMeta followers={org.followers} gists={org.public_gists} repos={org.public_repos} /></div>}
-                    secondaryText={
-                      <p>
-                        <span style={{color: Colors.darkBlack}}>{org.login}</span><br/>
-                        <div style={{color: Colors.grey600}} dangerouslySetInnerHTML={{__html: org.description}}>
-                        </div>
-                      </p>
-                    }
-                  secondaryTextLines={2} />
-                  <ListDivider inset={true} />
-                </div>
-                ))}
+            <h3 className="bold">Enter company name to search</h3>
+            <div className="organizations-list organizations--small">
+              <Search action= {"/organizations"} />
+            </div>
+
+            <List subheader={this.props.meta? "All companies" : "Popular Companies"} subheaderStyle={subHeaderStyles}>
+              <Loader loaded={this.state.loaded}>
+                {this.state.organizations.map(org => (
+                  <div key={org.id} onClick={this.showOrganization.bind(this, org.login)}>
+                    <ListItem
+                      leftAvatar={<Avatar src={org.avatar_url} />}
+                      primaryText={org.name || "No Name"}
+                      rightIconButton={this.props.meta?
+                        <div className="pull-right">
+                          <OrganizationMeta followers={org.followers} gists={org.public_gists} repos={org.public_repos} />
+                        </div> : <NoContent />
+                      }
+                      secondaryText={
+                        <p>
+                          <span style={{color: Colors.darkBlack}}>{org.login}</span><br/>
+                          <div style={{color: Colors.grey600, fontSize: '13px'}} dangerouslySetInnerHTML={{__html: org.description}}>
+                          </div>
+                        </p>
+                      }
+                    secondaryTextLines={2} />
+                    <ListDivider inset={true} />
+                  </div>
+                  ))}
+                </Loader>
             </List>
           </div>
         </div>

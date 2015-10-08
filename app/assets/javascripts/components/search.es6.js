@@ -17,7 +17,7 @@ const Search = React.createClass({
 
   getInitialState () {
     return {
-      muiTheme: ThemeManager.getMuiTheme(LightRawTheme),
+      muiTheme: ThemeManager.getMuiTheme(LightRawTheme)
     };
   },
 

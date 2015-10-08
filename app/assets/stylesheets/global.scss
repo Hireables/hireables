@@ -48,6 +48,9 @@
 .col-6 {
   width: 60%;
 }
+.col-4 {
+  width: 33.3333%;
+}
 .bg-horizon {
   background: -webkit-linear-gradient(90deg, #136a8a 10%, #267871 90%);
   background:    -moz-linear-gradient(90deg, #136a8a 10%, #267871 90%);
@@ -94,4 +97,16 @@ body {
   .members--small {
     padding: 40px 0 0;
   }
+}
+.organizations-list {
+  .organizations--small {
+    padding: 0px 0 40px;
+  }
+}
+.loader {
+  position: fixed;
+  top: 60%;
+  right: 0;
+  bottom: 0;
+  left: 0;
 }

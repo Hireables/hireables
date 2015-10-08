@@ -37,10 +37,15 @@ const OrganizationsShow = React.createClass({
     };
   },
 
+  componentWillMount() {
+    let newMuiTheme = ThemeManager.modifyRawThemePalette(this.state.muiTheme, {
+      accent1Color: Colors.deepOrange500
+    });
+    this.setState({muiTheme: newMuiTheme});
+  },
+
   componentDidMount() {
-    if(this.isMounted()) {
-      this._fetchOrganization(this.state.id);
-    }
+    this._fetchOrganization(this.state.id);
   },
 
   render() {
@@ -64,7 +69,7 @@ const OrganizationsShow = React.createClass({
               </div>
             </div>
           </header>
-          <MembersList id={this.state.id} />
+          <MembersList id={this.state.id} meta={true} />
         </div>
       );
   },
