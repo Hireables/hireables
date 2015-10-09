@@ -52,9 +52,13 @@ const Search = React.createClass({
             errorText={this.state.error2Text}
             errorStyle={{color:'orange'}}
             defaultValue="" />
-          <RaisedButton label="Find" primary={true} />
+          <RaisedButton label="Find" primary={true} onClick={this._handleSubmit} />
         </form>
       );
+  },
+
+  _handleSubmit(event) {
+    $(event.target.closest('form')).submit();
   }
 
 });
