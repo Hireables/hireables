@@ -82,7 +82,7 @@ const NavBar = React.createClass({
             </ToolbarGroup>
           </Toolbar>
         </div>
-      );
+    );
   }
 
 });
