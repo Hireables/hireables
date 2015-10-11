@@ -18,6 +18,18 @@ class MembersController < ApplicationController
     end
   end
 
+  def show
+    member = Rails.cache.fetch(["users", params[:id]], expires_in: 2.days) do
+      Github::Client.new("/users/#{params[:id]}", {}).find.parsed_response
+    end
+
+    # render response
+    respond_to do |format|
+      format.html
+      format.json {render json:  member}
+    end
+  end
+
   # GET /members/search.json
   def search
     # Load members based on request params
