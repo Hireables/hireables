@@ -16,6 +16,7 @@ var Member = require('./components/member.es6.js');
 var Languages = require('./components/languages.es6.js');
 var Pagination = require('./components/pagination.es6.js');
 var NoContent = require('./components/no_content.es6.js');
+var EmptyList = require('./components/empty_list.es6.js');
 
 // Include into app namespace
 app.NavBar = NavBar;
@@ -29,6 +30,7 @@ app.Languages = Languages;
 app.MemberStatus = MemberStatus;
 app.Member = Member;
 app.NoContent = NoContent;
+app.EmptyList = EmptyList;
 app.Pagination = Pagination;
 
 
