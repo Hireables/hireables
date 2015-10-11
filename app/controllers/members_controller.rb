@@ -1,46 +1,39 @@
 class MembersController < ApplicationController
+  # Setup params for the request
+  include SetupRequestParams
+  # Cache the request into Redis SET
+  include CacheRequest
+  # Generate uri based on params available
+  include GenerateRequestUri
 
-  # GET /organizations/:organization_id/members.json
+  # GET /members.json
   def index
-
-    # Fetch all org members
-    @org_members = Rails.cache.fetch(org_cache_key, expires_in: 1.hour) do
-      GITHUB_CLIENT.organization_members(params[:organization_id], page: params[:page])
-    end
-
-    # Hack to setup pagination as Sawyer:Resource fetches last response
-    @rels = Rails.cache.fetch(org_cache_key + "_rels", expires_in: 1.hour) do
-      rels = GITHUB_CLIENT.last_response.rels
-      { next: rels[:next].present?, prev: rels[:prev].present? }
-    end
-
-    # If hireable members // load full member object :: Expensive call
-    if params[:hireable] == "true"
-      @members = Rails.cache.fetch(members_cache_key + "_hireable", expires_in: 1.hour) do
-        @org_members.map{ |u| GITHUB_CLIENT.user(u.login)}.select{
-            |member| member.hireable
-        }
-      end
-    else
-      # Fetch members data
-      @members = Rails.cache.fetch(members_cache_key, expires_in: 1.hour) do
-        @org_members.map{ |u| GITHUB_CLIENT.user(u.login) }
-      end
-    end
-
+    # Unless request cached fetch async members
+    FetchMembersJob.perform_later(cache_key, request_uri,
+      request_params.except!(:page, :q)
+    ) unless key_cached?
+    # Render page without blocking
     respond_to do |format|
-     format.json {render json:  {members: Oj.dump(@members), links: Oj.dump(@rels)}}
+      format.html
     end
   end
 
-  private
+  # GET /members/search.json
+  def search
+    # Load members based on request params
+    response = Rails.cache.fetch(cache_key, expires_in: 2.days) do
+      request = Github::Client.new(request_uri, request_params.except!(:page, :q)).find
+      # Cache formatted response
+      {
+        members: Github::Response.new(request).collection,
+        rels: Pagination.new(request.headers).build
+      }.to_json
+    end
 
-  def org_cache_key
-    "org_members_#{params[:organization_id]}_#{params[:page]}"
-  end
-
-  def members_cache_key
-    "members_#{params[:organization_id]}_#{params[:page]}"
+    # render response
+    respond_to do |format|
+      format.json {render json:  response}
+    end
   end
 
 end
