@@ -27,10 +27,10 @@ class MembersController < ApplicationController
     end
 
     # Fetch languages
-    languages = Rails.cache.fetch(["users", params[:id], "repos"], expires_in: 2.days) do
+    languages = Rails.cache.fetch(["users", params[:id], "languages"], expires_in: 2.days) do
       request = Github::Client.new("/users/#{params[:id]}/repos", {}).find.parsed_response
       request.map{|r|
-        Rails.cache.fetch(["repo", r["id"], r["updated_at"]], expires_in: 2.days) do
+        Rails.cache.fetch(["language", r["id"], r["updated_at"]], expires_in: 2.days) do
           r["language"]
         end
       }.compact.uniq!

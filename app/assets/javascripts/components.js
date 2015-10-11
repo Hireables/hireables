@@ -13,6 +13,7 @@ var MembersList = require('./components/members_list.es6.js');
 var MemberShow = require('./components/member_show.es6.js');
 var MemberStatus = require('./components/member_status.es6.js');
 var Member = require('./components/member.es6.js');
+var Languages = require('./components/languages.es6.js');
 var Pagination = require('./components/pagination.es6.js');
 var NoContent = require('./components/no_content.es6.js');
 
@@ -24,6 +25,7 @@ app.Search = Search;
 app.MemberMeta = MemberMeta;
 app.MembersList = MembersList;
 app.MemberShow = MemberShow;
+app.Languages = Languages;
 app.MemberStatus = MemberStatus;
 app.Member = Member;
 app.NoContent = NoContent;

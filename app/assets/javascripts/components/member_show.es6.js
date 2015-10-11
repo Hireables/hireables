@@ -11,6 +11,7 @@ let LightRawTheme = mui.Styles.LightRawTheme;
 // Dependent component
 import MemberMeta from './member_meta.es6.js'
 import MemberStatus from './member_status.es6.js'
+import Languages from './languages.es6.js'
 import Search from './search.es6.js'
 
 // Define component
@@ -24,6 +25,7 @@ const MemberShow = React.createClass({
     return {
       muiTheme: ThemeManager.getMuiTheme(LightRawTheme),
       member: [],
+      languages: [],
       id: this.props.id
     };
   },
@@ -70,6 +72,7 @@ const MemberShow = React.createClass({
                 </small>
                 <MemberStatus member={this.state.member} />
                 <MemberMeta followers={this.state.member.followers} gists={this.state.member.public_gists} repos={this.state.member.public_repos} />
+                <Languages languages={this.state.languages} />
               </div>
             </div>
           </header>
