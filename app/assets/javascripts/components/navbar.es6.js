@@ -1,9 +1,8 @@
 // Require React
 React = require('react/addons');
 
+// import material UI
 import mui from 'material-ui';
-
-// Material Component
 let Toolbar = mui.Toolbar;
 let ToolbarGroup = mui.ToolbarGroup;
 let ToolbarTitle = mui.ToolbarTitle;
@@ -66,22 +65,22 @@ const NavBar = React.createClass({
     };
 
     return (
-        <div className="nav bg-horizon">
-          <Toolbar style={toolbarStyles} className="nav--toolbar">
-            <ToolbarGroup key={0} float="left">
-              <a href="/" className="link">
-                <ToolbarTitle text="GithubHire" style={toolbarTitleStyles}  />
-              </a>
-              <span style={betaStyles}>BETA</span>
-            </ToolbarGroup>
-            <ToolbarGroup key={1} float="right">
-              <FontIcon className="muidocs-icon-custom-github" style={fontStyles} hoverColor={Colors.white} />
-              <a href="https://github.com/gauravtiwari/githubhire" target="_blank" className="github--link">
-                <ToolbarTitle text="Code" style={toolbarTitleStyles}  />
-              </a>
-            </ToolbarGroup>
-          </Toolbar>
-        </div>
+      <div className="nav bg-horizon">
+        <Toolbar style={toolbarStyles} className="nav--toolbar">
+          <ToolbarGroup key={0} float="left">
+            <a href="/" className="link">
+              <ToolbarTitle text="GithubHire" style={toolbarTitleStyles}  />
+            </a>
+            <span style={betaStyles}>BETA</span>
+          </ToolbarGroup>
+          <ToolbarGroup key={1} float="right">
+            <FontIcon className="muidocs-icon-custom-github" style={fontStyles} hoverColor={Colors.white} />
+            <a href="https://github.com/gauravtiwari/githubhire" target="_blank" className="github--link">
+              <ToolbarTitle text="Code" style={toolbarTitleStyles}  />
+            </a>
+          </ToolbarGroup>
+        </Toolbar>
+      </div>
     );
   }
 

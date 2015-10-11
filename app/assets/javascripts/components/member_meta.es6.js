@@ -20,8 +20,8 @@ const MemberMeta = React.createClass({
              <span>Repos</span>
              <span className="block m-t-5">{this.props.repos}</span>
            </li>
-       </ul>
-      );
+        </ul>
+    );
   },
 });
 

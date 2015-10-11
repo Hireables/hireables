@@ -5,12 +5,6 @@ var $ = require('jquery-browserify')
 // Material UI
 import mui from 'material-ui';
 let RaisedButton = mui.RaisedButton;
-let Toolbar = mui.Toolbar;
-let ToolbarGroup = mui.ToolbarGroup;
-let ToolbarTitle = mui.ToolbarTitle;
-let ToolbarSeparator = mui.ToolbarSeparator;
-let FontIcon = mui.FontIcon;
-let DropDownIcon = mui.DropDownIcon;
 let Colors = mui.Styles.Colors;
 let TextField = mui.TextField;
 let ThemeManager = mui.Styles.ThemeManager;
@@ -60,10 +54,10 @@ const Search = React.createClass({
     }
 
     let menuItems = [
-       { payload: '1', text: 'followers', placeholder: '>=100 or >1000' },
-       { payload: '2', text: 'repos', placeholder: '>= 5 or >10' },
-       { payload: '3', text: 'location', placeholder: 'london or france, south america' },
-       { payload: '4', text: 'language', placeholder: 'ruby or rust, c++' },
+       { payload: '1', text: 'repos', placeholder: '>= 5 or >10' },
+       { payload: '2', text: 'location', placeholder: 'london or france, south america' },
+       { payload: '3', text: 'language', placeholder: 'ruby or rust, c++' },
+       { payload: '4', text: 'followers', placeholder: '>=100 or >1000' },
        { payload: '5', text: 'joined', placeholder: '>=2012-04-30 or >2012-04-29' },
     ];
 
@@ -102,11 +96,13 @@ const Search = React.createClass({
   },
 
   _handleSubmit(event) {
+    // Don't submit empty form fields
     $(event.target.closest('form')).submit(function() {
       $(':input', this).each(function() {
-          this.disabled = !($(this).val());
+        this.disabled = !($(this).val());
       });
     });
+    // finally submit form
     $(event.target.closest('form')).submit();
   },
 

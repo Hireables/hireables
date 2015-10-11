@@ -9,7 +9,6 @@ let List = mui.List;
 let Colors = mui.Styles.Colors;
 let ThemeManager = mui.Styles.ThemeManager;
 let LightRawTheme = mui.Styles.LightRawTheme;
-let Checkbox = mui.Checkbox;
 
 // Dependent component
 import Member from './member.es6.js'
@@ -85,37 +84,34 @@ const MembersList = React.createClass({
     };
 
     return (
-        <div className="members-list">
-          <div className="container">
-            <div className="members-list members--small sm-pull-reset">
-              <Search action={"/members"} />
-            </div>
+      <div className="members-list p-b-100">
+        <div className="container">
+          <div className="members-list members--small sm-pull-reset">
+            <Search action={"/members"} />
           </div>
-          <List subheader="Members" subheaderStyle={subHeaderStyles} className="container" style={containerStyle}>
-            <Loader loaded={this.state.loaded}>
-              {this.state.members.map(member => (
-                <Member member={member} key={member.id} meta={this.props.meta} />
-              ))}
-            </Loader>
-          </List>
-          {this.state.rels?
-            <Pagination links={this.state.rels} />
-            : <NoContent />
-          }
         </div>
+        <List subheader={this.state.featured? 'Featured members' : 'Result'} subheaderStyle={subHeaderStyles} className="container" style={containerStyle}>
+          <Loader loaded={this.state.loaded}>
+            {this.state.members.map(member => (
+              <Member member={member} key={member.id} meta={this.props.meta} />
+            ))}
+          </Loader>
+        </List>
+        {this.state.rels?
+          <Pagination links={this.state.rels} />
+          : <NoContent />
+        }
+      </div>
     );
   },
 
-  _preFetchPages(link) {
-    $.get(link, function(data) {
-    }, "html");
-  },
-
   _fetchMembers(path, params) {
+    // Setup cache false
     $.ajaxSetup({
       cache: false
     });
 
+    // Get initial members
     $.getJSON(path, params, function(json, textStatus) {
       this.setState({
         members: json.members,
@@ -123,9 +119,13 @@ const MembersList = React.createClass({
         loaded: true
       });
 
-      json.rels.map(function(link) {
-        this._preFetchPages('?' + decodeURIComponent(link.url));
-      }.bind(this));
+      // Pre fetch paginations
+      setTimeout(function(){
+        json.rels.map(function(link) {
+          $.get('?' + decodeURIComponent(link.url), function(data) {
+          }, "html");
+        }.bind(this));
+      }.bind(this), 1000);
 
     }.bind(this));
   }

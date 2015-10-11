@@ -1,20 +1,17 @@
 // Require React
 React = require('react/addons');
-
+var $ = require('jquery-browserify');
 // import material UI
 import mui from 'material-ui';
-var $ = require('jquery-browserify')
+let Avatar = mui.Avatar;
+let Colors = mui.Styles.Colors;
+let ThemeManager = mui.Styles.ThemeManager;
+let LightRawTheme = mui.Styles.LightRawTheme;
 
 // Dependent component
 import MemberMeta from './member_meta.es6.js'
 import MemberStatus from './member_status.es6.js'
 import Search from './search.es6.js'
-
-// Material UI
-let Avatar = mui.Avatar;
-let Colors = mui.Styles.Colors;
-let ThemeManager = mui.Styles.ThemeManager;
-let LightRawTheme = mui.Styles.LightRawTheme;
 
 // Define component
 const MemberShow = React.createClass({
@@ -49,6 +46,12 @@ const MemberShow = React.createClass({
       textAlign: 'center'
     }
 
+    let linkStyles = {
+      textStyle: 'none',
+      textDecoration: 'none',
+      color: '#333'
+    }
+
     return (
         <div className="members-show">
           <header className="header header--bg">
@@ -56,7 +59,9 @@ const MemberShow = React.createClass({
               <div style={wrapperStyle}>
                 <Avatar src={this.state.member.avatar_url} size={100} />
                 <h1 className="no-margin">
-                  {this.state.member.name}
+                  <a href={this.state.member.html_url} style={linkStyles}>
+                    {this.state.member.name}
+                  </a>
                 </h1>
                 <small>
                   <a href={"mailto:" + this.state.member.email}>
@@ -78,13 +83,16 @@ const MemberShow = React.createClass({
   },
 
   _fetchMember(id) {
+    // Don't cache JSON
     $.ajaxSetup({
       cache: false
     });
 
+    // Fetch member
     $.getJSON('/members/' + id, function(json, textStatus) {
       this.setState({
-        member: json
+        member: json.member,
+        languages: json.languages
       });
     }.bind(this));
   }

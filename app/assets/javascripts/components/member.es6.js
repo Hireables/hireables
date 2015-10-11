@@ -23,7 +23,7 @@ const Member = React.createClass({
     }
 
     return (
-       <div className="members" onClick={this._showMember.bind(this, this.props.member.login)}>
+        <div className="members" onClick={this._showMember.bind(this, this.props.member.login)}>
          <ListItem
            leftAvatar={<Avatar src={this.props.member.avatar_url} />}
            primaryText={this.props.member.name}
@@ -38,8 +38,8 @@ const Member = React.createClass({
            }
            secondaryTextLines={1} />
            <ListDivider inset={true} />
-       </div>
-      );
+        </div>
+    );
   },
 
   _showMember(id) {
