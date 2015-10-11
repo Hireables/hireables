@@ -1,6 +1,5 @@
 // Require React
 React = require('react/addons');
-var classNames = require('classnames');
 
 // Material UI
 import mui from 'material-ui';
@@ -11,6 +10,7 @@ let Avatar = mui.Avatar
 
 // Dependent component
 import NoContent from './no_content.es6.js'
+import MemberStatus from './member_status.es6.js'
 import MemberMeta from './member_meta.es6.js'
 
 // Define component
@@ -18,32 +18,12 @@ const Member = React.createClass({
 
   render() {
 
-    var availableClasses = classNames({
-      available: this.props.member.hireable,
-      not_available: !this.props.member.hireable
-    });
-
-    var companyGivenClasses = classNames({
-      company_shown: this.props.member.company,
-      company_hidden: !this.props.member.company
-    });
-
-    let badgeStyles = {
-      fontSize: '10px',
-      lineHeight: '22px',
-      padding: '5px 8px',
-      marginRight: '5px',
-      color: Colors.white,
-      overflow: 'hidden',
-      borderRadius: 2
-    }
-
     let paragraphStyles = {
       height: 'auto'
     }
 
     return (
-       <div className="members">
+       <div className="members" onClick={this._showMember.bind(this, this.props.member.login)}>
          <ListItem
            leftAvatar={<Avatar src={this.props.member.avatar_url} />}
            primaryText={this.props.member.name}
@@ -54,23 +34,18 @@ const Member = React.createClass({
             </div>
             }
            secondaryText={
-             <p style={paragraphStyles}>
-             <span style={{color: Colors.darkBlack}}>{this.props.member.login}</span><br/>
-               <p dangerouslySetInnerHTML={{__html: this.props.member.description}}>
-               </p>
-               <span style={badgeStyles} className={availableClasses}>
-                {this.props.member.hireable ? 'Available to hire' : 'Not Available' }
-               </span>
-               <span style={badgeStyles} className={companyGivenClasses}>
-                {this.props.member.company ? this.props.member.company : 'Company unavailable' }
-               </span>
-             </p>
+            <MemberStatus member={this.props.member} />
            }
            secondaryTextLines={1} />
            <ListDivider inset={true} />
        </div>
       );
   },
+
+  _showMember(id) {
+    Turbolinks.visit("/members/" + id);
+  },
+
 });
 
 module.exports = Member;

@@ -41,14 +41,14 @@ const Pagination = React.createClass({
         <div className="container">
           <div className="pull-right">
             {this.props.links.map(link => (
-              <RaisedButton key={link.id} label={link.label} style={{marginTop: '20px', marginRight: '10px'}}  primary={true} onClick={this.loadPage.bind(this, link.url)} />
+              <RaisedButton key={link.id} label={link.label} style={{marginTop: '20px', marginRight: '10px'}}  primary={true} onClick={this._loadPage.bind(this, link.url)} />
             ))}
           </div>
         </div>
     );
   },
 
-  loadPage(link) {
+  _loadPage(link) {
     Turbolinks.visit('?' + decodeURIComponent(link));
   }
 

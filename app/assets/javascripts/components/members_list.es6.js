@@ -53,22 +53,7 @@ const MembersList = React.createClass({
       var query = decodeURIComponent(document.location.search.replace('?', ''));
       var path = !query? this.state.path : this.state.path + '?' + query
       this._fetchMembers(path, {});
-      this.populateParams();
     }
-  },
-
-  populateParams() {
-    //grab the entire query string
-     var query = decodeURIComponent(document.location.search.replace('?', ''));
-     //extract each field/value pair
-     query = query.split('&');
-     //run through each pair
-     for (var i = 0; i < query.length; i++) {
-       //split up the field/value pair into an array
-       var field = query[i].split("=");
-       //target the field and assign its value
-       $("input[name='" + field[0] + "'], select[name='" + field[0] + "']").val(field[1]);
-     }
   },
 
   setChecked(e, checked) {
@@ -121,6 +106,11 @@ const MembersList = React.createClass({
     );
   },
 
+  _preFetchPages(link) {
+    $.get(link, function(data) {
+    }, "html");
+  },
+
   _fetchMembers(path, params) {
     $.ajaxSetup({
       cache: false
@@ -132,6 +122,11 @@ const MembersList = React.createClass({
         rels: json.rels,
         loaded: true
       });
+
+      json.rels.map(function(link) {
+        this._preFetchPages('?' + decodeURIComponent(link.url));
+      }.bind(this));
+
     }.bind(this));
   }
 

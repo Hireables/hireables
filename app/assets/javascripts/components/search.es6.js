@@ -43,7 +43,7 @@ const Search = React.createClass({
   },
 
   componentDidMount(){
-    this._initializeParams();
+    this._populateParams();
   },
 
   getChildContext() {
@@ -110,21 +110,16 @@ const Search = React.createClass({
     $(event.target.closest('form')).submit();
   },
 
-  _initializeParams(){
+  _populateParams(){
     var query = decodeURIComponent(document.location.search.replace('?', ''));
-
     //extract each field/value pair
     query = query.split('&');
-
     //run through each pair
     for (var i = 0; i < query.length; i++) {
-
       //split up the field/value pair into an array
       var field = query[i].split("=");
-
       //target the field and assign its value
       $("input[name='" + field[0] + "'], select[name='" + field[0] + "']").val(field[1]);
-
     }
   }
 
