@@ -23,7 +23,8 @@ class MembersController < ApplicationController
   def show
     # Fetch user
     member = Rails.cache.fetch(["users", params[:id]], expires_in: 2.days) do
-      Github::Client.new("/users/#{params[:id]}", {}).find.parsed_response
+      request = Github::Client.new("/users/#{params[:id]}", {}).find
+      request.parsed_response
     end
 
     # Fetch languages

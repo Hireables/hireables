@@ -4,10 +4,11 @@ class FetchMemberJob < ActiveJob::Base
   def perform(username)
     # Cache user response
     Rails.cache.fetch(["users", username], expires_in: 2.days) do
-      Github::Client.new("/users/#{username}", {}).find.parsed_response
+      request = Github::Client.new("/users/#{username}", {}).find
+      # Fetch user languages
+      FetchMemberLanguagesJob.perform_later(username) unless request.parsed_response.empty?
+      request.parsed_response
     end
-    # Fetch user languages
-    FetchMemberLanguagesJob.perform_later(username)
   end
 
 end

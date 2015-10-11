@@ -65,11 +65,11 @@ const MemberShow = React.createClass({
                     {this.state.member.name}
                   </a>
                 </h1>
-                <small>
+                {this.state.member.email? <small>
                   <a href={"mailto:" + this.state.member.email}>
                     {"Email " + this.state.member.login}
                   </a>
-                </small>
+                </small> : ""}
                 <MemberStatus member={this.state.member} />
                 <MemberMeta followers={this.state.member.followers} gists={this.state.member.public_gists} repos={this.state.member.public_repos} />
                 <Languages languages={this.state.languages} />
