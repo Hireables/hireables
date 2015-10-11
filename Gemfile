@@ -17,8 +17,9 @@ gem 'therubyracer', platforms: :ruby
 gem 'react-rails'
 
 # Setup Octokit and HTTP cache
-gem 'faraday-http-cache'
-gem 'octokit'
+gem 'httparty'
+gem 'sidekiq'
+gem 'redis'
 
 # Setup caching and Marshalling
 gem 'readthis'
