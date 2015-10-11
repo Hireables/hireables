@@ -7,10 +7,13 @@ var Loader = require('react-loader');
 import mui from 'material-ui';
 let List = mui.List;
 let Colors = mui.Styles.Colors;
+let ThemeManager = mui.Styles.ThemeManager;
+let LightRawTheme = mui.Styles.LightRawTheme;
 let Checkbox = mui.Checkbox;
 
 // Dependent component
 import Member from './member.es6.js'
+import Search from './search.es6.js'
 import NoContent from './no_content.es6.js'
 import Pagination from './pagination.es6.js'
 
@@ -20,20 +23,57 @@ const MembersList = React.createClass({
   getInitialState () {
     return {
       members: [],
+      rels: [],
+      path: this.props.path,
+      featured: this.props.featured,
       loaded: false,
-      counter: 1
+      muiTheme: ThemeManager.getMuiTheme(LightRawTheme)
+    };
+  },
+
+  childContextTypes: {
+    muiTheme: React.PropTypes.object
+  },
+
+  componentWillMount() {
+    let newMuiTheme = ThemeManager.modifyRawThemePalette(this.state.muiTheme, {
+      accent1Color: Colors.deepOrange500
+    });
+    this.setState({muiTheme: newMuiTheme});
+  },
+
+  getChildContext() {
+    return {
+      muiTheme: this.state.muiTheme,
     };
   },
 
   componentDidMount() {
-    setTimeout(function(){
-      this._fetchMembers(this.props.id, {hireable: false});
-    }.bind(this), 100);
+    if(this.isMounted()){
+      var query = decodeURIComponent(document.location.search.replace('?', ''));
+      var path = !query? this.state.path : this.state.path + '?' + query
+      this._fetchMembers(path, {});
+      this.populateParams();
+    }
+  },
+
+  populateParams() {
+    //grab the entire query string
+     var query = decodeURIComponent(document.location.search.replace('?', ''));
+     //extract each field/value pair
+     query = query.split('&');
+     //run through each pair
+     for (var i = 0; i < query.length; i++) {
+       //split up the field/value pair into an array
+       var field = query[i].split("=");
+       //target the field and assign its value
+       $("input[name='" + field[0] + "'], select[name='" + field[0] + "']").val(field[1]);
+     }
   },
 
   setChecked(e, checked) {
     this.setState({loaded: false});
-    this._fetchMembers(this.props.id, {hireable: checked});
+    this._fetchMembers(this.state.path, {hireable: checked});
   },
 
   render() {
@@ -61,48 +101,39 @@ const MembersList = React.createClass({
 
     return (
         <div className="members-list">
+          <div className="container">
+            <div className="members-list members--small sm-pull-reset">
+              <Search action={"/members"} />
+            </div>
+          </div>
           <List subheader="Members" subheaderStyle={subHeaderStyles} className="container" style={containerStyle}>
-            <Checkbox
-              name="hireable"
-              style={checkboxStyles}
-              value="false"
-              onCheck={this.setChecked}
-              label="Find all hireables"/>
             <Loader loaded={this.state.loaded}>
               {this.state.members.map(member => (
                 <Member member={member} key={member.id} meta={this.props.meta} />
               ))}
             </Loader>
           </List>
-
-          {this.state.links? <Pagination links={this.state.links} loadNext={this._loadNext} loadPrev={this._loadPrev} /> : <NoContent />}
+          {this.state.rels?
+            <Pagination links={this.state.rels} />
+            : <NoContent />
+          }
         </div>
     );
   },
 
-  _loadNext() {
-    this.setState({counter: this.state.counter + 1, loaded: false});
-    this._fetchMembers(this.props.id, {page: this.state.counter + 1});
-  },
-
-  _loadPrev() {
-    this.setState({counter: this.state.counter - 1, loaded: false});
-    this._fetchMembers(this.props.id, {page: this.state.counter - 1});
-  },
-
-  _fetchMembers(id, params) {
+  _fetchMembers(path, params) {
     $.ajaxSetup({
       cache: false
     });
-    $.getJSON('/organizations/' + id + '/members', params, function(json, textStatus) {
+
+    $.getJSON(path, params, function(json, textStatus) {
       this.setState({
-        members: JSON.parse(json.members),
-        links: JSON.parse(json.links),
+        members: json.members,
+        rels: json.rels,
         loaded: true
       });
     }.bind(this));
   }
-
 
 });
 
