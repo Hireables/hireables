@@ -6,7 +6,7 @@ class MembersController < ApplicationController
   # Generate uri based on params available
   include GenerateRequestUri
 
-  # GET /members.json
+  # GET /members
   def index
     # Unless request cached fetch async members
     FetchMembersJob.perform_later(cache_key, request_uri,
@@ -18,15 +18,28 @@ class MembersController < ApplicationController
     end
   end
 
+  # GET /members/:username.json
+  # GET /members/:username
   def show
+    # Fetch user
     member = Rails.cache.fetch(["users", params[:id]], expires_in: 2.days) do
       Github::Client.new("/users/#{params[:id]}", {}).find.parsed_response
+    end
+
+    # Fetch languages
+    languages = Rails.cache.fetch(["users", params[:id], "repos"], expires_in: 2.days) do
+      request = Github::Client.new("/users/#{params[:id]}/repos", {}).find.parsed_response
+      request.map{|r|
+        Rails.cache.fetch(["repo", r["id"], r["updated_at"]], expires_in: 2.days) do
+          r["language"]
+        end
+      }.compact.uniq!
     end
 
     # render response
     respond_to do |format|
       format.html
-      format.json {render json:  member}
+      format.json {render json:  {member: member, languages: languages} }
     end
   end
 

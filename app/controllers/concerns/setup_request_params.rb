@@ -16,8 +16,8 @@ module SetupRequestParams
       return popular unless member_params["page"].present?
       # Format page param and add it to request params
       popular.merge!({page: member_params["page"], q: member_params["q"]})
-    # For everything else just use formatted permitted params
     else
+      # For everything else just use formatted permitted params
       keys = {}
       member_params.each{|key, value|
         keys[:"#{key}"] = value
@@ -31,6 +31,7 @@ module SetupRequestParams
     keys = request_params.map{
       |key, value| "#{key}:#{value}" unless value.nil?
     }
+    # Join keys
     keys.join
   end
 
