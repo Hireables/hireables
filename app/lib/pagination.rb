@@ -5,7 +5,7 @@ class Pagination
   end
 
   def build
-    return {} unless @headers["link"].present?
+    return nil unless @headers["link"].present?
     @links = @headers["link"].split(',')
     rels = []
     @links.each{|link|

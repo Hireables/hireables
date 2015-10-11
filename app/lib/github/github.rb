@@ -13,10 +13,6 @@ module Github
       @request = Github::Api.new(@url, @params).fetch
     end
 
-    def last_response_rels
-      Oj.dump(Pagination.new(@request.headers).build)
-    end
-
   end
 
 end

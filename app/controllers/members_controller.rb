@@ -10,7 +10,7 @@ class MembersController < ApplicationController
   def index
     # Unless request cached fetch async members
     FetchMembersJob.perform_later(cache_key, request_uri,
-      request_params.except!(:page, :q)
+      request_params.except!(:page, :q, :keyword)
     ) unless key_cached?
     # Render page without blocking
     respond_to do |format|
@@ -22,7 +22,7 @@ class MembersController < ApplicationController
   def search
     # Load members based on request params
     response = Rails.cache.fetch(cache_key, expires_in: 2.days) do
-      request = Github::Client.new(request_uri, request_params.except!(:page, :q)).find
+      request = Github::Client.new(request_uri, request_params.except!(:page, :q, :keyword)).find
       # Cache formatted response
       {
         members: Github::Response.new(request).collection,

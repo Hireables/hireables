@@ -7,7 +7,7 @@ module SetupRequestParams
 
   # Setup request param
   def request_params
-    # For home route this will be empty
+    # For home route this will be empty so setup popular params
     if member_params.empty? || member_params.except(:page).empty?
       popular = {
         followers: ">=1000",
@@ -16,7 +16,7 @@ module SetupRequestParams
       return popular unless member_params["page"].present?
       # Format page param and add it to request params
       popular.merge!({page: member_params["page"], q: member_params["q"]})
-    # For everything else just use the permitted params
+    # For everything else just use formatted permitted params
     else
       keys = {}
       member_params.each{|key, value|
@@ -37,7 +37,7 @@ module SetupRequestParams
   private
     # Whitelist the params for our controller
     def member_params
-      params.permit(:q, :followers, :repos, :location, :created, :language, :page)
+      params.permit(:q, :keyword, :followers, :repos, :location, :created, :language, :page)
     end
 
 end
