@@ -3,7 +3,7 @@ require File.expand_path('../boot', __FILE__)
 require "rails"
 # Pick the frameworks you want:
 #require "active_model/railtie"
-#require "active_job/railtie"
+require "active_job/railtie"
 # require "active_record/railtie"
 require "action_controller/railtie"
 #require "action_mailer/railtie"
@@ -28,6 +28,9 @@ module GithubHire
       replay_console: true,
     }
 
+    # Autoload lib
+    config.autoload_paths += Dir["#{config.root}/app/lib/*"]
+
     # Configure rails g to skip helper/assets files
     config.generators do |g|
       g.assets = false
@@ -35,6 +38,9 @@ module GithubHire
       g.view_specs      false
       g.helper_specs    false
     end
+
+    # Setup sidekiq
+    config.active_job.queue_adapter = :sidekiq
 
     # Setup browserify with Babel
     config.browserify_rails.commandline_options = "-t babelify --extension=\"es6.js\""

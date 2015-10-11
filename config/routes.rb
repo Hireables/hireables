@@ -1,14 +1,11 @@
 Rails.application.routes.draw do
 
-  root to: 'organizations#index'
+  root to: 'pages#home'
 
-  resources :organizations, only: [:index, :show] do
-    resources :members, only: :index
+  resources :members, only: :index do
     collection do
       get :popular
-    end
-    member do
-      post :search
+      get :search
     end
   end
 
