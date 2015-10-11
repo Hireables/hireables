@@ -40,12 +40,18 @@ const Pagination = React.createClass({
     return (
         <div className="container">
           <div className="pull-right">
-            {this.props.links.prev? <RaisedButton label="Prev" style={{marginTop: '20px'}}  primary={true} onClick={this.props.loadPrev} /> : ""}
-            {this.props.links.next? <RaisedButton label="Next" style={{marginLeft: '20px', marginTop: '20px'}} primary={true} onClick={this.props.loadNext} /> : ""}
+            {this.props.links.map(link => (
+              <RaisedButton key={link.id} label={link.label} style={{marginTop: '20px', marginRight: '10px'}}  primary={true} onClick={this.loadPage.bind(this, link.url)} />
+            ))}
           </div>
         </div>
     );
   },
+
+  loadPage(link) {
+    Turbolinks.visit('?' + decodeURIComponent(link));
+  }
+
 });
 
 module.exports = Pagination;

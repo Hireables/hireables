@@ -6,24 +6,19 @@ var app = window.app = global.app = {};
 var NavBar = require('./components/navbar.es6.js');
 var Footer = require('./components/footer.es6.js');
 var Jumbotron = require('./components/jumbotron.es6.js');
-var OrganizationsList = require('./components/organizations_list.es6.js');
-var OrganizationsShow = require('./components/organizations_show.es6.js');
-var Organization = require('./components/organization.es6.js');
 var Search = require('./components/search.es6.js');
-var OrganizationMeta = require('./components/organization_meta.es6.js');
+var MemberMeta = require('./components/member_meta.es6.js');
 var MembersList = require('./components/members_list.es6.js');
 var Member = require('./components/member.es6.js');
 var Pagination = require('./components/pagination.es6.js');
 var NoContent = require('./components/no_content.es6.js');
+
 // Include into app namespace
 app.NavBar = NavBar;
 app.Footer = Footer;
 app.Jumbotron = Jumbotron;
-app.OrganizationsList = OrganizationsList;
-app.OrganizationsShow = OrganizationsShow;
-app.Organization = Organization;
 app.Search = Search;
-app.OrganizationMeta = OrganizationMeta;
+app.MemberMeta = MemberMeta;
 app.MembersList = MembersList;
 app.Member = Member;
 app.NoContent = NoContent;

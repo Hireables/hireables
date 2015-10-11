@@ -11,7 +11,7 @@ let Avatar = mui.Avatar
 
 // Dependent component
 import NoContent from './no_content.es6.js'
-import OrganizationMeta from './organization_meta.es6.js'
+import MemberMeta from './member_meta.es6.js'
 
 // Define component
 const Member = React.createClass({
@@ -48,10 +48,10 @@ const Member = React.createClass({
            leftAvatar={<Avatar src={this.props.member.avatar_url} />}
            primaryText={this.props.member.name}
            style={paragraphStyles}
-           rightIconButton={ this.props.meta?
+           rightIconButton={
             <div className="pull-right">
-              <OrganizationMeta followers={this.props.member.followers} gists={this.props.member.public_gists} repos={this.props.member.public_repos} />
-            </div> : <NoContent />
+              <MemberMeta followers={this.props.member.followers} gists={this.props.member.public_gists} repos={this.props.member.public_repos} />
+            </div>
             }
            secondaryText={
              <p style={paragraphStyles}>
