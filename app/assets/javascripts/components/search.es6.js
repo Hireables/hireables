@@ -38,10 +38,6 @@ const Search = React.createClass({
     this.setState({muiTheme: newMuiTheme});
   },
 
-  componentDidMount(){
-    this._populateParams();
-  },
-
   getChildContext() {
     return {
       muiTheme: this.state.muiTheme,
