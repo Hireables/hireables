@@ -65,10 +65,17 @@ const Search = React.createClass({
   },
 
   _addTag(event) {
+    this._preFetchPage(this._getFormData());
+  },
+
+  _getFormData() {
     // Add value to input
     $('.react-tagsinput-input').val(this.refs.tags.getTags().join(', '));
     // finally submit the form
     var formData = $(this.refs.search.getDOMNode()).serialize();
+  },
+
+  _preFetchPage(formData) {
     // Pre-fetch the page to warm up cache
     $.get('/members', formData, function(data) {
     }, "html");
@@ -78,10 +85,8 @@ const Search = React.createClass({
     event.preventDefault();
     // Only submit if there are any tags
     if (this.refs.tags.getTags().join(', ').length > 0) {
-      // finally submit form
-      var formData = $(this.refs.search.getDOMNode()).serialize();
       // Fetch members based on search
-      this.props.searchMembers('/members/search', formData);
+      this.props.searchMembers('/members/search', this._getFormData());
     } else {
       // Empty stop event and show error
       event.stopPropagation();
