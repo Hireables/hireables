@@ -76,7 +76,7 @@ const MembersList = React.createClass({
             <Search action={"/members"} searchMembers={this._fetchMembers} />
           </div>
         </div>
-        <Loader loaded={this.state.loaded}>
+        <Loader loaded={this.state.loaded} className="p-b-100">
           {this.state.loaded && this.state.members.length > 0 ?
             <List subheader={this.state.featured? 'Featured members' : 'Result'} subheaderStyle={subHeaderStyles} className="container" style={containerStyle}>
             {this.state.members.map(member => (

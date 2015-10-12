@@ -72,7 +72,7 @@ const Search = React.createClass({
     // Add value to input
     $('.react-tagsinput-input').val(this.refs.tags.getTags().join(', '));
     // finally submit the form
-    var formData = $(this.refs.search.getDOMNode()).serialize();
+    return $(this.refs.search.getDOMNode()).serialize();
   },
 
   _preFetchPage(formData) {
