@@ -24,7 +24,7 @@ const Search = React.createClass({
   getInitialState () {
     return {
       muiTheme: ThemeManager.getMuiTheme(LightRawTheme),
-      current_filter: 'followers',
+      current_filter: 'repos',
       current_filter_placeholder: ">=100 or >10"
     };
   },
