@@ -84,7 +84,6 @@ const MembersList = React.createClass({
       width: '50%'
     };
 
-    console.log(this.state.members.length === 0);
     return (
       <div className="members-list p-b-100">
         <div className="container">
@@ -92,15 +91,15 @@ const MembersList = React.createClass({
             <Search action={"/members"} />
           </div>
         </div>
-        {this.state.members.length > 0 ?
-          <List subheader={this.state.featured? 'Featured members' : 'Result'} subheaderStyle={subHeaderStyles} className="container" style={containerStyle}>
-            <Loader loaded={this.state.loaded}>
-              {this.state.members.map(member => (
-                <Member member={member} key={member.id} meta={this.props.meta} />
-              ))}
-            </Loader>
-          </List> : <EmptyList />
-        }
+        <Loader loaded={this.state.loaded}>
+          {this.state.loaded && this.state.members.length > 0 ?
+            <List subheader={this.state.featured? 'Featured members' : 'Result'} subheaderStyle={subHeaderStyles} className="container" style={containerStyle}>
+            {this.state.members.map(member => (
+              <Member member={member} key={member.id} meta={this.props.meta} />
+            ))}
+          </List> : <EmptyList />}
+        </Loader>
+
         {this.state.rels.length > 0 && this.state.members.length > 0 ?
           <Pagination links={this.state.rels} />
           : <NoContent />
