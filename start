@@ -1,3 +1,0 @@
-#!/bin/bash -i
-bundle install
-foreman start -f ProcfileDevelopment
