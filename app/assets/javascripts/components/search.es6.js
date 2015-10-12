@@ -60,7 +60,7 @@ const Search = React.createClass({
     ];
 
     return (
-        <form ref="search" method="GET" action={this.props.action} onKeyDown={this._handleKeyDown}>
+        <form ref="search" method="GET" action={this.props.action} onSubmit={this._handleSubmit}>
           <TagsInput ref='tags' name="q" onTagAdd={this._addTag} />
           <RaisedButton label="Find" primary={true} onClick={this._handleSubmit} />
           <Snackbar
