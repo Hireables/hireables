@@ -7,8 +7,6 @@ class FetchMembersJob < ActiveJob::Base
       # Fetch members async
       request.parsed_response["items"].map{|u| u["login"]}.map{|username|
         FetchMemberJob.perform_later(username)
-        # Fetch user languages
-        FetchMemberLanguagesJob.set(wait: 5.seconds).perform_later(username)
       }
       # Cache the JSON response
       {

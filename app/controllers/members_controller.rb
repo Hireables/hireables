@@ -26,6 +26,8 @@ class MembersController < ApplicationController
     member = Rails.cache.fetch(["users", params[:id]], expires_in: 2.days) do
       request = Github::Client.new("/users/#{params[:id]}", {}).find
       if Github::Response.new(request).found?
+        # Fetch user languages
+        FetchMemberLanguagesJob.perform_later(params[:id])
         request.parsed_response
       else
         # Raise not found
