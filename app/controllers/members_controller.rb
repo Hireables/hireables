@@ -36,11 +36,7 @@ class MembersController < ApplicationController
     # Fetch languages
     languages = Rails.cache.fetch(["users", params[:id], "languages"], expires_in: 2.days) do
       request = Github::Client.new("/users/#{params[:id]}/repos", {}).find.parsed_response
-      request.map{|r|
-        Rails.cache.fetch(["language", r["id"], r["updated_at"]], expires_in: 2.days) do
-          r["language"]
-        end
-      }.compact.uniq!
+      Github::Response.new(request).user_languages_collection
     end
 
     # render response
@@ -59,7 +55,7 @@ class MembersController < ApplicationController
       if Github::Response.new(request).found?
         # Cache formatted response
         {
-          members: Github::Response.new(request).collection,
+          members: Github::Response.new(request).users_collection,
           rels: Pagination.new(request.headers).build
         }.to_json
       else

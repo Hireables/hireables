@@ -6,11 +6,7 @@ class FetchMemberLanguagesJob < ActiveJob::Base
       # Find user repos
       request = Github::Client.new("/users/#{username}/repos", {}).find.parsed_response
       # Map uniq! repo languages for user
-      request.map{|r|
-        Rails.cache.fetch(["language", r["id"], r["updated_at"]], expires_in: 2.days) do
-          r["language"]
-        end
-      }.compact.uniq!
+      Github::Response.new(request).user_languages_collection
     end
   end
 

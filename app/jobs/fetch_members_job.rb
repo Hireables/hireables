@@ -12,7 +12,7 @@ class FetchMembersJob < ActiveJob::Base
       }
       # Cache the JSON response
       {
-        members: Github::Response.new(request).collection,
+        members: Github::Response.new(request).users_collection,
         rels: Pagination.new(request.headers).build
       }.to_json
     end

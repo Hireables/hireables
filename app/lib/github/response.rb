@@ -6,12 +6,20 @@ module Github
       @request = request
     end
 
-    def collection
+    def users_collection
       @request.parsed_response["items"].map{|u| u["login"]}.map{|username|
         Rails.cache.fetch(["users", username], expires_in: 2.days) do
           Github::Client.new("/users/#{username}", {}).find.parsed_response
         end
       }
+    end
+
+    def user_languages_collection
+      @request.map{|r|
+        Rails.cache.fetch(["language", r["id"], r["updated_at"]], expires_in: 2.days) do
+          r["language"]
+        end
+      }.compact.uniq!
     end
 
     def found?
