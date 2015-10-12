@@ -34,6 +34,12 @@ const MembersList = React.createClass({
     muiTheme: React.PropTypes.object
   },
 
+  componentDidMount() {
+    if(this.isMounted()){
+      this._fetchMembers(this.state.path, {});
+    }
+  },
+
   getChildContext() {
     return {
       muiTheme: this.state.muiTheme,

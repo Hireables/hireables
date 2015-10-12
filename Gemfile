@@ -29,6 +29,9 @@ gem 'oj'
 # Throttle Malacious requests
 gem 'rack-attack'
 
+#Speed up links
+gem 'turbolinks', github: 'rails/turbolinks'
+
 #Secure headers HTTPS headers
 gem "secure_headers", :require => 'secure_headers'
 

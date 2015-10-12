@@ -1,5 +1,6 @@
 //= require_self
 //= require components
+//= require turbolinks
 //= require react_ujs
 
 // Setup React in global scope

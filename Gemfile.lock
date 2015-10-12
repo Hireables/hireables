@@ -1,3 +1,10 @@
+GIT
+  remote: git://github.com/rails/turbolinks.git
+  revision: 83d4b3d2c52a681f07900c28adb28bc8da604733
+  specs:
+    turbolinks (3.0.0)
+      coffee-rails
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -63,6 +70,12 @@ GEM
       timers (>= 4.1.1)
     celluloid-supervision (0.20.5)
       timers (>= 4.1.1)
+    coffee-rails (4.1.0)
+      coffee-script (>= 2.2.0)
+      railties (>= 4.0.0, < 5.0)
+    coffee-script (2.4.1)
+      coffee-script-source
+      execjs
     coffee-script-source (1.9.1.1)
     connection_pool (2.2.0)
     erubis (2.7.0)
@@ -203,6 +216,7 @@ DEPENDENCIES
   sidekiq
   spring
   therubyracer
+  turbolinks!
   uglifier (>= 1.3.0)
 
 BUNDLED WITH
