@@ -25,9 +25,7 @@ const Search = React.createClass({
   getInitialState () {
     return {
       muiTheme: ThemeManager.getMuiTheme(LightRawTheme),
-      current_filter: 'repos',
-      tags: [],
-      current_filter_placeholder: ">=100 or >10"
+      tags: []
     };
   },
 
@@ -72,29 +70,26 @@ const Search = React.createClass({
       );
   },
 
-  _filterChanged(e, select, menuItem) {
-    this.setState({current_filter: menuItem.text, current_filter_placeholder: menuItem.placeholder});
-  },
-
   _addTag(event) {
     // Add value to input
     $('.react-tagsinput-input').val(this.refs.tags.getTags().join(', '));
-    // finally submit form
+    // finally submit the form
     var formData = $(this.refs.search.getDOMNode()).serialize();
-    // Pre-fetch the page
+    // Pre-fetch the page to warm up cache
     $.get('/members', formData, function(data) {
     }, "html");
   },
 
   _handleSubmit(event) {
     event.preventDefault();
-    var query = this.refs.tags.getDOMNode().value;
+    // Only submit if there are any tags
     if (this.refs.tags.getTags().join(', ').length > 0) {
       // finally submit form
       var formData = $(this.refs.search.getDOMNode()).serialize();
       // Fetch members based on search
       this.props.searchMembers('/members/search', formData);
     } else {
+      // Empty stop event and show error
       event.stopPropagation();
       this.refs.snackbar.show();
     }
