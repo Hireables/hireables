@@ -5,9 +5,9 @@
 development:
   :concurrency: 25
 staging:
-  :concurrency: 10
+  :concurrency: 50
 production:
-  :concurrency: 25
+  :concurrency: 50
 :queues:
   - default
   - [mailers, 1]
