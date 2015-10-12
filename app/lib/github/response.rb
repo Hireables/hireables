@@ -14,6 +14,14 @@ module Github
       }
     end
 
+    def found?
+      @request.headers["status"] == "200 OK"
+    end
+
+    def not_found?
+      @request.headers["status"] == "404 Not Found"
+    end
+
   end
 
 end

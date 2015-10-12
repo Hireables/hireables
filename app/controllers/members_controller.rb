@@ -12,6 +12,7 @@ class MembersController < ApplicationController
     FetchMembersJob.perform_later(cache_key, request_uri,
       request_params.except!(:page, :q, :keyword)
     ) unless key_cached?
+
     # Render page without blocking
     respond_to do |format|
       format.html
@@ -24,7 +25,12 @@ class MembersController < ApplicationController
     # Fetch user
     member = Rails.cache.fetch(["users", params[:id]], expires_in: 2.days) do
       request = Github::Client.new("/users/#{params[:id]}", {}).find
-      request.parsed_response
+      if Github::Response.new(request).found?
+        request.parsed_response
+      else
+        # Raise not found
+        raise ActionController::RoutingError.new('Not Found')
+      end
     end
 
     # Fetch languages
@@ -49,11 +55,17 @@ class MembersController < ApplicationController
     # Load members based on request params
     response = Rails.cache.fetch(cache_key, expires_in: 2.days) do
       request = Github::Client.new(request_uri, request_params.except!(:page, :q, :keyword)).find
-      # Cache formatted response
-      {
-        members: Github::Response.new(request).collection,
-        rels: Pagination.new(request.headers).build
-      }.to_json
+
+      if Github::Response.new(request).found?
+        # Cache formatted response
+        {
+          members: Github::Response.new(request).collection,
+          rels: Pagination.new(request.headers).build
+        }.to_json
+      else
+        # Raise not found
+        raise ActionController::RoutingError.new('Not Found')
+      end
     end
 
     # render response

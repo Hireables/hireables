@@ -11,4 +11,5 @@ class ApplicationController < ActionController::Base
     :x_frame_options => 'DENY',
     :csp => false
   )
+
 end
