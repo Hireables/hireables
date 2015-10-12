@@ -1,19 +1,13 @@
 // Require React
 React = require('react/addons');
 var TagsInput = require('react-tagsinput');
-
 // Material UI
 import mui from 'material-ui';
 let RaisedButton = mui.RaisedButton;
 let Colors = mui.Styles.Colors;
-let TextField = mui.TextField;
 let ThemeManager = mui.Styles.ThemeManager;
 let Snackbar = mui.Snackbar;
 let LightRawTheme = mui.Styles.LightRawTheme;
-let DropDownMenu = mui.DropDownMenu;
-let injectTapEventPlugin = require("react-tap-event-plugin");
-
-injectTapEventPlugin();
 
 // Define component
 const Search = React.createClass({

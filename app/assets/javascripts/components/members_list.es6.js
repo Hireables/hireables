@@ -34,30 +34,10 @@ const MembersList = React.createClass({
     muiTheme: React.PropTypes.object
   },
 
-  componentWillMount() {
-    let newMuiTheme = ThemeManager.modifyRawThemePalette(this.state.muiTheme, {
-      accent1Color: Colors.deepOrange500
-    });
-    this.setState({muiTheme: newMuiTheme});
-  },
-
   getChildContext() {
     return {
       muiTheme: this.state.muiTheme,
     };
-  },
-
-  componentDidMount() {
-    if(this.isMounted()){
-      var query = decodeURIComponent(document.location.search.replace('?', ''));
-      var path = !query? this.state.path : this.state.path + '?' + query
-      this._fetchMembers(path, {});
-    }
-  },
-
-  setChecked(e, checked) {
-    this.setState({loaded: false});
-    this._fetchMembers(this.state.path, {hireable: checked});
   },
 
   render() {
