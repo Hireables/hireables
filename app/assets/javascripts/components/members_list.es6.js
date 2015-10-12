@@ -100,7 +100,7 @@ const MembersList = React.createClass({
           </List> : <EmptyList />}
         </Loader>
 
-        {this.state.rels.length > 0 && this.state.members.length > 0 ?
+        {this.state.rels != null && this.state.members.length > 0 ?
           <Pagination links={this.state.rels} />
           : <NoContent />
         }
@@ -123,12 +123,14 @@ const MembersList = React.createClass({
       });
 
       // Pre fetch paginations
-      setTimeout(function(){
-        json.rels.map(function(link) {
-          $.get('?' + decodeURIComponent(link.url), function(data) {
-          }, "html");
-        }.bind(this));
-      }.bind(this), 1000);
+      if(json.rels != null) {
+        setTimeout(function(){
+          json.rels.map(function(link) {
+            $.get('?' + decodeURIComponent(link.url), function(data) {
+            }, "html");
+          }.bind(this));
+        }.bind(this), 500);
+      }
 
     }.bind(this));
   }
