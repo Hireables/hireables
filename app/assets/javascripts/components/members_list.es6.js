@@ -1,6 +1,5 @@
 // Require React
 React = require('react/addons');
-var $ = require('jquery-browserify');
 var Loader = require('react-loader');
 
 // import material UI
@@ -88,7 +87,7 @@ const MembersList = React.createClass({
       <div className="members-list p-b-100">
         <div className="container">
           <div className="members-list members--small sm-pull-reset">
-            <Search action={"/members"} />
+            <Search action={"/members"} searchMembers={this._fetchMembers} />
           </div>
         </div>
         <Loader loaded={this.state.loaded}>
@@ -98,24 +97,26 @@ const MembersList = React.createClass({
               <Member member={member} key={member.id} meta={this.props.meta} />
             ))}
           </List> : <EmptyList />}
+          {this.state.rels != null && this.state.members.length > 0 ?
+            <Pagination links={this.state.rels} fetchNextPage={this._fetchMembers} />
+            : <NoContent />
+          }
         </Loader>
-
-        {this.state.rels != null && this.state.members.length > 0 ?
-          <Pagination links={this.state.rels} />
-          : <NoContent />
-        }
       </div>
     );
   },
 
   _fetchMembers(path, params) {
+    // Set state to be loading
+    this.setState({loaded: false});
+
     // Setup cache false
     $.ajaxSetup({
       cache: false
     });
 
     // Get initial members
-    $.getJSON(path, params, function(json, textStatus) {
+    $.post(path, params, function(json, textStatus) {
       this.setState({
         members: json.members,
         rels: json.rels,
@@ -129,10 +130,10 @@ const MembersList = React.createClass({
             $.get('?' + decodeURIComponent(link.url), function(data) {
             }, "html");
           }.bind(this));
-        }.bind(this), 500);
+        }.bind(this), 1000);
       }
 
-    }.bind(this));
+    }.bind(this), "json");
   }
 
 });

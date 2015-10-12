@@ -1,6 +1,6 @@
 // Require React
 React = require('react/addons');
-var $ = require('jquery-browserify')
+var TagsInput = require('react-tagsinput');
 
 // Material UI
 import mui from 'material-ui';
@@ -8,6 +8,7 @@ let RaisedButton = mui.RaisedButton;
 let Colors = mui.Styles.Colors;
 let TextField = mui.TextField;
 let ThemeManager = mui.Styles.ThemeManager;
+let Snackbar = mui.Snackbar;
 let LightRawTheme = mui.Styles.LightRawTheme;
 let DropDownMenu = mui.DropDownMenu;
 let injectTapEventPlugin = require("react-tap-event-plugin");
@@ -16,7 +17,7 @@ injectTapEventPlugin();
 
 // Define component
 const Search = React.createClass({
-
+  mixins: [React.addons.LinkedStateMixin],
   childContextTypes: {
     muiTheme: React.PropTypes.object
   },
@@ -25,6 +26,7 @@ const Search = React.createClass({
     return {
       muiTheme: ThemeManager.getMuiTheme(LightRawTheme),
       current_filter: 'repos',
+      tags: [],
       current_filter_placeholder: ">=100 or >10"
     };
   },
@@ -63,24 +65,13 @@ const Search = React.createClass({
 
     return (
         <form ref="search" method="GET" action={this.props.action} onKeyDown={this._handleKeyDown}>
-          <DropDownMenu menuItems={menuItems} style={{float: 'left'}} onChange={this._filterChanged} />
-          <TextField
-            hintText={this.state.current_filter_placeholder}
-            style={textFieldStyles}
-            ref="filters"
-            name={this.state.current_filter}
-            errorText={this.state.error2Text}
-            errorStyle={{color:'orange'}}
-            defaultValue="" />
-          <TextField
-            hintText="Type keyword ex: 'tom' or empty"
-            style={textFieldStyles}
-            ref="query"
-            name="keyword"
-            errorText={this.state.error2Text}
-            errorStyle={{color:'orange'}}
-            defaultValue="" />
+          <TagsInput ref='tags' name="q" onTagAdd={this._addTag} />
           <RaisedButton label="Find" primary={true} onClick={this._handleSubmit} />
+          <Snackbar
+            ref="snackbar"
+            message="Search can't be empty"
+            action="error"
+            autoHideDuration={5000} />
         </form>
       );
   },
@@ -89,33 +80,27 @@ const Search = React.createClass({
     this.setState({current_filter: menuItem.text, current_filter_placeholder: menuItem.placeholder});
   },
 
-  _handleKeyDown(event) {
-    if(event.keyCode === 13) {
-      this._handleSubmit(event);
-    }
+  _addTag(event) {
+    // Add value to input
+    $('.react-tagsinput-input').val(this.refs.tags.getTags().join(', '));
+    // finally submit form
+    var formData = $(this.refs.search.getDOMNode()).serialize();
+    // Pre-fetch the page
+    $.get('/members', formData, function(data) {
+    }, "html");
   },
 
   _handleSubmit(event) {
-    // Don't submit empty form fields
-    $(event.target.closest('form')).submit(function() {
-      $(':input', this).each(function() {
-        this.disabled = !($(this).val());
-      });
-    });
-    // finally submit form
-    $(event.target.closest('form')).submit();
-  },
-
-  _populateParams(){
-    var query = decodeURIComponent(document.location.search.replace('?', ''));
-    //extract each field/value pair
-    query = query.split('&');
-    //run through each pair
-    for (var i = 0; i < query.length; i++) {
-      //split up the field/value pair into an array
-      var field = query[i].split("=");
-      //target the field and assign its value
-      $("input[name='" + field[0] + "'], select[name='" + field[0] + "']").val(field[1]);
+    event.preventDefault();
+    var query = this.refs.tags.getDOMNode().value;
+    if (this.refs.tags.getTags().join(', ').length > 0) {
+      // finally submit form
+      var formData = $(this.refs.search.getDOMNode()).serialize();
+      // Fetch members based on search
+      this.props.searchMembers('/members/search', formData);
+    } else {
+      event.stopPropagation();
+      this.refs.snackbar.show();
     }
   }
 

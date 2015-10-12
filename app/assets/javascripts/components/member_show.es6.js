@@ -1,6 +1,5 @@
 // Require React
 React = require('react/addons');
-var $ = require('jquery-browserify');
 // import material UI
 import mui from 'material-ui';
 let Avatar = mui.Avatar;

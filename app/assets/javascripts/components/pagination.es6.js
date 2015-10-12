@@ -49,7 +49,7 @@ const Pagination = React.createClass({
   },
 
   _loadPage(link) {
-    Turbolinks.visit('?' + decodeURIComponent(link));
+    this.props.fetchNextPage('/members/search?' + decodeURIComponent(link), {})
   }
 
 });
