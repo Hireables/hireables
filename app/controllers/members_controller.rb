@@ -1,10 +1,7 @@
 class MembersController < ApplicationController
   # Common controller concerns
-  # Setup params for the request
   include SetupRequestParams
-  # Cache the request into Redis SET
   include CacheRequest
-  # Get api uri based on params available
   include GetApiUri
 
   # GET /members
