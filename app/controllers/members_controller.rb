@@ -22,7 +22,7 @@ class MembersController < ApplicationController
   # GET /members/:username.json
   # GET /members/:username
   def show
-    # Fetch user
+    # Fetch from cache
     member = Rails.cache.fetch(["users", params[:id]], expires_in: 2.days) do
       request = Github::Client.new("/users/#{params[:id]}", {}).find
       if Github::Response.new(request).found?

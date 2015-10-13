@@ -8,21 +8,18 @@ module SetupRequestParams
   # Setup request param
   def request_params
     # For home route this will be empty so setup popular params
-    if member_params.empty? || member_params.except(:page).empty?
-      popular = {
-        followers: ">=1000",
-        repos: ">=20"
-      }
-      return popular unless member_params["page"].present?
-      # Format page param and add it to request params
-      popular.merge!({page: member_params["page"], q: member_params["q"]})
+    if member_params.empty?
+      popular_params
     else
-      # For everything else just use formatted permitted params
-      keys = {}
-      member_params.each{|key, value|
-        keys[:"#{key}"] = value
+      # Check if keyword is present in query string
+      keyword = member_params["q"].slice!('keyword:')
+      query  = keyword.nil? ? member_params["q"] : format_query(member_params["q"])
+
+      # Format page and query param and add it to request params
+      {
+        page: member_params["page"],
+        q: query
       }
-      keys
     end
   end
 
@@ -36,9 +33,23 @@ module SetupRequestParams
   end
 
   private
+
+    def format_query(query)
+      query.slice!('keyword:')
+      query.gsub!(', ', '+')
+    end
+
+    # Hard code popular params, would be good to put in ENV vars
+    def popular_params
+      {
+        followers: ">=1000",
+        repos: ">=20"
+      }
+    end
+
     # Whitelist the params for our controller
     def member_params
-      params.permit(:q, :keyword, :followers, :repos, :location, :created, :language, :page)
+      params.permit(:q, :page)
     end
 
 end
