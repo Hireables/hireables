@@ -108,18 +108,8 @@ const MembersList = React.createClass({
         rels: json.rels,
         loaded: true
       });
-
-      // Pre fetch paginations
-      if(json.rels != null) {
-        setTimeout(function(){
-          json.rels.map(function(link) {
-            $.get('?' + decodeURIComponent(link.url), function(data) {
-            }, "html");
-          }.bind(this));
-        }.bind(this), 1000);
-      }
-
     }.bind(this), "json");
+
   }
 
 });

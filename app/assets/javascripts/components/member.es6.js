@@ -44,7 +44,7 @@ const Member = React.createClass({
 
   _showMember(id) {
     Turbolinks.visit("/members/" + id);
-  },
+  }
 
 });
 
