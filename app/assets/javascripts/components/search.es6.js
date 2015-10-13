@@ -19,9 +19,7 @@ const Search = React.createClass({
   getInitialState () {
     return {
       muiTheme: ThemeManager.getMuiTheme(LightRawTheme),
-      demo: false,
       error: false,
-      demo_count: 0,
       tags: []
     };
   },
@@ -46,26 +44,19 @@ const Search = React.createClass({
       marginTop: '10px'
     }
 
-    let menuItems = [
-       { payload: '1', text: 'repos', placeholder: '>= 5 or >10' },
-       { payload: '2', text: 'location', placeholder: 'london or france, south america' },
-       { payload: '3', text: 'language', placeholder: 'ruby or rust, c++' },
-       { payload: '4', text: 'followers', placeholder: '>=100 or >1000' },
-       { payload: '5', text: 'joined', placeholder: '>=2012-04-30 or >2012-04-29' },
-    ];
-
     return (
         <form ref="search" method="POST" action={this.props.action} onSubmit={this._handleSubmit}>
           <label>
-            Click on any tag to see a demo
+            Example filters:
           </label>
-          <small className="block m-t-10">
-            <span className="react-tagsinput-tag" onClick={this._addDemoTag}>location:london</span>
-            <span className="react-tagsinput-tag" onClick={this._addDemoTag}>language:ruby</span>
-            <span className="react-tagsinput-tag" onClick={this._addDemoTag}>followers:>=100</span>
+          <small className="m-l-5">
+            <span className="react-tagsinput-tag">keyword:tom</span>
+            <span className="react-tagsinput-tag">location:london</span>
+            <span className="react-tagsinput-tag">language:ruby</span>
+            <span className="react-tagsinput-tag">followers:>=100</span>
           </small>
           <div className="search-box">
-            <TagsInput ref='tags' name="q" transform={this._formatTag} valueLink={this.linkState("tags")} validate={this._validateTag} onTagAdd={this._addTag} placeholder="Type filter and enter to search" />
+            <TagsInput ref='tags' name="q" transform={this._formatTag} valueLink={this.linkState("tags")} validate={this._validateTag} onTagAdd={this._addTag} placeholder="Add filter and enter twice to search" />
             <RaisedButton label="Find" primary={true} onClick={this._handleSubmit} />
           </div>
           <Snackbar
@@ -78,16 +69,6 @@ const Search = React.createClass({
             message="Now click find or enter key to search"
             action="hint"
             autoHideDuration={5000} />
-          <Snackbar
-            ref="snackbar_demo_1"
-            message="Awesome you got it! Click on another demo tag and hit find"
-            action="done"
-            autoHideDuration={5000} />
-          <Snackbar
-            ref="snackbar_demo_2"
-            message="You are now a pro! Enter your keywords and hit find"
-            action="done"
-            autoHideDuration={7000} />
           <Snackbar
             ref="snackbar_uniqueness_error"
             message="Keyword already added"
@@ -108,7 +89,7 @@ const Search = React.createClass({
   },
 
   _validateTag(tag, done) {
-    var keywords = ["location", "followers", "repos", "joined", "language"];
+    var keywords = ["location", "followers", "repos", "joined", "language", "keyword"];
 
     var unique = this.state.tags.indexOf(tag) === -1;
     if (!unique) {
@@ -142,16 +123,6 @@ const Search = React.createClass({
     return tag.trim().toLowerCase();
   },
 
-  _addDemoTag(event){
-    this.setState({demo: true, demo_count: this.state.demo_count + 1});
-    var tag = $(event.target).text();
-    this.refs.tags.addTag(tag);
-    this._addTag;
-    if(!this.state.error) {
-      this.refs.snackbar_hint.show();
-    }
-  },
-
   _addTag(event) {
     this._preFetchPage(this._getFormData());
   },
@@ -175,14 +146,6 @@ const Search = React.createClass({
     if (this.refs.tags.getTags().join(', ').length > 0) {
       // Fetch members based on search
       this.props.searchMembers('/members/search', this._getFormData());
-      if(this.state.demo && this.state.demo_count === 1) {
-        this.setState({demo: false});
-        this.refs.snackbar_demo_1.show();
-      } else if(this.state.demo && this.state.demo_count === 2) {
-        this.setState({demo: false, demo_count: 0});
-        this.refs.tags.clear();
-        this.refs.snackbar_demo_2.show();
-      }
     } else {
       // Empty stop event and show error
       event.stopPropagation();
