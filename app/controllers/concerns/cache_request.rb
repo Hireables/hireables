@@ -1,6 +1,8 @@
 module CacheRequest
 
+  # Generate cache key based on params
   # Cache the request cache_key in a redis SET
+
   extend ActiveSupport::Concern
 
   included do
