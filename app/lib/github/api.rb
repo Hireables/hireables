@@ -2,7 +2,7 @@ require 'httparty'
 module Github
 
   # Handles github API calls based on URI
-  #   params : formatted_api_url
+  #   params : api_query_uri
   # Returns API response
 
   class Api

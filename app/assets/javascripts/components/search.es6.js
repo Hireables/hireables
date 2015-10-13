@@ -56,7 +56,10 @@ const Search = React.createClass({
             <span className="react-tagsinput-tag">followers:>=100</span>
           </small>
           <div className="search-box">
-            <TagsInput ref='tags' name="q" transform={this._formatTag} valueLink={this.linkState("tags")} validate={this._validateTag} onTagAdd={this._addTag} placeholder="Add filter and enter twice to search" />
+            <div className="hidden">
+              <input name="q" ref='query' className="search search--query_input" type="hidden" />
+            </div>
+            <TagsInput ref='tags' transform={this._formatTag} valueLink={this.linkState("tags")} validate={this._validateTag} onTagAdd={this._addTag} placeholder="Add filter and enter twice to search" />
             <RaisedButton label="Find" primary={true} onClick={this._handleSubmit} />
           </div>
           <Snackbar
@@ -129,7 +132,7 @@ const Search = React.createClass({
 
   _getFormData() {
     // Add value to input
-    $('.react-tagsinput-input').val(this.refs.tags.getTags().join(', '));
+    $(this.refs.query.getDOMNode()).val(this.refs.tags.getTags().join(', '));
     // finally submit the form
     return $(this.refs.search.getDOMNode()).serialize();
   },

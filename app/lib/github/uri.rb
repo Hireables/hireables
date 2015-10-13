@@ -11,6 +11,7 @@ module Github
     end
 
     def get
+      return popular_api_url unless query_present?
       paginated? ? paginated_uri : default_uri
     end
 
@@ -22,6 +23,13 @@ module Github
 
       def default_uri
         "/search/users?q=#{@params[:q]}"
+      end
+
+      def popular_api_url
+        filters = @params.map {|key, value|
+          "+#{key}:#{value}"
+        }
+        default_uri + filters.join
       end
 
       def paginated?
