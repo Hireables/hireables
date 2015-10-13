@@ -3,8 +3,8 @@ class PagesController < ApplicationController
   include SetupRequestParams
   # Cache the request into Redis SET
   include CacheRequest
-  # Generate uri based on params available
-  include GenerateRequestUri
+  # Get api uri based on params available
+  include GetApiUri
 
   def home
     # Unless request cached fetch async members
