@@ -10,7 +10,6 @@ class MembersController < ApplicationController
     FetchMembersJob.perform_later(cache_key, request_uri
     ) unless key_cached?
 
-    # Render page without blocking
     respond_to do |format|
       format.html
     end
@@ -38,7 +37,6 @@ class MembersController < ApplicationController
       Github::Response.new(request.parsed_response).user_languages_collection
     end
 
-    # render response
     respond_to do |format|
       format.html
       format.json {render json:  {member: member, languages: languages} }
@@ -63,7 +61,6 @@ class MembersController < ApplicationController
       end
     end
 
-    # render response
     respond_to do |format|
       format.json {render json:  response}
     end

@@ -9,7 +9,6 @@ class PagesController < ApplicationController
     FetchMembersJob.perform_later(cache_key, request_uri
     ) unless key_cached?
 
-    # Respond with HTML
     respond_to do |format|
       format.html
     end
