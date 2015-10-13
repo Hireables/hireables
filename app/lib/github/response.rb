@@ -2,6 +2,10 @@ module Github
 
   class Response
 
+    # Sends formatted/cached response
+    #   params : request
+    # Returns collection object
+
     def initialize(request)
       @request = request
     end
