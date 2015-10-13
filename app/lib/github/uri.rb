@@ -2,8 +2,8 @@ module Github
 
   class Uri
 
-    # Handles API uri selection
-    #   params : query_params
+    # Handles API uri selection based on params
+    #   params : {query_params}
     # Returns formatted api url
 
     def initialize(params)
@@ -26,6 +26,10 @@ module Github
 
       def paginated?
         @params[:page].present?
+      end
+
+      def query_present?
+        @params[:q].present?
       end
 
   end

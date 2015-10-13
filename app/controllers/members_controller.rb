@@ -6,9 +6,8 @@ class MembersController < ApplicationController
 
   # GET /members
   def index
-    # Unless request cached fetch async members
-    FetchMembersJob.perform_later(cache_key, request_uri,
-      request_params.except!(:page, :q, :keyword)
+    # Unless request cached fetch members async
+    FetchMembersJob.perform_later(cache_key, request_uri
     ) unless key_cached?
 
     # Render page without blocking
@@ -22,7 +21,7 @@ class MembersController < ApplicationController
   def show
     # Fetch from cache
     member = Rails.cache.fetch(["users", params[:id]], expires_in: 2.days) do
-      request = Github::Client.new("/users/#{params[:id]}", {}).find
+      request = Github::Api.new("/users/#{params[:id]}").fetch
       if Github::Response.new(request).found?
         # Fetch user languages
         FetchMemberLanguagesJob.perform_later(params[:id])
@@ -35,8 +34,8 @@ class MembersController < ApplicationController
 
     # Fetch languages
     languages = Rails.cache.fetch(["users", params[:id], "languages"], expires_in: 2.days) do
-      request = Github::Client.new("/users/#{params[:id]}/repos", {}).find.parsed_response
-      Github::Response.new(request).user_languages_collection
+      request = Github::Api.new("/users/#{params[:id]}/repos").fetch
+      Github::Response.new(request.parsed_response).user_languages_collection
     end
 
     # render response
@@ -50,7 +49,7 @@ class MembersController < ApplicationController
   def search
     # Load members based on request params
     response = Rails.cache.fetch(cache_key, expires_in: 2.days) do
-      request = Github::Client.new(request_uri, request_params.except!(:page, :q, :keyword)).find
+      request = Github::Api.new(request_uri).fetch
 
       if Github::Response.new(request).found?
         # Cache formatted response

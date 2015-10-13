@@ -1,9 +1,9 @@
 class FetchMembersJob < ActiveJob::Base
   queue_as :urgent
 
-  def perform(cache_key, request_uri, params)
+  def perform(cache_key, request_uri)
     Rails.cache.fetch(cache_key, expires_in: 2.days) do
-      request = Github::Client.new(request_uri, params).find
+      request = Github::Client.new(request_uri).fetch
       # Fetch members async
       request.parsed_response["items"].map{|u| u["login"]}.map{|username|
         FetchMemberJob.perform_later(username)

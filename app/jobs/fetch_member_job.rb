@@ -4,7 +4,7 @@ class FetchMemberJob < ActiveJob::Base
   def perform(username)
     # Cache user response
     Rails.cache.fetch(["users", username], expires_in: 2.days) do
-      request = Github::Client.new("/users/#{username}", {}).find
+      request = Github::Client.new("/users/#{username}").fetch
       request.parsed_response
     end
   end
