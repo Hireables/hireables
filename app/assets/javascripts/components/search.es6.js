@@ -132,7 +132,7 @@ const Search = React.createClass({
 
   _preFetchPage() {
     // Pre-fetch the page to warm up cache
-    $.get('/members?q=', decodeURIComponent(this._getFormData()), function(data) {
+    $.get('/members?q=' + decodeURIComponent(this._getFormData()), function(data) {
     }, "html");
   },
 
