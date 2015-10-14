@@ -56,12 +56,15 @@
 }
 .col-8 {
   width: 80%;
+  float:left;
 }
 .col-6 {
   width: 60%;
+  float:left;
 }
 .col-4 {
   width: 33.3333%;
+  float:left;
 }
 .bg-horizon {
   background: -webkit-linear-gradient(90deg, #136a8a 10%, #267871 90%);
@@ -102,6 +105,14 @@ body {
 .company_hidden {
   background-color: #455a64;
 }
+.header {
+  width: 100%;
+  overflow: hidden;
+  padding-bottom: 60px;
+}
+.search-box {
+  text-align: center;
+}
 .header--bg {
   background: #fafafa;
 }
@@ -111,6 +122,9 @@ body {
   }
 }
 .members-list {
+  clear: both;
+  display: block;
+  width: 100%;
   .members--small {
     padding: 40px 0 0;
   }
