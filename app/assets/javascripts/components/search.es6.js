@@ -37,29 +37,24 @@ const Search = React.createClass({
     };
   },
 
+  componentDidMount() {
+    if(this.isMounted()) {
+      this._populate_form();
+    }
+  },
+
   render() {
 
     let textFieldStyles = {
       marginRight: '20px',
-      marginTop: '10px'
+      marginTop: '10px',
+      width: '400px'
     }
 
     return (
-        <form ref="search" method="POST" action={this.props.action} onSubmit={this._handleSubmit}>
-          <label>
-            Example filters:
-          </label>
-          <small className="m-l-5">
-            <span className="react-tagsinput-tag">keyword:tom</span>
-            <span className="react-tagsinput-tag">location:london</span>
-            <span className="react-tagsinput-tag">language:ruby</span>
-            <span className="react-tagsinput-tag">followers:>=100</span>
-          </small>
+        <form ref="search" method="GET" action={this.props.action} onKeyDown={this._handleKeyDown}>
           <div className="search-box">
-            <div className="hidden">
-              <input name="q" ref='query' className="search search--query_input" type="hidden" />
-            </div>
-            <TagsInput ref='tags' transform={this._formatTag} valueLink={this.linkState("tags")} validate={this._validateTag} onTagAdd={this._addTag} placeholder="Add filter and enter twice to search" />
+            <TagsInput style={textFieldStyles} ref='tags' name="q" transform={this._formatTag} valueLink={this.linkState("tags")} validate={this._validateTag} onTagAdd={this._addTag} placeholder="Type a filter(ex: location:london) and click find" />
             <RaisedButton label="Find" primary={true} onClick={this._handleSubmit} />
           </div>
           <Snackbar
@@ -92,7 +87,7 @@ const Search = React.createClass({
   },
 
   _validateTag(tag, done) {
-    var keywords = ["location", "followers", "repos", "joined", "language", "keyword"];
+    var keywords = ["location", "followers", "repos", "created", "language", "keyword"];
 
     var unique = this.state.tags.indexOf(tag) === -1;
     if (!unique) {
@@ -126,35 +121,67 @@ const Search = React.createClass({
     return tag.trim().toLowerCase();
   },
 
-  _addTag(event) {
-    this._preFetchPage(this._getFormData());
+  _addTag() {
+    this._preFetchPage();
   },
 
   _getFormData() {
-    // Add value to input
-    $(this.refs.query.getDOMNode()).val(this.refs.tags.getTags().join(', '));
     // finally submit the form
-    return $(this.refs.search.getDOMNode()).serialize();
+    return this.state.tags.join(',+');
   },
 
-  _preFetchPage(formData) {
+  _preFetchPage() {
     // Pre-fetch the page to warm up cache
-    $.get('/members', formData, function(data) {
+    $.get('/members?q=', decodeURIComponent(this._getFormData()), function(data) {
     }, "html");
+  },
+
+  _handleKeyDown(event) {
+    // Dont' submit form on enter
+    if(event.keyCode === 13) {
+      $(event.target.closest('form')).submit(function(){
+        return false;
+      });
+    }
   },
 
   _handleSubmit(event) {
     event.preventDefault();
     // Only submit if there are any tags
     if (this.refs.tags.getTags().join(', ').length > 0) {
-      // Fetch members based on search
-      this.props.searchMembers('/members/search', this._getFormData());
+      // Don't submit empty form fields
+      Turbolinks.visit('/members?q=' + decodeURIComponent(this._getFormData()));
     } else {
-      // Empty stop event and show error
+      // Empty stop submit event and show error
       event.stopPropagation();
       this.refs.snackbar_error.show();
     }
+  },
+
+  _populate_form(){
+    //grab the entire query string
+    var query_params = decodeURIComponent(document.location.search.replace('?', ''));
+    if(query_params) {
+      //first get the query fragments
+      var fragments = query_params.split('=');
+
+      // Split query from other params
+      var query = fragments[1].split('&');
+
+      //Split query params
+      var field = query[0].split(",");
+
+      //loop query params and push it to tags
+      field.map(function(elem, i) {
+        if(elem.indexOf("+") > -1) {
+          this.state.tags.push(elem.replace('+', ''))
+        } else {
+          this.state.tags.push(elem)
+        }
+      }.bind(this));
+    }
   }
+
 
 });
 

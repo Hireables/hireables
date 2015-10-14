@@ -7,6 +7,7 @@ import mui from 'material-ui';
 let List = mui.List;
 let Colors = mui.Styles.Colors;
 let ThemeManager = mui.Styles.ThemeManager;
+let Snackbar = mui.Snackbar;
 let LightRawTheme = mui.Styles.LightRawTheme;
 
 // Dependent component
@@ -36,7 +37,9 @@ const MembersList = React.createClass({
 
   componentDidMount() {
     if(this.isMounted()){
-      this._fetchMembers(this.state.path, {});
+      var query = decodeURIComponent(document.location.search.replace('?', ''));
+      var path = !query? this.state.path : this.state.path + '?' + query
+      this._fetchMembers(path, {});
     }
   },
 
@@ -88,6 +91,11 @@ const MembersList = React.createClass({
             : <NoContent />
           }
         </Loader>
+        <Snackbar
+          ref="snackbar_404"
+          message="Ohh no! Request failed! Make sure you are using right parameters"
+          action="error"
+          autoHideDuration={5000} />
       </div>
     );
   },
@@ -108,7 +116,11 @@ const MembersList = React.createClass({
         rels: json.rels,
         loaded: true
       });
-    }.bind(this), "json");
+    }.bind(this), "json")
+    .fail(function(json, textStatus) {
+      this.refs.snackbar_404.show();
+      this.setState({loaded: true})
+    }.bind(this));
 
   }
 
