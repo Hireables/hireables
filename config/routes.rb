@@ -4,8 +4,7 @@ Rails.application.routes.draw do
 
   resources :members, only: [:index, :show] do
     collection do
-      get :popular
-      match :search, via: [:get, :post]
+      post :search
     end
   end
 
