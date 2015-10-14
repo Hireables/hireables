@@ -5,7 +5,11 @@ class FetchMemberJob < ActiveJob::Base
     # Cache user response
     Rails.cache.fetch(["users", username], expires_in: 2.days) do
       request = Github::Api.new("/users/#{username}").fetch
-      request.parsed_response
+      if Github::Response.new(request).found?
+        request.parsed_response
+      else
+        return false
+      end
     end
   end
 
