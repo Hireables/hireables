@@ -74,7 +74,7 @@ const Search = React.createClass({
             autoHideDuration={5000} />
           <Snackbar
             ref="snackbar_invalid_keyword"
-            message="Not a valid keyword! Allowed keywords are: language, location, joined, repos, followers"
+            message="Not a valid keyword! Allowed: language, location, created, repos, followers"
             action="error"
             autoHideDuration={10000} />
           <Snackbar
