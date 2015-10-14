@@ -163,7 +163,7 @@ const Search = React.createClass({
     var query_params = decodeURIComponent(document.location.search.replace('?', ''));
     if(query_params) {
       //first get the query fragments
-      var fragments = query_params.split('=');
+      var fragments = query_params.split('q=');
 
       // Split query from other params
       var query = fragments[1].split('&');
