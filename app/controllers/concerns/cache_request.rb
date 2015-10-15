@@ -26,7 +26,7 @@ module CacheRequest
         |key, value| "#{key}:#{value}" unless value.nil?
       }
       # Join keys
-      keys.join
+      keys.join.gsub(' ', '+')
     end
 
 end

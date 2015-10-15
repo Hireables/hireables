@@ -126,8 +126,9 @@ const Search = React.createClass({
   },
 
   _getFormData() {
+    console.log(this.state.tags.join('+'))
     // finally submit the form
-    return this.state.tags.join(',+');
+    return this.state.tags.join('+');
   },
 
   _preFetchPage() {
@@ -169,7 +170,7 @@ const Search = React.createClass({
       var query = fragments[1].split('&');
 
       //Split query params
-      var field = query[0].split(",");
+      var field = query[0].split("+");
 
       //loop query params and push it to tags
       field.map(function(elem, i) {

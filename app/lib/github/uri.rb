@@ -22,7 +22,8 @@ module Github
     private
 
       def default_uri
-        "/search/users?q=#{@params[:q]}"
+        query  = query_present? ? @params[:q].gsub(' ', '+') : @params[:q]
+        "/search/users?q=#{query}"
       end
 
       def popular_api_url
