@@ -22,10 +22,7 @@ const MemberShow = React.createClass({
 
   getInitialState () {
     return {
-      muiTheme: ThemeManager.getMuiTheme(LightRawTheme),
-      member: [],
-      languages: [],
-      id: this.props.id
+      muiTheme: ThemeManager.getMuiTheme(LightRawTheme)
     };
   },
 
@@ -33,10 +30,6 @@ const MemberShow = React.createClass({
     return {
       muiTheme: this.state.muiTheme,
     };
-  },
-
-  componentDidMount() {
-    this._fetchMember(this.state.id);
   },
 
   render() {
@@ -58,45 +51,25 @@ const MemberShow = React.createClass({
           <header className="header header--bg">
             <div className="container">
               <div style={wrapperStyle}>
-                <Avatar src={this.state.member.avatar_url} size={100} />
+                <Avatar src={this.props.member.avatar_url} size={100} />
                 <h1 className="no-margin">
-                  <a href={this.state.member.html_url} style={linkStyles}>
-                    {this.state.member.name}
+                  <a href={this.props.member.html_url} style={linkStyles}>
+                    {this.props.member.name}
                   </a>
                 </h1>
-                {this.state.member.email? <small>
-                  <a href={"mailto:" + this.state.member.email}>
-                    {"Email " + this.state.member.login}
+                {this.props.member.email? <small>
+                  <a href={"mailto:" + this.props.member.email}>
+                    {"Email " + this.props.member.login}
                   </a>
                 </small> : ""}
-                <MemberStatus member={this.state.member} />
-                <MemberMeta followers={this.state.member.followers} gists={this.state.member.public_gists} repos={this.state.member.public_repos} />
-                <Languages languages={this.state.languages} />
+                <MemberStatus member={this.props.member} />
+                <MemberMeta followers={this.props.member.followers} gists={this.props.member.public_gists} repos={this.props.member.public_repos} />
+                <Languages languages={this.props.languages} />
               </div>
             </div>
           </header>
-          <div className="container p-b-100">
-            <div className="members-show members--small sm-pull-reset">
-              <Search action={"/members"} />
-            </div>
-          </div>
         </div>
       );
-  },
-
-  _fetchMember(id) {
-    // Don't cache JSON
-    $.ajaxSetup({
-      cache: false
-    });
-
-    // Fetch member
-    $.getJSON('/members/' + id, function(json, textStatus) {
-      this.setState({
-        member: json.member,
-        languages: json.languages
-      });
-    }.bind(this));
   }
 
 });
