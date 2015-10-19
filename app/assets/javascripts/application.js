@@ -1,6 +1,6 @@
 //= require_self
-//= require tracker
 //= require components
+//= require tracker
 //= require turbolinks
 //= require react_ujs
 
