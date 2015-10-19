@@ -39,6 +39,7 @@ const MemberStatus= React.createClass({
 
     return (
         <p style={paragraphStyles}>
+
           <span style={{color: Colors.darkBlack}}>
             <small>{this.props.member.location}</small>
           </span><br/>
@@ -49,7 +50,7 @@ const MemberStatus= React.createClass({
              {this.props.member.hireable ? 'Available to hire' : 'Not Available' }
             </span>
             <span style={badgeStyles} className={companyGivenClasses}>
-             {this.props.member.company ? this.props.member.company : 'Company unavailable' }
+             {this.props.member.company ? this.props.member.company : 'Company name unavailable' }
             </span>
           </div>
         </p>

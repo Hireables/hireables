@@ -7,7 +7,7 @@ const MemberMeta = React.createClass({
 
   render() {
     return (
-        <ul className="no-style fs-14 hidden-sm" style={{color: Colors.grey600}}>
+        <ul className="no-style fs-16 hidden-sm" style={{color: Colors.grey600}}>
            <li className="text-center inline m-r-20">
              <span>Followers</span>
              <span className="block m-t-5">{this.props.followers}</span>

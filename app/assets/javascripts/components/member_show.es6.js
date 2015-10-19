@@ -5,6 +5,7 @@ import mui from 'material-ui';
 let Avatar = mui.Avatar;
 let Colors = mui.Styles.Colors;
 let ThemeManager = mui.Styles.ThemeManager;
+let FontIcon = mui.FontIcon;
 let LightRawTheme = mui.Styles.LightRawTheme;
 
 // Dependent component
@@ -57,14 +58,22 @@ const MemberShow = React.createClass({
                     {this.props.member.name}
                   </a>
                 </h1>
-                {this.props.member.email? <small>
-                  <a href={"mailto:" + this.props.member.email}>
+                {this.props.member.email?
+                <small>
+                  <a href={"mailto:" + this.props.member.email} style={{color: Colors.grey700, paddingBottom: '5px'}}>
                     {"Email " + this.props.member.login}
                   </a>
                 </small> : ""}
+                {this.props.member.blog?
+                <small>
+                  <a target="_blank" style={{color: Colors.grey700, marginLeft: '10px', paddingBottom: '5px'}} href={this.props.member.blog}>Website</a>
+                </small> : ""}
                 <MemberStatus member={this.props.member} />
-                <MemberMeta followers={this.props.member.followers} gists={this.props.member.public_gists} repos={this.props.member.public_repos} />
                 <Languages languages={this.props.languages} />
+
+                <div className="p-t-20">
+                  <MemberMeta followers={this.props.member.followers} gists={this.props.member.public_gists} repos={this.props.member.public_repos} />
+                </div>
               </div>
             </div>
           </header>
