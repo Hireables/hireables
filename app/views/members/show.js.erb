@@ -1,9 +1,0 @@
-//Find body and append a div
-var $el = $('body');
-$el.append($('<div>', {class: "member_popup", id: "member_popup"}));
-var $container = $("#member_" + <%= @member["id"] %>);
-
-//Append popup to html
-$container.append("<%= j react_component('app.MemberShowPopup', {member: @member, languages: @languages, prerender: true}) %>");
-
-ReactRailsUJS.mountComponents();
