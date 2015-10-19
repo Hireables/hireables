@@ -14,7 +14,7 @@ const Languages= React.createClass({
     let badgeStyles = {
       fontSize: '10px',
       lineHeight: '22px',
-      backgroundColor: Colors.blue600,
+      backgroundColor: Colors.grey600,
       padding: '5px 8px',
       marginRight: '5px',
       color: Colors.white,
