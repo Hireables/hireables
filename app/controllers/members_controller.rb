@@ -19,7 +19,7 @@ class MembersController < ApplicationController
   # GET /members/:username
   def show
     # Fetch from cache
-    member = Rails.cache.fetch(["users", params[:id]], expires_in: 2.days) do
+    @member = Rails.cache.fetch(["users", params[:id]], expires_in: 2.days) do
       request = Github::Api.new("/users/#{params[:id]}").fetch
       if Github::Response.new(request).found?
         # Fetch user languages
@@ -32,14 +32,15 @@ class MembersController < ApplicationController
     end
 
     # Fetch languages
-    languages = Rails.cache.fetch(["users", params[:id], "languages"], expires_in: 2.days) do
+    @languages = Rails.cache.fetch(["users", params[:id], "languages"], expires_in: 2.days) do
       request = Github::Api.new("/users/#{params[:id]}/repos").fetch
       Github::Response.new(request.parsed_response).user_languages_collection
     end
 
     respond_to do |format|
       format.html
-      format.json {render json:  {member: member, languages: languages} }
+      format.js
+      format.json {render json:  {member: @member, languages: @languages} }
     end
   end
 
