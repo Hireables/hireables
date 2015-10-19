@@ -8,6 +8,9 @@ var React = window.React = global.React = require('react/addons');
 window.$ = window.jQuery = require('jquery')
 require('jquery-ujs')
 
-$(document).on('page:change', function() {
-  return GoSquared.DefaultTracker.TrackView();
-});
+if($('body').data('env') === "production") {
+  $(document).on('page:change', function() {
+    return _gs('track');
+  });
+}
+

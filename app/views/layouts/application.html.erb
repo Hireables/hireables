@@ -14,10 +14,8 @@
     <meta name="HandheldFriendly" content="true">
     <meta name="apple-touch-fullscreen" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
 
-    <% Rails.env.production? %>
+    <% if Rails.env.production? %>
       <script type="text/javascript" data-turbolinks-eval=true>
         !function(g,s,q,r,d){r=g[r]=g[r]||function(){(r.q=r.q||[]).push(
         arguments)};d=s.createElement(q);q=s.getElementsByTagName(q)[0];
@@ -27,12 +25,15 @@
       </script>
     <% end %>
 
+    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
+
     <%= csrf_meta_tags %>
     <%= yield :head %>
 
   </head>
 
-  <body class="<%= controller_name %> <%= action_name %>">
+  <body class="<%= controller_name %> <%= action_name %>" data-env="<%= Rails.env %>">
     <%= react_component 'app.NavBar', {prerender: true} %>
     <div class="content">
       <%= yield %>
