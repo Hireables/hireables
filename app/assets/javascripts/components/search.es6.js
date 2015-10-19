@@ -127,7 +127,6 @@ const Search = React.createClass({
   },
 
   _getFormData() {
-    console.log(this.state.tags.join('+'))
     // finally submit the form
     return this.state.tags.join('+');
   },
