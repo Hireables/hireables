@@ -25,9 +25,10 @@ const Languages= React.createClass({
     return (
         <div style={{marginTop: '10px'}}>
           <span>
-            {this.props.languages.map(language => (
+
+            {this.props.languages ? this.props.languages.map(language => (
               <span key={Math.random()} style={badgeStyles}>{language}</span>
-            ))}
+            )) : ""}
           </span>
         </div>
       );
