@@ -7,3 +7,7 @@
 var React = window.React = global.React = require('react/addons');
 window.$ = window.jQuery = require('jquery')
 require('jquery-ujs')
+
+$(document).on('page:change', function() {
+  return GoSquared.DefaultTracker.TrackView();
+});
