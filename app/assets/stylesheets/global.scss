@@ -65,12 +65,16 @@
   float:left;
 }
 .col-6 {
-  width: 60%;
+  width: 45%;
   float:left;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 .col-4 {
-  width: 33.3333%;
+  width: 45%;
   float:left;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 .bg-horizon {
   background: -webkit-linear-gradient(90deg, #136a8a 10%, #267871 90%);
@@ -142,6 +146,14 @@ body {
   }
 }
 
+.nav {
+  .nav--toolbar {
+    padding-left: 15px!important;
+  }
+}
+.footer {
+  padding-left: 15px;
+}
 
 .organizations-list {
   .organizations--small {
@@ -158,17 +170,26 @@ body {
     width: 100%;
     padding: 15px;
   }
+  .search-box {
+    .react-tagsinput {
+      width: 100%;
+    }
+  }
+  .col-4 {
+    width:100%;
+    padding: 15px;
+  }
+  .member {
+    .member--item {
+      div {
+        width: 100%;
+      }
+      width: 100%
+    }
+  }
   .sm-pull-reset {
     float: none;
     padding: 15px!important;
-  }
-  .nav {
-    .nav--toolbar {
-      padding-left: 15px!important;
-    }
-  }
-  .footer {
-    padding-left: 15px;
   }
 }
 

@@ -34,12 +34,12 @@ const MemberStatus= React.createClass({
       marginRight: '5px',
       color: Colors.white,
       overflow: 'hidden',
+      width: '100%',
       borderRadius: 2
     }
 
     return (
         <p style={paragraphStyles}>
-
           <span style={{color: Colors.darkBlack}}>
             <small>{this.props.member.location}</small>
           </span><br/>

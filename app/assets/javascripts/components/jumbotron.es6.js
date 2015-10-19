@@ -19,13 +19,12 @@ const Jumbotron = React.createClass({
               </div>
               <div className="col-4">
                 <div className="demo-tags p-t-20">
-                  <span className="react-tagsinput-tag demo-tags--highlight">keyword:tom</span>
+                  <span className="react-tagsinput-tag demo-tags--highlight">keyword:dave</span>
                   <span className="react-tagsinput-tag demo-tags--highlight">location:london</span>
                   <span className="react-tagsinput-tag demo-tags--highlight">language:ruby</span>
                   <span className="react-tagsinput-tag demo-tags--highlight">language:php</span>
                   <span className="react-tagsinput-tag demo-tags--highlight">followers:>=100</span>
                   <span className="react-tagsinput-tag demo-tags--highlight">repos:>=100</span>
-                  <span className="react-tagsinput-tag demo-tags--highlight">location:france</span>
                   <span className="react-tagsinput-tag demo-tags--highlight">created:>=2014-10-11</span>
                 </div>
               </div>

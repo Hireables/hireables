@@ -48,6 +48,7 @@ const Search = React.createClass({
     let textFieldStyles = {
       marginRight: '20px',
       marginTop: '10px',
+      marginBottom: '20px',
       width: '400px'
     }
 
@@ -55,7 +56,7 @@ const Search = React.createClass({
         <form ref="search" method="GET" action={this.props.action} onKeyDown={this._handleKeyDown}>
           <div className="search-box">
             <TagsInput style={textFieldStyles} ref='tags' name="q" transform={this._formatTag} valueLink={this.linkState("tags")} validate={this._validateTag} onTagAdd={this._addTag} placeholder="Type a filter(ex: location:london) and click find" />
-            <RaisedButton label="Find" primary={true} onClick={this._handleSubmit} />
+            <RaisedButton className="search-box search-box--button"label="Find" primary={true} onClick={this._handleSubmit} />
           </div>
           <Snackbar
             ref="snackbar_error"

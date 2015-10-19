@@ -60,6 +60,7 @@ const MembersList = React.createClass({
       marginBottom: '20px',
       padding: '0',
       display: 'inline-block',
+      marginLeft: '15px',
       marginRight: '30px'
     };
 

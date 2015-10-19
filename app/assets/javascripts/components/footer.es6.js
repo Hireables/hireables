@@ -57,14 +57,16 @@ const Footer = React.createClass({
 
     return (
         <div className="footer">
-          <Toolbar style={toolbarStyles} className="footer--toolbar">
-            <ToolbarGroup key={0} float="left">
-              <a href="https://github.com" target="_blank" className="link">
-                <ToolbarTitle text="Powered by Github API" style={toolbarTitleStyles}  />
-              </a>
-              <span style={betaStyles}>BETA</span>
-            </ToolbarGroup>
-          </Toolbar>
+          <div className="container">
+            <Toolbar style={toolbarStyles} className="footer--toolbar">
+              <ToolbarGroup key={0} float="left">
+                <a href="https://github.com" target="_blank" className="link">
+                  <ToolbarTitle text="Powered by Github API" style={toolbarTitleStyles}  />
+                </a>
+                <span style={betaStyles}>BETA</span>
+              </ToolbarGroup>
+            </Toolbar>
+          </div>
         </div>
       );
   },

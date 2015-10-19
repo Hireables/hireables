@@ -28,6 +28,7 @@ const Member = React.createClass({
          leftAvatar={<Avatar src={this.props.member.avatar_url} />}
          onClick={this._showMember.bind(this, this.props.member.login)}
          primaryText={this.props.member.name}
+         className="member member--item"
          style={paragraphStyles}
          rightIconButton={
           <div className="pull-right">
@@ -38,7 +39,6 @@ const Member = React.createClass({
           <MemberStatus member={this.props.member} />
          }
          secondaryTextLines={1} />
-         <ListDivider inset={true} />
       </div>
     );
   },
