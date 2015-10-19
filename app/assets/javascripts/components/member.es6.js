@@ -23,22 +23,23 @@ const Member = React.createClass({
     }
 
     return (
-        <div className="members" onClick={this._showMember.bind(this, this.props.member.login)}>
-         <ListItem
-           leftAvatar={<Avatar src={this.props.member.avatar_url} />}
-           primaryText={this.props.member.name}
-           style={paragraphStyles}
-           rightIconButton={
-            <div className="pull-right">
-              <MemberMeta followers={this.props.member.followers} gists={this.props.member.public_gists} repos={this.props.member.public_repos} />
-            </div>
-            }
-           secondaryText={
-            <MemberStatus member={this.props.member} />
-           }
-           secondaryTextLines={1} />
-           <ListDivider inset={true} />
-        </div>
+      <div className="member" id={"member_" + this.props.member.id}>
+       <ListItem
+         leftAvatar={<Avatar src={this.props.member.avatar_url} />}
+         onClick={this._showMember.bind(this, this.props.member.login)}
+         primaryText={this.props.member.name}
+         style={paragraphStyles}
+         rightIconButton={
+          <div className="pull-right">
+            <MemberMeta followers={this.props.member.followers} gists={this.props.member.public_gists} repos={this.props.member.public_repos} />
+          </div>
+          }
+         secondaryText={
+          <MemberStatus member={this.props.member} />
+         }
+         secondaryTextLines={1} />
+         <ListDivider inset={true} />
+      </div>
     );
   },
 
