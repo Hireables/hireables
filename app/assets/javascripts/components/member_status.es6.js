@@ -18,7 +18,7 @@ const MemberStatus= React.createClass({
     }
 
     let badgeStyles = {
-      fontSize: '10px',
+      fontSize: '11px',
       lineHeight: '22px',
       padding: '5px 8px',
       marginRight: '5px',
@@ -29,7 +29,7 @@ const MemberStatus= React.createClass({
     }
 
     let emailStyles = {
-      backgroundColor: Colors.grey700
+      backgroundColor: Colors.yellow900
     }
 
     return (
@@ -41,7 +41,7 @@ const MemberStatus= React.createClass({
           </p> : ""}
           <div style={{marginTop: '5px'}}>
             {this.props.member.email ? <span onClick={this._openMail} style={$.extend({}, badgeStyles, emailStyles)}>
-              Email {this.props.member.login}
+              Email
             </span> : "" }
             {this.props.member.hireable ? <span style={badgeStyles} className="available">
               Available to hire
