@@ -58,12 +58,6 @@ const MemberShow = React.createClass({
                     {this.props.member.name}
                   </a>
                 </h1>
-                {this.props.member.email?
-                <small>
-                  <a href={"mailto:" + this.props.member.email} style={{color: Colors.grey700, paddingBottom: '5px'}}>
-                    {"Email " + this.props.member.login}
-                  </a>
-                </small> : ""}
                 {this.props.member.blog?
                 <small>
                   <a target="_blank" style={{color: Colors.grey700, marginLeft: '10px', paddingBottom: '5px'}} href={this.props.member.blog}>Website</a>
