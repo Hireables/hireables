@@ -50,6 +50,11 @@ const Footer = React.createClass({
       color: '#bdbdbd'
     };
 
+    let toolbarCopyrightStyles = {
+      fontSize: '13px',
+      color: '#bdbdbd'
+    };
+
     let betaStyles = {
       fontSize: '11px',
       color: '#bdbdbd'
@@ -64,6 +69,11 @@ const Footer = React.createClass({
                   <ToolbarTitle text="Powered by Github API" style={toolbarTitleStyles}  />
                 </a>
                 <span style={betaStyles}>BETA</span>
+              </ToolbarGroup>
+              <ToolbarGroup key={1} float="right">
+                <a href="https://github.com/gauravtiwari" target="_blank" className="link">
+                  <ToolbarTitle text="Copyright 2015 Githubhire" style={toolbarCopyrightStyles}  />
+                </a>
               </ToolbarGroup>
             </Toolbar>
           </div>
