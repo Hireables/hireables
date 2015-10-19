@@ -17,16 +17,6 @@ const MemberStatus= React.createClass({
       marginLeft: '0px'
     }
 
-    var availableClasses = classNames({
-      available: this.props.member.hireable,
-      not_available: !this.props.member.hireable
-    });
-
-    var companyGivenClasses = classNames({
-      company_shown: this.props.member.company,
-      company_hidden: !this.props.member.company
-    });
-
     let badgeStyles = {
       fontSize: '10px',
       lineHeight: '22px',
@@ -38,6 +28,10 @@ const MemberStatus= React.createClass({
       borderRadius: 2
     }
 
+    let emailStyles = {
+      backgroundColor: Colors.grey700
+    }
+
     return (
         <p style={paragraphStyles}>
           <span style={{color: Colors.darkBlack}}>
@@ -46,16 +40,27 @@ const MemberStatus= React.createClass({
           {this.props.member.bio? <p dangerouslySetInnerHTML={{__html: this.props.member.bio}}>
           </p> : ""}
           <div style={{marginTop: '5px'}}>
-            <span style={badgeStyles} className={availableClasses}>
-             {this.props.member.hireable ? 'Available to hire' : 'Not Available' }
-            </span>
-            <span style={badgeStyles} className={companyGivenClasses}>
-             {this.props.member.company ? this.props.member.company : 'Company name unavailable' }
-            </span>
+            {this.props.member.email ? <span onClick={this._openMail} style={$.extend({}, badgeStyles, emailStyles)}>
+              Email {this.props.member.login}
+            </span> : "" }
+            {this.props.member.hireable ? <span style={badgeStyles} className="available">
+              Available to hire
+            </span> : "" }
+
+            {this.props.member.company ? <span style={badgeStyles} className="company_shown">
+              {this.props.member.company}
+            </span> : "" }
           </div>
         </p>
       );
   },
+
+  _openMail(e) {
+    e.preventDefault();
+    window.location.href = 'mailto:' + this.props.member.email
+    e.stopPropagation();
+  }
+
 });
 
 module.exports = MemberStatus;
