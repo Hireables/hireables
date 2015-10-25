@@ -97,6 +97,10 @@
 body {
   margin: 0;
   padding: 0;
+  overflow-x:hidden;
+  -webkit-font-smoothing: antialiased;
+  height: 100%;
+  width: 100%;
   font-family: 'Roboto', sans-serif;
 }
 .content {
