@@ -70,13 +70,13 @@ const NavBar = React.createClass({
           <Toolbar style={toolbarStyles} className="nav--toolbar">
             <ToolbarGroup key={0} float="left">
               <a href="/" className="link">
-                <ToolbarTitle text="GithubHire" style={toolbarTitleStyles}  />
+                <ToolbarTitle text="TechHire" style={toolbarTitleStyles}  />
               </a>
               <span style={betaStyles}>BETA</span>
             </ToolbarGroup>
             <ToolbarGroup key={1} float="right">
               <FontIcon className="muidocs-icon-custom-github" style={fontStyles} hoverColor={Colors.white} />
-              <a href="https://github.com/gauravtiwari/githubhire" target="_blank" className="github--link">
+              <a href="https://github.com/gauravtiwari/techhire" target="_blank" className="github--link">
                 <ToolbarTitle text="Code" style={toolbarTitleStyles}  />
               </a>
             </ToolbarGroup>
