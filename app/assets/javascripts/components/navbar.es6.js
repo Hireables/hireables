@@ -69,7 +69,7 @@ const NavBar = React.createClass({
         <div className="container">
           <Toolbar style={toolbarStyles} className="nav--toolbar">
             <ToolbarGroup key={0} float="left">
-              <a href="/" className="link">
+              <a href="/" className="link bold">
                 <ToolbarTitle text="TechHire" style={toolbarTitleStyles}  />
               </a>
               <span style={betaStyles}>BETA</span>
