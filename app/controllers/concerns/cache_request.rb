@@ -10,14 +10,14 @@ module CacheRequest
 
     def cache_request_key
       # Store the request cache key in a SET
-      REDIS.sadd("githubhire:cache_keys", cache_key)
+      REDIS.sadd("techhire:cache_keys", cache_key)
       # Expire the keys in 2 days
-      REDIS.expire("githubhire:cache_keys", 2.days)
+      REDIS.expire("techhire:cache_keys", 2.days)
     end
 
     def key_cached?
       # Check if key_cached in redis set?
-      REDIS.sismember("githubhire:cache_keys", cache_key)
+      REDIS.sismember("techhire:cache_keys", cache_key)
     end
 
     # Generate a cache key based on request params

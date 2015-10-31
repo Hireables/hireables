@@ -23,7 +23,7 @@ module Github
       def headers
         {
           "Authorization" => "token #{ENV["github_access_token"]}",
-          "User-Agent" => "githubhire"
+          "User-Agent" => "techhire"
         }
       end
 
