@@ -15,7 +15,7 @@ require "sprockets/railtie"
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-module GithubHire
+module TechHire
   class Application < Rails::Application
 
     # Configure react rendering
