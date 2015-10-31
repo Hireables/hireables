@@ -18,7 +18,7 @@ gem 'react-rails'
 
 # Setup Octokit and HTTP cache
 gem 'httparty'
-gem 'sidekiq'
+gem 'sidekiq', '~> 4.0.0.pre1'
 gem 'redis'
 
 # Setup caching and Marshalling
