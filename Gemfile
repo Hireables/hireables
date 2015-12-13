@@ -2,7 +2,7 @@ ruby '2.2.3'
 source 'https://rubygems.org'
 
 # Setup Rails and API
-gem 'rails', '4.2.4'
+gem 'rails', '4.2.5'
 
 # Setup server
 gem 'passenger'
@@ -18,8 +18,9 @@ gem 'react-rails'
 
 # Setup Octokit and HTTP cache
 gem 'httparty'
-gem 'sidekiq', '~> 4.0.0.pre1'
+gem 'sidekiq'
 gem 'redis'
+gem 'redis-namespace'
 
 # Setup caching and Marshalling
 gem 'readthis'
