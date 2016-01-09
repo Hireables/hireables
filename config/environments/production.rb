@@ -37,7 +37,7 @@ Rails.application.configure do
   config.react.variant = :production
 
   # SSL
-  config.force_ssl = true
+  #config.force_ssl = true
   config.log_level = :debug
 
   # Translations
