@@ -1,4 +1,4 @@
-ruby '2.2.3'
+ruby '2.3.0'
 source 'https://rubygems.org'
 
 # Setup Rails and API
@@ -21,6 +21,8 @@ gem 'httparty'
 gem 'sidekiq'
 gem 'redis'
 gem 'redis-namespace'
+
+gem 'rename'
 
 # Setup caching and Marshalling
 gem 'readthis'

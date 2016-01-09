@@ -1,5 +1,5 @@
 {
-  "name": "TechHire",
+  "name": "Hireables",
   "dependencies": {
     "babelify": "^6.3.0",
     "browserify": "^10.2.6",

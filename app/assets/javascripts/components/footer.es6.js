@@ -72,7 +72,7 @@ const Footer = React.createClass({
               </ToolbarGroup>
               <ToolbarGroup key={1} float="right">
                 <a href="https://github.com/gauravtiwari" target="_blank" className="link">
-                  <ToolbarTitle text="Copyright 2015 TechHire" style={toolbarCopyrightStyles}  />
+                  <ToolbarTitle text="Copyright 2016 Hireables" style={toolbarCopyrightStyles}  />
                 </a>
               </ToolbarGroup>
             </Toolbar>
