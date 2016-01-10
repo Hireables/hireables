@@ -29,7 +29,8 @@ const MemberStatus= React.createClass({
     }
 
     let emailStyles = {
-      backgroundColor: Colors.yellow900
+      backgroundColor: Colors.yellow900,
+      cursor: 'pointer'
     }
 
     return (

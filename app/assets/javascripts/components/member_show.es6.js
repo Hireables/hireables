@@ -60,7 +60,7 @@ const MemberShow = React.createClass({
                 </h1>
                 {this.props.member.blog?
                 <small>
-                  <a target="_blank" style={{color: Colors.grey700, marginLeft: '10px', paddingBottom: '5px'}} href={this.props.member.blog}>Website</a>
+                  <a target="_blank" style={{color: Colors.grey700, marginLeft: '10px', paddingBottom: '5px', cursor: 'pointer'}} href={this.props.member.blog}>Website</a>
                 </small> : ""}
                 <MemberStatus member={this.props.member} />
                 <Languages languages={this.props.languages} />
