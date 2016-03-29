@@ -103,18 +103,23 @@ body {
   overflow-x:hidden;
   -webkit-font-smoothing: antialiased;
   height: 100%;
+  background-color: #f8f9fd;
   width: 100%;
   font-family: 'Roboto', sans-serif;
 }
 .content {
   padding-bottom: 100px;
+  min-height: 100%;
+}
+.pagination {
+  padding: 0 20px;
 }
 .container {
-  max-width: 960px;
+  max-width: 1140px;
   margin: 0 auto;
-}
-.jumbotron--small {
-  padding: 60px 0;
+  clear: both;
+  display: block;
+  overflow: hidden;
 }
 .not_available {
   background-color: #ef5350;
@@ -128,17 +133,6 @@ body {
 .company_hidden {
   background-color: #455a64;
 }
-.header {
-  width: 100%;
-  overflow: hidden;
-  padding-bottom: 60px;
-}
-.search-box {
-  text-align: center;
-}
-.header--bg {
-  background: #fafafa;
-}
 .members-show {
   .members--small {
     padding: 40px 0 0;
@@ -149,7 +143,14 @@ body {
   display: block;
   width: 100%;
   .members--small {
-    padding: 40px 0 0;
+    margin: 40px 40px;
+  }
+  .filters {
+    &.sticky {
+      position:fixed;
+      top: 50px;
+      width: 300px;
+    }
   }
 }
 
@@ -160,12 +161,23 @@ body {
 }
 .footer {
   padding-left: 15px;
+  max-width: 980px;
+  margin: 0 auto;
 }
 
 .organizations-list {
   .organizations--small {
     padding: 0px 0 40px;
   }
+}
+
+.col-md-7 {
+  float: right;
+  width: 60%;
+}
+.col-md-5 {
+  float: left;
+  width: 30%;
 }
 
 /* Setup mobile media queries */
@@ -203,8 +215,6 @@ body {
 /* Loader for react component */
 .loader {
   position: fixed;
-  top: 70%;
-  right: 0;
-  bottom: 0;
-  left: 0;
+  top: 40%;
+  right: 30%;
 }

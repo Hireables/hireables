@@ -39,7 +39,7 @@ const Pagination = React.createClass({
 
     return (
       <div className="container">
-        <div className="pull-right">
+        <div className="pagination">
           {this.props.links.map(link => (
             <RaisedButton key={link.id} label={link.label} style={{marginTop: '20px', marginRight: '10px'}}  primary={true} onClick={this._loadPage.bind(this, link.url)} />
           ))}

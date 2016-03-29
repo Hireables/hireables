@@ -49,41 +49,42 @@ const Search = React.createClass({
       marginRight: '20px',
       marginTop: '10px',
       marginBottom: '20px',
-      width: '400px'
+      width: '100%'
     }
 
     return (
-        <form ref="search" method="GET" action={this.props.action} onKeyDown={this._handleKeyDown}>
-          <div className="search-box">
-            <TagsInput style={textFieldStyles} ref='tags' name="q" transform={this._formatTag} valueLink={this.linkState("tags")} validate={this._validateTag} onTagAdd={this._handleSubmit} placeholder="Type a filter(ex: location:london) and click find" />
-            <RaisedButton className="search-box search-box--button"label="Find" primary={true} onClick={this._handleSubmit} />
-          </div>
-          <Snackbar
-            ref="snackbar_error"
-            message="Search can't be empty"
-            action="error"
-            autoHideDuration={5000} />
-          <Snackbar
-            ref="snackbar_hint"
-            message="Now click find or enter key to search"
-            action="hint"
-            autoHideDuration={5000} />
-          <Snackbar
-            ref="snackbar_uniqueness_error"
-            message="Keyword already added"
-            action="error"
-            autoHideDuration={5000} />
-          <Snackbar
-            ref="snackbar_invalid_keyword"
-            message="Not a valid keyword! Allowed: language, location, created, repos, followers"
-            action="error"
-            autoHideDuration={10000} />
-          <Snackbar
-            ref="snackbar_invalid_format"
-            message="Not a valid format! See demo tags and format correctly ex: location:london"
-            action="error"
-            autoHideDuration={10000} />
-        </form>
+        <div className="filters">
+          <form ref="search" method="GET" action={this.props.action} onKeyDown={this._handleKeyDown}>
+            <div className="search-box">
+              <TagsInput autoFocus="true" style={textFieldStyles} ref='tags' name="q" transform={this._formatTag} valueLink={this.linkState("tags")} validate={this._validateTag} onTagRemove={this._handleSubmit} onTagAdd={this._handleSubmit} placeholder="Type a filter(ex: location:london)" />
+            </div>
+            <Snackbar
+              ref="snackbar_error"
+              message="Search can't be empty"
+              action="error"
+              autoHideDuration={5000} />
+            <Snackbar
+              ref="snackbar_hint"
+              message="Now click find or enter key to search"
+              action="hint"
+              autoHideDuration={5000} />
+            <Snackbar
+              ref="snackbar_uniqueness_error"
+              message="Keyword already added"
+              action="error"
+              autoHideDuration={5000} />
+            <Snackbar
+              ref="snackbar_invalid_keyword"
+              message="Not a valid keyword! Allowed: language, location, created, repos, followers"
+              action="error"
+              autoHideDuration={10000} />
+            <Snackbar
+              ref="snackbar_invalid_format"
+              message="Not a valid format! See demo tags and format correctly ex: location:london"
+              action="error"
+              autoHideDuration={10000} />
+          </form>
+        </div>
       );
   },
 
@@ -154,7 +155,7 @@ const Search = React.createClass({
       Turbolinks.visit('/members?q=' + decodeURIComponent(this._getFormData()));
     } else {
       // Empty stop submit event and show error
-      this.refs.snackbar_error.show();
+      Turbolinks.visit('/');
     }
   },
 

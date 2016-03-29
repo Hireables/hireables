@@ -10,6 +10,7 @@ let ThemeManager = mui.Styles.ThemeManager;
 let Snackbar = mui.Snackbar;
 let LightRawTheme = mui.Styles.LightRawTheme;
 let Toggle = mui.Toggle;
+import Jumbotron from './jumbotron.es6.js';
 
 // Dependent component
 import Member from './member.es6.js'
@@ -54,7 +55,7 @@ const MembersList = React.createClass({
   render() {
 
     let containerStyle = {
-      paddingTop: '50px'
+      paddingTop: '40px'
     };
 
     let subHeaderStyles = {
@@ -63,53 +64,52 @@ const MembersList = React.createClass({
       padding: '0',
       display: 'inline-block',
       marginLeft: '15px',
+      lineHeight: '30px',
       marginRight: '30px'
     };
 
     let checkboxStyles = {
       display: 'inline-block',
       marginRight: '20px',
-      marginTop: '5px',
-      width: '20%'
+      width: '30%',
+      float:'right'
     };
 
     const styles = {
       toggle: {
         marginBottom: 16,
+        float:'right'
       },
     };
 
     return (
-      <div className="members-list p-b-100">
+      <div className="members-list wrapper">
         <div className="container">
-          <div className="members-list members--small sm-pull-reset">
-            <Search action={"/members"} searchMembers={this._fetchMembers} />
+          <div className="members-list members--small sm-pull-reset col-md-5">
+            <Jumbotron />
+            <Search action={"/members"} searchMembers={this._fetchMembers} fetchMembers={this._fetchMembers} />
           </div>
+          <Loader loaded={this.state.loaded} className="p-b-100">
+            {this.state.loaded && this.state.members.length > 0 ?
+              <List subheader={this.state.featured? 'Featured members' : 'Search result'} subheaderStyle={subHeaderStyles} className="col-md-7 pull-right" style={containerStyle}>
+              <Toggle name="hireable" label="Only hireables" defaultToggled={this.state.hireable}
+               style={checkboxStyles}
+               onToggle={this._fetchHireables} />
+              {this.state.members.map(member => (
+                <Member member={member} key={member.id} meta={this.props.meta} />
+              ))}
+              {this.state.rels != null && this.state.members.length > 0 ?
+                <Pagination links={this.state.rels} fetchNextPage={this._fetchMembers} />
+                : <NoContent />
+              }
+            </List> : <EmptyList />}
+          </Loader>
+          <Snackbar
+            ref="snackbar_404"
+            message="Ohh no! Request failed! Make sure you are using right parameters"
+            action="error"
+            autoHideDuration={5000} />
         </div>
-        <Loader loaded={this.state.loaded} className="p-b-100">
-          {this.state.loaded && this.state.members.length > 0 ?
-            <List subheader={this.state.featured? 'Featured members' : 'Result'} subheaderStyle={subHeaderStyles} className="container" style={containerStyle}>
-            <Toggle
-              name="hireable"
-             label="Only hireables"
-             defaultToggled={this.state.hireable}
-             style={checkboxStyles}
-             onToggle={this._fetchHireables}
-             />
-            {this.state.members.map(member => (
-              <Member member={member} key={member.id} meta={this.props.meta} />
-            ))}
-          </List> : <EmptyList />}
-          {this.state.rels != null && this.state.members.length > 0 ?
-            <Pagination links={this.state.rels} fetchNextPage={this._fetchMembers} />
-            : <NoContent />
-          }
-        </Loader>
-        <Snackbar
-          ref="snackbar_404"
-          message="Ohh no! Request failed! Make sure you are using right parameters"
-          action="error"
-          autoHideDuration={5000} />
       </div>
     );
   },

@@ -43,7 +43,8 @@ const NavBar = React.createClass({
 
     let toolbarStyles = {
       backgroundColor: 'transparent',
-      maxWidth: '980px',
+      maxWidth: '1140px',
+      textAlign: 'center',
       padding: '0',
       margin: '0 auto'
     };
@@ -64,11 +65,16 @@ const NavBar = React.createClass({
       color: '#fff'
     };
 
+    let toolbarGroupStyles = {
+      float: 'none',
+      display: 'inline-block'
+    }
+
     return (
       <div className="nav bg-horizon">
         <div className="container">
           <Toolbar style={toolbarStyles} className="nav--toolbar">
-            <ToolbarGroup key={0} float="left">
+            <ToolbarGroup key={0} style={toolbarGroupStyles}>
               <a href="/" className="link bold">
                 <ToolbarTitle text="Hireables" style={toolbarTitleStyles}  />
               </a>
