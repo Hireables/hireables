@@ -19,6 +19,10 @@ module Github
       }
     end
 
+    def hireable_collection
+      users_collection.reject!{|user| user["hireable"].nil? and !user["hirable"] }
+    end
+
     def user_languages_collection
       @request.map{|r|
         Rails.cache.fetch(["language", r["id"], r["updated_at"]], expires_in: 2.days) do

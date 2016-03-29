@@ -6,7 +6,7 @@ class PagesController < ApplicationController
 
   def home
     # Unless request cached fetch async members
-    FetchMembersJob.perform_later(cache_key, request_uri
+    FetchMembersJob.perform_later(cache_key, request_uri, params
     ) unless key_cached?
 
     respond_to do |format|

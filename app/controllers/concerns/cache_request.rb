@@ -25,6 +25,9 @@ module CacheRequest
       keys = request_params.map{
         |key, value| "#{key}:#{value}" unless value.nil?
       }
+
+      keys.push("hireable:true") if params[:hireable]
+
       # Join keys
       keys.join.gsub(' ', '+')
     end

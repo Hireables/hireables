@@ -2,7 +2,7 @@ ruby '2.3.0'
 source 'https://rubygems.org'
 
 # Setup Rails and API
-gem 'rails', '4.2.5'
+gem 'rails', '4.2.6'
 
 # Setup server
 gem 'passenger'
@@ -11,6 +11,7 @@ gem 'passenger'
 gem 'browserify-rails'
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
+gem 'coffee-rails'
 
 # Setup react and dependencies
 gem 'therubyracer', platforms: :ruby
@@ -22,8 +23,6 @@ gem 'sidekiq'
 gem 'redis'
 gem 'redis-namespace'
 
-gem 'rename'
-
 # Setup caching and Marshalling
 gem 'readthis'
 gem 'hiredis'
@@ -33,7 +32,7 @@ gem 'oj'
 gem 'rack-attack'
 
 #Speed up links
-gem 'turbolinks', github: 'rails/turbolinks'
+gem 'turbolinks', '~> 5.0.x'
 
 group :production do
   gem 'rails_12factor'

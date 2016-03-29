@@ -55,7 +55,7 @@ const Search = React.createClass({
     return (
         <form ref="search" method="GET" action={this.props.action} onKeyDown={this._handleKeyDown}>
           <div className="search-box">
-            <TagsInput style={textFieldStyles} ref='tags' name="q" transform={this._formatTag} valueLink={this.linkState("tags")} validate={this._validateTag} onTagAdd={this._addTag} placeholder="Type a filter(ex: location:london) and click find" />
+            <TagsInput style={textFieldStyles} ref='tags' name="q" transform={this._formatTag} valueLink={this.linkState("tags")} validate={this._validateTag} onTagAdd={this._handleSubmit} placeholder="Type a filter(ex: location:london) and click find" />
             <RaisedButton className="search-box search-box--button"label="Find" primary={true} onClick={this._handleSubmit} />
           </div>
           <Snackbar
@@ -146,15 +146,14 @@ const Search = React.createClass({
     }
   },
 
-  _handleSubmit(event) {
-    event.preventDefault();
+  _handleSubmit() {
     // Only submit if there are any tags
     if (this.refs.tags.getTags().join(', ').length > 0) {
+      this._preFetchPage();
       // Don't submit empty form fields
       Turbolinks.visit('/members?q=' + decodeURIComponent(this._getFormData()));
     } else {
       // Empty stop submit event and show error
-      event.stopPropagation();
       this.refs.snackbar_error.show();
     }
   },

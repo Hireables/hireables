@@ -7,7 +7,7 @@ class MembersController < ApplicationController
   # GET /members
   def index
     # Unless request cached fetch members async
-    FetchMembersJob.perform_later(cache_key, request_uri
+    FetchMembersJob.perform_later(cache_key, request_uri, params
     ) unless key_cached?
 
     respond_to do |format|
@@ -48,11 +48,15 @@ class MembersController < ApplicationController
     # Load members based on request params
     response = Rails.cache.fetch(cache_key, expires_in: 2.days) do
       request = Github::Api.new(request_uri).fetch
+      response = Github::Response.new(request)
 
-      if Github::Response.new(request).found?
+      if response.found?
+
+        members = params[:hireable] ? response.hireable_collection : response.users_collection
+
         # Cache formatted response
         {
-          members: Github::Response.new(request).users_collection,
+          members: members,
           rels: Pagination.new(request.headers).build
         }.to_json
       else

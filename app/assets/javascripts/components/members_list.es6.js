@@ -9,6 +9,7 @@ let Colors = mui.Styles.Colors;
 let ThemeManager = mui.Styles.ThemeManager;
 let Snackbar = mui.Snackbar;
 let LightRawTheme = mui.Styles.LightRawTheme;
+let Toggle = mui.Toggle;
 
 // Dependent component
 import Member from './member.es6.js'
@@ -27,6 +28,7 @@ const MembersList = React.createClass({
       path: this.props.path,
       featured: this.props.featured,
       loaded: false,
+      hireable: false,
       muiTheme: ThemeManager.getMuiTheme(LightRawTheme)
     };
   },
@@ -66,11 +68,15 @@ const MembersList = React.createClass({
 
     let checkboxStyles = {
       display: 'inline-block',
-      width: 'auto',
       marginRight: '20px',
       marginTop: '5px',
-      height: '20px',
-      width: '50%'
+      width: '20%'
+    };
+
+    const styles = {
+      toggle: {
+        marginBottom: 16,
+      },
     };
 
     return (
@@ -83,6 +89,13 @@ const MembersList = React.createClass({
         <Loader loaded={this.state.loaded} className="p-b-100">
           {this.state.loaded && this.state.members.length > 0 ?
             <List subheader={this.state.featured? 'Featured members' : 'Result'} subheaderStyle={subHeaderStyles} className="container" style={containerStyle}>
+            <Toggle
+              name="hireable"
+             label="Only hireables"
+             defaultToggled={this.state.hireable}
+             style={checkboxStyles}
+             onToggle={this._fetchHireables}
+             />
             {this.state.members.map(member => (
               <Member member={member} key={member.id} meta={this.props.meta} />
             ))}
@@ -99,6 +112,17 @@ const MembersList = React.createClass({
           autoHideDuration={5000} />
       </div>
     );
+  },
+
+  _fetchHireables(event, toggled) {
+    var query = decodeURIComponent(document.location.search.replace('?', ''));
+    var path = !query? this.state.path : this.state.path + '?' + query;
+
+    this.setState({
+      [event.target.name]: toggled,
+    });
+
+    this._fetchMembers(path, !this.state.hireable ? {hireable: !this.state.hireable} : {});
   },
 
   _fetchMembers(path, params) {
