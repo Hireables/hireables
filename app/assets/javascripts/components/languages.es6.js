@@ -18,6 +18,7 @@ const Languages= React.createClass({
       padding: '5px 8px',
       marginRight: '5px',
       color: Colors.white,
+      textDecoration: 'none',
       overflow: 'hidden',
       borderRadius: 2
     }
@@ -27,7 +28,7 @@ const Languages= React.createClass({
           <span>
 
             {this.props.languages ? this.props.languages.map(language => (
-              <span key={Math.random()} style={badgeStyles}>{language}</span>
+              <a key={Math.random()} href={"/members?q=language:" + language.trim().toLowerCase()} style={badgeStyles}>{language}</a>
             )) : ""}
           </span>
         </div>
