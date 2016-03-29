@@ -9,11 +9,12 @@ var React = window.React = global.React = require('react/addons');
 window.$ = window.jQuery = require('jquery')
 require('jquery-ujs')
 
-
-$(document).scroll(function(event) {
-	if($(window).scrollTop() > 300 && !($(document).height() - $(window).scrollTop() < 600)) {
-		$('.filters').addClass('sticky');
-	} else {
-		$('.filters').removeClass('sticky');
-	}
-});
+if($(window).width() > 600) {
+	$(document).scroll(function(event) {
+		if($(window).scrollTop() > 300 && !($(document).height() - $(window).scrollTop() < 600)) {
+			$('.filters').addClass('sticky');
+		} else {
+			$('.filters').removeClass('sticky');
+		}
+	});
+}

@@ -185,6 +185,21 @@ body {
   .hidden-sm {
     display:none;
   }
+  .col-md-7 {
+    float: none;
+    width: 100%;
+    display: block;
+  }
+  .col-md-5 {
+    float: none;
+    width: 100%;
+    display: block;
+  }
+  .members-list {
+    .members--small {
+      margin: 0;
+    }
+  }
   .col-6 {
     width: 100%;
     padding: 15px;
