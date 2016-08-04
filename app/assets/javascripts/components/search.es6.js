@@ -162,7 +162,7 @@ const Search = React.createClass({
   _populate_form(){
     //grab the entire query string
     var query_params = decodeURIComponent(document.location.search.replace('?', ''));
-    if(query_params) {
+    if(query_params && location.search.indexOf('q=')>=0) {
       //first get the query fragments
       var fragments = query_params.split('q=');
 

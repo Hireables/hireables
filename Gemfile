@@ -1,8 +1,8 @@
-ruby '2.3.0'
+ruby '2.2.5'
 source 'https://rubygems.org'
 
 # Setup Rails and API
-gem 'rails', '4.2.6'
+gem 'rails', '4.2.7'
 
 # Setup server
 gem 'passenger'
@@ -15,7 +15,7 @@ gem 'coffee-rails'
 
 # Setup react and dependencies
 gem 'therubyracer', platforms: :ruby
-gem 'react-rails'
+gem 'react-rails', '1.6.2'
 
 # Setup Octokit and HTTP cache
 gem 'httparty'
