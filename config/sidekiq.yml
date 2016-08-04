@@ -3,11 +3,11 @@
 :concurrency: 5
 :timeout: 60
 development:
-  :concurrency: 10
+  :concurrency: 5
 staging:
-  :concurrency: 10
+  :concurrency: 5
 production:
-  :concurrency: 10
+  :concurrency: 5
 :queues:
   - default
   - [mailers, 1]
