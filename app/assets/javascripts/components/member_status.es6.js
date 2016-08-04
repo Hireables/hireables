@@ -1,5 +1,6 @@
 // Require React
 React = require('react/addons');
+const createDOMPurify = require('dompurify');
 var classNames = require('classnames');
 
 // Material UI
@@ -33,12 +34,14 @@ const MemberStatus= React.createClass({
       cursor: 'pointer'
     }
 
+    const bio = createDOMPurify.sanitize(this.props.member.bio)
+
     return (
         <p style={paragraphStyles}>
           <span style={{color: Colors.darkBlack}}>
             <small>{this.props.member.location}</small>
           </span><br/>
-          {this.props.member.bio? <p dangerouslySetInnerHTML={{__html: this.props.member.bio}}>
+          {this.props.member.bio? <p dangerouslySetInnerHTML={{__html:bio }}>
           </p> : ""}
           <div style={{marginTop: '5px'}}>
             {this.props.member.email ? <span onClick={this._openMail} style={$.extend({}, badgeStyles, emailStyles)}>
