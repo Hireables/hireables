@@ -31,7 +31,7 @@ module Github
 
       def set_query_params
         # Check if keyword is present in query string
-        keyword = @params["q"].slice!('keyword:')
+        keyword = @params["q"].slice!('name:')
         query  = keyword.nil? ? @params["q"] : format_keyword_query(@params["q"])
 
         # Format params hash
@@ -43,7 +43,7 @@ module Github
 
       # Format the query is keyword is present?
       def format_keyword_query(query)
-        query.slice!('keyword:')
+        query.slice!('name:')
         query.gsub!(', ', '+')
       end
 
