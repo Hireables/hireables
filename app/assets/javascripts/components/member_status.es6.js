@@ -9,14 +9,12 @@ const Colors = mui.Styles.Colors;
 
 // Define component
 const MemberStatus= React.createClass({
-
   render() {
-
     const paragraphStyles = {
       height: 'auto',
       margin: '5px',
       marginLeft: '0px'
-    }
+    };
 
     const bioStyles = {
       fontSize: '14px',
@@ -33,15 +31,17 @@ const MemberStatus= React.createClass({
       fontWeight: 'bold',
       width: '100%',
       borderRadius: 2
-    }
+    };
 
     const emailStyles = {
       backgroundColor: '#555',
       cursor: 'pointer'
-    }
+    };
 
-    const bio = createDOMPurify.sanitize(this.props.member.bio, {ALLOWED_TAGS: ['b', 'i']});
-    const isHireable = !this.props.member.company || this.props.member.hireable;
+    const bio = createDOMPurify.sanitize(
+      this.props.member.bio,
+      { ALLOWED_TAGS: ['b', 'i'] }
+    );
 
     return (
         <p style={paragraphStyles}>
