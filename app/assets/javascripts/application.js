@@ -11,7 +11,7 @@ require('jquery-ujs')
 
 if($(window).width() > 600) {
 	$(document).scroll(function(event) {
-		if($(window).scrollTop() > 300 && !($(document).height() - $(window).scrollTop() < 600)) {
+		if($(window).scrollTop() > 350 && !($(document).height() - $(window).scrollTop() < 600)) {
 			$('.filters').addClass('sticky');
 		} else {
 			$('.filters').removeClass('sticky');
