@@ -8,9 +8,7 @@ let Colors = mui.Styles.Colors;
 
 // Define component
 const Languages= React.createClass({
-
   render() {
-
     let badgeStyles = {
       fontSize: '10px',
       lineHeight: '22px',
@@ -18,6 +16,7 @@ const Languages= React.createClass({
       padding: '5px 8px',
       marginRight: '5px',
       color: Colors.white,
+      fontWeight: '500',
       textDecoration: 'none',
       overflow: 'hidden',
       borderRadius: 2

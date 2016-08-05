@@ -77,6 +77,7 @@ const MembersList = React.createClass({
       marginRight: '20px',
       width: '30%',
       float:'right',
+      fontWeight: '500',
       marginTop: 'calc(71px / 3)',
     };
 
