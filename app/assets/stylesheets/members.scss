@@ -1,0 +1,8 @@
+.list--header {
+  background-color: #fafafa;
+}
+.member--item {
+  &.first-of-type {
+    border-top: 1px solid #f2f2f2;
+  }
+}

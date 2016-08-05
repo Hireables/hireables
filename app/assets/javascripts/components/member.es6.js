@@ -13,8 +13,17 @@ import NoContent from './no_content.es6.js'
 import MemberStatus from './member_status.es6.js'
 import MemberMeta from './member_meta.es6.js'
 
+const memberStyle = {
+  borderBottom: '1px solid #f2f2f2',
+};
+
 // Define component
 const Member = React.createClass({
+  onFocus(event) {
+    $(event.target).css({
+      backgroundColor: '#f2f2f2',
+    });
+  },
 
   render() {
 
@@ -23,13 +32,14 @@ const Member = React.createClass({
     }
 
     return (
-      <div className="member" id={"member_" + this.props.member.id}>
+      <div style={memberStyle} className="member" id={"member_" + this.props.member.id}>
        <ListItem
          leftAvatar={<Avatar src={this.props.member.avatar_url} />}
          onClick={this._showMember.bind(this, this.props.member.login)}
          primaryText={this.props.member.name}
          className="member member--item"
          style={paragraphStyles}
+         onKeyboardFocus={this.onFocus}
          rightIconButton={
           <div className="pull-right">
             <MemberMeta followers={this.props.member.followers} gists={this.props.member.public_gists} repos={this.props.member.public_repos} />

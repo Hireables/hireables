@@ -55,7 +55,9 @@ const MembersList = React.createClass({
   render() {
 
     let containerStyle = {
-      paddingTop: '40px'
+      paddingTop: '0px',
+      borderLeft: '1px solid #f2f2f2',
+      borderRight: '1px solid #f2f2f2',
     };
 
     let subHeaderStyles = {
@@ -64,6 +66,8 @@ const MembersList = React.createClass({
       padding: '0',
       display: 'inline-block',
       marginLeft: '15px',
+      fontWeight: '500',
+      color: '#777',
       lineHeight: '30px',
       marginRight: '30px'
     };
@@ -72,7 +76,8 @@ const MembersList = React.createClass({
       display: 'inline-block',
       marginRight: '20px',
       width: '30%',
-      float:'right'
+      float:'right',
+      marginTop: 'calc(71px / 3)',
     };
 
     const styles = {
@@ -91,10 +96,15 @@ const MembersList = React.createClass({
           </div>
           <Loader loaded={this.state.loaded} className="p-b-100">
             {this.state.loaded && this.state.members.length > 0 ?
-              <List subheader={this.state.featured? 'Featured members' : 'Search result'} subheaderStyle={subHeaderStyles} className="col-md-7 pull-right" style={containerStyle}>
-              <Toggle name="hireable" label="Only hireables" defaultToggled={this.state.hireable}
+              <List className="col-md-7 pull-right" style={containerStyle}>
+              <div className="list--header">
+                <h2 style={subHeaderStyles}>
+                  {this.state.featured? 'Featured members' : 'Search result'}
+                </h2>
+                <Toggle name="hireable" label="Only hireables" defaultToggled={this.state.hireable}
                style={checkboxStyles}
                onToggle={this._fetchHireables} />
+              </div>
               {this.state.members.map(member => (
                 <Member member={member} key={member.id} meta={this.props.meta} />
               ))}

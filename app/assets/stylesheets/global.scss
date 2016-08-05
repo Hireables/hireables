@@ -90,6 +90,10 @@
 .demo-tags {
   .demo-tags--highlight {
     padding: 8px;
+    background-color: #555;
+    color: #fff;
+    border: 1px solid #555;
+    font-weight: 500;
   }
 }
 
@@ -127,6 +131,10 @@ body {
 .available {
   background-color: #66bb6a;
 }
+.may_available {
+  background-color: #f57f17;
+}
+
 .company_shown {
   background-color: #2196f3;
 }

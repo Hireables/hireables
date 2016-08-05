@@ -75,7 +75,7 @@ const Search = React.createClass({
               autoHideDuration={5000} />
             <Snackbar
               ref="snackbar_invalid_keyword"
-              message="Not a valid keyword! Allowed: language, location, created, repos, followers"
+              message="Not a valid keyword! Allowed: name, language, location, created, repos, followers"
               action="error"
               autoHideDuration={10000} />
             <Snackbar
@@ -89,7 +89,7 @@ const Search = React.createClass({
   },
 
   _validateTag(tag, done) {
-    var keywords = ["location", "followers", "repos", "created", "language", "keyword"];
+    var keywords = ["location", "followers", "repos", "created", "language", "name"];
 
     var unique = this.state.tags.indexOf(tag) === -1;
     if (!unique) {

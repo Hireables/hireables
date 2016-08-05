@@ -30,16 +30,18 @@ const MemberStatus= React.createClass({
       marginRight: '5px',
       color: Colors.white,
       overflow: 'hidden',
+      fontWeight: 'bold',
       width: '100%',
       borderRadius: 2
     }
 
     const emailStyles = {
-      backgroundColor: Colors.yellow900,
+      backgroundColor: '#555',
       cursor: 'pointer'
     }
 
-    const bio = createDOMPurify.sanitize(this.props.member.bio);
+    const bio = createDOMPurify.sanitize(this.props.member.bio, {ALLOWED_TAGS: ['b', 'i']});
+    const isHireable = !this.props.member.company || this.props.member.hireable;
 
     return (
         <p style={paragraphStyles}>
@@ -52,10 +54,12 @@ const MemberStatus= React.createClass({
           <div style={{marginTop: '5px'}}>
             {this.props.member.email ? <span onClick={this._openMail} style={$.extend({}, badgeStyles, emailStyles)}>
               Email
-            </span> : "" }
+            </span> : '' }
             {this.props.member.hireable ? <span style={badgeStyles} className="available">
-              Available to hire
-            </span> : "" }
+              Hireable
+            </span> : !this.props.member.company ? <span style={badgeStyles} className="may_available">
+              May be hireable
+            </span> : ''}
 
             {this.props.member.company ? <span style={badgeStyles} className="company_shown">
               {this.props.member.company}
