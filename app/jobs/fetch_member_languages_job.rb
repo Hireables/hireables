@@ -2,7 +2,7 @@ class FetchMemberLanguagesJob < ActiveJob::Base
   queue_as :urgent
 
   def perform(username)
-    Rails.cache.fetch(["users", username, "languages"], expires_in: 2.days) do
+    Rails.cache.fetch(['users', username, 'languages'], expires_in: 2.days) do
       # Find user repos
       request = Github::Api.new("/users/#{username}/repos").fetch
       if Github::Response.new(request).found?
@@ -13,5 +13,4 @@ class FetchMemberLanguagesJob < ActiveJob::Base
       end
     end
   end
-
 end

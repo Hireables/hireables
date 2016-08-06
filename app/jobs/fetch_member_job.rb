@@ -3,7 +3,7 @@ class FetchMemberJob < ActiveJob::Base
 
   def perform(username)
     # Cache user response
-    Rails.cache.fetch(["users", username], expires_in: 2.days) do
+    Rails.cache.fetch(['users', username], expires_in: 2.days) do
       request = Github::Api.new("/users/#{username}").fetch
       if Github::Response.new(request).found?
         request.parsed_response
@@ -12,5 +12,4 @@ class FetchMemberJob < ActiveJob::Base
       end
     end
   end
-
 end

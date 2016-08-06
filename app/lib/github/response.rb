@@ -11,8 +11,8 @@ module Github
     end
 
     def users_collection
-      @request.parsed_response["items"].map{|u| u["login"]}.map{|username|
-        Rails.cache.fetch(["users", username], expires_in: 2.days) do
+      @request.parsed_response['items'].map{|u| u['login']}.map{|username|
+        Rails.cache.fetch(['users', username], expires_in: 2.days) do
           request = Github::Api.new("/users/#{username}").fetch
           request.parsed_response
         end

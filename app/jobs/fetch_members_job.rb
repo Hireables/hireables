@@ -5,12 +5,15 @@ class FetchMembersJob < ActiveJob::Base
     Rails.cache.fetch(cache_key, expires_in: 2.days) do
       request = Github::Api.new(request_uri).fetch
       response = Github::Response.new(request)
+
       if response.found?
         # Fetch members async
-        request.parsed_response["items"].map{|u| u["login"]}.map{|username|
+        request.parsed_response['items'].map{|u| u['login']}.map{|username|
           FetchMemberJob.perform_later(username)
         }
-        members = params[:hireable] ? response.hireable_collection : response.users_collection
+
+        members = params[:hireable] ?
+        response.hireable_collection : response.users_collection
 
         # Cache the JSON response
         {
@@ -22,5 +25,4 @@ class FetchMembersJob < ActiveJob::Base
       end
     end
   end
-
 end
