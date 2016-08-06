@@ -52,9 +52,9 @@ const MemberStatus= React.createClass({
             <small>{this.props.member.location}</small>
           </span><br/>
 
-          {this.props.member.bio? <span style={bioStyles} dangerouslySetInnerHTML={{ __html:bio }}></span> : ""}
+          {this.props.member.bio? <span style={bioStyles} className="bio" dangerouslySetInnerHTML={{ __html:bio }}></span> : ""}
 
-          <div style={{marginTop: '10px', fontWeight: '400', maxWidth: '80%'}}>
+          <div style={{marginTop: '10px', fontWeight: '400', maxWidth: '80%'}} className="badges">
             {this.props.member.email ? <span onClick={this._openMail} style={$.extend({}, badgeStyles, emailStyles)}>
               Email
             </span> : '' }

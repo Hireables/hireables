@@ -7,7 +7,24 @@
   }
 }
 
+.members-show {
+  max-width: 600px;
+  margin: 0 auto;
+
+  .badges {
+    margin: 10px auto!important;
+  }
+  .bio {
+    margin: 10px auto!important;
+    max-width: 60%!important;
+  }
+}
+
 @media(max-width: 500px) {
+  .members-show {
+    max-width: 300px;
+    margin: 0 auto;
+  }
   .list--header {
     min-height: 80px;
   }
