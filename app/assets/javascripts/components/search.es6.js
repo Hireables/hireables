@@ -1,6 +1,7 @@
 // Require React
 React = require('react/addons');
 var TagsInput = require('react-tagsinput');
+
 // Material UI
 import mui from 'material-ui';
 let RaisedButton = mui.RaisedButton;
@@ -8,6 +9,19 @@ let Colors = mui.Styles.Colors;
 let ThemeManager = mui.Styles.ThemeManager;
 let Snackbar = mui.Snackbar;
 let LightRawTheme = mui.Styles.LightRawTheme;
+
+const textFieldStyles = {
+  marginRight: '20px',
+  marginTop: '10px',
+  marginBottom: '20px',
+  width: '100%'
+};
+
+const helpStyles = {
+  fontSize: '12px',
+  color: '#777',
+  fontStyle: "italic",
+};
 
 // Define component
 const Search = React.createClass({
@@ -44,19 +58,14 @@ const Search = React.createClass({
   },
 
   render() {
-
-    let textFieldStyles = {
-      marginRight: '20px',
-      marginTop: '10px',
-      marginBottom: '20px',
-      width: '100%'
-    }
-
     return (
         <div className="filters">
           <form ref="search" method="GET" action={this.props.action} onKeyDown={this._handleKeyDown}>
             <div className="search-box">
               <TagsInput autoFocus="true" style={textFieldStyles} ref='tags' name="q" transform={this._formatTag} valueLink={this.linkState("tags")} validate={this._validateTag} onTagRemove={this._handleSubmit} onTagAdd={this._handleSubmit} placeholder="Type a filter(ex: location:london)" />
+              <span style={helpStyles}>
+                * Apply multiple filters one by one
+              </span>
             </div>
             <Snackbar
               ref="snackbar_error"

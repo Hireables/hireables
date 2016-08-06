@@ -10,7 +10,7 @@ let Colors = mui.Styles.Colors;
 const Languages= React.createClass({
   render() {
     let badgeStyles = {
-      fontSize: '10px',
+      fontSize: '12px',
       lineHeight: '22px',
       backgroundColor: Colors.grey600,
       padding: '5px 8px',
