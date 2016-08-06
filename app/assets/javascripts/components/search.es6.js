@@ -61,12 +61,14 @@ const Search = React.createClass({
     return (
         <div className="filters">
           <form ref="search" method="GET" action={this.props.action} onKeyDown={this._handleKeyDown}>
+            <span style={helpStyles}>
+              * Apply multiple filters one by one
+            </span>
+
             <div className="search-box">
               <TagsInput autoFocus="true" style={textFieldStyles} ref='tags' name="q" transform={this._formatTag} valueLink={this.linkState("tags")} validate={this._validateTag} onTagRemove={this._handleSubmit} onTagAdd={this._handleSubmit} placeholder="Type a filter(ex: location:london)" />
-              <span style={helpStyles}>
-                * Apply multiple filters one by one
-              </span>
             </div>
+
             <Snackbar
               ref="snackbar_error"
               message="Search can't be empty"
