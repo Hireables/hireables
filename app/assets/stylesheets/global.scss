@@ -116,7 +116,8 @@ body {
   min-height: 100%;
 }
 .pagination {
-  padding: 0 20px;
+  padding: 0 20px 20px;
+  float: right;
 }
 .container {
   max-width: 1140px;
@@ -171,6 +172,7 @@ body {
   padding-left: 15px;
   max-width: 980px;
   margin: 0 auto;
+  padding-bottom: 20px;
 }
 
 .organizations-list {
@@ -186,6 +188,22 @@ body {
 .col-md-5 {
   float: left;
   width: 30%;
+}
+
+@media (max-width: 1024px) {
+  .col-md-7 {
+    float: none;
+    width: 100%;
+    display: block;
+  }
+  .content {
+    padding-bottom: 0
+  }
+  .col-md-5 {
+    float: none;
+    width: 100%;
+    display: block;
+  }
 }
 
 /* Setup mobile media queries */

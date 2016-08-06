@@ -18,18 +18,21 @@ const MemberStatus= React.createClass({
 
     const bioStyles = {
       fontSize: '14px',
-      maxWidth: '100%',
+      maxWidth: '70%',
+      display: 'block',
+      marginTop: '10px',
+      fontWeight: '400',
     };
 
     const badgeStyles = {
       fontSize: '11px',
       lineHeight: '22px',
-      padding: '5px 8px',
+      padding: '2px 8px',
       marginRight: '5px',
       color: Colors.white,
       overflow: 'hidden',
       fontWeight: 'bold',
-      width: '100%',
+      display: 'inline-block',
       borderRadius: 2
     };
 
@@ -44,28 +47,28 @@ const MemberStatus= React.createClass({
     );
 
     return (
-        <p style={paragraphStyles}>
-          <span style={{color: Colors.darkBlack}}>
+        <div style={paragraphStyles}>
+          <span style={{color: '#333', fontWeight: '400'}}>
             <small>{this.props.member.location}</small>
           </span><br/>
 
-          {this.props.member.bio? <p style={bioStyles} dangerouslySetInnerHTML={{ __html:bio }}></p> : ""}
+          {this.props.member.bio? <span style={bioStyles} dangerouslySetInnerHTML={{ __html:bio }}></span> : ""}
 
-          <div style={{marginTop: '5px'}}>
+          <div style={{marginTop: '10px', fontWeight: '400', maxWidth: '80%'}}>
             {this.props.member.email ? <span onClick={this._openMail} style={$.extend({}, badgeStyles, emailStyles)}>
               Email
             </span> : '' }
+            {this.props.member.company ? <span style={badgeStyles} className="company_shown">
+              {this.props.member.company}
+            </span> : "" }
+
             {this.props.member.hireable ? <span style={badgeStyles} className="available">
               Hireable
             </span> : !this.props.member.company ? <span style={badgeStyles} className="may_available">
               May be hireable
             </span> : ''}
-
-            {this.props.member.company ? <span style={badgeStyles} className="company_shown">
-              {this.props.member.company}
-            </span> : "" }
           </div>
-        </p>
+        </div>
       );
   },
 

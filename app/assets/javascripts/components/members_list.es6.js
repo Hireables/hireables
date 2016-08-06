@@ -61,7 +61,7 @@ const MembersList = React.createClass({
     };
 
     let subHeaderStyles = {
-      fontSize: '25px',
+      fontSize: '20px',
       marginBottom: '20px',
       padding: '0',
       display: 'inline-block',
@@ -78,7 +78,7 @@ const MembersList = React.createClass({
       width: '30%',
       float:'right',
       fontWeight: '500',
-      marginTop: 'calc(71px / 3)',
+      marginTop: 'calc(67px / 3)',
     };
 
     const styles = {
@@ -99,10 +99,10 @@ const MembersList = React.createClass({
             {this.state.loaded && this.state.members.length > 0 ?
               <List className="col-md-7 pull-right" style={containerStyle}>
               <div className="list--header">
-                <h2 style={subHeaderStyles}>
+                <h2 style={subHeaderStyles} className="list--header--title">
                   {this.state.featured? 'Featured members' : 'Search result'}
                 </h2>
-                <Toggle name="hireable" label="Only hireables" defaultToggled={this.state.hireable}
+                <Toggle className="list--header--hireable-toggle" name="hireable" label="Only hireables" defaultToggled={this.state.hireable}
                style={checkboxStyles}
                onToggle={this._fetchHireables} />
               </div>

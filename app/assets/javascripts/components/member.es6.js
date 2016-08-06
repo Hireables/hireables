@@ -15,6 +15,11 @@ import MemberMeta from './member_meta.es6.js'
 
 const memberStyle = {
   borderBottom: '1px solid #f2f2f2',
+  fontWeight: '500',
+};
+
+const paragraphStyles = {
+  height: 'auto'
 };
 
 // Define component
@@ -26,11 +31,6 @@ const Member = React.createClass({
   },
 
   render() {
-
-    let paragraphStyles = {
-      height: 'auto'
-    }
-
     return (
       <div style={memberStyle} className="member" id={"member_" + this.props.member.id}>
        <ListItem

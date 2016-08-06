@@ -64,20 +64,20 @@ const Footer = React.createClass({
         <div className="footer">
           <div className="container">
             <Toolbar style={toolbarStyles} className="footer--toolbar">
-              <ToolbarGroup key={0} float="left">
+              <ToolbarGroup key={0} float="left" className="powered">
                 <a href="https://github.com" target="_blank" className="link">
                   <ToolbarTitle text="Powered by Github API" style={toolbarTitleStyles}  />
                 </a>
                 <span style={betaStyles}>BETA</span>
               </ToolbarGroup>
-              <ToolbarGroup key={1} float="right">
+              <ToolbarGroup key={1} float="right" className="copyright">
                 <a href="https://github.com/gauravtiwari" target="_blank" className="link">
                   <ToolbarTitle text="Copyright 2016 Hireables" style={toolbarCopyrightStyles}  />
                 </a>
               </ToolbarGroup>
             </Toolbar>
             <hr/>
-            <small style={fontStyles} className="p-b-20 col-8">
+            <small style={fontStyles} className="p-b-20 col-8" className="disclaimer">
               Disclaimer: This project is not affiliated with GitHub. GitHub® and the Octocat® logo are registered trademarks of GitHub, Inc., used with permission—https://github.com/logos
             </small>
           </div>
