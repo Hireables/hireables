@@ -54,6 +54,9 @@ const Search = React.createClass({
   componentDidMount() {
     if(this.isMounted()) {
       this._populate_form();
+      setTimeout(function() {
+        this.refs.tags.focus();
+      }.bind(this), 2000);
     }
   },
 
