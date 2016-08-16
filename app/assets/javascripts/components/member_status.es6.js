@@ -55,7 +55,7 @@ const MemberStatus= React.createClass({
           {this.props.member.bio? <span style={bioStyles} className="bio" dangerouslySetInnerHTML={{ __html:bio }}></span> : ""}
 
           <div style={{marginTop: '10px', fontWeight: '400', maxWidth: '80%'}} className="badges">
-            {this.props.member.email ? <span onClick={this._openMail} style={$.extend({}, badgeStyles, emailStyles)}>
+            {this.props.member.email && this.props.member.hireable ? <span onClick={this._openMail} style={$.extend({}, badgeStyles, emailStyles)}>
               Email
             </span> : '' }
             {this.props.member.company ? <span style={badgeStyles} className="company_shown">
