@@ -77,12 +77,12 @@ const MemberStatus= React.createClass({
               Profile
             </span>
 
-            <span
+            {this.props.member.blog ? <span
               onClick={this.openUrl.bind(this, this.props.member.blog)}
               className="show-website"
             >
               Website
-            </span>
+            </span> : ''}
 
             <span
               onClick={this.openUrl.bind(this, this.props.member.html_url)}
