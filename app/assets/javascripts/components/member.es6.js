@@ -35,7 +35,7 @@ const Member = React.createClass({
       <div style={memberStyle} className="member" id={"member_" + this.props.member.id}>
        <ListItem
          leftAvatar={<Avatar src={this.props.member.avatar_url} />}
-         onClick={this._showMember.bind(this, this.props.member.login)}
+         disabled={true}
          primaryText={this.props.member.name}
          className="member member--item"
          style={paragraphStyles}
@@ -52,11 +52,6 @@ const Member = React.createClass({
       </div>
     );
   },
-
-  _showMember(id) {
-    Turbolinks.visit("/members/" + id);
-  }
-
 });
 
 module.exports = Member;

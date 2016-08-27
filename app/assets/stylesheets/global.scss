@@ -132,6 +132,10 @@ body {
 .available {
   background-color: #66bb6a;
 }
+.profile-button {
+  cursor: pointer;
+  background-color: #66bb6a;
+}
 .may_available {
   background-color: #f57f17;
 }
@@ -251,6 +255,23 @@ body {
     float: none;
     padding: 15px!important;
   }
+}
+
+.social-icons {
+  line-height: 27px;
+  display: block;
+  font-size: 12px;
+  span {
+    cursor: pointer;
+    vertical-align: middle;
+    margin-right: 10px;
+    border-bottom: 1px solid #f2f2f2;
+    padding-bottom: 5px;
+  }
+}
+
+.show-profile {
+  cursor: pointer;
 }
 
 /* Loader for react component */
