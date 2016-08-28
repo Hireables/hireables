@@ -99,7 +99,9 @@ const MemberStatus= React.createClass({
   },
 
   openUrl(url) {
-    window.open(url);
+    var urlWithProtocol = url.match(/^http[s]*:\/\//) ? url : 'http://' + url;
+    // open with protocol
+    window.open(urlWithProtocol);
   },
 
   openMail(e) {
