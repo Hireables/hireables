@@ -14,7 +14,7 @@ module SetupRequestParams
   private
 
   def empty_params?
-    params.empty?
+    member_params.empty?
   end
 
   def set_hireable

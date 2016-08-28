@@ -13,5 +13,4 @@ class PagesController < ApplicationController
       format.html
     end
   end
-
 end
