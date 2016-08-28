@@ -7,7 +7,7 @@ module SetupRequestParams
 
   # Setup request param
   def request_params
-    Github::Params.new(request, member_params).set
+    Github::Params.new(member_params).set
   end
 
   private

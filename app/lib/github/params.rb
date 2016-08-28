@@ -1,12 +1,11 @@
 module Github
   class Params
-    attr_reader :request, :params
+    attr_reader :params
     # Construct params for query
     #   params : request, query_params
     # Returns formatted params for api call
 
-    def initialize(request, params)
-      @request = request
+    def initialize(params)
       @params = params
     end
 
@@ -23,16 +22,10 @@ module Github
 
     # Hard code popular params, would be good to put in ENV vars
     def set_popular_params
-      popular_params = {
+      {
         followers: ">=10",
-        repos: ">=20"
+        repos: ">=50"
       }
-
-      popular_params.merge!(
-        location: request.location.city
-      ) unless Rails.env.development? && request.location.city.empty?
-
-      popular_params
     end
 
     def set_query_params
