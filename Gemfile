@@ -31,6 +31,9 @@ gem 'oj'
 # Throttle Malacious requests
 gem 'rack-attack'
 
+# Geocode location from IP
+gem 'geocoder'
+
 #Speed up links
 gem 'turbolinks', '~> 5.0.x'
 
