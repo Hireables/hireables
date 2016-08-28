@@ -24,12 +24,13 @@ module Github
     # Hard code popular params, would be good to put in ENV vars
     def set_popular_params
       popular_params = {
+        followers: ">=10",
         repos: ">=20"
       }
 
       popular_params.merge!(
-        location: request.location.country
-      ) unless Rails.env.development? && request.location.country.empty?
+        location: request.location.city
+      ) unless Rails.env.development? && request.location.city.empty?
 
       popular_params
     end
