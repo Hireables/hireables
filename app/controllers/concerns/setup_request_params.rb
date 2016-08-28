@@ -3,6 +3,7 @@ module SetupRequestParams
 
   included do
     before_action :request_params
+    before_action :set_hireable, if: :empty_params?
   end
 
   # Setup request param
@@ -11,6 +12,14 @@ module SetupRequestParams
   end
 
   private
+
+  def empty_params?
+    member_params.empty?
+  end
+
+  def set_hireable
+    params.merge!(hireable: true)
+  end
 
   # Whitelist the params for our controller
   def member_params
