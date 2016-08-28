@@ -32,12 +32,11 @@ const Member = React.createClass({
 
   render() {
     return (
-      <div style={memberStyle} className="member" id={"member_" + this.props.member.id}>
+      <div style={memberStyle} className="member member--item" id={"member_" + this.props.member.id}>
        <ListItem
          leftAvatar={<Avatar src={this.props.member.avatar_url} />}
          disabled={true}
          primaryText={this.props.member.name}
-         className="member member--item"
          style={paragraphStyles}
          onKeyboardFocus={this.onFocus}
          rightIconButton={
