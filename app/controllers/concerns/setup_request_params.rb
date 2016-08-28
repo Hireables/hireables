@@ -3,18 +3,26 @@ module SetupRequestParams
 
   included do
     before_action :request_params
+    before_action :set_hireable, if: :empty_params?
   end
 
   # Setup request param
   def request_params
-    Github::Params.new(member_params).set
+    Github::Params.new(request, member_params).set
   end
 
   private
 
-    # Whitelist the params for our controller
-    def member_params
-      params.permit(:q, :page)
-    end
+  def empty_params?
+    params.empty?
+  end
 
+  def set_hireable
+    params.merge!(hireable: true)
+  end
+
+  # Whitelist the params for our controller
+  def member_params
+    params.permit(:q, :page)
+  end
 end
