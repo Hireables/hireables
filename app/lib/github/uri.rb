@@ -1,7 +1,5 @@
 module Github
-
   class Uri
-
     # Handles API uri selection based on params
     #   params : {query_params}
     # Returns formatted api url
@@ -21,26 +19,25 @@ module Github
 
     private
 
-      def default_uri
-        query  = query_present? ? @params[:q].gsub(' ', '+') : @params[:q]
-        "/search/users?q=#{query}"
-      end
+    def default_uri
+      query  = query_present? ? @params[:q].gsub(' ', '+') : @params[:q]
+      "/search/users?q=#{query}"
+    end
 
-      def popular_api_url
-        filters = @params.map {|key, value|
-          "+#{key}:#{value}"
-        }
-        default_uri + filters.join
-      end
+    def popular_api_url
+      filters = @params.map {|key, value|
+        "+#{key}:#{value}"
+      }
+      default_uri + filters.join
+    end
 
-      def paginated?
-        @params[:page].present?
-      end
+    def paginated?
+      @params[:page].present?
+    end
 
-      def query_present?
-        @params[:q].present?
-      end
+    def query_present?
+      @params[:q].present?
+    end
 
   end
-
 end
