@@ -39,6 +39,13 @@ module Hireables
       g.helper_specs    false
     end
 
+    config.middleware.insert_before 0, Rack::Cors do
+      allow do
+        origins 'fonts.gstatic.com'
+        resource '*', headers: :any, methods: [:get, :options]
+      end
+    end
+
     # Setup sidekiq
     config.active_job.queue_adapter = :sidekiq
 

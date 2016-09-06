@@ -34,6 +34,9 @@ gem 'rack-attack'
 #Speed up links
 gem 'turbolinks', '~> 5.0.x'
 
+# CORS
+gem 'rack-cors', :require => 'rack/cors'
+
 group :production do
   gem 'rails_12factor'
 end

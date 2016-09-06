@@ -89,6 +89,7 @@ GEM
     rack (1.6.4)
     rack-attack (5.0.1)
       rack
+    rack-cors (0.4.0)
     rack-protection (1.5.3)
       rack
     rack-test (0.6.3)
@@ -188,6 +189,7 @@ DEPENDENCIES
   oj
   passenger
   rack-attack
+  rack-cors
   rails (= 4.2.7)
   rails_12factor
   react-rails (= 1.6.2)
