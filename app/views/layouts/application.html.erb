@@ -44,10 +44,13 @@
   </head>
 
   <body class="<%= controller_name %> <%= action_name %>">
-    <%= react_component 'app.NavBar', {prerender: true} %>
+    <%= react_component 'app.CookiesTracker', { prerender: true } %>
+    <%= react_component 'app.NavBar', { prerender: true } %>
+
     <div class="content">
       <%= yield %>
     </div>
-    <%= react_component 'app.Footer', {prerender: true} %>
+
+    <%= react_component 'app.Footer', { prerender: true } %>
   </body>
 </html>
