@@ -2,6 +2,7 @@
 React = require('react/addons');
 const createDOMPurify = require('dompurify');
 const classNames = require('classnames');
+const Cookies = require('js-cookie');
 
 // Material UI
 import mui from 'material-ui';
@@ -99,6 +100,28 @@ const MemberStatus= React.createClass({
   },
 
   openUrl(url) {
+    var clicksCookieName =  Cookies.get('visitor') + '-clicks';
+    var clicksValue = parseInt(Cookies.get(clicksCookieName)) + 1;
+
+    Cookies.set(
+      clicksCookieName,
+      clicksValue
+    );
+
+    if ($('meta[name="env"]').data('env') === "production") {
+      ga(
+        'send',
+        'event',
+        'link',
+        'click',
+        'Clicked link',
+        clicksValue,
+        {
+          user_id: Cookies.get('visitor'),
+        },
+      );
+    }
+
     var urlWithProtocol = url.match(/^http[s]*:\/\//) ? url : 'http://' + url;
     // open with protocol
     window.open(urlWithProtocol);
@@ -106,6 +129,29 @@ const MemberStatus= React.createClass({
 
   openMail(e) {
     e.preventDefault();
+    var emailClicksCookieName =  Cookies.get('visitor') + '-email-clicks';
+    var emailClicksValue = parseInt(Cookies.get(emailClicksCookieName)) + 1;
+
+    Cookies.set(
+      emailClicksCookieName,
+      emailClicksValue
+    );
+
+    if ($('meta[name="env"]').data('env') === "production") {
+      ga(
+        'send',
+        'event',
+        'email',
+        'click',
+        'Clicked email',
+        emailClicksValue,
+        {
+          email: this.props.member.email,
+          user_id: Cookies.get('visitor'),
+        },
+      );
+    }
+
     window.location.href = 'mailto:' + this.props.member.email
     e.stopPropagation();
   }
