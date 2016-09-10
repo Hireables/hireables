@@ -81,7 +81,7 @@ GEM
     nokogiri (1.6.8)
       mini_portile2 (~> 2.1.0)
       pkg-config (~> 1.1.7)
-    oj (2.17.3)
+    oj (2.17.4)
     passenger (5.0.30)
       rack
       rake (>= 0.8.1)
