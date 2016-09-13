@@ -17,11 +17,12 @@ ActiveRecord::Schema.define(version: 20160912161658) do
   enable_extension "plpgsql"
 
   create_table "developers", force: :cascade do |t|
-    t.string   "first_name",         default: "",    null: false
-    t.string   "last_name",          default: "",    null: false
+    t.string   "name",               default: "",    null: false
     t.string   "email",              default: "",    null: false
+    t.string   "login",              default: "",    null: false
     t.string   "provider",           default: "",    null: false
     t.string   "uid",                default: "",    null: false
+    t.string   "access_token",       default: "",    null: false
     t.boolean  "remote",             default: false
     t.boolean  "relocate",           default: false
     t.boolean  "available",          default: false
@@ -44,6 +45,7 @@ ActiveRecord::Schema.define(version: 20160912161658) do
   add_index "developers", ["data"], name: "index_developers_on_data", using: :gin
   add_index "developers", ["email"], name: "index_developers_on_email", unique: true, using: :btree
   add_index "developers", ["jobs"], name: "index_developers_on_jobs", using: :gin
+  add_index "developers", ["login"], name: "index_developers_on_login", unique: true, using: :btree
   add_index "developers", ["platforms"], name: "index_developers_on_platforms", using: :gin
   add_index "developers", ["relocate"], name: "index_developers_on_relocate", using: :btree
   add_index "developers", ["remote"], name: "index_developers_on_remote", using: :btree

@@ -2,11 +2,12 @@ class DeviseCreateDevelopers < ActiveRecord::Migration
   def change
     create_table :developers do |t|
       ## Database authenticatable
-      t.string :first_name, null: false, default: ""
-      t.string :last_name, null: false, default: ""
+      t.string :name, null: false, default: ""
       t.string :email, null: false, default: ""
+      t.string :login, null: false, default: ""
       t.string :provider, null: false, default: ""
       t.string :uid, null: false, default: ""
+      t.string :access_token, null: false, default: ""
       t.boolean :remote, default: false, index: true
       t.boolean :relocate, default: false, index: true
       t.boolean :available, default: false, index: true
@@ -26,7 +27,8 @@ class DeviseCreateDevelopers < ActiveRecord::Migration
       t.timestamps null: false
     end
 
-    add_index :developers, :email,                unique: true
+    add_index :developers, :email, unique: true
+    add_index :developers, :login, unique: true
     add_index :developers, :data, using: :gin
     add_index :developers, :platforms, using: :gin
     add_index :developers, :jobs, using: :gin
