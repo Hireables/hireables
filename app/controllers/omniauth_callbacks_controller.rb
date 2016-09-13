@@ -1,7 +1,7 @@
 class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   before_action :failure, if: :malformed_auth?
 
-  def facebook
+  def github
     @developer = Authenticator.call(auth_hash)
 
     if @developer.persisted?
