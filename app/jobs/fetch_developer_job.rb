@@ -1,9 +1,9 @@
-class FetchMemberJob < ActiveJob::Base
+class FetchDeveloperJob < ActiveJob::Base
   queue_as :urgent
 
   def perform(username)
-    # Cache user response
-    Rails.cache.fetch(['users', username], expires_in: 2.days) do
+    # Cache developer response
+    Rails.cache.fetch(['developers', username], expires_in: 2.days) do
       request = Github::Api.new("/users/#{username}").fetch
       if Github::Response.new(request).found?
         request.parsed_response

@@ -1,13 +1,13 @@
-class MembersController < ApplicationController
+class DevelopersController < ApplicationController
   # Common controller concerns
   include SetupRequestParams
   include CacheRequest
   include GetApiUri
 
-  # GET /members
+  # GET /developers
   def index
-    # Unless request cached fetch members async
-    FetchMembersJob.perform_later(cache_key, request_uri, params
+    # Unless request cached fetch developers async
+    FetchDevelopersJob.perform_later(cache_key, request_uri, params
     ) unless key_cached?
 
     respond_to do |format|
@@ -15,15 +15,15 @@ class MembersController < ApplicationController
     end
   end
 
-  # GET /members/:username.json
-  # GET /members/:username
+  # GET /developers/:username.json
+  # GET /developers/:username
   def show
     # Fetch from cache
-    @member = Rails.cache.fetch(['users', params[:id]], expires_in: 2.days) do
+    @developer = Rails.cache.fetch(['developers', params[:id]], expires_in: 2.days) do
       request = Github::Api.new("/users/#{params[:id]}").fetch
       if Github::Response.new(request).found?
         # Fetch user languages
-        FetchMemberLanguagesJob.perform_later(params[:id])
+        FetchDeveloperLanguagesJob.perform_later(params[:id])
         request.parsed_response
       else
         # Raise not found
@@ -32,31 +32,35 @@ class MembersController < ApplicationController
     end
 
     # Fetch languages
-    @languages = Rails.cache.fetch(['users', params[:id], 'languages'], expires_in: 2.days) do
+    @languages = Rails.cache.fetch(['developers', params[:id], 'languages'], expires_in: 2.days) do
       request = Github::Api.new("/users/#{params[:id]}/repos").fetch
-      Github::Response.new(request.parsed_response).user_languages_collection
+      Github::Response.new(request.parsed_response).developer_languages_collection
     end
 
     respond_to do |format|
       format.html
-      format.json {render json:  {member: @member, languages: @languages} }
+      format.json {render json:  {developer: @developer, languages: @languages} }
     end
   end
 
-  # GET /members/search.json
+  # GET /developers/search.json
   def search
-    # Load members based on request params
+    # Load developers based on request params
     response = Rails.cache.fetch(cache_key, expires_in: 2.days) do
       request = Github::Api.new(request_uri).fetch
       response = Github::Response.new(request)
 
       if response.found?
 
-        members = params[:hireable] ? response.hireable_collection : response.users_collection
+        developers = if params[:hireable]
+                      response.hireable_collection
+                     else
+                      response.developers_collection
+                     end
 
         # Cache formatted response
         {
-          members: members,
+          developers: developers,
           rels: Pagination.new(request.headers).build
         }.to_json
       else

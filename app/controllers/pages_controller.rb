@@ -5,8 +5,8 @@ class PagesController < ApplicationController
   include GetApiUri
 
   def home
-    # Unless request cached fetch async members
-    FetchMembersJob.perform_later(cache_key, request_uri, params
+    # Unless request cached fetch async developers
+    FetchDevelopersJob.perform_later(cache_key, request_uri, params
     ) unless key_cached?
 
     respond_to do |format|

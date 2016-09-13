@@ -7,13 +7,13 @@ module SetupRequestParams
 
   # Setup request param
   def request_params
-    Github::Params.new(member_params).set
+    Github::Params.new(developer_params).set
   end
 
   private
 
   # Whitelist the params for our controller
-  def member_params
+  def developer_params
     params.permit(:q, :page)
   end
 end

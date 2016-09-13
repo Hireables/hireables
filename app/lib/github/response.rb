@@ -8,20 +8,22 @@ module Github
       @request = request
     end
 
-    def users_collection
-      @request.parsed_response['items'].map{|u| u['login']}.map{|username|
-        Rails.cache.fetch(['users', username], expires_in: 2.days) do
+    def developers_collection
+      @request.parsed_response['items'].map{|u| u['login']}.map do |username|
+        Rails.cache.fetch(['developers', username], expires_in: 2.days) do
           request = Github::Api.new("/users/#{username}").fetch
           request.parsed_response
         end
-      }
+      end
     end
 
     def hireable_collection
-      users_collection.reject!{|user| user["hireable"].nil? and !user["hirable"] }
+      developers_collection.reject! do |developer|
+        developer["hireable"].nil? and !developer["hirable"]
+      end
     end
 
-    def user_languages_collection
+    def developer_languages_collection
       @request.map{|r|
         Rails.cache.fetch(["language", r["id"], r["updated_at"]], expires_in: 2.days) do
           r["language"]
