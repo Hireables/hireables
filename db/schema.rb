@@ -20,6 +20,8 @@ ActiveRecord::Schema.define(version: 20160912161658) do
     t.string   "first_name",         default: "",    null: false
     t.string   "last_name",          default: "",    null: false
     t.string   "email",              default: "",    null: false
+    t.string   "provider",           default: "",    null: false
+    t.string   "uid",                default: "",    null: false
     t.boolean  "remote",             default: false
     t.boolean  "relocate",           default: false
     t.boolean  "available",          default: false

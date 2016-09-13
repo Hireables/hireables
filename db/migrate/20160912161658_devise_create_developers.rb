@@ -5,6 +5,8 @@ class DeviseCreateDevelopers < ActiveRecord::Migration
       t.string :first_name, null: false, default: ""
       t.string :last_name, null: false, default: ""
       t.string :email, null: false, default: ""
+      t.string :provider, null: false, default: ""
+      t.string :uid, null: false, default: ""
       t.boolean :remote, default: false, index: true
       t.boolean :relocate, default: false, index: true
       t.boolean :available, default: false, index: true

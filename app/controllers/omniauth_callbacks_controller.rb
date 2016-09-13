@@ -2,10 +2,10 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   before_action :failure, if: :malformed_auth?
 
   def facebook
-    @user = Authenticator.call(auth_hash)
+    @developer = Authenticator.call(auth_hash)
 
-    if @user.persisted?
-      sign_in @user, event: :authentication
+    if @developer.persisted?
+      sign_in @developer, event: :authentication
       redirect_to root_path
     else
       failure
@@ -14,7 +14,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
   def failure
     flash[:alert] = 'Please try again'
-    redirect_to new_user_session_path
+    redirect_to new_developer_session_path
   end
 
   private
