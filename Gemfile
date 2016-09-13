@@ -42,6 +42,9 @@ gem 'devise'
 # CORS
 gem 'rack-cors', :require => 'rack/cors'
 
+# Slim rails
+gem 'slim-rails'
+
 group :production do
   gem 'rails_12factor'
 end
