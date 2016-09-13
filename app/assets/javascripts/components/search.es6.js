@@ -148,7 +148,7 @@ const Search = React.createClass({
 
   _preFetchPage() {
     // Pre-fetch the page to warm up cache
-    $.get('/members?q=' + decodeURIComponent(this._getFormData()), function(data) {
+    $.get('/developers?q=' + decodeURIComponent(this._getFormData()), function(data) {
     }, "html");
   },
 
@@ -166,7 +166,7 @@ const Search = React.createClass({
     if (this.refs.tags.getTags().join(', ').length > 0) {
       this._preFetchPage();
       // Don't submit empty form fields
-      Turbolinks.visit('/members?q=' + decodeURIComponent(this._getFormData()));
+      Turbolinks.visit('/developers?q=' + decodeURIComponent(this._getFormData()));
     } else {
       // Empty stop submit event and show error
       Turbolinks.visit('/');

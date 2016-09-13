@@ -25,9 +25,8 @@ const Languages= React.createClass({
     return (
         <div style={{marginTop: '10px'}}>
           <span>
-
             {this.props.languages ? this.props.languages.map(language => (
-              <a key={Math.random()} href={"/members?q=language:" + language.trim().toLowerCase()} style={badgeStyles}>{language}</a>
+              <a key={Math.random()} href={"/developers?q=language:" + language.trim().toLowerCase()} style={badgeStyles}>{language}</a>
             )) : ""}
           </span>
         </div>

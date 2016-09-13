@@ -1,13 +1,13 @@
 .list--header {
   background-color: #fafafa;
 }
-.member--item {
+.developer--item {
   &.first-of-type {
     border-top: 1px solid #f2f2f2;
   }
 }
 
-.members-show {
+.developers-show {
   max-width: 600px;
   margin: 0 auto;
 
@@ -21,7 +21,7 @@
 }
 
 @media(max-width: 500px) {
-  .members-show {
+  .developers-show {
     max-width: 300px;
     margin: 0 auto;
   }

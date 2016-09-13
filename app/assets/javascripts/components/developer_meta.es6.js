@@ -3,7 +3,7 @@ React = require('react/addons');
 import mui from 'material-ui';
 let Colors = mui.Styles.Colors;
 // Define component
-const MemberMeta = React.createClass({
+const DeveloperMeta = React.createClass({
 
   render() {
     return (
@@ -25,4 +25,4 @@ const MemberMeta = React.createClass({
   },
 });
 
-module.exports = MemberMeta;
+module.exports = DeveloperMeta;

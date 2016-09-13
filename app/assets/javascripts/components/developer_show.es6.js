@@ -9,13 +9,13 @@ let FontIcon = mui.FontIcon;
 let LightRawTheme = mui.Styles.LightRawTheme;
 
 // Dependent component
-import MemberMeta from './member_meta.es6.js'
-import MemberStatus from './member_status.es6.js'
+import DeveloperMeta from './developer_meta.es6.js'
+import DeveloperStatus from './developer_status.es6.js'
 import Languages from './languages.es6.js'
 import Search from './search.es6.js'
 
 // Define component
-const MemberShow = React.createClass({
+const DeveloperShow = React.createClass({
 
   childContextTypes: {
     muiTheme: React.PropTypes.object
@@ -48,25 +48,25 @@ const MemberShow = React.createClass({
     }
 
     return (
-        <div className="members-show">
+        <div className="developers-show">
           <header className="header header--bg">
             <div className="container">
               <div style={wrapperStyle}>
-                <Avatar src={this.props.member.avatar_url} size={100} />
+                <Avatar src={this.props.developer.avatar_url} size={100} />
                 <h1 className="no-margin">
-                  <a href={this.props.member.html_url} style={linkStyles}>
-                    {this.props.member.name}
+                  <a href={this.props.developer.html_url} style={linkStyles}>
+                    {this.props.developer.name}
                   </a>
                 </h1>
-                {this.props.member.blog?
+                {this.props.developer.blog?
                 <small>
-                  <a target="_blank" style={{color: Colors.grey700, marginLeft: '10px', paddingBottom: '5px', cursor: 'pointer'}} href={this.props.member.blog}>Website</a>
+                  <a target="_blank" style={{color: Colors.grey700, marginLeft: '10px', paddingBottom: '5px', cursor: 'pointer'}} href={this.props.developer.blog}>Website</a>
                 </small> : ""}
-                <MemberStatus member={this.props.member} />
+                <DeveloperStatus developer={this.props.developer} />
                 <Languages languages={this.props.languages} />
 
                 <div className="p-t-20">
-                  <MemberMeta followers={this.props.member.followers} gists={this.props.member.public_gists} repos={this.props.member.public_repos} />
+                  <DeveloperMeta followers={this.props.developer.followers} gists={this.props.developer.public_gists} repos={this.props.developer.public_repos} />
                 </div>
               </div>
             </div>
@@ -77,4 +77,4 @@ const MemberShow = React.createClass({
 
 });
 
-module.exports = MemberShow;
+module.exports = DeveloperShow;

@@ -15,7 +15,7 @@ const EmptyList = React.createClass({
 
     return (
         <div className="no_content text-center" style={emptyListStyle}>
-          <h1 style={{color: Colors.grey500}}>No members found</h1>
+          <h1 style={{color: Colors.grey500}}>No developers found</h1>
         </div>
       );
   },

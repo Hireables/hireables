@@ -146,16 +146,16 @@ body {
 .company_hidden {
   background-color: #455a64;
 }
-.members-show {
-  .members--small {
+.developers-show {
+  .developers--small {
     padding: 40px 0 0;
   }
 }
-.members-list {
+.developers-list {
   clear: both;
   display: block;
   width: 100%;
-  .members--small {
+  .developers--small {
     margin: 40px 40px;
   }
   .filters {
@@ -225,8 +225,8 @@ body {
     width: 100%;
     display: block;
   }
-  .members-list {
-    .members--small {
+  .developers-list {
+    .developers--small {
       margin: 0;
     }
   }
@@ -243,8 +243,8 @@ body {
     width:100%;
     padding: 15px;
   }
-  .member {
-    &.member--item {
+  .developer {
+    &.developer--item {
       div {
         width: 100%;
       }

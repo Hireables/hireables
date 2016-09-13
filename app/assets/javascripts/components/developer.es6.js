@@ -10,10 +10,10 @@ let Avatar = mui.Avatar
 
 // Dependent component
 import NoContent from './no_content.es6.js'
-import MemberStatus from './member_status.es6.js'
-import MemberMeta from './member_meta.es6.js'
+import DeveloperStatus from './developer_status.es6.js'
+import DeveloperMeta from './developer_meta.es6.js'
 
-const memberStyle = {
+const developerStyle = {
   borderBottom: '1px solid #f2f2f2',
   fontWeight: '500',
 };
@@ -23,7 +23,7 @@ const paragraphStyles = {
 };
 
 // Define component
-const Member = React.createClass({
+const Developer = React.createClass({
   onFocus(event) {
     $(event.target).css({
       backgroundColor: '#f2f2f2',
@@ -32,20 +32,20 @@ const Member = React.createClass({
 
   render() {
     return (
-      <div style={memberStyle} className="member member--item" id={"member_" + this.props.member.id}>
+      <div style={developerStyle} className="developer developer--item" id={"developer_" + this.props.developer.id}>
        <ListItem
-         leftAvatar={<Avatar src={this.props.member.avatar_url} />}
+         leftAvatar={<Avatar src={this.props.developer.avatar_url} />}
          disabled={true}
-         primaryText={this.props.member.name}
+         primaryText={this.props.developer.name}
          style={paragraphStyles}
          onKeyboardFocus={this.onFocus}
          rightIconButton={
           <div className="pull-right">
-            <MemberMeta followers={this.props.member.followers} gists={this.props.member.public_gists} repos={this.props.member.public_repos} />
+            <DeveloperMeta followers={this.props.developer.followers} gists={this.props.developer.public_gists} repos={this.props.developer.public_repos} />
           </div>
           }
          secondaryText={
-          <MemberStatus member={this.props.member} />
+          <DeveloperStatus developer={this.props.developer} />
          }
          secondaryTextLines={1} />
       </div>
@@ -53,4 +53,4 @@ const Member = React.createClass({
   },
 });
 
-module.exports = Member;
+module.exports = Developer;

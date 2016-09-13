@@ -13,18 +13,18 @@ let Toggle = mui.Toggle;
 import Jumbotron from './jumbotron.es6.js';
 
 // Dependent component
-import Member from './member.es6.js'
+import Developer from './developer.es6.js'
 import Search from './search.es6.js'
 import NoContent from './no_content.es6.js'
 import Pagination from './pagination.es6.js'
 import EmptyList from './empty_list.es6.js'
 
 // Define component
-const MembersList = React.createClass({
+const DevelopersList = React.createClass({
 
   getInitialState () {
     return {
-      members: [],
+      developers: [],
       rels: [],
       path: this.props.path,
       featured: this.props.featured,
@@ -42,7 +42,7 @@ const MembersList = React.createClass({
     if(this.isMounted()){
       var query = decodeURIComponent(document.location.search.replace('?', ''));
       var path = !query? this.state.path : this.state.path + '?' + query
-      this._fetchMembers(path, {});
+      this._fetchDevelopers(path, {});
     }
   },
 
@@ -89,28 +89,28 @@ const MembersList = React.createClass({
     };
 
     return (
-      <div className="members-list wrapper">
+      <div className="developers-list wrapper">
         <div className="container">
-          <div className="members-list members--small sm-pull-reset col-md-5">
+          <div className="developers-list developers--small sm-pull-reset col-md-5">
             <Jumbotron />
-            <Search action={"/members"} searchMembers={this._fetchMembers} fetchMembers={this._fetchMembers} />
+            <Search action={"/developers"} searchDevelopers={this._fetchDevelopers} fetchDevelopers={this._fetchDevelopers} />
           </div>
           <Loader loaded={this.state.loaded} className="p-b-100">
-            {this.state.loaded && this.state.members.length > 0 ?
+            {this.state.loaded && this.state.developers.length > 0 ?
               <List className="col-md-7 pull-right" style={containerStyle}>
               <div className="list--header">
                 <h2 style={subHeaderStyles} className="list--header--title">
-                  {this.state.featured? 'Featured members' : 'Search result'}
+                  {this.state.featured? 'Featured developers' : 'Search result'}
                 </h2>
                 <Toggle className="list--header--hireable-toggle" name="hireable" label="Only hireables" defaultToggled={this.state.hireable}
                style={checkboxStyles}
                onToggle={this._fetchHireables} />
               </div>
-              {this.state.members.map(member => (
-                <Member member={member} key={member.id} meta={this.props.meta} />
+              {this.state.developers.map(developer => (
+                <Developer developer={developer} key={developer.id} meta={this.props.meta} />
               ))}
-              {this.state.rels != null && this.state.members.length > 0 ?
-                <Pagination links={this.state.rels} fetchNextPage={this._fetchMembers} />
+              {this.state.rels != null && this.state.developers.length > 0 ?
+                <Pagination links={this.state.rels} fetchNextPage={this._fetchDevelopers} />
                 : <NoContent />
               }
             </List> : <EmptyList />}
@@ -133,10 +133,10 @@ const MembersList = React.createClass({
       [event.target.name]: toggled,
     });
 
-    this._fetchMembers(path, !this.state.hireable ? {hireable: !this.state.hireable} : {});
+    this._fetchDevelopers(path, !this.state.hireable ? {hireable: !this.state.hireable} : {});
   },
 
-  _fetchMembers(path, params) {
+  _fetchDevelopers(path, params) {
     // Set state to be loading
     this.setState({loaded: false});
 
@@ -145,10 +145,10 @@ const MembersList = React.createClass({
       cache: false
     });
 
-    // Get initial members
+    // Get initial developers
     $.post(path, params, function(json, textStatus) {
       this.setState({
-        members: json.members,
+        developers: json.developers,
         rels: json.rels,
         loaded: true
       });
@@ -162,4 +162,4 @@ const MembersList = React.createClass({
 
 });
 
-module.exports = MembersList;
+module.exports = DevelopersList;
