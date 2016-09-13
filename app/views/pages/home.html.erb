@@ -1,1 +1,7 @@
+<% if developer_signed_in? %>
+  <%= link_to current_developer.name, developer_path(current_developer.login), class: 'login' %>
+  <%= link_to 'logout', destroy_developer_session_path, class: 'login', method: :delete %>
+<% else %>
+  <%= link_to 'Log in', developer_github_omniauth_authorize_path, class: 'login' %>
+<% end %>
 <%= react_component 'app.DevelopersList', { path: search_developers_path, featured: true } %>
