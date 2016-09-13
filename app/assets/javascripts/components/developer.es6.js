@@ -14,7 +14,6 @@ import DeveloperStatus from './developer_status.es6.js'
 import DeveloperMeta from './developer_meta.es6.js'
 
 const developerStyle = {
-  borderBottom: '1px solid #f2f2f2',
   fontWeight: '500',
 };
 

@@ -2,8 +2,21 @@
   background-color: #fafafa;
 }
 .developer--item {
-  &.first-of-type {
+  border-bottom: 1px solid #f2f2f2;
+
+  &:first-of-type {
     border-top: 1px solid #f2f2f2;
+    border-bottom: none;
+  }
+
+  &:last-of-type {
+    border-bottom: none;
+  }
+
+  .pro-badge {
+    background: #e43;
+    letter-spacing: 1px;
+    color: #f0f0f0;
   }
 }
 

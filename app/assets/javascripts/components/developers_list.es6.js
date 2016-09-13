@@ -14,6 +14,7 @@ import Jumbotron from './jumbotron.es6.js';
 
 // Dependent component
 import Developer from './developer.es6.js'
+import PremiumDeveloper from './premium_developer.es6.js'
 import Search from './search.es6.js'
 import NoContent from './no_content.es6.js'
 import Pagination from './pagination.es6.js'
@@ -107,7 +108,16 @@ const DevelopersList = React.createClass({
                onToggle={this._fetchHireables} />
               </div>
               {this.state.developers.map(developer => (
-                <Developer developer={developer} key={developer.id} meta={this.props.meta} />
+                developer.data !== undefined ?
+                <PremiumDeveloper
+                  developer={developer}
+                  key={developer.id}
+                  meta={this.props.meta}
+                /> : <Developer
+                      developer={developer}
+                      key={developer.id}
+                      meta={this.props.meta}
+                    />
               ))}
               {this.state.rels != null && this.state.developers.length > 0 ?
                 <Pagination links={this.state.rels} fetchNextPage={this._fetchDevelopers} />
