@@ -45,7 +45,7 @@
 
   <body class="<%= controller_name %> <%= action_name %>">
     <%= react_component 'app.CookiesTracker', { prerender: true } %>
-    <%= react_component 'app.NavBar', { prerender: true } %>
+    <%= react_component 'app.NavBar', { prerender: true, authenticated: developer_signed_in?, developer: current_developer  } %>
 
     <div class="content">
       <%= yield %>
