@@ -10,6 +10,7 @@ let ToolbarTitle = mui.ToolbarTitle;
 let ThemeManager = mui.Styles.ThemeManager;
 let FontIcon = mui.FontIcon;
 let LightRawTheme = mui.Styles.LightRawTheme;
+let Colors = mui.Styles.Colors
 
 // Define component
 const Footer = React.createClass({
@@ -71,8 +72,11 @@ const Footer = React.createClass({
                 <span style={betaStyles}>BETA</span>
               </ToolbarGroup>
               <ToolbarGroup key={1} float="right" className="copyright">
+                <a href="https://github.com/gauravtiwari/hireables" target="_blank" className="github--link">
+                  <ToolbarTitle text="Code" style={toolbarCopyrightStyles}  />
+                </a>
                 <a href="https://github.com/gauravtiwari" target="_blank" className="link">
-                  <ToolbarTitle text="Copyright 2016 Hireables" style={toolbarCopyrightStyles}  />
+                  <ToolbarTitle text="Copyright 2015-2016 Hireables" style={toolbarCopyrightStyles}  />
                 </a>
               </ToolbarGroup>
             </Toolbar>

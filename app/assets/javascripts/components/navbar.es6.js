@@ -11,7 +11,8 @@ let RaisedButton = mui.RaisedButton;
 let ThemeManager = mui.Styles.ThemeManager;
 let FontIcon = mui.FontIcon;
 let LightRawTheme = mui.Styles.LightRawTheme;
-let Colors = mui.Styles.Colors
+let Colors = mui.Styles.Colors;
+let Avatar = mui.Avatar;
 
 // Define component
 const NavBar = React.createClass({
@@ -81,10 +82,26 @@ const NavBar = React.createClass({
               <span style={betaStyles}>BETA</span>
             </ToolbarGroup>
             <ToolbarGroup key={1} float="right">
-              <FontIcon className="muidocs-icon-custom-github" style={fontStyles} hoverColor={Colors.white} />
-              <a href="https://github.com/gauravtiwari/hireables" target="_blank" className="github--link">
-                <ToolbarTitle text="Code" style={toolbarTitleStyles}  />
-              </a>
+              {this.props.authenticated ?
+                <div className="logged in">
+                  <Avatar src={this.props.developer.data.avatar_url} />
+                  <a href={Routes.developer_path(this.props.developer.login)} className="profile--link">
+                    <ToolbarTitle text={this.props.developer.name} style={toolbarTitleStyles}  />
+                  </a>
+                  <a
+                    href={Routes.destroy_developer_session_path()}
+                    className="logout--link"
+                    data-method="delete"
+                  >
+                    <ToolbarTitle text="Logout" style={toolbarTitleStyles}  />
+                  </a>
+                </div> :
+                <div className="logged out">
+                  <a href={Routes.developer_github_omniauth_authorize_path()} className="login--link">
+                    <ToolbarTitle text="Login/Signup" style={toolbarTitleStyles}  />
+                  </a>
+                </div>
+              }
             </ToolbarGroup>
           </Toolbar>
         </div>
