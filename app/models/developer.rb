@@ -8,6 +8,10 @@ class Developer < ActiveRecord::Base
     all_attributes - protected_attributes
   end
 
+  def self.default_scope
+    select(whitelisted_attributes)
+  end
+
   private
 
   def self.all_attributes

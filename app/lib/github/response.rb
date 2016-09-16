@@ -10,11 +10,9 @@ module Github
 
     def developers_collection
       @request.parsed_response['items'].map{|u| u['login']}.map do |username|
-        developer =  Developer.where(
-          login: username
-        ).select(Developer.whitelisted_attributes).take
+        developer =  Developer.find_by(login: username)
 
-        if developer.blank?
+        if developer.nil?
           Rails.cache.fetch(['developers', username], expires_in: 2.days) do
             request = Github::Api.new("/users/#{username}").fetch
             request.parsed_response
