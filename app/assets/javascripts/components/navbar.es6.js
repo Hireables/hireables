@@ -8,6 +8,7 @@ let ToolbarGroup = mui.ToolbarGroup;
 let ToolbarTitle = mui.ToolbarTitle;
 let ToolbarSeparator = mui.ToolbarSeparator;
 let RaisedButton = mui.RaisedButton;
+let FlatButton = mui.FlatButton;
 let ThemeManager = mui.Styles.ThemeManager;
 let FontIcon = mui.FontIcon;
 let LightRawTheme = mui.Styles.LightRawTheme;
@@ -42,34 +43,53 @@ const NavBar = React.createClass({
 
   render() {
 
-    let toolbarStyles = {
+    const toolbarStyles = {
       backgroundColor: 'transparent',
       maxWidth: '1140px',
       textAlign: 'center',
       padding: '0',
-      margin: '0 auto'
+      margin: '0 auto',
     };
 
-    let fontStyles = {
+    const fontStyles = {
       paddingLeft: '0px',
       marginRight: '10px',
-      color: '#fff'
+      verticalAlign: 'middle',
+      color: '#fff',
     };
 
-    let toolbarTitleStyles = {
+    const toolbarTitleStyles = {
       fontSize: '16px',
-      color: '#fff'
+      color: '#fff',
+      padding: 0,
     };
 
-    let betaStyles = {
+    const logoStyles = {
+      color: '#fff',
+      padding: 0,
+      fontSize: '20px',
+    };
+
+    const betaStyles = {
       fontSize: '11px',
-      color: '#fff'
+      color: '#fff',
+      paddingLeft: '5px',
     };
 
-    let toolbarGroupStyles = {
+    const toolbarGroupStyles = {
       float: 'none',
-      display: 'inline-block'
+      display: 'inline-block',
     }
+
+    const userImageStyles = {
+      verticalAlign: 'middle',
+      marginRight: '16px',
+    };
+
+    const style = {
+      margin: 12,
+    };
+
 
     return (
       <div className="nav bg-horizon">
@@ -77,15 +97,18 @@ const NavBar = React.createClass({
           <Toolbar style={toolbarStyles} className="nav--toolbar">
             <ToolbarGroup key={0} style={toolbarGroupStyles}>
               <a href="/" className="link bold">
-                <ToolbarTitle text="Hireables" style={toolbarTitleStyles}  />
+                <ToolbarTitle text="Hireables" style={logoStyles}  />
               </a>
               <span style={betaStyles}>BETA</span>
             </ToolbarGroup>
             <ToolbarGroup key={1} float="right">
               {this.props.authenticated ?
                 <div className="logged in">
-                  <Avatar src={this.props.developer.data.avatar_url} />
-                  <a href={Routes.developer_path(this.props.developer.login)} className="profile--link">
+                  <Avatar src={this.props.developer.data.avatar_url} style={userImageStyles} />
+                  <a
+                    href={Routes.developer_path(this.props.developer.login)}
+                    className={`profile--link ${Routes.developer_path(this.props.developer.login) === window.location.pathname ? 'active' : ''}`}
+                  >
                     <ToolbarTitle text={this.props.developer.name} style={toolbarTitleStyles}  />
                   </a>
                   <a
@@ -97,9 +120,13 @@ const NavBar = React.createClass({
                   </a>
                 </div> :
                 <div className="logged out">
-                  <a href={Routes.developer_github_omniauth_authorize_path()} className="login--link">
-                    <ToolbarTitle text="Login/Signup" style={toolbarTitleStyles}  />
-                  </a>
+                  <FlatButton
+                    href={Routes.developer_github_omniauth_authorize_path()}
+                    secondary={true}
+                    label="Login"
+                    icon={<FontIcon className="muidocs-icon-custom-github" />}
+                    style={style}
+                  />
                 </div>
               }
             </ToolbarGroup>

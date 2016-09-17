@@ -171,6 +171,13 @@ body {
   .nav--toolbar {
     padding-left: 15px!important;
   }
+  .profile--link {
+    margin-right: 16px;
+    &.active {
+      font-weight: 500;
+      border-bottom: 1px solid white;
+    }
+  }
 }
 .footer {
   padding-left: 15px;
