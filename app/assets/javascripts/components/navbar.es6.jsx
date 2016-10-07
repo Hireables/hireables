@@ -1,61 +1,37 @@
-// Require React
-React = require('react/addons');
-
-// import material UI
+/* global Routes window */
+import React, { Component } from 'react';
 import mui from 'material-ui';
-let Toolbar = mui.Toolbar;
-let ToolbarGroup = mui.ToolbarGroup;
-let ToolbarTitle = mui.ToolbarTitle;
-let ToolbarSeparator = mui.ToolbarSeparator;
-let RaisedButton = mui.RaisedButton;
-let FlatButton = mui.FlatButton;
-let ThemeManager = mui.Styles.ThemeManager;
-let FontIcon = mui.FontIcon;
-let LightRawTheme = mui.Styles.LightRawTheme;
-let Colors = mui.Styles.Colors;
-let Avatar = mui.Avatar;
 
-// Define component
-const NavBar = React.createClass({
+const Toolbar = mui.Toolbar;
+const ToolbarGroup = mui.ToolbarGroup;
+const ToolbarTitle = mui.ToolbarTitle;
+const FlatButton = mui.FlatButton;
+const ThemeManager = mui.Styles.ThemeManager;
+const FontIcon = mui.FontIcon;
+const LightRawTheme = mui.Styles.LightRawTheme;
+const Colors = mui.Styles.Colors;
+const Avatar = mui.Avatar;
 
-  childContextTypes: {
-    muiTheme: React.PropTypes.object
-  },
-
-  getInitialState () {
-    return {
-      muiTheme: ThemeManager.getMuiTheme(LightRawTheme),
-    };
-  },
-
-  getChildContext() {
-    return {
-      muiTheme: this.state.muiTheme,
-    };
-  },
+class NavBar extends Component {
+  constructor(props) {
+    super(props);
+    this.muiTheme = ThemeManager.getMuiTheme(LightRawTheme);
+  }
 
   componentWillMount() {
-    let newMuiTheme = ThemeManager.modifyRawThemePalette(this.state.muiTheme, {
-      accent1Color: Colors.blueA400
+    const newMuiTheme = ThemeManager.modifyRawThemePalette(this.state.muiTheme, {
+      accent1Color: Colors.blueA400,
     });
-    this.setState({muiTheme: newMuiTheme});
-  },
+    this.setState({ muiTheme: newMuiTheme });
+  }
 
   render() {
-
     const toolbarStyles = {
       backgroundColor: 'transparent',
       maxWidth: '1140px',
       textAlign: 'center',
       padding: '0',
       margin: '0 auto',
-    };
-
-    const fontStyles = {
-      paddingLeft: '0px',
-      marginRight: '10px',
-      verticalAlign: 'middle',
-      color: '#fff',
     };
 
     const toolbarTitleStyles = {
@@ -79,7 +55,7 @@ const NavBar = React.createClass({
     const toolbarGroupStyles = {
       float: 'none',
       display: 'inline-block',
-    }
+    };
 
     const userImageStyles = {
       verticalAlign: 'middle',
@@ -90,33 +66,40 @@ const NavBar = React.createClass({
       margin: 12,
     };
 
-
     return (
       <div className="nav bg-horizon">
         <div className="container">
           <Toolbar style={toolbarStyles} className="nav--toolbar">
             <ToolbarGroup key={0} style={toolbarGroupStyles}>
               <a href="/" className="link bold">
-                <ToolbarTitle text="Hireables" style={logoStyles}  />
+                <ToolbarTitle text="Hireables" style={logoStyles} />
               </a>
               <span style={betaStyles}>BETA</span>
             </ToolbarGroup>
             <ToolbarGroup key={1} float="right">
               {this.props.authenticated ?
                 <div className="logged in">
-                  <Avatar src={this.props.developer.data.avatar_url} style={userImageStyles} />
+                  <Avatar
+                    src={this.props.developer.data.avatar_url}
+                    style={userImageStyles}
+                  />
                   <a
                     href={Routes.developer_path(this.props.developer.login)}
-                    className={`profile--link ${Routes.developer_path(this.props.developer.login) === window.location.pathname ? 'active' : ''}`}
+                    className={
+                      `profile--link ${Routes.developer_path(this.props.developer.login) === window.location.pathname ? 'active' : ''}`
+                    }
                   >
-                    <ToolbarTitle text={this.props.developer.name} style={toolbarTitleStyles}  />
+                    <ToolbarTitle
+                      text={this.props.developer.name}
+                      style={toolbarTitleStyles}
+                    />
                   </a>
                   <a
                     href={Routes.destroy_developer_session_path()}
                     className="logout--link"
                     data-method="delete"
                   >
-                    <ToolbarTitle text="Logout" style={toolbarTitleStyles}  />
+                    <ToolbarTitle text="Logout" style={toolbarTitleStyles} />
                   </a>
                 </div> :
                 <div className="logged out">
@@ -135,7 +118,11 @@ const NavBar = React.createClass({
       </div>
     );
   }
+}
 
-});
+NavBar.propTypes = {
+  developer: React.PropTypes.shape,
+  authenticated: React.PropTypes.bool,
+};
 
-module.exports = NavBar;
+export default NavBar;
