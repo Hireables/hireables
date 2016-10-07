@@ -17,13 +17,6 @@ const paragraphStyles = {
 class PremiumDeveloper extends Component {
   constructor(props) {
     super(props);
-    this.onFocus = this.onFocus.bind(this);
-  }
-
-  onFocus(event) {
-    $(event.target).css({
-      backgroundColor: '#f2f2f2',
-    });
   }
 
   render() {
@@ -35,10 +28,9 @@ class PremiumDeveloper extends Component {
       >
         <ListItem
           leftAvatar={<Avatar src={this.props.developer.data.avatar_url} />}
-          disabled={true}
+          disabled
           primaryText={this.props.developer.name}
           style={paragraphStyles}
-          onKeyboardFocus={this.onFocus}
           rightIconButton={
             <div className="pull-right">
               <DeveloperMeta

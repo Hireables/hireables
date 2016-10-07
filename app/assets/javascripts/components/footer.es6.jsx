@@ -61,7 +61,7 @@ const Footer = () => {
               </a>
               <span style={betaStyles}>BETA</span>
             </ToolbarGroup>
-            <ToolbarGroup key={1} lastChild={true} className="copyright">
+            <ToolbarGroup key={1} lastChild className="copyright">
               <a
                 href="https://github.com/gauravtiwari/hireables"
                 target="_blank"

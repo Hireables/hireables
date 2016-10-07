@@ -79,7 +79,7 @@ const NavBar = (props) => {
               />
             </ToolbarGroup>
 
-            <ToolbarGroup key={2} lastChild={true}>
+            <ToolbarGroup key={2} lastChild>
               {props.authenticated ?
                 <div className="logged in">
                   <Avatar
@@ -108,7 +108,7 @@ const NavBar = (props) => {
                 <div className="logged out">
                   <FlatButton
                     href={Routes.developer_github_omniauth_authorize_path()}
-                    secondary={true}
+                    secondary
                     label="Login"
                     icon={<FontIcon className="muidocs-icon-custom-github" />}
                     style={buttonStyle}

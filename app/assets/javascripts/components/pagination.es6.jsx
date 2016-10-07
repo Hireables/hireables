@@ -33,7 +33,7 @@ class Pagination extends Component {
                 key={link.id}
                 label={link.label}
                 style={{ marginTop: '20px', marginRight: '10px' }}
-                primary={true}
+                primary
                 onClick={() => this.loadPage(link.url)}
               />
             ))}

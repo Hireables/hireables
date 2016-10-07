@@ -34,7 +34,7 @@ const Developer = props => (
         <DeveloperStatus developer={props.developer} />
       }
       primaryText={props.developer.name}
-      disabled={true}
+      disabled
       style={paragraphStyles}
       secondaryTextLines={1}
     />
