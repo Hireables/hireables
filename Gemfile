@@ -14,7 +14,6 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails'
 
 # Setup react and dependencies
-gem 'libv8', '5.0.71.48.3'
 gem 'mini_racer'
 gem 'react-rails'
 

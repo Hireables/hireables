@@ -222,7 +222,6 @@ DEPENDENCIES
   hiredis
   httparty
   js-routes
-  libv8 (= 5.0.71.48.3)
   mini_racer
   oj
   omniauth-github
