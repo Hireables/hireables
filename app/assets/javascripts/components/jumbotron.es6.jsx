@@ -10,38 +10,6 @@ const Jumbotron = () => (
           Search using tags (languages, followers, created, repos and location),
           paginate through lists and find who are are currently hireable on Github.
         </p>
-        <div className="demo-tags p-t-20">
-          <span
-            className="react-tagsinput-tag demo-tags--highlight"
-          >
-            name:dave
-          </span>
-          <span
-            className="react-tagsinput-tag demo-tags--highlight"
-          >
-            location:london
-          </span>
-          <span
-            className="react-tagsinput-tag demo-tags--highlight"
-          >
-            language:ruby
-          </span>
-          <span
-            className="react-tagsinput-tag demo-tags--highlight"
-          >
-            followers:>=100
-          </span>
-          <span
-            className="react-tagsinput-tag demo-tags--highlight"
-          >
-            repos:>=20
-          </span>
-          <span
-            className="react-tagsinput-tag demo-tags--highlight"
-          >
-            created:>=2013-05-11
-          </span>
-        </div>
       </div>
     </div>
   </div>

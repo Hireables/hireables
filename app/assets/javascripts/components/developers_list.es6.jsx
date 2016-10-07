@@ -5,8 +5,6 @@ import Loader from 'react-loader';
 import { List } from 'material-ui/List';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Snackbar from 'material-ui/Snackbar';
-import Toggle from 'material-ui/Toggle';
-import Jumbotron from './jumbotron.es6';
 import Developer from './developer.es6';
 import PremiumDeveloper from './premium_developer.es6';
 import Search from './search.es6';
@@ -17,7 +15,6 @@ import EmptyList from './empty_list.es6';
 class DevelopersList extends Component {
   constructor(props) {
     super(props);
-    this.fetchHireables = this.fetchHireables.bind(this);
     this.fetchDevelopers = this.fetchDevelopers.bind(this);
     this.handleTouchTap = this.handleTouchTap.bind(this);
     this.handleRequestClose = this.handleRequestClose.bind(this);
@@ -28,7 +25,6 @@ class DevelopersList extends Component {
       path: this.props.path,
       featured: this.props.featured,
       loaded: false,
-      hireable: false,
       open: false,
     };
   }
@@ -37,19 +33,6 @@ class DevelopersList extends Component {
     const query = decodeURIComponent(document.location.search.replace('?', ''));
     const path = !query ? this.state.path : `${this.state.path}?${query}`;
     this.fetchDevelopers(path, {});
-  }
-
-  fetchHireables(event, toggled) {
-    const query = decodeURIComponent(document.location.search.replace('?', ''));
-    const path = !query ? this.state.path : `${this.state.path}?${query}`;
-
-    this.setState({
-      [event.target.name]: toggled,
-    });
-
-    this.fetchDevelopers(path, !this.state.hireable ?
-      { hireable: !this.state.hireable } : {}
-    );
   }
 
   fetchDevelopers(path, params) {
@@ -86,8 +69,9 @@ class DevelopersList extends Component {
   render() {
     const containerStyle = {
       paddingTop: '0px',
-      borderLeft: '1px solid #f2f2f2',
       borderRight: '1px solid #f2f2f2',
+      boxShadow: '0 0 16px 0 rgba(63,67,69,0.3)',
+      margin: '40px 0px',
     };
 
     const subHeaderStyles = {
@@ -102,21 +86,11 @@ class DevelopersList extends Component {
       marginRight: '30px',
     };
 
-    const checkboxStyles = {
-      display: 'inline-block',
-      marginRight: '20px',
-      width: '30%',
-      float: 'right',
-      fontWeight: '500',
-      marginTop: 'calc(67px / 3)',
-    };
-
     return (
       <MuiThemeProvider>
         <div className="developers-list wrapper">
           <div className="container">
             <div className="developers-list developers--small sm-pull-reset col-md-5">
-              <Jumbotron />
               <Search
                 action={'/developers'}
                 searchDevelopers={this.fetchDevelopers}
@@ -126,19 +100,6 @@ class DevelopersList extends Component {
             <Loader loaded={this.state.loaded} className="p-b-100">
               {this.state.loaded && this.state.developers.length > 0 ?
                 <List className="col-md-7 pull-right" style={containerStyle}>
-                  <div className="list--header">
-                    <h2 style={subHeaderStyles} className="list--header--title">
-                      {this.state.featured ? 'Featured developers' : 'Search result'}
-                    </h2>
-                    <Toggle
-                      className="list--header--hireable-toggle"
-                      name="hireable"
-                      label="Only hireables"
-                      defaultToggled={this.state.hireable}
-                      style={checkboxStyles}
-                      onToggle={this.fetchHireables}
-                    />
-                  </div>
                   {this.state.developers.map(developer => (
                     developer.data !== undefined ?
                       <PremiumDeveloper

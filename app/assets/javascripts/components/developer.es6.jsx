@@ -7,6 +7,7 @@ import DeveloperMeta from './developer_meta.es6';
 
 const developerStyle = {
   fontWeight: '500',
+  backgroundColor: 'white',
 };
 
 const paragraphStyles = {

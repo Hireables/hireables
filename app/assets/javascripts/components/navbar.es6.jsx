@@ -44,6 +44,10 @@ const NavBar = (props) => {
       textDecoration: 'none',
       border: 'none',
     },
+    slogan: {
+      fontSize: '16px',
+      color: 'white',
+    },
   };
 
   const userImageStyles = {
@@ -67,7 +71,15 @@ const NavBar = (props) => {
               </a>
               <span style={betaStyles}>BETA</span>
             </ToolbarGroup>
-            <ToolbarGroup key={1} lastChild={true}>
+
+            <ToolbarGroup key={1}>
+              <ToolbarTitle
+                text="Search hireable developers through Github"
+                style={toolbarGroupStyles.slogan}
+              />
+            </ToolbarGroup>
+
+            <ToolbarGroup key={2} lastChild={true}>
               {props.authenticated ?
                 <div className="logged in">
                   <Avatar
