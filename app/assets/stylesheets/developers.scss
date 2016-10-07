@@ -1,18 +1,7 @@
 .list--header {
-  background-color: #fafafa;
+  background-color: #f1f1f1;
 }
 .developer--item {
-  border-bottom: 1px solid #f2f2f2;
-
-  &:first-of-type {
-    border-top: 1px solid #f2f2f2;
-    border-bottom: none;
-  }
-
-  &:last-of-type {
-    border-bottom: none;
-  }
-
   .pro-badge {
     background: #e43;
     letter-spacing: 1px;
@@ -54,12 +43,5 @@
     font-size: 18px!important;
     margin-right: 0!important;
     margin-bottom: 0!important;
-  }
-  .list--header--hireable-toggle {
-    display: block!important;
-    float: none!important;
-    width: 55%!important;
-    margin-top: 0!important;
-    margin-left: 15px!important;
   }
 }

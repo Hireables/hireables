@@ -80,11 +80,7 @@
   padding-right: 15px;
 }
 .bg-horizon {
-  background: -webkit-linear-gradient(90deg, #136a8a 10%, #267871 90%);
-  background:    -moz-linear-gradient(90deg, #136a8a 10%, #267871 90%);
-  background:     -ms-linear-gradient(90deg, #136a8a 10%, #267871 90%);
-  background:      -o-linear-gradient(90deg, #136a8a 10%, #267871 90%);
-  background:         linear-gradient(90deg, #136a8a 10%, #267871 90%);
+  background-color: #FF933F;
 }
 
 .demo-tags {
@@ -155,14 +151,16 @@ body {
   clear: both;
   display: block;
   width: 100%;
+
   .developers--small {
-    margin: 40px 40px;
+    margin: 40px 20px;
   }
+
   .filters {
     &.sticky {
-      position:fixed;
+      position: fixed;
       top: 50px;
-      width: 300px;
+      width: 342px;
     }
   }
 }
