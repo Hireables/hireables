@@ -1,7 +1,11 @@
 /* eslint-disable */
 
 // Babel polyfill
-require('babelify/polyfill');
+import injectTapEventPlugin from 'react-tap-event-plugin';
+injectTapEventPlugin();
+require('babel-polyfill');
+require('jquery-ujs');
+
 const app = window.app = global.app = {};
 
 // Component::Manifest

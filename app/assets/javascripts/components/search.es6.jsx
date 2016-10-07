@@ -2,12 +2,8 @@
 
 import React, { Component } from 'react';
 import TagsInput from 'react-tagsinput';
-import mui from 'material-ui';
-
-const Colors = mui.Styles.Colors;
-const ThemeManager = mui.Styles.ThemeManager;
-const Snackbar = mui.Snackbar;
-const LightRawTheme = mui.Styles.LightRawTheme;
+import Snackbar from 'material-ui/Snackbar';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 const textFieldStyles = {
   marginRight: '20px',
@@ -25,7 +21,6 @@ const helpStyles = {
 class Search extends Component {
   constructor(props) {
     super(props);
-    this.muiTheme = ThemeManager.getMuiTheme(LightRawTheme);
     this.populateForm = this.populateForm.bind(this);
     this.validateTag = this.validateTag.bind(this);
     this.formatTag = this.formatTag.bind(this);
@@ -34,19 +29,15 @@ class Search extends Component {
     this.preFetchPage = this.preFetchPage.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleTouchTap = this.handleTouchTap.bind(this);
+    this.handleRequestClose = this.handleRequestClose.bind(this);
+    this.handleChange = this.handleChange.bind(this);
 
     this.state = {
       error: false,
       tags: [],
+      open: false,
     };
-  }
-
-  componentWillMount() {
-    const newMuiTheme = ThemeManager.modifyRawThemePalette(this.state.muiTheme, {
-      accent1Color: Colors.deepOrange500,
-    });
-
-    this.setState({ muiTheme: newMuiTheme });
   }
 
   componentDidMount() {
@@ -57,8 +48,24 @@ class Search extends Component {
   }
 
   getFormData() {
-    // finally submit the form
     return this.state.tags.join('+');
+  }
+
+  handleChange(tags) {
+    this.setState({ tags });
+  }
+
+
+  handleTouchTap() {
+    this.setState({
+      open: true,
+    });
+  }
+
+  handleRequestClose() {
+    this.setState({
+      open: false,
+    });
   }
 
   formatTag(tag) {
@@ -142,65 +149,79 @@ class Search extends Component {
 
   render() {
     return (
-      <div className="filters">
-        <form
-          ref="search"
-          method="GET"
-          action={this.props.action}
-          onKeyDown={this.handleKeyDown}
-        >
-          <span style={helpStyles}>
-            * Apply multiple filters one by one
-          </span>
+      <MuiThemeProvider>
+        <div className="filters">
+          <form
+            ref="search"
+            method="GET"
+            action={this.props.action}
+            onKeyDown={this.handleKeyDown}
+          >
+            <span style={helpStyles}>
+              * Apply multiple filters one by one
+            </span>
 
-          <div className="search-box">
-            <TagsInput
-              autoFocus="true"
-              style={textFieldStyles}
-              ref="tags"
-              name="q"
-              transform={this.formatTag}
-              validate={this.validateTag}
-              onTagRemove={this.handleSubmit}
-              onTagAdd={this.handleSubmit}
-              placeholder="Type a filter(ex: location:london)"
+            <div className="search-box">
+              <TagsInput
+                autoFocus="true"
+                style={textFieldStyles}
+                ref="tags"
+                name="q"
+                value={this.state.tags}
+                onChange={this.handleChange}
+                transform={this.formatTag}
+                validate={this.validateTag}
+                onTagRemove={this.handleSubmit}
+                onTagAdd={this.handleSubmit}
+                placeholder="Type a filter(ex: location:london)"
+              />
+            </div>
+
+            <Snackbar
+              open={this.state.open}
+              ref="snackbar_error"
+              message="Search can't be empty"
+              action="error"
+              autoHideDuration={5000}
+              onRequestClose={this.handleRequestClose}
             />
-          </div>
-
-          <Snackbar
-            ref="snackbar_error"
-            message="Search can't be empty"
-            action="error"
-            autoHideDuration={5000}
-          />
-          <Snackbar
-            ref="snackbar_hint"
-            message="Now click find or enter key to search"
-            action="hint"
-            autoHideDuration={5000}
-          />
-          <Snackbar
-            ref="snackbar_uniqueness_error"
-            message="Keyword already added"
-            action="error"
-            autoHideDuration={5000}
-          />
-          <Snackbar
-            ref="snackbar_invalid_keyword"
-            message="Not a valid keyword! Allowed: name, language,
-            location, created, repos, followers"
-            action="error"
-            autoHideDuration={10000}
-          />
-          <Snackbar
-            ref="snackbar_invalid_format"
-            message="Not a valid format! See demo tags and format
-            correctly ex: location:london"
-            action="error"
-            autoHideDuration={10000}
-          />
-        </form>
-      </div>
+            <Snackbar
+              open={this.state.open}
+              ref="snackbar_hint"
+              message="Now click find or enter key to search"
+              action="hint"
+              autoHideDuration={5000}
+              onRequestClose={this.handleRequestClose}
+            />
+            <Snackbar
+              open={this.state.open}
+              ref="snackbar_uniqueness_error"
+              message="Keyword already added"
+              action="error"
+              autoHideDuration={5000}
+              onRequestClose={this.handleRequestClose}
+            />
+            <Snackbar
+              open={this.state.open}
+              ref="snackbar_invalid_keyword"
+              message="Not a valid keyword! Allowed: name, language,
+              location, created, repos, followers"
+              action="error"
+              autoHideDuration={10000}
+              onRequestClose={this.handleRequestClose}
+            />
+            <Snackbar
+              open={this.state.open}
+              ref="snackbar_invalid_format"
+              message="Not a valid format! See demo tags and format
+              correctly ex: location:london"
+              action="error"
+              autoHideDuration={10000}
+              onRequestClose={this.handleRequestClose}
+            />
+          </form>
+        </div>
+      </MuiThemeProvider>
     );
   }
 }

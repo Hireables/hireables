@@ -1,57 +1,58 @@
-import React, { Component } from 'react';
-import mui from 'material-ui';
+import React from 'react';
+import {
+  Toolbar,
+  ToolbarGroup,
+  ToolbarTitle,
+} from 'material-ui/Toolbar';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-const Toolbar = mui.Toolbar;
-const ToolbarGroup = mui.ToolbarGroup;
-const ToolbarTitle = mui.ToolbarTitle;
-const ThemeManager = mui.Styles.ThemeManager;
-const LightRawTheme = mui.Styles.LightRawTheme;
+const Footer = () => {
+  const toolbarStyles = {
+    backgroundColor: 'transparent',
+    maxWidth: '980px',
+    padding: '0',
+    margin: '0 auto',
+    link: {
+      textDecoration: 'none',
+    },
+    powered: {
+      display: 'block',
+    },
+  };
 
-class Footer extends Component {
-  constructor(props) {
-    super(props);
-    this.muiTheme = ThemeManager.getMuiTheme(LightRawTheme);
-  }
+  const fontStyles = {
+    paddingLeft: '0px',
+    marginRight: '10px',
+    color: '#bdbdbd',
+  };
 
-  render() {
-    const toolbarStyles = {
-      backgroundColor: 'transparent',
-      maxWidth: '980px',
-      padding: '0',
-      margin: '0 auto',
-    };
+  const toolbarTitleStyles = {
+    fontSize: '16px',
+    color: '#bdbdbd',
+  };
 
-    const fontStyles = {
-      paddingLeft: '0px',
-      marginRight: '10px',
-      color: '#bdbdbd',
-    };
+  const toolbarCopyrightStyles = {
+    fontSize: '13px',
+    color: '#bdbdbd',
+  };
 
-    const toolbarTitleStyles = {
-      fontSize: '16px',
-      color: '#bdbdbd',
-    };
+  const betaStyles = {
+    fontSize: '11px',
+    color: '#bdbdbd',
+  };
 
-    const toolbarCopyrightStyles = {
-      fontSize: '13px',
-      color: '#bdbdbd',
-    };
-
-    const betaStyles = {
-      fontSize: '11px',
-      color: '#bdbdbd',
-    };
-
-    return (
+  return (
+    <MuiThemeProvider>
       <div className="footer">
         <div className="container">
           <Toolbar style={toolbarStyles} className="footer--toolbar">
-            <ToolbarGroup key={0} float="left" className="powered">
+            <ToolbarGroup key={0} className="powered" style={toolbarStyles.powered}>
               <a
                 href="https://github.com"
                 target="_blank"
                 className="link"
                 rel="noopener noreferrer"
+                style={toolbarStyles.link}
               >
                 <ToolbarTitle
                   text="Powered by Github API"
@@ -60,10 +61,11 @@ class Footer extends Component {
               </a>
               <span style={betaStyles}>BETA</span>
             </ToolbarGroup>
-            <ToolbarGroup key={1} float="right" className="copyright">
+            <ToolbarGroup key={1} lastChild={true} className="copyright">
               <a
                 href="https://github.com/gauravtiwari/hireables"
                 target="_blank"
+                style={toolbarStyles.link}
                 className="github--link"
                 rel="noopener noreferrer"
               >
@@ -73,10 +75,11 @@ class Footer extends Component {
                 href="https://github.com/gauravtiwari"
                 target="_blank"
                 className="link"
+                style={toolbarStyles.link}
                 rel="noopener noreferrer"
               >
                 <ToolbarTitle
-                  text="Copyright 2015-2016 Hireables"
+                  text="&copy; Copyright 2015-2016 Hireables"
                   style={toolbarCopyrightStyles}
                 />
               </a>
@@ -92,12 +95,8 @@ class Footer extends Component {
           </small>
         </div>
       </div>
-    );
-  }
-}
-
-Footer.childContextTypes = {
-  muiTheme: React.PropTypes.object,
+    </MuiThemeProvider>
+  );
 };
 
 export default Footer;

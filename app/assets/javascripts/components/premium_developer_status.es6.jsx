@@ -4,9 +4,8 @@
 import React, { Component } from 'react';
 import createDOMPurify from 'dompurify';
 import Cookies from 'js-cookie';
-import mui from 'material-ui';
+import { white } from 'material-ui/styles/colors';
 
-const Colors = mui.Styles.Colors;
 class PremiumDeveloperStatus extends Component {
   constructor(props) {
     super(props);
@@ -94,7 +93,7 @@ class PremiumDeveloperStatus extends Component {
       maxWidth: '100px',
       textOverflow: 'ellipsis',
       whiteSpace: 'nowrap',
-      color: Colors.white,
+      color: white,
       overflow: 'hidden',
       fontWeight: 'bold',
       display: 'inline-block',
@@ -132,7 +131,7 @@ class PremiumDeveloperStatus extends Component {
           className="badges"
         >
           {this.props.developer.email && this.props.developer.available ?
-            <span onClick={this.openMail} style={$.extend({}, badgeStyles, emailStyles)}>
+            <span onClick={() => this.openMail} style={$.extend({}, badgeStyles, emailStyles)}>
               Email
             </span> : ''
           }
@@ -159,7 +158,7 @@ class PremiumDeveloperStatus extends Component {
 
         <div className="social-icons">
           <span
-            onClick={this.openUrl(`${location.protocol}//${location.host}/developers/${this.props.developer.login}`)}
+            onClick={() => this.openUrl(`${location.protocol}//${location.host}/developers/${this.props.developer.login}`)}
             className="show-profile"
           >
             Profile
@@ -167,7 +166,7 @@ class PremiumDeveloperStatus extends Component {
 
           {this.props.developer.blog ?
             <span
-              onClick={this.openUrl(this.props.developer.blog)}
+              onClick={() => this.openUrl(this.props.developer.blog)}
               className="show-website"
             >
               Website
@@ -175,7 +174,7 @@ class PremiumDeveloperStatus extends Component {
           }
 
           <span
-            onClick={this.openUrl(this.props.developer.html_url)}
+            onClick={() => this.openUrl(this.props.developer.html_url)}
             className="show-github"
           >
             Github
@@ -187,7 +186,7 @@ class PremiumDeveloperStatus extends Component {
 }
 
 PremiumDeveloperStatus.propTypes = {
-  developer: React.PropTypes.shape,
+  developer: React.PropTypes.object,
 };
 
 export default PremiumDeveloperStatus;

@@ -1,96 +1,87 @@
 /* global Routes window */
-import React, { Component } from 'react';
-import mui from 'material-ui';
+import React from 'react';
+import {
+  Toolbar,
+  ToolbarGroup,
+  ToolbarTitle,
+} from 'material-ui/Toolbar';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import FlatButton from 'material-ui/FlatButton';
+import FontIcon from 'material-ui/FontIcon';
+import Avatar from 'material-ui/Avatar';
 
-const Toolbar = mui.Toolbar;
-const ToolbarGroup = mui.ToolbarGroup;
-const ToolbarTitle = mui.ToolbarTitle;
-const FlatButton = mui.FlatButton;
-const ThemeManager = mui.Styles.ThemeManager;
-const FontIcon = mui.FontIcon;
-const LightRawTheme = mui.Styles.LightRawTheme;
-const Colors = mui.Styles.Colors;
-const Avatar = mui.Avatar;
+const NavBar = (props) => {
+  const toolbarStyles = {
+    backgroundColor: 'transparent',
+    maxWidth: '1140px',
+    textAlign: 'center',
+    padding: '0',
+    margin: '0 auto',
+  };
 
-class NavBar extends Component {
-  constructor(props) {
-    super(props);
-    this.muiTheme = ThemeManager.getMuiTheme(LightRawTheme);
-  }
+  const toolbarTitleStyles = {
+    fontSize: '16px',
+    color: '#fff',
+    padding: 0,
+  };
 
-  componentWillMount() {
-    const newMuiTheme = ThemeManager.modifyRawThemePalette(this.state.muiTheme, {
-      accent1Color: Colors.blueA400,
-    });
-    this.setState({ muiTheme: newMuiTheme });
-  }
+  const logoStyles = {
+    color: '#fff',
+    padding: 0,
+    fontSize: '20px',
+  };
 
-  render() {
-    const toolbarStyles = {
-      backgroundColor: 'transparent',
-      maxWidth: '1140px',
-      textAlign: 'center',
-      padding: '0',
-      margin: '0 auto',
-    };
+  const betaStyles = {
+    fontSize: '11px',
+    color: '#fff',
+    paddingLeft: '5px',
+  };
 
-    const toolbarTitleStyles = {
-      fontSize: '16px',
-      color: '#fff',
-      padding: 0,
-    };
+  const toolbarGroupStyles = {
+    float: 'none',
+    display: 'inline-block',
+    link: {
+      textDecoration: 'none',
+      border: 'none',
+    },
+  };
 
-    const logoStyles = {
-      color: '#fff',
-      padding: 0,
-      fontSize: '20px',
-    };
+  const userImageStyles = {
+    verticalAlign: 'middle',
+    marginRight: '16px',
+  };
 
-    const betaStyles = {
-      fontSize: '11px',
-      color: '#fff',
-      paddingLeft: '5px',
-    };
+  const buttonStyle = {
+    margin: 12,
+    color: 'white',
+  };
 
-    const toolbarGroupStyles = {
-      float: 'none',
-      display: 'inline-block',
-    };
-
-    const userImageStyles = {
-      verticalAlign: 'middle',
-      marginRight: '16px',
-    };
-
-    const style = {
-      margin: 12,
-    };
-
-    return (
+  return (
+    <MuiThemeProvider>
       <div className="nav bg-horizon">
         <div className="container">
           <Toolbar style={toolbarStyles} className="nav--toolbar">
             <ToolbarGroup key={0} style={toolbarGroupStyles}>
-              <a href="/" className="link bold">
+              <a href="/" className="link bold" style={toolbarGroupStyles.link}>
                 <ToolbarTitle text="Hireables" style={logoStyles} />
               </a>
               <span style={betaStyles}>BETA</span>
             </ToolbarGroup>
-            <ToolbarGroup key={1} float="right">
-              {this.props.authenticated ?
+            <ToolbarGroup key={1} lastChild={true}>
+              {props.authenticated ?
                 <div className="logged in">
                   <Avatar
-                    src={this.props.developer.data.avatar_url}
+                    src={props.developer.data.avatar_url}
                     style={userImageStyles}
                   />
                   <a
-                    href={Routes.developer_path(this.props.developer.login)}
+                    href={Routes.developer_path(props.developer.login)}
                     className={
-                      `profile--link ${Routes.developer_path(this.props.developer.login) === window.location.pathname ? 'active' : ''}`
+                      `profile--link ${Routes.developer_path(props.developer.login) === window.location.pathname ? 'active' : ''}`
                     }
                   >
                     <ToolbarTitle
-                      text={this.props.developer.name}
+                      text={props.developer.name}
                       style={toolbarTitleStyles}
                     />
                   </a>
@@ -108,7 +99,7 @@ class NavBar extends Component {
                     secondary={true}
                     label="Login"
                     icon={<FontIcon className="muidocs-icon-custom-github" />}
-                    style={style}
+                    style={buttonStyle}
                   />
                 </div>
               }
@@ -116,12 +107,12 @@ class NavBar extends Component {
           </Toolbar>
         </div>
       </div>
-    );
-  }
-}
+    </MuiThemeProvider>
+  );
+};
 
 NavBar.propTypes = {
-  developer: React.PropTypes.shape,
+  developer: React.PropTypes.object,
   authenticated: React.PropTypes.bool,
 };
 

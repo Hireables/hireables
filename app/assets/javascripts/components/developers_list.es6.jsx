@@ -2,26 +2,26 @@
 
 import React, { Component } from 'react';
 import Loader from 'react-loader';
-import mui from 'material-ui';
-import Jumbotron from './jumbotron.es6.jsx';
-import Developer from './developer.es6.jsx';
-import PremiumDeveloper from './premium_developer.es6.jsx';
-import Search from './search.es6.jsx';
-import NoContent from './no_content.es6.jsx';
-import Pagination from './pagination.es6.jsx';
-import EmptyList from './empty_list.es6.jsx';
-
-const List = mui.List;
-const ThemeManager = mui.Styles.ThemeManager;
-const Snackbar = mui.Snackbar;
-const LightRawTheme = mui.Styles.LightRawTheme;
-const Toggle = mui.Toggle;
+import { List } from 'material-ui/List';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import Snackbar from 'material-ui/Snackbar';
+import Toggle from 'material-ui/Toggle';
+import Jumbotron from './jumbotron.es6';
+import Developer from './developer.es6';
+import PremiumDeveloper from './premium_developer.es6';
+import Search from './search.es6';
+import NoContent from './no_content.es6';
+import Pagination from './pagination.es6';
+import EmptyList from './empty_list.es6';
 
 class DevelopersList extends Component {
   constructor(props) {
     super(props);
     this.fetchHireables = this.fetchHireables.bind(this);
     this.fetchDevelopers = this.fetchDevelopers.bind(this);
+    this.handleTouchTap = this.handleTouchTap.bind(this);
+    this.handleRequestClose = this.handleRequestClose.bind(this);
+
     this.state = {
       developers: [],
       rels: [],
@@ -29,7 +29,7 @@ class DevelopersList extends Component {
       featured: this.props.featured,
       loaded: false,
       hireable: false,
-      muiTheme: ThemeManager.getMuiTheme(LightRawTheme),
+      open: false,
     };
   }
 
@@ -38,7 +38,6 @@ class DevelopersList extends Component {
     const path = !query ? this.state.path : `${this.state.path}?${query}`;
     this.fetchDevelopers(path, {});
   }
-
 
   fetchHireables(event, toggled) {
     const query = decodeURIComponent(document.location.search.replace('?', ''));
@@ -72,6 +71,18 @@ class DevelopersList extends Component {
     });
   }
 
+  handleTouchTap() {
+    this.setState({
+      open: true,
+    });
+  }
+
+  handleRequestClose() {
+    this.setState({
+      open: false,
+    });
+  }
+
   render() {
     const containerStyle = {
       paddingTop: '0px',
@@ -101,71 +112,71 @@ class DevelopersList extends Component {
     };
 
     return (
-      <div className="developers-list wrapper">
-        <div className="container">
-          <div className="developers-list developers--small sm-pull-reset col-md-5">
-            <Jumbotron />
-            <Search
-              action={'/developers'}
-              searchDevelopers={this.fetchDevelopers}
-              fetchDevelopers={this.fetchDevelopers}
+      <MuiThemeProvider>
+        <div className="developers-list wrapper">
+          <div className="container">
+            <div className="developers-list developers--small sm-pull-reset col-md-5">
+              <Jumbotron />
+              <Search
+                action={'/developers'}
+                searchDevelopers={this.fetchDevelopers}
+                fetchDevelopers={this.fetchDevelopers}
+              />
+            </div>
+            <Loader loaded={this.state.loaded} className="p-b-100">
+              {this.state.loaded && this.state.developers.length > 0 ?
+                <List className="col-md-7 pull-right" style={containerStyle}>
+                  <div className="list--header">
+                    <h2 style={subHeaderStyles} className="list--header--title">
+                      {this.state.featured ? 'Featured developers' : 'Search result'}
+                    </h2>
+                    <Toggle
+                      className="list--header--hireable-toggle"
+                      name="hireable"
+                      label="Only hireables"
+                      defaultToggled={this.state.hireable}
+                      style={checkboxStyles}
+                      onToggle={this.fetchHireables}
+                    />
+                  </div>
+                  {this.state.developers.map(developer => (
+                    developer.data !== undefined ?
+                      <PremiumDeveloper
+                        developer={developer}
+                        key={developer.id}
+                        meta={this.props.meta}
+                      /> :
+                      <Developer
+                        developer={developer}
+                        key={developer.id}
+                        meta={this.props.meta}
+                      />
+                  ))}
+                  {this.state.rels != null && this.state.developers.length > 0 ?
+                    <Pagination links={this.state.rels} fetchNextPage={this.fetchDevelopers} />
+                    : <NoContent />
+                  }
+                </List> : <EmptyList />}
+            </Loader>
+            <Snackbar
+              open={this.state.open}
+              ref="snackbar_404"
+              message="Ohh no! Request failed! Make sure you are using right parameters"
+              action="error"
+              onRequestClose={this.handleRequestClose}
+              autoHideDuration={5000}
             />
           </div>
-          <Loader loaded={this.state.loaded} className="p-b-100">
-            {this.state.loaded && this.state.developers.length > 0 ?
-              <List className="col-md-7 pull-right" style={containerStyle}>
-                <div className="list--header">
-                  <h2 style={subHeaderStyles} className="list--header--title">
-                    {this.state.featured ? 'Featured developers' : 'Search result'}
-                  </h2>
-                  <Toggle
-                    className="list--header--hireable-toggle"
-                    name="hireable"
-                    label="Only hireables"
-                    defaultToggled={this.state.hireable}
-                    style={checkboxStyles}
-                    onToggle={this.fetchHireables}
-                  />
-                </div>
-                {this.state.developers.map(developer => (
-                  developer.data !== undefined ?
-                    <PremiumDeveloper
-                      developer={developer}
-                      key={developer.id}
-                      meta={this.props.meta}
-                    /> :
-                    <Developer
-                      developer={developer}
-                      key={developer.id}
-                      meta={this.props.meta}
-                    />
-                ))}
-                {this.state.rels != null && this.state.developers.length > 0 ?
-                  <Pagination links={this.state.rels} fetchNextPage={this.fetchDevelopers} />
-                  : <NoContent />
-                }
-              </List> : <EmptyList />}
-          </Loader>
-          <Snackbar
-            ref="snackbar_404"
-            message="Ohh no! Request failed! Make sure you are using right parameters"
-            action="error"
-            autoHideDuration={5000}
-          />
         </div>
-      </div>
+      </MuiThemeProvider>
     );
   }
 }
 
-DevelopersList.childContextTypes = {
-  muiTheme: React.PropTypes.shape,
-};
-
 DevelopersList.propTypes = {
   path: React.PropTypes.string,
   featured: React.PropTypes.bool,
-  meta: React.PropTypes.shape,
+  meta: React.PropTypes.object,
 };
 
 export default DevelopersList;

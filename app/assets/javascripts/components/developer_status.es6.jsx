@@ -4,11 +4,8 @@
 import React, { Component } from 'react';
 import createDOMPurify from 'dompurify';
 import Cookies from 'js-cookie';
-import mui from 'material-ui';
+import { white } from 'material-ui/styles/colors';
 
-const Colors = mui.Styles.Colors;
-
-// Define component
 class DeveloperStatus extends Component {
   constructor(props) {
     super(props);
@@ -95,7 +92,7 @@ class DeveloperStatus extends Component {
       maxWidth: '100px',
       textOverflow: 'ellipsis',
       whiteSpace: 'nowrap',
-      color: Colors.white,
+      color: white,
       overflow: 'hidden',
       fontWeight: 'bold',
       display: 'inline-block',
@@ -131,7 +128,7 @@ class DeveloperStatus extends Component {
           className="badges"
         >
           {this.props.developer.email && this.props.developer.hireable ?
-            <span onClick={this.openMail} style={$.extend({}, badgeStyles, emailStyles)}>
+            <span onClick={() => this.openMail} style={$.extend({}, badgeStyles, emailStyles)}>
               Email
             </span> : ''
           }
@@ -154,7 +151,7 @@ class DeveloperStatus extends Component {
 
         <div className="social-icons">
           <span
-            onClick={
+            onClick={() =>
               this.openUrl(
                 `${location.protocol}//${location.host}/developers/${this.props.developer.login}`
               )
@@ -166,7 +163,7 @@ class DeveloperStatus extends Component {
 
           {this.props.developer.blog ?
             <span
-              onClick={this.openUrl(this.props.developer.blog)}
+              onClick={() => this.openUrl(this.props.developer.blog)}
               className="show-website"
             >
               Website
@@ -174,7 +171,7 @@ class DeveloperStatus extends Component {
           }
 
           <span
-            onClick={this.openUrl(this.props.developer.html_url)}
+            onClick={() => this.openUrl(this.props.developer.html_url)}
             className="show-github"
           >
             Github

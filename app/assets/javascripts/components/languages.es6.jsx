@@ -1,25 +1,26 @@
 import React from 'react';
-import mui from 'material-ui';
+import { white, grey600 } from 'material-ui/styles/colors';
 
-const Colors = mui.Styles.Colors;
-const Languages = () => {
+const Languages = (props) => {
   const badgeStyles = {
     fontSize: '12px',
     lineHeight: '22px',
-    backgroundColor: Colors.grey600,
+    backgroundColor: grey600,
     padding: '5px 8px',
     marginRight: '5px',
-    color: Colors.white,
+    color: white,
     fontWeight: '500',
     textDecoration: 'none',
     overflow: 'hidden',
     borderRadius: 2,
   };
 
+  const { languages } = props;
+
   return (
     <div style={{ marginTop: '10px' }}>
       <span>
-        {this.props.languages ? this.props.languages.map(language => (
+        {languages ? languages.map(language => (
           <a
             key={Math.random()}
             href={`/developers?q=language:${language.trim().toLowerCase()}`}

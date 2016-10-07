@@ -1,7 +1,6 @@
 import React from 'react';
-import mui from 'material-ui';
+import { grey500 } from 'material-ui/styles/colors';
 
-const Colors = mui.Styles.Colors;
 const EmptyList = () => {
   const emptyListStyle = {
     paddingTop: '100px',
@@ -10,7 +9,7 @@ const EmptyList = () => {
 
   return (
     <div className="no_content text-center" style={emptyListStyle}>
-      <h1 style={{ color: Colors.grey500 }}>No developers found</h1>
+      <h1 style={{ color: grey500 }}>No developers found</h1>
     </div>
   );
 };

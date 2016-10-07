@@ -1,12 +1,10 @@
 /* global $ */
 
 import React, { Component } from 'react';
-import mui from 'material-ui';
-import PremiumDeveloperStatus from './premium_developer_status.es6.jsx';
-import DeveloperMeta from './developer_meta.es6.jsx';
-
-const ListItem = mui.ListItem;
-const Avatar = mui.Avatar;
+import { ListItem } from 'material-ui/List';
+import Avatar from 'material-ui/Avatar';
+import PremiumDeveloperStatus from './premium_developer_status.es6';
+import DeveloperMeta from './developer_meta.es6';
 
 const developerStyle = {
   fontWeight: '500',
@@ -16,7 +14,6 @@ const paragraphStyles = {
   height: 'auto',
 };
 
-// Define component
 class PremiumDeveloper extends Component {
   constructor(props) {
     super(props);
@@ -62,7 +59,7 @@ class PremiumDeveloper extends Component {
 }
 
 PremiumDeveloper.propTypes = {
-  developer: React.PropTypes.shape,
+  developer: React.PropTypes.object,
 };
 
 export default PremiumDeveloper;

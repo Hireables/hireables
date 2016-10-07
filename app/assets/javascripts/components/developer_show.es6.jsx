@@ -1,42 +1,27 @@
-import React, { Component } from 'react';
-import mui from 'material-ui';
-import DeveloperMeta from './developer_meta.es6.jsx';
-import DeveloperStatus from './developer_status.es6.jsx';
-import Languages from './languages.es6.jsx';
+import React from 'react';
+import Avatar from 'material-ui/Avatar';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import { grey700 } from 'material-ui/styles/colors';
+import DeveloperMeta from './developer_meta.es6';
+import DeveloperStatus from './developer_status.es6';
+import Languages from './languages.es6';
 
-const Avatar = mui.Avatar;
-const Colors = mui.Styles.Colors;
-const ThemeManager = mui.Styles.ThemeManager;
-const LightRawTheme = mui.Styles.LightRawTheme;
+const DeveloperShow = (props) => {
+  const wrapperStyle = {
+    paddingTop: '60px',
+    paddingBottom: '60px',
+    textAlign: 'center',
+  };
 
-class DeveloperShow extends Component {
-  constructor(props) {
-    super(props);
-    this.muiTheme = ThemeManager.getMuiTheme(LightRawTheme);
-  }
+  const linkStyles = {
+    textStyle: 'none',
+    textDecoration: 'none',
+    color: '#333',
+  };
 
-  getChildContext() {
-    return {
-      muiTheme: this.state.muiTheme,
-    };
-  }
-
-  render() {
-    const wrapperStyle = {
-      paddingTop: '60px',
-      paddingBottom: '60px',
-      textAlign: 'center',
-    };
-
-    const linkStyles = {
-      textStyle: 'none',
-      textDecoration: 'none',
-      color: '#333',
-    };
-
-    const { developer } = this.props;
-
-    return (
+  const { developer } = props;
+  return (
+    <MuiThemeProvider>
       <div className="developers-show">
         <header className="header header--bg">
           <div className="container">
@@ -53,7 +38,7 @@ class DeveloperShow extends Component {
                     target="_blank"
                     rel="noopener noreferrer"
                     style={{
-                      color: Colors.grey700,
+                      color: grey700,
                       marginLeft: '10px',
                       paddingBottom: '5px',
                       cursor: 'pointer',
@@ -70,6 +55,7 @@ class DeveloperShow extends Component {
 
               <div className="p-t-20">
                 <DeveloperMeta
+                  positionClass="center"
                   followers={developer.followers}
                   gists={developer.public_gists}
                   repos={developer.public_repos}
@@ -79,12 +65,8 @@ class DeveloperShow extends Component {
           </div>
         </header>
       </div>
-    );
-  }
-}
-
-DeveloperShow.childContextTypes = {
-  muiTheme: React.PropTypes.object,
+    </MuiThemeProvider>
+  );
 };
 
 DeveloperShow.propTypes = {

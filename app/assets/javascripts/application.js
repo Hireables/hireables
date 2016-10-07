@@ -1,14 +1,11 @@
 /* eslint-disable */
 
-//= require_self
-//= require components
+//= require vendor-bundle
+//= require app-bundle
 //= require tracker
 //= require js-routes
 //= require turbolinks
 //= require react_ujs
-
-// Setup React in global scope
-require('jquery-ujs');
 
 function setStickyFilters() {
   if($(window).width() > 1024) {
