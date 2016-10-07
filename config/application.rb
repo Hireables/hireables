@@ -48,11 +48,5 @@ module Hireables
 
     # Setup sidekiq
     config.active_job.queue_adapter = :sidekiq
-
-    # Setup browserify with Babel
-    config.browserify_rails.commandline_options = "-t babelify --extension=\"es6.js\""
-    config.browserify_rails.source_map_environments << "development"
-    config.browserify_rails.evaluate_node_modules = true
-
   end
 end
