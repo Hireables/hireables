@@ -17,6 +17,7 @@ node_modules
 # Ignore application configuration
 /config/application.yml
 app/assets/webpack/*
+.happypack/*
 passenger.3000.pid
 passenger.3000.pid.lock
 passenger*
