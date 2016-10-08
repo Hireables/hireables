@@ -1,9 +1,5 @@
 module Github
   class Response
-    # Sends formatted/cached response
-    #   params : request
-    # Returns collection object
-
     def initialize(request)
       @request = request
     end
@@ -15,12 +11,10 @@ module Github
         if developer.nil?
           Rails.cache.fetch(['developers', username], expires_in: 2.days) do
             request = Github::Api.new("/users/#{username}").fetch
-            request.parsed_response
+            JSON.parse(request.body, object_class: OpenStruct)
           end
         else
-          Rails.cache.fetch(
-            ['developers', username, developer.updated_at], expires_in: 2.days
-          ) do
+          Rails.cache.fetch(['developers', username, developer], expires_in: 2.days) do
             developer
           end
         end
@@ -48,6 +42,5 @@ module Github
     def not_found?
       @request.headers["status"] == "404 Not Found"
     end
-
   end
 end
