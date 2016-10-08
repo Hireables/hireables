@@ -14,12 +14,7 @@ const muiTheme = getMuiTheme({
 });
 
 class Pagination extends Component {
-  constructor(props) {
-    super(props);
-    this.loadPage = this.loadPage.bind(this);
-  }
-
-  loadPage(link) {
+  static loadPage(link) {
     Turbolinks.visit(`/developers?${decodeURIComponent(link)}`);
   }
 

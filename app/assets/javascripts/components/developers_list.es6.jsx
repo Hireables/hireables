@@ -74,18 +74,6 @@ class DevelopersList extends Component {
       margin: '40px 0px',
     };
 
-    const subHeaderStyles = {
-      fontSize: '20px',
-      marginBottom: '20px',
-      padding: '0',
-      display: 'inline-block',
-      marginLeft: '15px',
-      fontWeight: '500',
-      color: '#777',
-      lineHeight: '30px',
-      marginRight: '30px',
-    };
-
     return (
       <MuiThemeProvider>
         <div className="developers-list wrapper">

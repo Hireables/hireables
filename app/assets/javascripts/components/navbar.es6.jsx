@@ -79,7 +79,7 @@ const NavBar = (props) => {
               />
             </ToolbarGroup>
 
-            <ToolbarGroup key={2} lastChild>
+            <ToolbarGroup key={2}>
               {props.authenticated ?
                 <div className="logged in">
                   <Avatar
@@ -87,6 +87,7 @@ const NavBar = (props) => {
                     style={userImageStyles}
                   />
                   <a
+                    style={toolbarGroupStyles.link}
                     href={Routes.developer_path(props.developer.login)}
                     className={
                       `profile--link ${Routes.developer_path(props.developer.login) === window.location.pathname ? 'active' : ''}`
@@ -98,6 +99,7 @@ const NavBar = (props) => {
                     />
                   </a>
                   <a
+                    style={toolbarGroupStyles.link}
                     href={Routes.destroy_developer_session_path()}
                     className="logout--link"
                     data-method="delete"

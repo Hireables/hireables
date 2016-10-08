@@ -41,7 +41,6 @@ const Developer = props => (
   </div>
 );
 
-
 Developer.propTypes = {
   developer: React.PropTypes.object,
 };

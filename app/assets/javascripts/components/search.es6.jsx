@@ -63,6 +63,12 @@ const styles = {
 };
 
 class Search extends Component {
+  static onKeyPress(event) {
+    if (event.which === 13) {
+      event.preventDefault();
+    }
+  }
+
   constructor(props) {
     super(props);
     this.handleTouchTap = this.handleTouchTap.bind(this);
@@ -88,15 +94,11 @@ class Search extends Component {
     };
   }
 
-  onKeyPress(event) {
-    if (event.which === 13) {
-      event.preventDefault();
-    }
-  }
-
   handleRequestDelete(key) {
     this.languagesData = this.state.languagesData;
-    const languageToDelete = this.languagesData.map(language => language.key).indexOf(key);
+    const languageToDelete = this.languagesData
+    .map(language => language.key)
+    .indexOf(key);
     this.languagesData.splice(languageToDelete, 1);
     this.setState({ languagesData: this.languagesData });
   }
@@ -135,7 +137,7 @@ class Search extends Component {
       this.addNewLanguage(event);
     }
 
-    if (event.keyCode === 188) {
+    if (event.keyCode === 188 || event.keyCode === 32) {
       this.addNewLanguage(event);
     }
   }
@@ -231,12 +233,12 @@ class Search extends Component {
             onInvalid={this.disableButton}
             validationErrors={this.state.validationErrors}
           >
-            <div className="search-box keyword">
+            <div className="search-box fullname">
               <FormsyText
                 id="text-field-default"
-                placeholder="Type a name (ex: david)"
+                placeholder="(ex: david)"
                 autoFocus="true"
-                name="keyword"
+                name="fullname"
                 fullWidth
                 floatingLabelText="Search by developer name"
                 floatingLabelFixed
@@ -246,7 +248,7 @@ class Search extends Component {
             <div className="search-box language">
               <FormsyText
                 id="text-field-default"
-                placeholder="Separated by comma (ex: ruby, python)"
+                placeholder="(ex: ruby, python)"
                 name="language"
                 onKeyDown={this.checkComma}
                 ref={node => (this.languageNode = node)}
@@ -263,7 +265,7 @@ class Search extends Component {
             <div className="search-box location">
               <FormsyText
                 id="text-field-default"
-                placeholder="Type a location (ex: london)"
+                placeholder="(ex: london)"
                 name="location"
                 fullWidth
                 floatingLabelText="Search by developer location"

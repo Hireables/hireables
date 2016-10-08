@@ -7,13 +7,7 @@ import Cookies from 'js-cookie';
 import { white } from 'material-ui/styles/colors';
 
 class PremiumDeveloperStatus extends Component {
-  constructor(props) {
-    super(props);
-    this.openUrl = this.openUrl.bind(this);
-    this.openMail = this.openMail.bind(this);
-  }
-
-  openUrl(url) {
+  static openUrl(url) {
     const clicksCookieName = `${Cookies.get('visitor')}-clicks`;
     const clicksValue = parseInt(Cookies.get(clicksCookieName), 0) + 1;
 
@@ -38,6 +32,11 @@ class PremiumDeveloperStatus extends Component {
 
     const urlWithProtocol = url.match(/^http[s]*:\/\//) ? url : `http://${url}`;
     window.open(urlWithProtocol);
+  }
+
+  constructor(props) {
+    super(props);
+    this.openMail = this.openMail.bind(this);
   }
 
   openMail(e) {
@@ -146,9 +145,9 @@ class PremiumDeveloperStatus extends Component {
             <span style={badgeStyles} className="available">
               Hireable
             </span> : !this.props.developer.data.company ?
-            <span style={badgeStyles} className="may_available">
-              May be hireable
-            </span> : ''
+              <span style={badgeStyles} className="may_available">
+                May be hireable
+              </span> : ''
           }
 
           <span className="pro-badge" style={badgeStyles}>
