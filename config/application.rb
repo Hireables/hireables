@@ -1,3 +1,4 @@
+$LOAD_PATH << File.expand_path('../lib', __dir__)
 require File.expand_path('../boot', __FILE__)
 
 require "rails"
@@ -9,6 +10,7 @@ require "action_controller/railtie"
 require "action_mailer/railtie"
 require "action_view/railtie"
 require "sprockets/railtie"
+require 'schema_reloader'
 # require "rails/test_unit/railtie"
 
 # Require the gems listed in Gemfile, including any gems
@@ -17,6 +19,13 @@ Bundler.require(*Rails.groups)
 
 module Hireables
   class Application < Rails::Application
+    # Autloaded paths
+    config.autoload_paths += Dir["#{config.root}/app/graphql/*"]
+    config.autoload_paths += Dir["#{config.root}/app/lib/*"]
+    config.autoload_paths << Rails.root.join('app/services')
+
+    # Middlewares
+    config.middleware.use SchemaReloader
 
     # Configure react rendering
     config.react.addons = true
