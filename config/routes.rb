@@ -8,6 +8,15 @@ Rails.application.routes.draw do
     get 'login', to: 'devise/sessions#new', as: :new_developer_session
   end
 
+  namespace :graphql do
+    post '/', to: 'query#create'
+  end
+
+  # GraphiQL api playground
+  if Rails.env.development?
+    mount GraphiQL::Rails::Engine, at: '/graphiql', graphql_path: '/graphql'
+  end
+
   resources :developers, only: [:index, :show] do
     collection do
       post :search
