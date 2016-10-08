@@ -24,7 +24,6 @@ class Authenticator
   private
 
   def create_from_omniauth
-    puts auth.extra.raw_info
     Developer.create!(
       email: auth.info.email,
       password: Devise.friendly_token[0, 20],
