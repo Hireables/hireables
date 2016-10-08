@@ -47,11 +47,18 @@ gem 'slim-rails'
 # Client side routes
 gem 'js-routes'
 
+# Graphql
+gem 'graphql'
+
+# Auth token
+gem 'jwt'
+
 group :production do
   gem 'rails_12factor'
 end
 
 group :development do
+  gem 'graphiql-rails'
   gem 'spring'
   gem 'foreman'
   gem 'figaro'
