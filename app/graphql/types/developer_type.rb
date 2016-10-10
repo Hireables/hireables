@@ -49,7 +49,7 @@ DeveloperType = GraphQL::ObjectType.define do
   field :platforms, types[types.String] do
     description 'The followers of this developer'
     resolve -> (obj, args, ctx) do
-      obj.respond_to?(:platforms) ?  obj.platforms : fetch_languages(obj.login)
+      obj.respond_to?(:platforms) ?  obj.platforms : []
     end
   end
 

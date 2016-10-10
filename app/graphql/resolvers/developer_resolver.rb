@@ -8,14 +8,6 @@ class DeveloperResolver
   def initialize(obj, args, ctx)
     @params = args.instance_variable_get(:@argument_values)
     @current_user = ctx[:current_user]
-
-    FetchDeveloperJob.perform_later(
-      params[:id]
-    ) unless Rails.cache.exist?(params[:id])
-
-    FetchDeveloperLanguagesJob.perform_later(
-      params[:id]
-    ) unless Rails.cache.exist?([params[:id], 'languages'])
   end
 
   def call
