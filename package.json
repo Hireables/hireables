@@ -65,7 +65,7 @@
   },
   "metadata": {
     "graphql": {
-      "schema": "./app/assets/javascripts/config/schema.json"
+      "schema": "./app/assets/config/schema.json"
     }
   }
 }
