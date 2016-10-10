@@ -1,17 +1,15 @@
 module Github
   class Uri
-    attr_accessor :query, :count
-    # Handles API uri selection based on params
-    #   params : {query_params}
-    # Returns formatted api url
+    attr_accessor :query, :count, :page
 
-    def initialize(query, count = 20)
+    def initialize(query, count = 20, page = 1)
       @query = query
       @count = count
+      @page = page
     end
 
     def get
-      "/search/users?q=#{query}&per_page=#{count}"
+      "/search/users?q=#{query}&per_page=#{count + 1}&page=#{page}"
     end
   end
 end

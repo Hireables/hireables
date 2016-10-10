@@ -5,18 +5,9 @@ class CacheKey
     @params = params
   end
 
-  def set
-    REDIS.sadd('hireables:cache_keys', key)
-    REDIS.expire('hireables:cache_keys', 2.days)
-  end
-
-  def get
+  def key
     params.map do |key, value|
-      "#{key}:#{value}" unless value.nil?
-    end.join('+').gsub(/\s+/, '')
-  end
-
-  def cached?
-    REDIS.sismember('hireables:cache_keys', key)
+      "#{key}:#{value}" if value.present?
+    end.reject{ |param| param.nil? }.join('+').gsub(/\s+/, '')
   end
 end

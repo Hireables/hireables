@@ -7,14 +7,16 @@ module Github
     end
 
     def set
-      params.map do |key, value|
-        "#{key}:#{value}" if valid_query_params.include?(key) && value.present?
+      params.map do |param, value|
+        "#{param}:#{value}" if valid?(param) && value.present?
       end.compact.join('+').gsub(/\s+/, '')
     end
 
-    private
+    def valid?(key)
+      supported.include?(key.to_s)
+    end
 
-    def valid_query_params
+    def supported
       %w(language fullname location followers repos)
     end
   end
