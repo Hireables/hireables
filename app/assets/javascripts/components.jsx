@@ -13,6 +13,7 @@ import Footer from './components/footer.es6';
 import DeveloperRoute from './routes/developerRoute.es6';
 import DevelopersList from './components/developers_list.es6';
 import DeveloperShow from './components/developer_show.es6';
+import DeveloperEdit from './components/developer_edit.es6';
 import CookiesTracker from './components/cookies.es6';
 
 import ReactHelper from './utils/reactHelper.es6';
@@ -21,6 +22,7 @@ ReactHelper.registerComponent({
   NavBar,
   DevelopersList,
   DeveloperShow,
+  DeveloperEdit,
   CookiesTracker,
   Footer,
 });
