@@ -27,16 +27,6 @@ module Hireables
     # Middlewares
     config.middleware.use SchemaReloader
 
-    # Configure react rendering
-    config.react.addons = true
-    config.react.server_renderer_pool_size  ||= 5
-    config.react.server_renderer_timeout    ||= 20
-    config.react.server_renderer = React::ServerRendering::SprocketsRenderer
-    config.react.server_renderer_options = {
-      files: ["react.js", "components.js"],
-      replay_console: true,
-    }
-
     # Autoload lib
     config.autoload_paths += Dir["#{config.root}/app/lib/*"]
 
@@ -54,6 +44,9 @@ module Hireables
         resource '*', headers: :any, methods: [:get, :options]
       end
     end
+
+    # Don't silence errors
+    config.active_record.raise_in_transactional_callbacks = true
 
     # Setup sidekiq
     config.active_job.queue_adapter = :sidekiq
