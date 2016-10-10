@@ -9,7 +9,7 @@ module Github
     end
 
     def get
-      "/search/users?q=#{query}&per_page=#{count + 1}&page=#{page}"
+      URI.encode("/search/users?q=#{query}&per_page=#{count + 1}&page=#{page}")
     end
   end
 end
