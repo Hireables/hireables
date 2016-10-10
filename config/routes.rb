@@ -17,7 +17,7 @@ Rails.application.routes.draw do
     mount GraphiQL::Rails::Engine, at: '/graphiql', graphql_path: '/graphql'
   end
 
-  resources :developers, only: [:index, :show] do
+  resources :developers, except: :create do
     collection do
       post :search
     end
