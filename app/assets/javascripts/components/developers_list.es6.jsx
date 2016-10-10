@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import Relay from 'react-relay';
 import _ from 'underscore';
+import RaisedButton from 'material-ui/RaisedButton';
 import queryString from 'query-string';
 import Loader from 'react-loader';
 import { List } from 'material-ui/List';
@@ -13,6 +14,15 @@ import PremiumDeveloper from './premium_developer.es6';
 import Search from './search.es6';
 import NoContent from './no_content.es6';
 import EmptyList from './empty_list.es6';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import { orangeA700 } from 'material-ui/styles/colors';
+
+const muiTheme = getMuiTheme({
+  palette: {
+    primary1Color: orangeA700,
+    accent1Color: orangeA700,
+  },
+});
 
 class DevelopersList extends Component {
   constructor(props) {
@@ -84,7 +94,7 @@ class DevelopersList extends Component {
     const { root, relay } = this.props;
 
     return (
-      <MuiThemeProvider>
+      <MuiThemeProvider muiTheme={muiTheme}>
         <div className="developers-list wrapper">
           <div className="container">
             <div className="developers-list developers--small sm-pull-reset col-md-5">
@@ -104,19 +114,27 @@ class DevelopersList extends Component {
                         key={node.id}
                       />
                   ))}
-                  {root.developers.pageInfo != null && root.developers.pageInfo.hasNextPage  ?
-                    <a onClick={this.loadMore} href="#">
-                      Load More
-                    </a>
-                    : <NoContent />
-                  }
+                  <div className="pagination">
+                    {root.developers.pageInfo != null && root.developers.pageInfo.hasNextPage  ?
+                      <RaisedButton
+                        label="Next page"
+                        style={{ marginTop: '20px', marginRight: '10px' }}
+                        primary
+                        onClick={this.loadMore}
+                      />
+                      : <NoContent />
+                    }
 
-                  {this.queryObject.page >= 2 ?
-                    <a onClick={this.loadPrevious} href="#">
-                      Load Previous
-                    </a>
-                    : <NoContent />
-                  }
+                    {this.queryObject.page >= 2 ?
+                      <RaisedButton
+                        label="Previous page"
+                        style={{ marginTop: '20px', marginRight: '10px' }}
+                        primary
+                        onClick={this.loadPrevious}
+                      />
+                      : <NoContent />
+                    }
+                  </div>
                 </List> : <EmptyList />}
               </Loader>
             <Snackbar
