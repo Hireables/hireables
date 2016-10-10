@@ -116,7 +116,7 @@ body {
   float: right;
 }
 .container {
-  max-width: 1140px;
+  max-width: 980px;
   margin: 0 auto;
   clear: both;
   display: block;
@@ -157,10 +157,11 @@ body {
   }
 
   .filters {
+    width: 100%;
     &.sticky {
       position: fixed;
       top: 50px;
-      width: 342px;
+      width: 300px;
     }
   }
 }

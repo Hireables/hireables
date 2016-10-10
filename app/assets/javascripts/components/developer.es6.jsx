@@ -13,6 +13,7 @@ const developerStyle = {
 
 const paragraphStyles = {
   height: 'auto',
+  paddingRight: '10px',
 };
 
 const Developer = props => (

@@ -34,7 +34,6 @@ const filterStyles = {
   backgroundColor: 'white',
   padding: '10px',
   boxShadow: '0 0 16px 0 rgba(63,67,69,0.3)',
-  width: '342px',
 };
 
 const styles = {
