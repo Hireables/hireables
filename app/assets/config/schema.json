@@ -13,6 +13,33 @@
           "description": "The query root of this schema for reading data.",
           "fields": [
             {
+              "name": "developer",
+              "description": "Returns a developer profile by id",
+              "args": [
+                {
+                  "name": "id",
+                  "description": null,
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": "Non-Null",
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Developer",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "node",
               "description": "Fetches an object given its ID",
               "args": [
@@ -161,7 +188,7 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "keyword",
+                  "name": "fullname",
                   "description": null,
                   "type": {
                     "kind": "SCALAR",
@@ -181,7 +208,7 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "languages",
+                  "name": "language",
                   "description": null,
                   "type": {
                     "kind": "SCALAR",
@@ -191,54 +218,34 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "hireable",
+                  "name": "followers",
                   "description": null,
                   "type": {
                     "kind": "SCALAR",
-                    "name": "Boolean",
+                    "name": "String",
                     "ofType": null
                   },
-                  "defaultValue": "false"
+                  "defaultValue": null
                 },
                 {
-                  "name": "remote",
+                  "name": "repos",
                   "description": null,
                   "type": {
                     "kind": "SCALAR",
-                    "name": "Boolean",
+                    "name": "String",
                     "ofType": null
                   },
-                  "defaultValue": "false"
+                  "defaultValue": null
                 },
                 {
-                  "name": "relocate",
+                  "name": "page",
                   "description": null,
                   "type": {
                     "kind": "SCALAR",
-                    "name": "Boolean",
+                    "name": "Int",
                     "ofType": null
                   },
-                  "defaultValue": "false"
-                },
-                {
-                  "name": "full_time",
-                  "description": null,
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "Boolean",
-                    "ofType": null
-                  },
-                  "defaultValue": "false"
-                },
-                {
-                  "name": "part_time",
-                  "description": null,
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "Boolean",
-                    "ofType": null
-                  },
-                  "defaultValue": "false"
+                  "defaultValue": "1"
                 },
                 {
                   "name": "order",
@@ -248,7 +255,7 @@
                     "name": "String",
                     "ofType": null
                   },
-                  "defaultValue": "\"-id\""
+                  "defaultValue": null
                 }
               ],
               "type": {
@@ -389,6 +396,20 @@
           "description": "Fetch developer associated fields",
           "fields": [
             {
+              "name": "available",
+              "description": "The followers of this developer",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "avatar_url",
               "description": "The avatar of this developer",
               "args": [
@@ -419,6 +440,20 @@
             {
               "name": "blog",
               "description": "The blog website of this developer",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "city",
+              "description": "The followers of this developer",
               "args": [
 
               ],
@@ -519,6 +554,24 @@
               "deprecationReason": null
             },
             {
+              "name": "jobs",
+              "description": "The followers of this developer",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "LIST",
+                "name": "List",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "location",
               "description": "The location of this developer",
               "args": [
@@ -561,6 +614,24 @@
               "deprecationReason": null
             },
             {
+              "name": "platforms",
+              "description": "The followers of this developer",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "LIST",
+                "name": "List",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "public_gists",
               "description": "The gists of this developer",
               "args": [
@@ -583,6 +654,20 @@
               "type": {
                 "kind": "SCALAR",
                 "name": "Int",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "remote",
+              "description": "The followers of this developer",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
                 "ofType": null
               },
               "isDeprecated": false,

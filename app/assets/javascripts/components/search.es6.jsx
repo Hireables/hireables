@@ -8,8 +8,10 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import RaisedButton from 'material-ui/RaisedButton';
 import Chip from 'material-ui/Chip';
+import _ from 'underscore';
+
 import {
-  FormsyCheckbox,
+  // FormsyCheckbox,
   FormsyText,
 } from 'formsy-material-ui/lib';
 
@@ -20,13 +22,13 @@ const muiTheme = getMuiTheme({
   },
 });
 
-const helpStyles = {
-  fontSize: '12px',
-  color: 'rgba(0, 0, 0, 0.298039)',
-  margin: '10px 0',
-  display: 'block',
-  userSelect: 'none',
-};
+// const helpStyles = {
+//   fontSize: '12px',
+//   color: 'rgba(0, 0, 0, 0.298039)',
+//   margin: '10px 0',
+//   display: 'block',
+//   userSelect: 'none',
+// };
 
 const filterStyles = {
   backgroundColor: 'white',
@@ -81,6 +83,7 @@ class Search extends Component {
     this.disableButton = this.disableButton.bind(this);
     this.clearValidationErrors = this.clearValidationErrors.bind(this);
     this.submitSearch = this.submitSearch.bind(this);
+    this.prefetchSearch = this.prefetchSearch.bind(this);
 
     this.state = {
       error: false,
@@ -115,20 +118,37 @@ class Search extends Component {
     });
   }
 
+  prefetchSearch() {
+    const languages = this.state.languagesData.map(elem => (
+      elem.label
+    ));
+
+    const newModel = Object.assign(
+      { first: 20 },
+      this.formNode.getModel(),
+      { language: languages.toString() },
+      { order: '-id', page: 1 }
+    );
+
+    $.post('developers/search', newModel);
+  }
+
   submitSearch(event) {
     event.preventDefault();
-
     const languages = this.state.languagesData.map(elem => (
       elem.label
     ));
 
     const newModel = Object.assign(
       this.formNode.getModel(),
-      { language: languages.toString() }
+      { language: languages.toString() },
+      { page: 1 },
+      { followers: null, repos: null },
     );
 
-    console.log(newModel);
-    console.log(queryString.stringify(newModel));
+    Turbolinks.visit(`/developers?${queryString.stringify(
+       _.pick(newModel, _.identity)
+    )}`);
   }
 
   checkComma(event) {
@@ -229,6 +249,7 @@ class Search extends Component {
             onValid={this.enableButton}
             onKeyPress={this.onKeyPress}
             autoComplete="off"
+            onChange={this.prefetchSearch}
             ref={node => (this.formNode = node)}
             onInvalid={this.disableButton}
             validationErrors={this.state.validationErrors}
@@ -272,7 +293,7 @@ class Search extends Component {
                 floatingLabelFixed
               />
             </div>
-
+            {/*
             <div className="search-box preferences">
               <span style={helpStyles}>
                 * Beta filters
@@ -299,15 +320,16 @@ class Search extends Component {
               <FormsyCheckbox
                 label="Full-Time"
                 style={styles.checkbox}
-                name="full-time"
+                name="fulltime"
               />
 
               <FormsyCheckbox
                 label="Part-Time"
                 style={styles.checkbox}
-                name="part-time"
+                name="parttime"
               />
             </div>
+            */}
 
             <RaisedButton
               label="Apply filters"
@@ -326,6 +348,7 @@ class Search extends Component {
 
 Search.propTypes = {
   action: React.PropTypes.string,
+  relay: React.PropTypes.object,
 };
 
 export default Search;

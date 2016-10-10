@@ -1,5 +1,6 @@
 /* global $ */
 import React from 'react';
+import Relay from 'react-relay';
 import { ListItem } from 'material-ui/List';
 import Avatar from 'material-ui/Avatar';
 import DeveloperStatus from './developer_status.es6';
@@ -25,9 +26,7 @@ const Developer = props => (
       rightIconButton={(
         <DeveloperMeta
           positionClass="pull-right"
-          followers={props.developer.followers}
-          gists={props.developer.public_gists}
-          repos={props.developer.public_repos}
+          developer={props.developer}
         />
       )}
       secondaryText={
@@ -45,4 +44,18 @@ Developer.propTypes = {
   developer: React.PropTypes.object,
 };
 
-export default Developer;
+const DeveloperContainer = Relay.createContainer(Developer, {
+  fragments: {
+    developer: () => Relay.QL`
+      fragment on Developer {
+        id,
+        name,
+        avatar_url,
+        ${DeveloperStatus.getFragment('developer')}
+        ${DeveloperMeta.getFragment('developer')}
+      }
+    `,
+  },
+});
+
+export default DeveloperContainer;

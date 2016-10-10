@@ -2,6 +2,7 @@
 /* global $ ga location window */
 
 import React, { Component } from 'react';
+import Relay from 'react-relay';
 import createDOMPurify from 'dompurify';
 import Cookies from 'js-cookie';
 import { white } from 'material-ui/styles/colors';
@@ -185,4 +186,24 @@ DeveloperStatus.propTypes = {
   developer: React.PropTypes.object,
 };
 
-export default DeveloperStatus;
+const DeveloperStatusContainer = Relay.createContainer(DeveloperStatus, {
+  fragments: {
+    developer: () => Relay.QL`
+      fragment on Developer {
+        email,
+        bio,
+        company,
+        location,
+        blog,
+        html_url,
+        hireable,
+        remote,
+        available,
+        jobs,
+        city
+      }
+    `,
+  },
+});
+
+export default DeveloperStatusContainer;

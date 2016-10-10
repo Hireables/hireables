@@ -5,7 +5,6 @@
 //= require tracker
 //= require js-routes
 //= require turbolinks
-//= require react_ujs
 
 function setStickyFilters() {
   if($(window).width() > 1024) {

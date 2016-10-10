@@ -1,7 +1,8 @@
 /* global document window $ */
 
 import React, { Component } from 'react';
-import Loader from 'react-loader';
+import Relay from 'react-relay';
+import queryString from 'query-string';
 import { List } from 'material-ui/List';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Snackbar from 'material-ui/Snackbar';
@@ -9,48 +10,29 @@ import Developer from './developer.es6';
 import PremiumDeveloper from './premium_developer.es6';
 import Search from './search.es6';
 import NoContent from './no_content.es6';
-import Pagination from './pagination.es6';
 import EmptyList from './empty_list.es6';
 
 class DevelopersList extends Component {
   constructor(props) {
     super(props);
-    this.fetchDevelopers = this.fetchDevelopers.bind(this);
     this.handleTouchTap = this.handleTouchTap.bind(this);
     this.handleRequestClose = this.handleRequestClose.bind(this);
+    this.loadMore = this.loadMore.bind(this);
 
     this.state = {
-      developers: [],
-      rels: [],
-      path: this.props.path,
-      featured: this.props.featured,
-      loaded: false,
       open: false,
     };
   }
 
   componentDidMount() {
-    const query = decodeURIComponent(document.location.search.replace('?', ''));
-    const path = !query ? this.state.path : `${this.state.path}?${query}`;
-    this.fetchDevelopers(path, {});
+    this.props.relay.setVariables(queryString.parse(document.location.search));
   }
 
-  fetchDevelopers(path, params) {
-    this.setState({ loaded: false });
-
-    $.ajaxSetup({
-      cache: false,
-    });
-
-    $.post(path, params, (json) => {
-      this.setState({
-        developers: json.developers,
-        rels: json.rels,
-        loaded: true,
-      });
-    }, 'json').fail(() => {
-      this.refs.snackbar_404.show();
-      this.setState({ loaded: true });
+  loadMore(event) {
+    event.preventDefault();
+    this.props.relay.setVariables({
+      first: this.props.relay.variables.first + 20,
+      page: (parseInt(this.props.relay.variables.page, 0) + 1).toString(),
     });
   }
 
@@ -74,39 +56,37 @@ class DevelopersList extends Component {
       margin: '40px 0px',
     };
 
+    const { root, relay } = this.props;
+
     return (
       <MuiThemeProvider>
         <div className="developers-list wrapper">
           <div className="container">
             <div className="developers-list developers--small sm-pull-reset col-md-5">
-              <Search
-                action={'/developers'}
-                searchDevelopers={this.fetchDevelopers}
-                fetchDevelopers={this.fetchDevelopers}
-              />
+              <Search action={'/developers'} relay={relay} />
             </div>
-            <Loader loaded={this.state.loaded} className="p-b-100">
-              {this.state.loaded && this.state.developers.length > 0 ?
-                <List className="col-md-7 pull-right" style={containerStyle}>
-                  {this.state.developers.map(developer => (
-                    developer.data !== undefined ?
-                      <PremiumDeveloper
-                        developer={developer}
-                        key={developer.id}
-                        meta={this.props.meta}
-                      /> :
-                      <Developer
-                        developer={developer}
-                        key={developer.id}
-                        meta={this.props.meta}
-                      />
-                  ))}
-                  {this.state.rels != null && this.state.developers.length > 0 ?
-                    <Pagination links={this.state.rels} fetchNextPage={this.fetchDevelopers} />
-                    : <NoContent />
-                  }
-                </List> : <EmptyList />}
-            </Loader>
+
+            {root.developers.edges && root.developers.edges.length > 0 ?
+              <List className="col-md-7 pull-right" style={containerStyle}>
+                {root.developers.edges.map(({ node }) => (
+                  node.remote ?
+                    <PremiumDeveloper
+                      developer={node}
+                      key={node.id}
+                    /> :
+                    <Developer
+                      developer={node}
+                      key={node.id}
+                    />
+                ))}
+                {root.developers.pageInfo != null && root.developers.pageInfo.hasNextPage  ?
+                  <a onClick={this.loadMore} href="#">
+                    Load More
+                  </a>
+                  : <NoContent />
+                }
+              </List> : <EmptyList />}
+
             <Snackbar
               open={this.state.open}
               ref="snackbar_404"
@@ -123,9 +103,50 @@ class DevelopersList extends Component {
 }
 
 DevelopersList.propTypes = {
-  path: React.PropTypes.string,
-  featured: React.PropTypes.bool,
-  meta: React.PropTypes.object,
+  root: React.PropTypes.object,
+  relay: React.PropTypes.object,
 };
 
-export default DevelopersList;
+const DevelopersListContainer = Relay.createContainer(DevelopersList, {
+  initialVariables: {
+    first: 20,
+    fullname: null,
+    location: null,
+    language: null,
+    followers: '>10',
+    repos: '>10',
+    order: '-id',
+    page: '1',
+  },
+
+  fragments: {
+    root: () => Relay.QL`
+      fragment on Viewer {
+        id,
+        developers(
+          first: $first,
+          fullname: $fullname,
+          location: $location,
+          language: $language,
+          followers: $followers,
+          repos: $repos,
+          order: $order,
+          page: $page,
+        ) {
+          edges {
+            node {
+              id,
+              ${Developer.getFragment('developer')}
+            }
+          }
+
+          pageInfo {
+            hasNextPage
+          }
+        }
+      }
+    `,
+  },
+});
+
+export default DevelopersListContainer;
