@@ -86,6 +86,7 @@ class DevelopersList extends Component {
   render() {
     const containerStyle = {
       paddingTop: '0px',
+      paddingBottom: '0px',
       borderRight: '1px solid #f2f2f2',
       boxShadow: '0 0 16px 0 rgba(63,67,69,0.3)',
       margin: '40px 0px',
@@ -114,27 +115,30 @@ class DevelopersList extends Component {
                         key={node.id}
                       />
                   ))}
-                  <div className="pagination">
-                    {root.developers.pageInfo != null && root.developers.pageInfo.hasNextPage  ?
-                      <RaisedButton
-                        label="Next page"
-                        style={{ marginTop: '20px', marginRight: '10px' }}
-                        primary
-                        onClick={this.loadMore}
-                      />
-                      : <NoContent />
-                    }
-
-                    {this.queryObject.page >= 2 ?
-                      <RaisedButton
-                        label="Previous page"
-                        style={{ marginTop: '20px', marginRight: '10px' }}
-                        primary
-                        onClick={this.loadPrevious}
-                      />
-                      : <NoContent />
-                    }
-                  </div>
+                  {root.developers.pageInfo != null &&
+                    root.developers.pageInfo.hasNextPage ||
+                    this.queryObject.page >= 2  ?
+                    <div className="pagination">
+                      {this.queryObject.page >= 2 ?
+                        <RaisedButton
+                          label="Previous page"
+                          style={{ marginTop: '20px', marginRight: '10px' }}
+                          primary
+                          onClick={this.loadPrevious}
+                        />
+                        : <NoContent />
+                      }
+                      {root.developers.pageInfo != null && root.developers.pageInfo.hasNextPage  ?
+                        <RaisedButton
+                          label="Next page"
+                          style={{ marginTop: '20px', marginRight: '10px' }}
+                          primary
+                          onClick={this.loadMore}
+                        />
+                        : <NoContent />
+                      }
+                    </div> : ''
+                  }
                 </List> : <EmptyList />}
               </Loader>
             <Snackbar
