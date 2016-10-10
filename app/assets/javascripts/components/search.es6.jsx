@@ -83,16 +83,27 @@ class Search extends Component {
     this.disableButton = this.disableButton.bind(this);
     this.clearValidationErrors = this.clearValidationErrors.bind(this);
     this.submitSearch = this.submitSearch.bind(this);
-    this.prefetchSearch = this.prefetchSearch.bind(this);
+    this.queryObject = queryString.parse(document.location.search);
+
+    const languages = _.pick(this.queryObject, 'language').language;
+    let languagesData = [];
+
+    if (languages) {
+      languagesData = languages.split(',').map((elem, index) => {
+        return { key: index, label: elem };
+      });
+    }
 
     this.state = {
       error: false,
+      form: _.omit(this.queryObject, ['page', 'language']),
       tags: [],
       query: {},
       open: false,
       value: 1,
+      loaded: false,
       canSubmit: false,
-      languagesData: [],
+      languagesData,
       validationErrors: {},
     };
   }
@@ -116,21 +127,6 @@ class Search extends Component {
     this.setState({
       canSubmit: false,
     });
-  }
-
-  prefetchSearch() {
-    const languages = this.state.languagesData.map(elem => (
-      elem.label
-    ));
-
-    const newModel = Object.assign(
-      { first: 20 },
-      this.formNode.getModel(),
-      { language: languages.toString() },
-      { order: '-id', page: 1 }
-    );
-
-    $.post('developers/search', newModel);
   }
 
   submitSearch(event) {
@@ -249,7 +245,6 @@ class Search extends Component {
             onValid={this.enableButton}
             onKeyPress={this.onKeyPress}
             autoComplete="off"
-            onChange={this.prefetchSearch}
             ref={node => (this.formNode = node)}
             onInvalid={this.disableButton}
             validationErrors={this.state.validationErrors}
@@ -261,6 +256,7 @@ class Search extends Component {
                 autoFocus="true"
                 name="fullname"
                 fullWidth
+                defaultValue={this.state.form.fullname}
                 floatingLabelText="Search by developer name"
                 floatingLabelFixed
               />
@@ -289,6 +285,7 @@ class Search extends Component {
                 placeholder="(ex: london)"
                 name="location"
                 fullWidth
+                defaultValue={this.state.form.location}
                 floatingLabelText="Search by developer location"
                 floatingLabelFixed
               />
