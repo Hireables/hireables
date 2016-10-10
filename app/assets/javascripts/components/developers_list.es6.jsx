@@ -20,6 +20,7 @@ class DevelopersList extends Component {
     this.handleTouchTap = this.handleTouchTap.bind(this);
     this.handleRequestClose = this.handleRequestClose.bind(this);
     this.loadMore = this.loadMore.bind(this);
+    this.loadPrevious = this.loadPrevious.bind(this);
     this.queryObject = queryString.parse(document.location.search);
     this.state = {
       open: false,
@@ -41,6 +42,18 @@ class DevelopersList extends Component {
     const newPage = Object.assign(
       this.queryObject,
       { page: parseInt(this.props.relay.variables.page, 0) + 1 },
+    );
+
+    Turbolinks.visit(`/developers?${queryString.stringify(
+       _.pick(newPage, _.identity)
+    )}`);
+  }
+
+  loadPrevious(event) {
+    event.preventDefault();
+    const newPage = Object.assign(
+      this.queryObject,
+      { page: parseInt(this.props.relay.variables.page, 0) - 1 },
     );
 
     Turbolinks.visit(`/developers?${queryString.stringify(
@@ -94,6 +107,13 @@ class DevelopersList extends Component {
                   {root.developers.pageInfo != null && root.developers.pageInfo.hasNextPage  ?
                     <a onClick={this.loadMore} href="#">
                       Load More
+                    </a>
+                    : <NoContent />
+                  }
+
+                  {this.queryObject.page >= 2 ?
+                    <a onClick={this.loadPrevious} href="#">
+                      Load Previous
                     </a>
                     : <NoContent />
                   }
@@ -154,6 +174,7 @@ const DevelopersListContainer = Relay.createContainer(DevelopersList, {
 
           pageInfo {
             hasNextPage
+            hasPreviousPage
           }
         }
       }
