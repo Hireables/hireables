@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160912161658) do
+ActiveRecord::Schema.define(version: 20161010142811) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,6 +38,8 @@ ActiveRecord::Schema.define(version: 20160912161658) do
     t.inet     "last_sign_in_ip"
     t.datetime "created_at",                         null: false
     t.datetime "updated_at",                         null: false
+    t.boolean  "premium",            default: false
+    t.boolean  "subscribed",         default: false
   end
 
   add_index "developers", ["available"], name: "index_developers_on_available", using: :btree
@@ -47,7 +49,9 @@ ActiveRecord::Schema.define(version: 20160912161658) do
   add_index "developers", ["jobs"], name: "index_developers_on_jobs", using: :gin
   add_index "developers", ["login"], name: "index_developers_on_login", unique: true, using: :btree
   add_index "developers", ["platforms"], name: "index_developers_on_platforms", using: :gin
+  add_index "developers", ["premium"], name: "index_developers_on_premium", using: :btree
   add_index "developers", ["relocate"], name: "index_developers_on_relocate", using: :btree
   add_index "developers", ["remote"], name: "index_developers_on_remote", using: :btree
+  add_index "developers", ["subscribed"], name: "index_developers_on_subscribed", using: :btree
 
 end
