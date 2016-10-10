@@ -6,7 +6,7 @@ gem 'rails', '4.2.7.1'
 gem 'pg'
 
 # Setup server
-gem 'passenger'
+gem 'puma'
 
 # Asset compilation and NPM modules
 gem 'sass-rails', '~> 5.0'
@@ -15,7 +15,6 @@ gem 'coffee-rails'
 
 # Setup react and dependencies
 gem 'mini_racer'
-gem 'react-rails'
 
 # Setup Octokit and HTTP cache
 gem 'httparty'
@@ -27,6 +26,7 @@ gem 'redis-namespace'
 gem 'readthis'
 gem 'hiredis'
 gem 'oj'
+gem 'dalli'
 
 # Throttle Malacious requests
 gem 'rack-attack'
