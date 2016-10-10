@@ -11,14 +11,7 @@ Rails.application.configure do
   config.eager_load = false
 
   # Setup caching to test in development
-  config.cache_store = :readthis_store, {
-    expires_in: 2.weeks.to_i,
-    namespace: 'cache',
-    compress: true,
-    pool_size: 5,
-    compression_threshold: 2.kilobytes,
-    redis: { url: ENV['REDIS_URL'], driver: :hiredis }
-  }
+  config.cache_store = :dalli_store
 
   # Show full error reports and disable caching.
   config.consider_all_requests_local       = true

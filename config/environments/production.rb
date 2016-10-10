@@ -7,13 +7,14 @@ Rails.application.configure do
   config.action_controller.perform_caching = true
 
   # Setup cache store for production
-  config.cache_store = :readthis_store, {
-    expires_in: 2.weeks.to_i,
-    namespace: 'cache',
-    compress: true,
-    pool_size: 25,
-    compression_threshold: 2.kilobytes,
-    redis: { url: ENV['REDIS_URL'], driver: :hiredis }
+  config.cache_store = :dalli_store,
+  (ENV['MEMCACHEDCLOUD_SERVERS'] || '').split(','), {
+    username: ENV['MEMCACHEDCLOUD_USERNAME'],
+    password: ENV['MEMCACHEDCLOUD_PASSWORD'],
+    failover: true,
+    socket_timeout: 1.5,
+    socket_failure_delay: 0.2,
+    down_retry_delay: 60
   }
 
   config.serve_static_files = ENV['RAILS_SERVE_STATIC_FILES'].present?
