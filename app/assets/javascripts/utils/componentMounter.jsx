@@ -71,7 +71,7 @@ export const mountComponents = () => {
       );
     } else {
       ReactDOM.render(
-        React.createElement(component),
+        React.createElement(component, hydratedProps),
         document.getElementById(domNodeId)
       );
     }
