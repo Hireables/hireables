@@ -2,7 +2,9 @@
 
 import React, { Component } from 'react';
 import Relay from 'react-relay';
+import _ from 'underscore';
 import queryString from 'query-string';
+import Loader from 'react-loader';
 import { List } from 'material-ui/List';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Snackbar from 'material-ui/Snackbar';
@@ -18,14 +20,19 @@ class DevelopersList extends Component {
     this.handleTouchTap = this.handleTouchTap.bind(this);
     this.handleRequestClose = this.handleRequestClose.bind(this);
     this.loadMore = this.loadMore.bind(this);
-
     this.state = {
       open: false,
+      loaded: false,
     };
   }
 
   componentDidMount() {
-    this.props.relay.setVariables(queryString.parse(document.location.search));
+    const queryObject = _.omit(queryString.parse(document.location.search), 'page');
+    this.props.relay.setVariables(queryObject, (readyState) => {
+      if (readyState.done) {
+        this.setState({ loaded: true });
+      }
+    });
   }
 
   loadMore(event) {
@@ -65,28 +72,28 @@ class DevelopersList extends Component {
             <div className="developers-list developers--small sm-pull-reset col-md-5">
               <Search action={'/developers'} relay={relay} />
             </div>
-
-            {root.developers.edges && root.developers.edges.length > 0 ?
-              <List className="col-md-7 pull-right" style={containerStyle}>
-                {root.developers.edges.map(({ node }) => (
-                  node.remote ?
-                    <PremiumDeveloper
-                      developer={node}
-                      key={node.id}
-                    /> :
-                    <Developer
-                      developer={node}
-                      key={node.id}
-                    />
-                ))}
-                {root.developers.pageInfo != null && root.developers.pageInfo.hasNextPage  ?
-                  <a onClick={this.loadMore} href="#">
-                    Load More
-                  </a>
-                  : <NoContent />
-                }
-              </List> : <EmptyList />}
-
+            <Loader loaded={this.state.loaded}>
+              {root.developers.edges && root.developers.edges.length > 0 ?
+                <List className="col-md-7 pull-right" style={containerStyle}>
+                  {root.developers.edges.map(({ node }) => (
+                    node.remote ?
+                      <PremiumDeveloper
+                        developer={node}
+                        key={node.id}
+                      /> :
+                      <Developer
+                        developer={node}
+                        key={node.id}
+                      />
+                  ))}
+                  {root.developers.pageInfo != null && root.developers.pageInfo.hasNextPage  ?
+                    <a onClick={this.loadMore} href="#">
+                      Load More
+                    </a>
+                    : <NoContent />
+                  }
+                </List> : <EmptyList />}
+              </Loader>
             <Snackbar
               open={this.state.open}
               ref="snackbar_404"
