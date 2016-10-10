@@ -1,5 +1,6 @@
 module Graphql
   class QueryController < ApplicationController
+    skip_before_action :ensure_signup_complete
     before_action :verify_token!
     before_action :set_current_developer
 

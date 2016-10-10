@@ -1,5 +1,8 @@
 class DevelopersController < ApplicationController
   include RequestHelpers
+  before_action :set_developer, only: [:edit, :update]
+  skip_before_action :ensure_signup_complete, only: [:edit, :update]
+  after_action :set_premium!, only: :update, unless: :premium?
 
   # GET /developers
   def index
@@ -35,5 +38,37 @@ class DevelopersController < ApplicationController
     respond_to do |format|
       format.json { head :ok }
     end
+  end
+
+  def edit
+  end
+
+  def update
+    if @developer.update(developer_params)
+      redirect_to @developer
+    else
+      flash[:notice] = "#{@developer.errors.full_messages.map{|m| m }.join(',')}"
+      @show_errors = true
+    end
+  end
+
+  private
+
+  def set_premium!
+    @developer.update!(premium: true)
+  end
+
+  def premium?
+    @developer.premium?
+  end
+
+  def set_developer
+    @developer = Developer.find_by_login(params[:id])
+  end
+
+  def developer_params
+    params.require(:developer).permit(
+      :city, :available, :remote, :relocate, :jobs, :platforms, :email
+    )
   end
 end
