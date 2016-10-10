@@ -47,13 +47,13 @@
   </head>
 
   <body class="<%= controller_name %> <%= action_name %>">
-    <%= react_component 'app.CookiesTracker', { prerender: true } %>
-    <%= react_component 'app.NavBar', { prerender: true, authenticated: developer_signed_in?, developer: current_developer  } %>
+    <%= react_component 'CookiesTracker', nil, { prerender: true } %>
+    <%= react_component 'NavBar',nil, { authenticated: developer_signed_in?, developer: current_developer  } %>
 
     <div class="content">
       <%= yield %>
     </div>
 
-    <%= react_component 'app.Footer', { prerender: true } %>
+    <%= react_component 'Footer', nil %>
   </body>
 </html>
