@@ -45,7 +45,7 @@ class Developer < ActiveRecord::Base
 
   private
 
-  def cache_login
+  def cache_login!
     REDIS.sadd('hireables:developers_logins', login)
   end
 end
