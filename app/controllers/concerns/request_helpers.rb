@@ -1,32 +1,35 @@
 module RequestHelpers
   extend ActiveSupport::Concern
 
-  private
-
-  def query_params
-    Github::Params.new(request_params).set
-  end
-
   def github_api_uri
-    Github::Uri.new(query_params, request_params[:first]).get
+    Github::Uri.new(github_query_params).get
   end
 
   def cache_key
-    key.get
-  end
-
-  def key_cached?
-    key.cached?
-  end
-
-  def key
-    CacheKey.new(request_params)
+    CacheKey.new(request_params).key
   end
 
   def request_params
+    safe_params.empty? ? default_params : safe_params
+  end
+
+  private
+
+  def github_query_params
+    Github::Params.new(request_params).set
+  end
+
+  def default_params
+    {
+      followers: '>10',
+      repos: '>10'
+    }
+  end
+
+  def safe_params
     params.permit(
-      :followers, :location, :language, :fullname, :order, :first,
-      :repos, :remote, :hireable, :relocate, :full_time, :part_time
+      :first, :fullname, :location, :language, :followers, :repos,
+      :hireable, :remote, :relocate, :fulltime, :parttime, :order
     )
   end
 end

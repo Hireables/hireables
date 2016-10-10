@@ -5,7 +5,7 @@ class PagesController < ApplicationController
   def home
     FetchDevelopersJob.perform_later(
       cache_key,
-      request_uri
-    ) unless key_cached?
+      github_api_uri
+    ) unless Rails.cache.exist?(cache_key)
   end
 end
