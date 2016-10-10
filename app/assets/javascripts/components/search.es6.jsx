@@ -95,10 +95,7 @@ class Search extends Component {
     }
 
     this.state = {
-      error: false,
       form: _.omit(this.queryObject, ['page', 'language']),
-      tags: [],
-      query: {},
       open: false,
       value: 1,
       loaded: false,

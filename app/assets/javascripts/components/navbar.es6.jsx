@@ -83,7 +83,7 @@ const NavBar = (props) => {
               {props.authenticated ?
                 <div className="logged in">
                   <Avatar
-                    src={props.developer.data.avatar_url}
+                    src={props.developer.avatar_url}
                     style={userImageStyles}
                   />
                   <a

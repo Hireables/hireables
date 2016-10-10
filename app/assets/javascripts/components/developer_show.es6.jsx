@@ -1,4 +1,5 @@
 import React from 'react';
+import Relay from 'react-relay';
 import Avatar from 'material-ui/Avatar';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { grey700 } from 'material-ui/styles/colors';
@@ -54,12 +55,7 @@ const DeveloperShow = (props) => {
               <Languages languages={developer.languages} />
 
               <div className="p-t-20">
-                <DeveloperMeta
-                  positionClass="center"
-                  followers={developer.followers}
-                  gists={developer.public_gists}
-                  repos={developer.public_repos}
-                />
+                <DeveloperMeta developer={developer} />
               </div>
             </div>
           </div>
@@ -73,4 +69,18 @@ DeveloperShow.propTypes = {
   developer: React.PropTypes.object,
 };
 
-export default DeveloperShow;
+const DeveloperShowContainer = Relay.createContainer(DeveloperShow, {
+  fragments: {
+    developer: () => Relay.QL`
+      fragment on Developer {
+        id,
+        name,
+        avatar_url,
+        ${DeveloperStatus.getFragment('developer')}
+        ${DeveloperMeta.getFragment('developer')}
+      }
+    `,
+  },
+});
+
+export default DeveloperShowContainer;

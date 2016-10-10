@@ -152,7 +152,7 @@ class DeveloperStatus extends Component {
         <div className="social-icons">
           <span
             onClick={() =>
-              this.openUrl(
+              DeveloperStatus.openUrl(
                 `${location.protocol}//${location.host}/developers/${this.props.developer.login}`
               )
             }
@@ -163,7 +163,7 @@ class DeveloperStatus extends Component {
 
           {this.props.developer.blog ?
             <span
-              onClick={() => this.openUrl(this.props.developer.blog)}
+              onClick={() => DeveloperStatus.openUrl(this.props.developer.blog)}
               className="show-website"
             >
               Website
@@ -171,7 +171,7 @@ class DeveloperStatus extends Component {
           }
 
           <span
-            onClick={() => this.openUrl(this.props.developer.html_url)}
+            onClick={() => DeveloperStatus.openUrl(this.props.developer.html_url)}
             className="show-github"
           >
             Github
@@ -195,6 +195,7 @@ const DeveloperStatusContainer = Relay.createContainer(DeveloperStatus, {
         company,
         location,
         blog,
+        login,
         html_url,
         hireable,
         remote,

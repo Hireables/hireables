@@ -20,6 +20,7 @@ class DevelopersList extends Component {
     this.handleTouchTap = this.handleTouchTap.bind(this);
     this.handleRequestClose = this.handleRequestClose.bind(this);
     this.loadMore = this.loadMore.bind(this);
+    this.queryObject = queryString.parse(document.location.search);
     this.state = {
       open: false,
       loaded: false,
@@ -27,7 +28,7 @@ class DevelopersList extends Component {
   }
 
   componentDidMount() {
-    const queryObject = _.omit(queryString.parse(document.location.search), 'page');
+    const queryObject = this.queryObject.page === 1 ? _.omit(this.queryObject, 'page') : this.queryObject;
     this.props.relay.setVariables(queryObject, (readyState) => {
       if (readyState.done) {
         this.setState({ loaded: true });
@@ -37,10 +38,14 @@ class DevelopersList extends Component {
 
   loadMore(event) {
     event.preventDefault();
-    this.props.relay.setVariables({
-      first: this.props.relay.variables.first + 20,
-      page: (parseInt(this.props.relay.variables.page, 0) + 1).toString(),
-    });
+    const newPage = Object.assign(
+      this.queryObject,
+      { page: parseInt(this.props.relay.variables.page, 0) + 1 },
+    );
+
+    Turbolinks.visit(`/developers?${queryString.stringify(
+       _.pick(newPage, _.identity)
+    )}`);
   }
 
   handleTouchTap() {
