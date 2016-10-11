@@ -1,10 +1,6 @@
 class DevelopersResolver
   attr_accessor :params, :current_user
 
-  def self.call(*args)
-    new(*args).call
-  end
-
   def initialize(obj, args, ctx)
     @params = args.instance_variable_get(:@argument_values)
     @current_user = ctx[:current_user]
@@ -14,22 +10,37 @@ class DevelopersResolver
     ) unless search_param?
 
     FetchDevelopersJob.perform_later(
-      cache_key,
-      github_api_uri
-    ) unless Rails.cache.exist?(cache_key)
+      [cache_key, 'collection']
+    ) unless Rails.cache.exist?([cache_key, 'collection'])
   end
 
-  def call
+  def search
     Rails.cache.fetch(cache_key, expires_in: 2.days) do
       request = Github::Api.new(github_api_uri).fetch
       response = Github::Response.new(request)
+      raise StandardError, '404 not found' unless response.found?
 
-      if response.found?
-        response.developers_collection
-      else
-        raise ActiveRecord::RecordNotFound.new('Not Found')
+      OpenStruct.new({
+        logins: response.logins,
+        results: response.results
+      })
+    end
+  end
+
+  def collection
+    Rails.cache.fetch([cache_key, 'collection'], expires_in: 2.days) do
+      search.logins.map do |username|
+        Developer.fetch_by_login(username)
       end
     end
+  end
+
+  def results
+    search.results
+  end
+
+  def pages
+    results / params["first"]
   end
 
   private

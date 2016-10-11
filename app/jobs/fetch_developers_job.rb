@@ -3,20 +3,11 @@ class FetchDevelopersJob < ActiveJob::Base
 
   rescue_from ActiveRecord::RecordNotFound, &:message
 
-  def perform(cache_key, request_uri)
-    Rails.cache.fetch(cache_key, expires_in: 2.days) do
-      request = Github::Api.new(request_uri).fetch
-      response = Github::Response.new(request)
+  def perform(cache_key)
+    logins = Rails.cache.read(cache_key)
 
-      if response.found?
-        request.parsed_response['items'].map{ |u| u['login'] }.map do |username|
-          FetchDeveloperJob.perform_later(username)
-        end
-
-        response.developers_collection
-      else
-        return false
-      end
-    end
+    Rails.cache.fetch([cache_key, 'collection'], expires_in: 2.days) do
+      response.developers_collection
+    end unless logins.nil?
   end
 end

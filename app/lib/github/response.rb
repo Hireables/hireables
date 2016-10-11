@@ -6,8 +6,20 @@ module Github
       @request = request
     end
 
+    def logins
+      logins = request.parsed_response['items'].map{ |u| u['login'] }
+      logins.map do |login|
+        FetchDeveloperJob.perform_later(login) unless Rails.cache.exist?(login)
+      end
+      logins
+    end
+
+    def results
+      request.parsed_response['total_count']
+    end
+
     def developers_collection
-      developers = request.parsed_response['items'].map{ |u| u['login'] }.map do |username|
+      logins.map do |username|
         Developer.fetch_by_login(username)
       end
     end
