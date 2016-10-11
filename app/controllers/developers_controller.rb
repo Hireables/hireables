@@ -6,7 +6,7 @@ class DevelopersController < ApplicationController
 
   # GET /developers
   def index
-    FetchDevelopersJob.perform_later(
+    SearchDevelopersJob.perform_now(
       cache_key,
       github_api_uri
     ) unless Rails.cache.exist?(cache_key)
@@ -30,7 +30,7 @@ class DevelopersController < ApplicationController
 
   # POST /developers/search.json
   def search
-    FetchDevelopersJob.perform_later(
+    SearchDevelopersJob.perform_now(
       cache_key,
       github_api_uri
     ) unless Rails.cache.exist?(cache_key)
@@ -68,7 +68,7 @@ class DevelopersController < ApplicationController
 
   def developer_params
     params.require(:developer).permit(
-      :city, :available, :remote, :relocate, :jobs, :platforms, :email
+      :city, :available, :remote, :relocate, :jobs, :platforms, :email, :page
     )
   end
 end
