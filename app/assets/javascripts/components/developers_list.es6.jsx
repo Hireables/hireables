@@ -10,9 +10,9 @@ import { List } from 'material-ui/List';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Snackbar from 'material-ui/Snackbar';
 import Developer from './developer.es6';
+import Pagination from './pagination.es6';
 import PremiumDeveloper from './premium_developer.es6';
 import Search from './search.es6';
-import NoContent from './no_content.es6';
 import EmptyList from './empty_list.es6';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { orangeA700 } from 'material-ui/styles/colors';
@@ -29,7 +29,7 @@ class DevelopersList extends Component {
     super(props);
     this.handleTouchTap = this.handleTouchTap.bind(this);
     this.handleRequestClose = this.handleRequestClose.bind(this);
-    this.loadMore = this.loadMore.bind(this);
+    this.loadNext = this.loadNext.bind(this);
     this.loadPrevious = this.loadPrevious.bind(this);
     this.queryObject = queryString.parse(document.location.search);
     this.state = {
@@ -47,9 +47,10 @@ class DevelopersList extends Component {
     });
   }
 
-  loadMore(event) {
+  loadNext(event) {
     event.preventDefault();
     const newPage = Object.assign(
+      _.omit(_.pick(this.props.relay.variables, _.identity), ['first', 'order']),
       this.queryObject,
       { page: parseInt(this.props.relay.variables.page, 0) + 1 },
     );
@@ -62,6 +63,7 @@ class DevelopersList extends Component {
   loadPrevious(event) {
     event.preventDefault();
     const newPage = Object.assign(
+      _.omit(_.pick(this.props.relay.variables, _.identity), ['first', 'order']),
       this.queryObject,
       { page: parseInt(this.props.relay.variables.page, 0) - 1 },
     );
@@ -115,30 +117,18 @@ class DevelopersList extends Component {
                         key={node.id}
                       />
                   ))}
-                  {root.developers.pageInfo != null &&
-                    root.developers.pageInfo.hasNextPage ||
-                    this.queryObject.page >= 2  ?
-                    <div className="pagination">
-                      {this.queryObject.page >= 2 ?
-                        <RaisedButton
-                          label="Previous page"
-                          style={{ marginTop: '20px', marginRight: '10px' }}
-                          primary
-                          onClick={this.loadPrevious}
-                        />
-                        : <NoContent />
-                      }
-                      {root.developers.pageInfo != null && root.developers.pageInfo.hasNextPage  ?
-                        <RaisedButton
-                          label="Next page"
-                          style={{ marginTop: '20px', marginRight: '10px' }}
-                          primary
-                          onClick={this.loadMore}
-                        />
-                        : <NoContent />
-                      }
-                    </div> : ''
-                  }
+
+                {root.developers.pageInfo != null &&
+                  (root.developers.pageInfo.hasNextPage ||
+                    this.queryObject.page >= 2
+                  ) ?
+                  <Pagination
+                    loadNext={this.loadNext}
+                    queryObject={this.queryObject}
+                    pageInfo={root.developers.pageInfo}
+                    loadPrevious={this.loadPrevious}
+                  /> : ''
+                }
                 </List> : <EmptyList />}
               </Loader>
             <Snackbar

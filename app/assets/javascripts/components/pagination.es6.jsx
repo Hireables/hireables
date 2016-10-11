@@ -5,6 +5,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { orangeA700 } from 'material-ui/styles/colors';
+import NoContent from './no_content.es6';
 
 const muiTheme = getMuiTheme({
   palette: {
@@ -13,31 +14,33 @@ const muiTheme = getMuiTheme({
   },
 });
 
-class Pagination extends Component {
-  static loadPage(link) {
-    Turbolinks.visit(`/developers?${decodeURIComponent(link)}`);
-  }
-
-  render() {
-    return (
-      <MuiThemeProvider muiTheme={muiTheme}>
-        <div className="container">
-          <div className="pagination">
-            {this.props.links.map(link => (
-              <RaisedButton
-                key={link.id}
-                label={link.label}
-                style={{ marginTop: '20px', marginRight: '10px' }}
-                primary
-                onClick={() => this.loadPage(link.url)}
-              />
-            ))}
-          </div>
-        </div>
-      </MuiThemeProvider>
-    );
-  }
-}
+const Pagination = (props) => (
+  <MuiThemeProvider muiTheme={muiTheme}>
+    <div className="container">
+      <div className="pagination">
+        {props.queryObject.page >= 2 ?
+          <RaisedButton
+            label="Previous"
+            className="link previous"
+            style={{ boxShadow: 'none', borderRadius: '0', background: 'transparent' }}
+            onClick={props.loadPrevious}
+          />
+          : <NoContent />
+        }
+        {props.pageInfo != null &&
+          props.pageInfo.hasNextPage  ?
+          <RaisedButton
+            label="Next"
+            className="link next"
+            style={{ boxShadow: 'none', borderRadius: '0', background: 'transparent' }}
+            onClick={props.loadNext}
+          />
+          : <NoContent />
+        }
+      </div>
+    </div>
+  </MuiThemeProvider>
+);
 
 Pagination.propTypes = {
   links: React.PropTypes.array,
