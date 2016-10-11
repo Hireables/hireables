@@ -10,6 +10,10 @@ class DevelopersController < ApplicationController
       cache_key,
       github_api_uri
     ) unless Rails.cache.exist?(cache_key)
+
+    FetchDevelopersJob.perform_later(
+      [cache_key, 'collection']
+    ) unless Rails.cache.exist?([cache_key, 'collection'])
   end
 
   # GET /developers/:username
@@ -34,6 +38,10 @@ class DevelopersController < ApplicationController
       cache_key,
       github_api_uri
     ) unless Rails.cache.exist?(cache_key)
+
+    FetchDevelopersJob.perform_later(
+      [cache_key, 'collection']
+    ) unless Rails.cache.exist?([cache_key, 'collection'])
 
     respond_to do |format|
       format.json { head :ok }
