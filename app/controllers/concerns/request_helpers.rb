@@ -2,7 +2,7 @@ module RequestHelpers
   extend ActiveSupport::Concern
 
   def github_api_uri
-    Github::Uri.new(github_query_params).get
+    Github::Uri.new(github_query_params, 20, params[:page] || 1).get
   end
 
   def cache_key
@@ -29,7 +29,7 @@ module RequestHelpers
   def safe_params
     params.permit(
       :first, :fullname, :location, :language, :followers, :repos,
-      :hireable, :remote, :relocate, :fulltime, :parttime, :order
+      :hireable, :remote, :relocate, :fulltime, :parttime, :order, :page
     )
   end
 end
