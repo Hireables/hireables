@@ -134,7 +134,6 @@ class Search extends Component {
     const newModel = Object.assign(
       this.formNode.getModel(),
       { language: languages.toString() },
-      { page: 1 },
       { followers: null, repos: null },
     );
 
