@@ -25,7 +25,7 @@ const Pagination = (props) => (
             style={{ boxShadow: 'none', borderRadius: '0', background: 'transparent' }}
             onClick={props.loadPrevious}
           />
-          : <NoContent />
+          : ''
         }
         {props.pageInfo != null &&
           props.pageInfo.hasNextPage  ?
@@ -35,7 +35,7 @@ const Pagination = (props) => (
             style={{ boxShadow: 'none', borderRadius: '0', background: 'transparent' }}
             onClick={props.loadNext}
           />
-          : <NoContent />
+          : ''
         }
       </div>
     </div>
