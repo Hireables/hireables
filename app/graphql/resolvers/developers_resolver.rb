@@ -5,10 +5,6 @@ class DevelopersResolver
     @params = args.instance_variable_get(:@argument_values)
     @current_user = ctx[:current_user]
 
-    raise StandardError.new(
-      'Requires atleast one search parameter'
-    ) unless search_param?
-
     FetchDevelopersJob.perform_later(
       [cache_key, 'collection']
     ) unless Rails.cache.exist?([cache_key, 'collection'])
@@ -40,26 +36,41 @@ class DevelopersResolver
   end
 
   def pages
-    results / params["first"]
+    results / 20
   end
 
   private
 
-  def search_param?
+  def default_params
+    {
+      followers: '>10',
+      repos: '>10'
+    }
+  end
+
+  def request_params
     params.map do |param, value|
-      github_params.valid?(param) && value.present?
-    end.any?
+      valid?(param) && value.present?
+    end.any? ?  params : default_params
+  end
+
+  def valid?(key)
+    supported.include?(key.to_s)
+  end
+
+  def supported
+    %w(language fullname location followers repos)
   end
 
   def github_api_uri
-    Github::Uri.new(github_params.set, 21, params["page"]).get
+    Github::Uri.new(github_params.set, 21, request_params["page"]).get
   end
 
   def cache_key
-    CacheKey.new(params).key
+    CacheKey.new(request_params).key
   end
 
   def github_params
-    Github::Params.new(params)
+    Github::Params.new(request_params)
   end
 end
