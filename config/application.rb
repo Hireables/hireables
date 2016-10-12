@@ -38,6 +38,7 @@ module Hireables
 
     # Don't silence errors
     config.active_record.raise_in_transactional_callbacks = true
+    ActiveSupport.halt_callback_chains_on_return_false = false
 
     # Setup sidekiq
     config.active_job.queue_adapter = :sidekiq

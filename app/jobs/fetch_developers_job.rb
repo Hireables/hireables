@@ -1,4 +1,4 @@
-class FetchDevelopersJob < ActiveJob::Base
+class FetchDevelopersJob < ApplicationJob
   queue_as :urgent
 
   rescue_from ActiveRecord::RecordNotFound, &:message

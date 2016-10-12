@@ -1,4 +1,4 @@
-class RebuildLoginsCache < ActiveJob::Base
+class RebuildLoginsCache < ApplicationJob
   queue_as :urgent
 
   def perform

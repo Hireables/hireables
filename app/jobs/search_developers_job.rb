@@ -1,4 +1,4 @@
-class SearchDevelopersJob < ActiveJob::Base
+class SearchDevelopersJob < ApplicationJob
   queue_as :urgent
 
   def perform(cache_key, request_uri)

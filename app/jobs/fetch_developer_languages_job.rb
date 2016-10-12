@@ -1,4 +1,4 @@
-class FetchDeveloperLanguagesJob < ActiveJob::Base
+class FetchDeveloperLanguagesJob < ApplicationJob
   queue_as :urgent
 
   def perform(username)
