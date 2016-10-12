@@ -2,7 +2,7 @@ ruby '2.2.5'
 source 'https://rubygems.org'
 
 # Setup Rails and API
-gem 'rails', '4.2.7.1'
+gem 'rails', '>= 5.0.x'
 gem 'pg'
 
 # Setup server
