@@ -285,6 +285,31 @@ class Search extends Component {
                 floatingLabelFixed
               />
             </div>
+
+            <div className="search-box followers">
+              <FormsyText
+                id="text-field-default"
+                placeholder="(ex: >100)"
+                name="followers"
+                fullWidth
+                defaultValue={this.state.form.followers}
+                floatingLabelText="Filter by followers"
+                floatingLabelFixed
+              />
+            </div>
+
+            <div className="search-box repos">
+              <FormsyText
+                id="text-field-default"
+                placeholder="(ex: >20)"
+                name="repos"
+                fullWidth
+                defaultValue={this.state.form.repos}
+                floatingLabelText="Filter by repos"
+                floatingLabelFixed
+              />
+            </div>
+
             {/*
             <div className="search-box preferences">
               <span style={helpStyles}>
