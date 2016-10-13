@@ -15,6 +15,7 @@
     "build:dev:client": "node_modules/webpack/bin/webpack.js -w --config webpack.config.js"
   },
   "dependencies": {
+    "actioncable": "^5.0.0",
     "autoprefixer": "^6.3.7",
     "babel": "^6.5.2",
     "babel-core": "^6.16.0",
