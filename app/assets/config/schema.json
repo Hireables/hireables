@@ -218,17 +218,7 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "followers",
-                  "description": null,
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  },
-                  "defaultValue": null
-                },
-                {
-                  "name": "repos",
+                  "name": "hireable",
                   "description": null,
                   "type": {
                     "kind": "SCALAR",

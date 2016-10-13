@@ -7,10 +7,11 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import RaisedButton from 'material-ui/RaisedButton';
 import Chip from 'material-ui/Chip';
+import AutoComplete from 'material-ui/AutoComplete';
 import _ from 'underscore';
 
 import {
-  // FormsyCheckbox,
+  FormsyCheckbox,
   FormsyText,
 } from 'formsy-material-ui/lib';
 
@@ -21,13 +22,13 @@ const muiTheme = getMuiTheme({
   },
 });
 
-// const helpStyles = {
-//   fontSize: '12px',
-//   color: 'rgba(0, 0, 0, 0.298039)',
-//   margin: '10px 0',
-//   display: 'block',
-//   userSelect: 'none',
-// };
+const helpStyles = {
+  fontSize: '12px',
+  color: 'rgba(0, 0, 0, 0.298039)',
+  margin: '10px 0',
+  display: 'block',
+  userSelect: 'none',
+};
 
 const filterStyles = {
   backgroundColor: 'white',
@@ -71,8 +72,6 @@ class Search extends Component {
 
   constructor(props) {
     super(props);
-    this.handleTouchTap = this.handleTouchTap.bind(this);
-    this.handleRequestClose = this.handleRequestClose.bind(this);
     this.handleRequestDelete = this.handleRequestDelete.bind(this);
     this.checkComma = this.checkComma.bind(this);
     this.addNewLanguage = this.addNewLanguage.bind(this);
@@ -203,18 +202,6 @@ class Search extends Component {
     });
   }
 
-  handleTouchTap() {
-    this.setState({
-      open: true,
-    });
-  }
-
-  handleRequestClose() {
-    this.setState({
-      open: false,
-    });
-  }
-
   renderChip(data) {
     return (
       <Chip
@@ -281,32 +268,6 @@ class Search extends Component {
                 floatingLabelFixed
               />
             </div>
-
-            <div className="search-box followers">
-              <FormsyText
-                id="text-field-default"
-                placeholder="(ex: >100)"
-                name="followers"
-                fullWidth
-                defaultValue={this.state.form.followers}
-                floatingLabelText="Filter by followers"
-                floatingLabelFixed
-              />
-            </div>
-
-            <div className="search-box repos">
-              <FormsyText
-                id="text-field-default"
-                placeholder="(ex: >20)"
-                name="repos"
-                fullWidth
-                defaultValue={this.state.form.repos}
-                floatingLabelText="Filter by repos"
-                floatingLabelFixed
-              />
-            </div>
-
-            {/*
             <div className="search-box preferences">
               <span style={helpStyles}>
                 * Beta filters
@@ -315,34 +276,10 @@ class Search extends Component {
               <FormsyCheckbox
                 label="Hireable"
                 style={styles.checkbox}
+                defaultChecked={this.state.form.hireable === "true"}
                 name="hireable"
               />
-
-              <FormsyCheckbox
-                label="Relocate"
-                style={styles.checkbox}
-                name="relocate"
-              />
-
-              <FormsyCheckbox
-                label="Remote"
-                style={styles.checkbox}
-                name="remote"
-              />
-
-              <FormsyCheckbox
-                label="Full-Time"
-                style={styles.checkbox}
-                name="fulltime"
-              />
-
-              <FormsyCheckbox
-                label="Part-Time"
-                style={styles.checkbox}
-                name="parttime"
-              />
             </div>
-            */}
 
             <RaisedButton
               label="Apply filters"

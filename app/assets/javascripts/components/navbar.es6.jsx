@@ -13,7 +13,7 @@ import Avatar from 'material-ui/Avatar';
 const NavBar = (props) => {
   const toolbarStyles = {
     backgroundColor: 'transparent',
-    maxWidth: '1140px',
+    maxWidth: '980px',
     textAlign: 'center',
     padding: '0',
     margin: '0 auto',
@@ -62,7 +62,7 @@ const NavBar = (props) => {
 
   return (
     <MuiThemeProvider>
-      <div className="nav bg-horizon">
+      <div className="nav">
         <div className="container">
           <Toolbar style={toolbarStyles} className="nav--toolbar">
             <ToolbarGroup key={0} style={toolbarGroupStyles}>

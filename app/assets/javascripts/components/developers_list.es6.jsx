@@ -115,7 +115,7 @@ class DevelopersList extends Component {
               {root.developers.edges && root.developers.edges.length > 0 ?
                 <List className="col-md-7 pull-right" style={containerStyle}>
                   {root.developers.edges.map(({ node }) => (
-                    node.remote ?
+                    node.premium ?
                       <PremiumDeveloper
                         developer={node}
                         key={node.id}
@@ -165,8 +165,7 @@ const DevelopersListContainer = Relay.createContainer(DevelopersList, {
     fullname: null,
     location: null,
     language: null,
-    followers: null,
-    repos: null,
+    hireable: null,
     order: '-id',
     page: '1',
   },
@@ -180,14 +179,14 @@ const DevelopersListContainer = Relay.createContainer(DevelopersList, {
           fullname: $fullname,
           location: $location,
           language: $language,
-          followers: $followers,
-          repos: $repos,
+          hireable: $hireable,
           order: $order,
           page: $page,
         ) {
           edges {
             node {
               id,
+              premium,
               ${Developer.getFragment('developer')}
             }
           }
