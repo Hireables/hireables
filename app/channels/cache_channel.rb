@@ -8,7 +8,7 @@ class CacheChannel < ApplicationCable::Channel
     search = api.search(query)
 
     search.items.each do |item|
-      FetchDeveloperWorker.new.perform(
+      FetchDeveloperWorker.perform_async(
         item.login,
         current_developer.try(:id)
       ) unless Rails.cache.exist?(item.login)
