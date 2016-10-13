@@ -2,8 +2,9 @@ $LOAD_PATH << File.expand_path('../lib', __dir__)
 require_relative 'boot'
 
 # Pick the frameworks you want:
-require "active_model/railtie"
 # require "active_job/railtie"
+# require "rails/test_unit/railtie"
+require "active_model/railtie"
 require "active_record/railtie"
 require "action_controller/railtie"
 require "action_mailer/railtie"
@@ -11,7 +12,6 @@ require "action_cable/engine"
 require "action_view/railtie"
 require "sprockets/railtie"
 require 'schema_reloader'
-# require "rails/test_unit/railtie"
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
