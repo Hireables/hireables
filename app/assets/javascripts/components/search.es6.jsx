@@ -3,7 +3,6 @@
 import React, { Component } from 'react';
 import Formsy from 'formsy-react';
 import queryString from 'query-string';
-import { orangeA700 } from 'material-ui/styles/colors';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -17,8 +16,8 @@ import {
 
 const muiTheme = getMuiTheme({
   palette: {
-    primary1Color: orangeA700,
-    accent1Color: orangeA700,
+    primary1Color: '#6986BD',
+    accent1Color: '#6986BD',
   },
 });
 
@@ -82,7 +81,7 @@ class Search extends Component {
     this.disableButton = this.disableButton.bind(this);
     this.clearValidationErrors = this.clearValidationErrors.bind(this);
     this.submitSearch = this.submitSearch.bind(this);
-    this.queryObject = queryString.parse(document.location.search);
+    this.queryObject = _.omit(queryString.parse(document.location.search), 'action');
 
     const languages = _.pick(this.queryObject, 'language').language;
     let languagesData = [];
@@ -131,15 +130,12 @@ class Search extends Component {
       elem.label
     ));
 
-    const newModel = Object.assign(
-      this.formNode.getModel(),
-      { language: languages.toString() },
-      { followers: null, repos: null },
-    );
+    const newModel = _.pick(Object.assign(this.formNode.getModel(), {
+      language: languages.toString()
+    }), _.identity);
 
-    Turbolinks.visit(`/developers?${queryString.stringify(
-       _.pick(newModel, _.identity)
-    )}`);
+    const query = queryString.stringify(newModel);
+    Turbolinks.visit(`/developers?${query}`);
   }
 
   checkComma(event) {

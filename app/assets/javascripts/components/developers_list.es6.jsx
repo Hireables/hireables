@@ -15,12 +15,13 @@ import PremiumDeveloper from './premium_developer.es6';
 import Search from './search.es6';
 import EmptyList from './empty_list.es6';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import { orangeA700 } from 'material-ui/styles/colors';
+import ActionCable from 'actioncable';
+const cable = ActionCable.createConsumer();
 
 const muiTheme = getMuiTheme({
   palette: {
-    primary1Color: orangeA700,
-    accent1Color: orangeA700,
+    primary1Color: '#6986BD',
+    accent1Color: '#6986BD',
   },
 });
 
@@ -31,7 +32,10 @@ class DevelopersList extends Component {
     this.handleRequestClose = this.handleRequestClose.bind(this);
     this.loadNext = this.loadNext.bind(this);
     this.loadPrevious = this.loadPrevious.bind(this);
-    this.queryObject = queryString.parse(document.location.search);
+    this.queryObject = _.omit(queryString.parse(document.location.search), 'action');
+    this.channel = cable.subscriptions.create('CacheChannel');
+    this.channel.perform('set', queryString.parse(document.location.search));
+
     this.state = {
       open: false,
       loaded: false,
@@ -42,35 +46,38 @@ class DevelopersList extends Component {
     const queryObject = this.queryObject.page === 1 ? _.omit(this.queryObject, 'page') : this.queryObject;
     this.props.relay.setVariables(queryObject, (readyState) => {
       if (readyState.done) {
-        this.setState({ loaded: true });
-      }
+        this.setState({ loaded: true }, () => {
+        const { pageInfo } = this.props.root.developers;
+        if (pageInfo != null && pageInfo.hasNextPage) {
+            this.channel.perform(
+              'set',
+              Object.assign(
+                queryString.parse(document.location.search),
+                { page: parseInt(this.props.relay.variables.page, 0) + 1 },
+              )
+            );
+          }
+          });
+        }
     });
   }
 
   loadNext(event) {
     event.preventDefault();
-    const newPage = Object.assign(
-      _.omit(_.pick(this.props.relay.variables, _.identity), ['first', 'order']),
+    const newPage = _.pick(Object.assign(
       this.queryObject,
       { page: parseInt(this.props.relay.variables.page, 0) + 1 },
-    );
-
-    Turbolinks.visit(`/developers?${queryString.stringify(
-       _.pick(newPage, _.identity)
-    )}`);
+    ), _.identity);
+    Turbolinks.visit(`/developers?${queryString.stringify(newPage)}`);
   }
 
   loadPrevious(event) {
     event.preventDefault();
-    const newPage = Object.assign(
-      _.omit(_.pick(this.props.relay.variables, _.identity), ['first', 'order']),
+    const newPage = _.pick(Object.assign(
       this.queryObject,
       { page: parseInt(this.props.relay.variables.page, 0) - 1 },
-    );
-
-    Turbolinks.visit(`/developers?${queryString.stringify(
-       _.pick(newPage, _.identity)
-    )}`);
+    ), _.identity);
+    Turbolinks.visit(`/developers?${queryString.stringify(newPage)}`);
   }
 
   handleTouchTap() {
@@ -157,8 +164,8 @@ const DevelopersListContainer = Relay.createContainer(DevelopersList, {
     fullname: null,
     location: null,
     language: null,
-    followers: '>10',
-    repos: '>10',
+    followers: null,
+    repos: null,
     order: '-id',
     page: '1',
   },
