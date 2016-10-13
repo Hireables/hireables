@@ -1,7 +1,6 @@
 class DevelopersController < ApplicationController
-  before_action :set_developer, only: [:edit, :update]
-  skip_before_action :ensure_signup_complete, only: [:edit, :update]
-  after_action :set_premium!, only: :update, unless: :premium?
+  before_action :authenticate_developer!, :set_developer, only: :edit
+  skip_before_action :ensure_signup_complete, only: :edit
 
   # GET /developers
   def index
@@ -28,24 +27,7 @@ class DevelopersController < ApplicationController
   def edit
   end
 
-  def update
-    if @developer.update(developer_params)
-      redirect_to @developer
-    else
-      flash[:notice] = "#{@developer.errors.full_messages.map{|m| m }.join(',')}"
-      @show_errors = true
-    end
-  end
-
   private
-
-  def set_premium!
-    @developer.update!(premium: true)
-  end
-
-  def premium?
-    @developer.premium?
-  end
 
   def set_developer
     @developer = Developer.find_by_login(params[:id])

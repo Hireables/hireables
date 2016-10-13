@@ -5,9 +5,9 @@ class ApplicationController < ActionController::Base
 
   def ensure_signup_complete
     return if devise_controller?
-    if current_developer && !current_developer.premium?
+    if current_developer && !current_developer.completed?
       redirect_to(
-        edit_developer_path(current_developer),
+        edit_developer_path(current_developer.login),
         notice: "Please select your location to complete registeration."
       )
     end
