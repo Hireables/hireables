@@ -26,13 +26,14 @@ class Authenticator
   def create_from_omniauth
     Developer.create!(
       email: auth.info.email,
+      bio: auth.extra.raw_info.bio,
       password: Devise.friendly_token[0, 20],
       name: auth.info.name,
       uid: auth.uid,
       login: auth.info.nickname,
-      city: auth.extra.raw_info.location,
+      location: auth.extra.raw_info.location,
       provider: auth.provider,
-      available: (auth.extra.raw_info.hireable.nil? ? false : true),
+      hireable: (auth.extra.raw_info.hireable.nil? ? false : true),
       access_token: auth.credentials.token,
       data: auth.extra.raw_info
     )
