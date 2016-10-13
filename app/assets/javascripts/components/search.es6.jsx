@@ -65,7 +65,7 @@ const styles = {
 
 class Search extends Component {
   static onKeyPress(event) {
-    if (event.which === 13) {
+    if (event.keyCode === 13) {
       event.preventDefault();
     }
   }
@@ -221,7 +221,7 @@ class Search extends Component {
           <Formsy.Form
             action={this.props.action}
             onValid={this.enableButton}
-            onKeyPress={this.onKeyPress}
+            onKeyDown={Search.onKeyPress}
             autoComplete="off"
             ref={node => (this.formNode = node)}
             onInvalid={this.disableButton}

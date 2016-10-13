@@ -1,11 +1,10 @@
 import React from 'react';
+import Loader from 'react-loader';
 
 // Loading component //TODO
 const LoadingComponent = () => (
-  <div className="loading-container">
-    <div className="loader">
-      Loading....
-    </div>
+  <div className='overlay'>
+    <Loader loaded={false} />
   </div>
 );
 

@@ -13,6 +13,8 @@ import Developer from './developer.es6';
 import Pagination from './pagination.es6';
 import PremiumDeveloper from './premium_developer.es6';
 import Search from './search.es6';
+import { ListItem } from 'material-ui/List';
+import Avatar from 'material-ui/Avatar';
 import EmptyList from './empty_list.es6';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import ActionCable from 'actioncable';
@@ -24,6 +26,12 @@ const muiTheme = getMuiTheme({
     accent1Color: '#6986BD',
   },
 });
+
+const developerStyle = {
+  fontWeight: '500',
+  height: '100px',
+  backgroundColor: 'white',
+};
 
 class DevelopersList extends Component {
   constructor(props) {
@@ -103,6 +111,29 @@ class DevelopersList extends Component {
     };
 
     const { root, relay } = this.props;
+    const emptyPlaceholders = _.map(_.range(0, 20, 1), (elem, index) => {
+      return ( <div
+              key={index}
+              style={developerStyle}
+              className="developer developer--item"
+              id={`developer_${elem}`}
+            >
+          <ListItem
+          leftAvatar={<Avatar src={"https://placeholdit.imgix.net/~text?w=40&h=40"} />}
+          secondaryText={
+            <div className="animated-background secondary"></div>
+          }
+          primaryText={
+            <div className="loading">
+              <div className="animated-background"></div>
+            </div>
+          }
+          disabled
+          secondaryTextLines={1}
+        />
+      </div>
+      )
+    });
 
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
@@ -111,8 +142,8 @@ class DevelopersList extends Component {
             <div className="developers-list developers--small sm-pull-reset col-md-5">
               <Search action={'/developers'} relay={relay} />
             </div>
-            <Loader loaded={this.state.loaded}>
-              {root.developers.edges && root.developers.edges.length > 0 ?
+            {this.state.loaded ?
+              (root.developers.edges && root.developers.edges.length > 0 ?
                 <List className="col-md-7 pull-right" style={containerStyle}>
                   {root.developers.edges.map(({ node }) => (
                     node.premium ?
@@ -137,8 +168,11 @@ class DevelopersList extends Component {
                     loadPrevious={this.loadPrevious}
                   /> : ''
                 }
-                </List> : <EmptyList />}
-              </Loader>
+                </List> : <EmptyList />) :
+                <List className="col-md-7 pull-right" style={containerStyle}>
+                  {emptyPlaceholders}
+                </List>
+              }
             <Snackbar
               open={this.state.open}
               ref="snackbar_404"

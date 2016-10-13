@@ -200,9 +200,6 @@ const DeveloperStatusContainer = Relay.createContainer(DeveloperStatus, {
         html_url,
         hireable,
         remote,
-        available,
-        jobs,
-        city
       }
     `,
   },
