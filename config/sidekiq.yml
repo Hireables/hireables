@@ -3,13 +3,12 @@
 :concurrency: 5
 :timeout: 60
 development:
-  :concurrency: 50
+  :concurrency: 5
 staging:
   :concurrency: 5
 production:
   :concurrency: 5
 :queues:
-  - default
-  - [mailers, 1]
-  - [urgent, 1]
-  - [low_priority, 2]
+  - [default, 1]
+  - [critical, 3]
+  - [urgent, 5]
