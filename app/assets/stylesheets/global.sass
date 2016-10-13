@@ -1,0 +1,312 @@
+html, body
+  min-height: 100%
+  height: 100%
+
+body
+  position: relative
+  margin: 0
+  padding: 0
+  overflow-x:hidden
+  -webkit-font-smoothing: antialiased
+  background-color: #f8f9fd
+  width: 100%
+  font-family: 'Roboto', sans-serif
+
+  .overlay
+    position: fixed
+    width: 100%
+    height: 100%
+    text-align: center
+    top: 0
+    left: 0
+    color: #6986BD
+    z-index: 10
+    overflow: hidden
+    background: white
+
+    .spinnerMessage
+      display: block
+      width: 136px
+      left: calc(50% - 68px)
+      top: calc(50% + 30px)
+      position: absolute
+
+
+.no-style
+  list-style: none
+
+.no-padding
+  padding: 0
+
+.no-margin
+  margin: 0
+
+.inline
+  display: inline-block
+
+.m-r-20
+  margin-right: 20px
+
+.p-b-100
+  padding-bottom : 100px
+
+.p-b-20
+  padding-bottom: 20px
+
+.hidden
+  display:none
+
+.m-l-5
+  margin-left: 5px
+
+.m-t-5
+  margin-top: 5px
+
+.p-t-20
+  padding-top: 20px
+
+.m-t-10
+  margin-top: 10px
+
+.bold
+  font-weight: 500
+
+.block
+  display: block
+
+.p-r-60
+  padding-right: 60px
+
+.text-center
+  text-align: center
+
+.fs-13
+  font-size: 13px
+
+.fs-14
+  font-size: 14px
+
+.fs-16
+  font-size: 16px
+
+.pull-right
+  float: right
+
+.col-8
+  width: 80%
+  float:left
+
+.col-6
+  width: 45%
+  float:left
+  padding-left: 15px
+  padding-right: 15px
+
+.col-4
+  width: 45%
+  float:left
+  padding-left: 15px
+  padding-right: 15px
+
+.search-box
+
+  &.jobs
+    position: relative
+    margin-top: 16px
+
+    label
+      position: absolute
+      line-height: 22px
+      top: 10px
+      transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms
+      z-index: 1
+      cursor: text
+      transform: scale(0.75) translate(0px, -28px)
+      transform-origin: left top 0px
+      pointer-events: none
+      color: rgba(0, 0, 0, 0.298039)
+      user-select: none
+
+.nav
+  box-shadow: rgba(63, 67, 69, 0.298039) 0px 0px 16px 0px
+  background-color: #6986BD
+
+.header-separator
+  box-sizing: border-box
+  display: block
+  color: rgba(0, 0, 0, 0.541176)
+  font-size: 14px
+  font-weight: 500
+  line-height: 20px
+  width: 100%
+  &.top-margin
+    margin-top: 16px
+
+.content
+  min-height: 100%
+
+.pagination
+  padding: 0
+  .link
+    padding: 10px
+    &.next
+      float: right
+      border-left: 1px solid #DFDFE1
+
+    &.previous
+      float: left
+      border-right: 1px solid #DFDFE1
+
+.container
+  max-width: 980px
+  margin: 0 auto
+  clear: both
+  display: block
+  overflow: hidden
+
+.not_available
+  background-color: #ef5350
+
+.available
+  background-color: #66bb6a
+
+.profile-button
+  cursor: pointer
+  background-color: #66bb6a
+
+.may_available
+  background-color: #f57f17
+
+.company_shown
+  background-color: #2196f3
+
+.company_hidden
+  background-color: #455a64
+
+.developers-show
+  .developers--small
+    padding: 40px 0 0
+
+.developers-list
+  clear: both
+  display: block
+  width: 100%
+
+  .developers--small
+    margin: 40px 20px
+
+  .filters
+    width: 100%
+    &.sticky
+      position: fixed
+      top: 50px
+      width: 300px
+
+.nav
+  .nav--toolbar
+    padding-left: 15px!important
+
+  .profile--link
+    margin-right: 16px
+    &.active
+      font-weight: 500
+      border-bottom: 1px solid white
+
+
+
+.footer
+  padding-left: 15px
+  max-width: 980px
+  margin: 0 auto
+  padding-bottom: 20px
+
+
+.organizations-list
+  .organizations--small
+    padding: 0px 0 40px
+
+
+
+.col-md-7
+  float: right
+  width: 60%
+
+.col-md-5
+  float: left
+  width: 30%
+
+
+@media (max-width: 1024px)
+  .col-md-7
+    float: none
+    width: 100%
+    display: block
+
+  .content
+    padding-bottom: 0
+
+  .col-md-5
+    float: none
+    width: 100%
+    display: block
+
+
+
+/* Setup mobile media queries */
+@media (max-width: 600px)
+  .hidden-sm
+    display:none
+
+  .col-md-7
+    float: none
+    width: 100%
+    display: block
+
+  .col-md-5
+    float: none
+    width: 100%
+    display: block
+
+  .developers-list
+    .developers--small
+      margin: 0
+
+
+  .col-6
+    width: 100%
+    padding: 15px
+
+  .search-box
+    .react-tagsinput
+      width: 100%
+
+
+  .col-4
+    width: 100%
+    padding: 15px
+
+  .developer
+    &.developer--item
+      width: 100%
+
+      div
+        width: 100%
+
+  .sm-pull-reset
+    float: none
+    padding: 15px!important
+
+.social-icons
+  line-height: 27px
+  display: block
+  font-size: 12px
+
+  span
+    cursor: pointer
+    vertical-align: middle
+    margin-right: 10px
+    border-bottom: 1px solid #f2f2f2
+    padding-bottom: 5px
+
+.show-profile
+  cursor: pointer
