@@ -21,6 +21,7 @@ app/assets/webpack/*
 passenger.3000.pid
 passenger.3000.pid.lock
 passenger*
+npm-debug.log*
 ProcfileDevelopment
 dump.rdb
 dump*
