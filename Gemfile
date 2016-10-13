@@ -6,6 +6,7 @@ gem 'rails', '>= 5.0.x'
 gem 'pg'
 
 # Setup server
+gem 'passenger'
 gem 'puma'
 
 # Asset compilation and NPM modules
