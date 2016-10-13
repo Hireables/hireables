@@ -73,9 +73,10 @@ class DevelopersList extends Component {
 
   loadPrevious(event) {
     event.preventDefault();
+    const previousPage = parseInt(this.props.relay.variables.page, 0) - 1;
     const newPage = _.pick(Object.assign(
       this.queryObject,
-      { page: parseInt(this.props.relay.variables.page, 0) - 1 },
+      { page: previousPage === 1 ? null : previousPage },
     ), _.identity);
     Turbolinks.visit(`/developers?${queryString.stringify(newPage)}`);
   }
