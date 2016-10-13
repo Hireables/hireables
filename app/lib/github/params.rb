@@ -2,14 +2,22 @@ module Github
   class Params
     attr_reader :params
 
-    def initialize(params)
+    def initialize(params = {})
       @params = params
     end
 
     def set
-      params.map do |param, value|
+      query = request_params.map do |param, value|
         "#{param}:#{value}" if valid?(param) && value.present?
       end.compact.join('+').gsub(/\s+/, '')
+
+      query << "&page=#{params["page"] || 1}&per_page=21"
+    end
+
+    def request_params
+      params.map do |param, value|
+        valid?(param) && value.present?
+      end.any? ?  params : default_params
     end
 
     def valid?(key)
@@ -18,6 +26,12 @@ module Github
 
     def supported
       %w(language fullname location followers repos)
+    end
+
+    private
+
+    def default_params
+      { followers: '>10', repos: '>10' }
     end
   end
 end
