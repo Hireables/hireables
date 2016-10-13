@@ -49,7 +49,9 @@ DeveloperType = GraphQL::ObjectType.define do
   field :platforms, types[types.String] do
     description 'The followers of this developer'
     resolve -> (obj, args, ctx) do
-      obj.respond_to?(:platforms) ?  obj.platforms : []
+      api = Github::Api.new
+      api.token = ctx[:current_user].access_token unless ctx[:current_user].nil?
+      api.fetch_languages(obj.login)
     end
   end
 
@@ -58,12 +60,5 @@ DeveloperType = GraphQL::ObjectType.define do
     resolve -> (obj, args, ctx) do
       obj.respond_to?(:city) ?  obj.city : obj.location
     end
-  end
-end
-
-def fetch_languages(username)
-  Rails.cache.fetch([username, 'languages'], expires_in: 2.days) do
-    request = Github::Api.new("/users/#{username}/repos").fetch
-    Github::Response.new(request.parsed_response).developer_languages_collection
   end
 end

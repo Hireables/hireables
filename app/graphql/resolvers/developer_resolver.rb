@@ -1,5 +1,5 @@
 class DeveloperResolver
-  attr_accessor :params, :current_user
+  attr_accessor :params, :current_developer
 
   def self.call(*args)
     new(*args).call
@@ -7,10 +7,12 @@ class DeveloperResolver
 
   def initialize(obj, args, ctx)
     @params = args.instance_variable_get(:@argument_values)
-    @current_user = ctx[:current_user]
+    @current_developer = ctx[:current_developer]
   end
 
   def call
-    Developer.fetch_by_login(params["id"])
+    api = Github::Api.new(current_developer.try(:id))
+    api.token = current_developer.access_token unless current_developer.nil?
+    api.fetch_developer(params['id'])
   end
 end
