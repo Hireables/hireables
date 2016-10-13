@@ -11,7 +11,6 @@ class DevelopersResolver
   end
 
   def call
-    puts params.inspect
     api = Github::Api.new(current_developer.try(:id))
     api.token = current_developer.access_token unless current_developer.nil?
     api.fetch_developers(query)
