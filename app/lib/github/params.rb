@@ -15,7 +15,7 @@ module Github
     end
 
     def request_params
-      params.map do |param, value|
+      params.to_h.map do |param, value|
         valid?(param) && value.present?
       end.any? ?  params : default_params
     end
