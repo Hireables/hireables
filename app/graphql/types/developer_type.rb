@@ -21,7 +21,7 @@ DeveloperType = GraphQL::ObjectType.define do
     end
   end
 
-  field :linkedin, types.Boolean do
+  field :linkedin, types.String do
     description 'Linkedin profile'
     resolve -> (obj, args, ctx) do
       obj.respond_to?(:linkedin) ?  obj.linkedin : nil
@@ -33,9 +33,16 @@ DeveloperType = GraphQL::ObjectType.define do
   field :public_repos, types.Int, 'The repos of this developer'
 
   field :remote, types.Boolean do
-    description 'The followers of this developer'
+    description 'Prefer remote?'
     resolve -> (obj, args, ctx) do
       obj.respond_to?(:remote) ?  obj.remote : false
+    end
+  end
+
+  field :relocate, types.Boolean do
+    description 'Can relocate?'
+    resolve -> (obj, args, ctx) do
+      obj.respond_to?(:relocate) ?  obj.relocate : false
     end
   end
 
@@ -53,26 +60,12 @@ DeveloperType = GraphQL::ObjectType.define do
     end
   end
 
-  field :jobs, types[types.String] do
-    description 'The followers of this developer'
-    resolve -> (obj, args, ctx) do
-      obj.respond_to?(:jobs) ?  obj.jobs : []
-    end
-  end
-
   field :platforms, types[types.String] do
-    description 'The followers of this developer'
+    description 'Languages or platforms interested in'
     resolve -> (obj, args, ctx) do
-      api = Github::Api.new
+      api = Github::Api.new(ctx[:current_user].try(:id))
       api.token = ctx[:current_user].access_token unless ctx[:current_user].nil?
-      api.fetch_languages(obj.login)
-    end
-  end
-
-  field :city, types.String do
-    description 'The followers of this developer'
-    resolve -> (obj, args, ctx) do
-      obj.respond_to?(:city) ?  obj.city : obj.location
+      api.fetch_developer_languages(obj.login)
     end
   end
 end

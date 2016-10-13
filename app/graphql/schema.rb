@@ -1,5 +1,6 @@
 Schema = GraphQL::Schema.define do
   query QueryType
+  mutation MutationType
   max_depth 15
   rescue_from ActiveRecord::RecordInvalid, &:messag
   rescue_from ActiveRecord::Rollback, &:message
