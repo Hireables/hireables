@@ -1,13 +1,13 @@
 $LOAD_PATH << File.expand_path('../lib', __dir__)
 require_relative 'boot'
 
-require "rails"
 # Pick the frameworks you want:
 require "active_model/railtie"
-require "active_job/railtie"
+# require "active_job/railtie"
 require "active_record/railtie"
 require "action_controller/railtie"
-# require "action_mailer/railtie"
+require "action_mailer/railtie"
+require "action_cable/engine"
 require "action_view/railtie"
 require "sprockets/railtie"
 require 'schema_reloader'
@@ -22,13 +22,11 @@ module Hireables
     # Autloaded paths
     config.autoload_paths += Dir["#{config.root}/app/graphql/*"]
     config.autoload_paths += Dir["#{config.root}/app/lib/*"]
+    config.autoload_paths += Dir["#{config.root}/app/workers/*"]
     config.autoload_paths << Rails.root.join('app/services')
 
     # Middlewares
     config.middleware.use SchemaReloader
-
-    # Autoload lib
-    config.autoload_paths += Dir["#{config.root}/app/lib/*"]
 
     # Configure rails g to skip helper/assets files
     config.generators do |g|
@@ -48,8 +46,5 @@ module Hireables
     # Don't silence errors
     config.active_record.raise_in_transactional_callbacks = true
     ActiveSupport.halt_callback_chains_on_return_false = false
-
-    # Setup sidekiq
-    config.active_job.queue_adapter = :sidekiq
   end
 end
