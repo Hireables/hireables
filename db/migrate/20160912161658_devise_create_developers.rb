@@ -4,8 +4,8 @@ class DeviseCreateDevelopers < ActiveRecord::Migration
       ## Database authenticatable
       t.string :name, null: false, default: ""
       t.string :email, null: false, default: ""
-      t.text :bio, null: false, default: ""
-      t.string :linkedin, null: false, default: ""
+      t.text :bio
+      t.string :linkedin, default: ""
       t.string :login, null: false, default: ""
       t.string :provider, null: false, default: ""
       t.string :uid, null: false, default: ""
@@ -15,7 +15,6 @@ class DeviseCreateDevelopers < ActiveRecord::Migration
       t.boolean :premium, default: false, index: true
       t.boolean :subscribed, default: false, index: true
       t.boolean :hireable, default: false, index: true
-      t.string :jobs, null: false, default: "{}", array: true
       t.string :platforms, null: false, default: "{}", array: true
       t.string :location, null: false, default: "", index: true
       t.string :encrypted_password, null: false, default: ""
@@ -35,6 +34,5 @@ class DeviseCreateDevelopers < ActiveRecord::Migration
     add_index :developers, :login, unique: true
     add_index :developers, :data, using: :gin
     add_index :developers, :platforms, using: :gin
-    add_index :developers, :jobs, using: :gin
   end
 end

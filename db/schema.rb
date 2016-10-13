@@ -18,8 +18,8 @@ ActiveRecord::Schema.define(version: 20160912161658) do
   create_table "developers", force: :cascade do |t|
     t.string   "name",               default: "",    null: false
     t.string   "email",              default: "",    null: false
-    t.text     "bio",                default: "",    null: false
-    t.string   "linkedin",           default: "",    null: false
+    t.text     "bio"
+    t.string   "linkedin",           default: ""
     t.string   "login",              default: "",    null: false
     t.string   "provider",           default: "",    null: false
     t.string   "uid",                default: "",    null: false
@@ -29,7 +29,6 @@ ActiveRecord::Schema.define(version: 20160912161658) do
     t.boolean  "premium",            default: false
     t.boolean  "subscribed",         default: false
     t.boolean  "hireable",           default: false
-    t.string   "jobs",               default: [],    null: false, array: true
     t.string   "platforms",          default: [],    null: false, array: true
     t.string   "location",           default: "",    null: false
     t.string   "encrypted_password", default: "",    null: false
@@ -44,7 +43,6 @@ ActiveRecord::Schema.define(version: 20160912161658) do
     t.index ["data"], name: "index_developers_on_data", using: :gin
     t.index ["email"], name: "index_developers_on_email", unique: true, using: :btree
     t.index ["hireable"], name: "index_developers_on_hireable", using: :btree
-    t.index ["jobs"], name: "index_developers_on_jobs", using: :gin
     t.index ["location"], name: "index_developers_on_location", using: :btree
     t.index ["login"], name: "index_developers_on_login", unique: true, using: :btree
     t.index ["platforms"], name: "index_developers_on_platforms", using: :gin
