@@ -13,10 +13,10 @@ class DevelopersResolver
   def call
     api = Github::Api.new(current_developer.try(:id))
     api.token = current_developer.access_token unless current_developer.nil?
-    api.fetch_developers(query)
+    params["hireable"].present? ? api.fetch_hireable_developers(query) : api.fetch_developers(query)
   end
 
   def query
-    Github::Params.new(params).set
+    Github::Params.new(params.to_h).set
   end
 end

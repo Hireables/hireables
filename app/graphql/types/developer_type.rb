@@ -15,9 +15,16 @@ DeveloperType = GraphQL::ObjectType.define do
   field :html_url, types.String, 'The github url of this developer'
 
   field :hireable, types.Boolean do
-    description 'Is developer hireable'
+    description 'Is developer hireable?'
     resolve -> (obj, args, ctx) do
       obj.hireable.nil? ? false :  obj.hireable
+    end
+  end
+
+  field :linkedin, types.Boolean do
+    description 'Linkedin profile'
+    resolve -> (obj, args, ctx) do
+      obj.respond_to?(:linkedin) ?  obj.linkedin : nil
     end
   end
 
@@ -32,10 +39,17 @@ DeveloperType = GraphQL::ObjectType.define do
     end
   end
 
-  field :available, types.Boolean do
-    description 'The followers of this developer'
+  field :premium, types.Boolean do
+    description 'Is it premium profile?'
     resolve -> (obj, args, ctx) do
-      obj.respond_to?(:available) ?  obj.available : false
+      obj.respond_to?(:premium) ?  obj.premium : false
+    end
+  end
+
+  field :subscribed, types.Boolean do
+    description 'Is developer subcribed to emails from recruiters?'
+    resolve -> (obj, args, ctx) do
+      obj.respond_to?(:subscribed) ?  obj.subscribed : false
     end
   end
 
