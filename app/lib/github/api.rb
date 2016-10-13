@@ -48,7 +48,8 @@ module Github
     def fetch_developer_languages(login)
       Rails.cache.fetch([login, 'languages'], expires_in: 2.days) do
         if premium?(login)
-          Developer.find_by_login(login).platforms
+          platforms = Developer.find_by_login(login).platforms
+          platforms.empty? ? platforms : platforms[0].split(',')
         else
           repos = api.get("/users/#{login}/repos", headers: headers)
           raise StandardError, 'Not Found' unless repos.headers["status"] == "200 OK"
