@@ -27,10 +27,16 @@ module Github
       end
     end
 
+    def fetch_hireable_developers(query)
+      Rails.cache.fetch([query, 'developers', 'hireables'], expires_in: 2.days) do
+        fetch_developers(query).select{ |developer| developer.hireable }
+      end
+    end
+
     def fetch_developer(login)
       Rails.cache.fetch(login, expires_in: 2.days) do
         if premium?(login)
-          Developer.find_by_login(login)
+          Developer.find_by(login: login)
         else
           user = api.get("/users/#{login}", headers: headers)
           raise StandardError, 'Not Found' unless user.headers["status"] == "200 OK"
