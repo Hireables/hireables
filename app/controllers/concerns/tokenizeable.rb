@@ -37,10 +37,10 @@ module Tokenizeable
   end
 
   def set_token_payload
-    return {} unless current_developer
+    return {} if permission.nil?
     {
-      permission: 'user',
-      user_id: current_developer.id
+      permission: permission,
+      user_id: current_developer.try(:id)
     }
   end
 
@@ -56,5 +56,13 @@ module Tokenizeable
 
   def token?
     http_token && decoded_token
+  end
+
+  def permission
+    if current_developer.present?
+      'developer'
+    else
+      nil
+    end
   end
 end

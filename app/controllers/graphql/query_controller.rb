@@ -9,8 +9,8 @@ module Graphql
         params[:query],
         variables: ensure_hash(params[:variables]),
         context: {
-          current_user: set_current_developer,
-          user_signed_in: developer_signed_in?
+          current_developer: set_current_developer,
+          developer_signed_in: developer_signed_in?
         }
       )
       render json: result
@@ -20,7 +20,7 @@ module Graphql
 
     def set_current_developer
       Developer.find_by(
-        id: cookies.signed['user.id'] ||= session[:guest_user_id]
+        id: cookies.signed['developer.id']
       )
     end
 

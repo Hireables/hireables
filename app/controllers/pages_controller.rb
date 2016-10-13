@@ -1,11 +1,10 @@
 class PagesController < ApplicationController
-  include RequestHelpers
-
   # GET /
   def home
-    SearchDevelopersJob.perform_later(
-      cache_key,
-      github_api_uri
-    ) unless Rails.cache.exist?(cache_key)
+    query = Github::Params.new(params).set
+    SearchDevelopersWorker.perform_async(
+      query,
+      current_developer.try(:id)
+    ) unless Rails.cache.exist?(query)
   end
 end

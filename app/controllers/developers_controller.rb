@@ -1,49 +1,26 @@
 class DevelopersController < ApplicationController
-  include RequestHelpers
   before_action :set_developer, only: [:edit, :update]
   skip_before_action :ensure_signup_complete, only: [:edit, :update]
   after_action :set_premium!, only: :update, unless: :premium?
 
   # GET /developers
   def index
-    SearchDevelopersJob.perform_now(
-      cache_key,
-      github_api_uri
-    ) unless Rails.cache.exist?(cache_key)
-
-    FetchDevelopersJob.perform_later(
-      [cache_key, 'collection']
-    ) unless Rails.cache.exist?([cache_key, 'collection'])
+    query = Github::Params.new(params).set
+    SearchDevelopersWorker.perform_async(
+      query,
+      current_developer.try(:id)
+    ) unless Rails.cache.exist?(query)
   end
 
   # GET /developers/:username
   def show
-    FetchDeveloperJob.perform_later(
-      params[:id]
+    FetchDeveloperWorker.perform_async(
+      params[:id],
+      current_developer.try(:id)
     ) unless Rails.cache.exist?(params[:id])
-
-    FetchDeveloperLanguagesJob.perform_later(
-      params[:id]
-    ) unless Rails.cache.exist?([params[:id], 'languages'])
 
     respond_to do |format|
       format.html
-      format.json { head :ok }
-    end
-  end
-
-  # POST /developers/search.json
-  def search
-    SearchDevelopersJob.perform_now(
-      cache_key,
-      github_api_uri
-    ) unless Rails.cache.exist?(cache_key)
-
-    FetchDevelopersJob.perform_later(
-      [cache_key, 'collection']
-    ) unless Rails.cache.exist?([cache_key, 'collection'])
-
-    respond_to do |format|
       format.json { head :ok }
     end
   end
