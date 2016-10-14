@@ -1,5 +1,5 @@
 class DeveloperCustomFieldResolver
-  attr_reader :name, :type
+  attr_reader :field_name, :field_type
 
   def initialize(field_name, field_type)
     @field_name = field_name
@@ -8,9 +8,9 @@ class DeveloperCustomFieldResolver
 
   def call(obj, _args, _ctx)
     if field_type == :boolean
-      obj.respond_to?(name) && obj.present? ? obj.public_send(name) : false
+      obj.respond_to?(field_name) ? obj.public_send(field_name) : false
     else
-      obj.respond_to?(name) ? obj.public_send(name) : nil
+      obj.respond_to?(field_name) ? obj.public_send(field_name) : nil
     end
   end
 end
