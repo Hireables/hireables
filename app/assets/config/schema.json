@@ -43,11 +43,11 @@
             },
             {
               "name": "node",
-              "description": "Fetches an object given its ID",
+              "description": "Fetches an object given its ID.",
               "args": [
                 {
                   "name": "id",
-                  "description": "ID of the object",
+                  "description": "ID of the object.",
                   "type": {
                     "kind": "NON_NULL",
                     "name": "Non-Null",
@@ -93,11 +93,11 @@
         {
           "kind": "INTERFACE",
           "name": "Node",
-          "description": null,
+          "description": "An object with an ID.",
           "fields": [
             {
               "name": "id",
-              "description": null,
+              "description": "ID of the object.",
               "args": [
 
               ],
@@ -295,7 +295,7 @@
           "fields": [
             {
               "name": "edges",
-              "description": null,
+              "description": "A list of edges.",
               "args": [
 
               ],
@@ -313,7 +313,7 @@
             },
             {
               "name": "pageInfo",
-              "description": null,
+              "description": "Information to aid in pagination.",
               "args": [
 
               ],
@@ -340,11 +340,11 @@
         {
           "kind": "OBJECT",
           "name": "DeveloperEdge",
-          "description": null,
+          "description": "An edge in a connection.",
           "fields": [
             {
               "name": "cursor",
-              "description": null,
+              "description": "A cursor for use in pagination.",
               "args": [
 
               ],
@@ -362,7 +362,7 @@
             },
             {
               "name": "node",
-              "description": null,
+              "description": "The item at the end of the edge.",
               "args": [
 
               ],
@@ -720,7 +720,7 @@
         {
           "kind": "OBJECT",
           "name": "PageInfo",
-          "description": "Metadata about a connection",
+          "description": "Information about pagination in a connection.",
           "fields": [
             {
               "name": "endCursor",
@@ -1026,7 +1026,8 @@
                     "name": "Non-Null",
                     "ofType": {
                       "kind": "OBJECT",
-                      "name": "__Directive"
+                      "name": "__Directive",
+                      "ofType": null
                     }
                   }
                 }
@@ -1097,7 +1098,8 @@
                     "name": "Non-Null",
                     "ofType": {
                       "kind": "OBJECT",
-                      "name": "__Type"
+                      "name": "__Type",
+                      "ofType": null
                     }
                   }
                 }
@@ -1395,7 +1397,8 @@
                     "name": "Non-Null",
                     "ofType": {
                       "kind": "OBJECT",
-                      "name": "__InputValue"
+                      "name": "__InputValue",
+                      "ofType": null
                     }
                   }
                 }
@@ -1669,7 +1672,8 @@
                     "name": "Non-Null",
                     "ofType": {
                       "kind": "OBJECT",
-                      "name": "__InputValue"
+                      "name": "__InputValue",
+                      "ofType": null
                     }
                   }
                 }
@@ -1708,7 +1712,8 @@
                     "name": "Non-Null",
                     "ofType": {
                       "kind": "ENUM",
-                      "name": "__DirectiveLocation"
+                      "name": "__DirectiveLocation",
+                      "ofType": null
                     }
                   }
                 }
