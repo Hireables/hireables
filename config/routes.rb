@@ -5,9 +5,9 @@ Rails.application.routes.draw do
              skip: [:sessions, :passwords, :confirmations, :registrations],
              controllers: { omniauth_callbacks: 'omniauth_callbacks' }
   as :developer do
-    delete 'logout', to: 'devise/sessions#destroy',
+    delete 'developers/logout', to: 'devise/sessions#destroy',
                      as: :destroy_developer_session
-    get 'login', to: 'devise/sessions#new',
+    get 'developers/login', to: 'devise/sessions#new',
                  as: :new_developer_session
   end
 
