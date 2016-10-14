@@ -1,5 +1,6 @@
 class DevelopersController < ApplicationController
-  before_action :authenticate_developer!, :set_developer, only: :edit
+  before_action :authenticate_developer!, only: :edit
+  before_action :set_developer, only: [:edit, :show]
   skip_before_action :ensure_signup_complete, only: :edit
 
   # GET /developers
