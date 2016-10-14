@@ -21,9 +21,7 @@ module Github
 
     def fetch_developers(query)
       Rails.cache.fetch([query, 'developers'], expires_in: 2.days) do
-        search(query).items.map do |item|
-          fetch_developer(item.login)
-        end
+        search(query).items.map { |item| fetch_developer(item.login) }
       end
     end
 
