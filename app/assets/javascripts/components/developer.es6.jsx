@@ -4,6 +4,7 @@ import Relay from 'react-relay';
 import { ListItem } from 'material-ui/List';
 import Avatar from 'material-ui/Avatar';
 import DeveloperStatus from './developer_status.es6';
+import PremiumDeveloperStatus from './premium_developer_status.es6';
 import DeveloperMeta from './developer_meta.es6';
 
 const developerStyle = {
@@ -19,7 +20,7 @@ const paragraphStyles = {
 const Developer = props => (
   <div
     style={developerStyle}
-    className="developer developer--item"
+    className={`developer developer--item ${props.developer.premium ? 'premium' : ''}`}
     id={`developer_${props.developer.id}`}
   >
     <ListItem
@@ -31,6 +32,8 @@ const Developer = props => (
         />
       )}
       secondaryText={
+        props.developer.premium ?
+        <PremiumDeveloperStatus developer={props.developer} /> :
         <DeveloperStatus developer={props.developer} />
       }
       primaryText={props.developer.name}
@@ -52,8 +55,10 @@ const DeveloperContainer = Relay.createContainer(Developer, {
         id,
         name,
         avatar_url,
-        ${DeveloperStatus.getFragment('developer')}
-        ${DeveloperMeta.getFragment('developer')}
+        premium,
+        ${PremiumDeveloperStatus.getFragment('developer')},
+        ${DeveloperStatus.getFragment('developer')},
+        ${DeveloperMeta.getFragment('developer')},
       }
     `,
   },

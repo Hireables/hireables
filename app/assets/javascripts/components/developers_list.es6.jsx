@@ -5,20 +5,27 @@ import Relay from 'react-relay';
 import _ from 'underscore';
 import RaisedButton from 'material-ui/RaisedButton';
 import queryString from 'query-string';
-import Loader from 'react-loader';
-import { List } from 'material-ui/List';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Snackbar from 'material-ui/Snackbar';
+import { List } from 'material-ui/List';
 import Developer from './developer.es6';
 import Pagination from './pagination.es6';
-import PremiumDeveloper from './premium_developer.es6';
 import Search from './search.es6';
-import { ListItem } from 'material-ui/List';
-import Avatar from 'material-ui/Avatar';
 import EmptyList from './empty_list.es6';
+import LoadingList from './loading_list.es6';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import ActionCable from 'actioncable';
 const cable = ActionCable.createConsumer();
+
+// Card for signup
+import FlatButton from 'material-ui/FlatButton';
+import {
+  Card,
+  CardHeader,
+  CardActions,
+  CardTitle,
+  CardText
+} from 'material-ui/Card';
 
 const muiTheme = getMuiTheme({
   palette: {
@@ -26,12 +33,6 @@ const muiTheme = getMuiTheme({
     accent1Color: '#6986BD',
   },
 });
-
-const developerStyle = {
-  fontWeight: '500',
-  height: '100px',
-  backgroundColor: 'white',
-};
 
 class DevelopersList extends Component {
   constructor(props) {
@@ -43,16 +44,11 @@ class DevelopersList extends Component {
     this.queryObject = _.omit(queryString.parse(document.location.search), 'action');
     this.channel = cable.subscriptions.create('CacheChannel');
     this.channel.perform('set', queryString.parse(document.location.search));
-
-    this.state = {
-      open: false,
-      loaded: false,
-    };
+    this.state = { open: false, loaded: false };
   }
 
   componentDidMount() {
-    const queryObject = this.queryObject.page === 1 ? _.omit(this.queryObject, 'page') : this.queryObject;
-    this.props.relay.setVariables(queryObject, (readyState) => {
+    this.props.relay.setVariables(this.queryObject, (readyState) => {
       if (readyState.done) {
         this.setState({ loaded: true }, () => {
         const { pageInfo } = this.props.root.developers;
@@ -111,50 +107,52 @@ class DevelopersList extends Component {
     };
 
     const { root, relay } = this.props;
-    const emptyPlaceholders = _.map(_.range(0, 20, 1), (elem, index) => {
-      return ( <div
-              key={index}
-              style={developerStyle}
-              className="developer developer--item"
-              id={`developer_${elem}`}
-            >
-          <ListItem
-          leftAvatar={<Avatar src={"https://placeholdit.imgix.net/~text?w=40&h=40"} />}
-          secondaryText={
-            <div className="animated-background secondary"></div>
-          }
-          primaryText={
-            <div className="loading">
-              <div className="animated-background"></div>
-            </div>
-          }
-          disabled
-          secondaryTextLines={1}
-        />
-      </div>
-      )
-    });
-
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
         <div className="developers-list wrapper">
           <div className="container">
             <div className="developers-list developers--small sm-pull-reset col-md-5">
+              <Card style={{ marginBottom: '20px'}}>
+                <CardTitle
+                  title="Developer"
+                  subtitle="Signup to setup a premium profile"
+                  titleColor='rgba(0, 0, 0, 0.54118)'
+                />
+
+                <CardText style={{ padding: '8px 16px' }}>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                </CardText>
+
+                <CardActions style={{ padding: '8px 16px' }}>
+                  <RaisedButton label="Signup" primary />
+                </CardActions>
+              </Card>
+
+              <Card style={{ marginBottom: '20px'}}>
+                <CardTitle
+                  titleColor='rgba(0, 0, 0, 0.54118)'
+                  title="Recruiter"
+                  subtitle="Signup to search premium developers"
+                />
+
+                <CardText style={{ padding: '8px 16px' }}>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                </CardText>
+
+                <CardActions style={{ padding: '8px 16px' }}>
+                  <RaisedButton label="Signup" primary />
+                </CardActions>
+              </Card>
               <Search action={'/developers'} relay={relay} />
             </div>
             {this.state.loaded ?
               (root.developers.edges && root.developers.edges.length > 0 ?
                 <List className="col-md-7 pull-right" style={containerStyle}>
                   {root.developers.edges.map(({ node }) => (
-                    node.premium ?
-                      <PremiumDeveloper
-                        developer={node}
-                        key={node.id}
-                      /> :
-                      <Developer
-                        developer={node}
-                        key={node.id}
-                      />
+                    <Developer
+                      developer={node}
+                      key={node.id}
+                    />
                   ))}
 
                 {root.developers.pageInfo != null &&
@@ -168,10 +166,7 @@ class DevelopersList extends Component {
                     loadPrevious={this.loadPrevious}
                   /> : ''
                 }
-                </List> : <EmptyList />) :
-                <List className="col-md-7 pull-right" style={containerStyle}>
-                  {emptyPlaceholders}
-                </List>
+                </List> : <EmptyList />) : <LoadingList />
               }
             <Snackbar
               open={this.state.open}

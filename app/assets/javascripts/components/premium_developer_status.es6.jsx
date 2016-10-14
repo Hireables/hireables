@@ -2,9 +2,11 @@
 /* global $ ga location window */
 
 import React, { Component } from 'react';
+import Relay from 'react-relay';
 import createDOMPurify from 'dompurify';
 import Cookies from 'js-cookie';
 import { white } from 'material-ui/styles/colors';
+import DeveloperStatus from './developer_status.es6';
 
 class PremiumDeveloperStatus extends Component {
   static openUrl(url) {
@@ -112,7 +114,7 @@ class PremiumDeveloperStatus extends Component {
     return (
       <div style={paragraphStyles}>
         <span style={{ color: '#333', fontWeight: '400' }}>
-          <small>{this.props.developer.city}</small>
+          <small>{this.props.developer.location}</small>
         </span>
 
         <br />
@@ -135,16 +137,16 @@ class PremiumDeveloperStatus extends Component {
             </span> : ''
           }
 
-          {this.props.developer.data.company ?
+          {this.props.developer.company ?
             <span style={badgeStyles} className="company_shown">
-              {this.props.developer.data.company}
+              {this.props.developer.company}
             </span> : ''
           }
 
           {this.props.developer.available ?
             <span style={badgeStyles} className="available">
               Hireable
-            </span> : !this.props.developer.data.company ?
+            </span> : !this.props.developer.company ?
               <span style={badgeStyles} className="may_available">
                 May be hireable
               </span> : ''
@@ -188,4 +190,15 @@ PremiumDeveloperStatus.propTypes = {
   developer: React.PropTypes.object,
 };
 
-export default PremiumDeveloperStatus;
+const PremiumDeveloperStatusContainer = Relay.createContainer(
+  PremiumDeveloperStatus, {
+  fragments: {
+    developer: () => Relay.QL`
+      fragment on Developer {
+        ${DeveloperStatus.getFragment('developer')}
+      }
+    `,
+  },
+});
+
+export default PremiumDeveloperStatusContainer;

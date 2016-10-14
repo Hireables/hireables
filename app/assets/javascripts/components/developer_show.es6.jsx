@@ -23,7 +23,7 @@ const DeveloperShow = (props) => {
   const { developer } = props;
   return (
     <MuiThemeProvider>
-      <div className="developers-show">
+      <div className={`developers-show ${developer.premium ? 'premium' : ''}`}>
         <header className="header header--bg">
           <div className="container">
             <div style={wrapperStyle}>
@@ -51,7 +51,11 @@ const DeveloperShow = (props) => {
                 </small> : ''
               }
 
-              <DeveloperStatus developer={developer} />
+              {developer.premium ?
+                <PremiumDeveloperStatus developer={props.developer} /> :
+                <DeveloperStatus developer={props.developer} />
+              }
+
               <Languages languages={developer.languages} />
 
               <div className="p-t-20">

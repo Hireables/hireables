@@ -186,7 +186,8 @@ DeveloperStatus.propTypes = {
   developer: React.PropTypes.object,
 };
 
-const DeveloperStatusContainer = Relay.createContainer(DeveloperStatus, {
+const DeveloperStatusContainer = Relay.createContainer(
+  DeveloperStatus, {
   fragments: {
     developer: () => Relay.QL`
       fragment on Developer {
@@ -194,6 +195,7 @@ const DeveloperStatusContainer = Relay.createContainer(DeveloperStatus, {
         bio,
         company,
         location,
+        premium,
         blog,
         login,
         subscribed,

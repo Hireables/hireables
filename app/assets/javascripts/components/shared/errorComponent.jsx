@@ -4,9 +4,9 @@ import React from 'react';
 const ErrorComponent = (props) => (
   <div className="overlay">
     <div className="error">
-      Something went wrong...
-      <a onClick={props.retry}>
-        Retry
+      Something went wrong loading this page...
+      <a onClick={props.retry} href='#'>
+        Retry again
       </a>
     </div>
   </div>
