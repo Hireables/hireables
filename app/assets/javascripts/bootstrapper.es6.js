@@ -24,7 +24,6 @@ const setupNetworkLayer = () => {
       retryDelays: [5000],
       headers: {
         'X-CSRF-Token': auth.csrfToken(),
-        Authorization: auth.authToken(),
       },
     })
   );
