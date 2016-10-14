@@ -5,8 +5,10 @@ source 'https://rubygems.org'
 gem 'rails', '>= 5.0.x'
 gem 'pg'
 
-# Setup server
+# Socket server
 gem 'passenger'
+
+# Web Server
 gem 'puma'
 
 # Asset compilation and NPM modules
@@ -19,7 +21,6 @@ gem 'mini_racer'
 # Setup Octokit and HTTP cache
 gem 'httparty'
 gem 'sidekiq'
-gem 'redis'
 gem 'redis-namespace'
 
 # Setup caching and Marshalling

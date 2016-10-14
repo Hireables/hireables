@@ -233,7 +233,6 @@ DEPENDENCIES
   rack-cors
   rails (>= 5.0.x)
   rails_12factor
-  redis
   redis-namespace
   rubocop
   sass-rails (~> 5.0)
