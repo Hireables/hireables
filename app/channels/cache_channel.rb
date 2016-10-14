@@ -1,12 +1,7 @@
 class CacheChannel < ApplicationCable::Channel
   def set(params)
     stop_all_streams
-    query = Github::Params.new(params).set
-
-    api = Github::Api.new(current_developer.try(:id))
-    api.token = current_developer.access_token unless current_developer.nil?
-    search = api.search(query)
-
+    search = api.search(Github::Params.new(params).set)
     search.items.each do |item|
       FetchDeveloperWorker.perform_async(
         item.login,
@@ -17,5 +12,11 @@ class CacheChannel < ApplicationCable::Channel
 
   def unsubscribed
     stop_all_streams
+  end
+
+  private
+
+  def api
+    Github::Api.new(current_developer.access_token)
   end
 end

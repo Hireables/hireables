@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/BlockLength
 DeveloperType = GraphQL::ObjectType.define do
   name 'Developer'
   description 'Fetch developer associated fields'
@@ -13,59 +14,47 @@ DeveloperType = GraphQL::ObjectType.define do
   field :location, types.String, 'The location of this developer'
   field :blog, types.String, 'The blog website of this developer'
   field :html_url, types.String, 'The github url of this developer'
-
-  field :hireable, types.Boolean do
-    description 'Is developer hireable?'
-    resolve -> (obj, args, ctx) do
-      obj.hireable.nil? ? false :  obj.hireable
-    end
-  end
-
-  field :linkedin, types.String do
-    description 'Linkedin profile'
-    resolve -> (obj, args, ctx) do
-      obj.respond_to?(:linkedin) ?  obj.linkedin : nil
-    end
-  end
-
   field :followers, types.Int, 'The followers of this developer'
   field :public_gists, types.Int, 'The gists of this developer'
   field :public_repos, types.Int, 'The repos of this developer'
 
+  field :hireable, types.Boolean do
+    description 'Is developer hireable?'
+    resolve(DeveloperCustomFieldResolver.new(:hireable, :boolean))
+  end
+
+  field :linkedin, types.String do
+    description 'Linkedin profile'
+    resolve(DeveloperCustomFieldResolver.new(:hireable, :string))
+  end
+
   field :remote, types.Boolean do
     description 'Prefer remote?'
-    resolve -> (obj, args, ctx) do
-      obj.respond_to?(:remote) ?  obj.remote : false
-    end
+    resolve(DeveloperCustomFieldResolver.new(:remote, :boolean))
   end
 
   field :relocate, types.Boolean do
     description 'Can relocate?'
-    resolve -> (obj, args, ctx) do
-      obj.respond_to?(:relocate) ?  obj.relocate : false
-    end
+    resolve(DeveloperCustomFieldResolver.new(:relocate, :boolean))
   end
 
   field :premium, types.Boolean do
     description 'Is it premium profile?'
-    resolve -> (obj, args, ctx) do
-      obj.respond_to?(:premium) ?  obj.premium : false
-    end
+    resolve(DeveloperCustomFieldResolver.new(:premium, :boolean))
   end
 
   field :subscribed, types.Boolean do
     description 'Is developer subcribed to emails from recruiters?'
-    resolve -> (obj, args, ctx) do
-      obj.respond_to?(:subscribed) ?  obj.subscribed : false
-    end
+    resolve(DeveloperCustomFieldResolver.new(:subscribed, :boolean))
   end
 
   field :platforms, types[types.String] do
     description 'Languages or platforms interested in'
-    resolve -> (obj, args, ctx) do
-      api = Github::Api.new(ctx[:current_user].try(:id))
-      api.token = ctx[:current_user].access_token unless ctx[:current_user].nil?
-      api.fetch_developer_languages(obj.login)
-    end
+    resolve -> (obj, _args, ctx) { resolve_platforms(obj, ctx) }
   end
+end
+
+def resolve_platforms(obj, ctx)
+  api = Github::Api.new(ctx[:current_user].try(:access_token))
+  api.fetch_developer_languages(obj.login)
 end

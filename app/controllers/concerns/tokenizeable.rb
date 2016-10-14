@@ -59,10 +59,6 @@ module Tokenizeable
   end
 
   def permission
-    if current_developer.present?
-      'developer'
-    else
-      nil
-    end
+    'developer' if current_developer.present?
   end
 end

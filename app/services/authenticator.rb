@@ -23,6 +23,8 @@ class Authenticator
 
   private
 
+  # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Metrics/AbcSize
   def create_from_omniauth
     Developer.create!(
       email: auth.info.email,

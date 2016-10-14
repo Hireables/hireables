@@ -1,5 +1,5 @@
 class DeveloperUpdateResolver
-  attr_reader :params, :record, :developer
+  attr_reader :params, :record
 
   def self.call(*args)
     new(*args).call
@@ -8,14 +8,13 @@ class DeveloperUpdateResolver
   def initialize(inputs, ctx)
     raise StandardError,
           'You are not logged in' unless ctx[:current_developer].present?
-    @params = inputs
-    @developer = ctx[:current_developer]
-    @record = Schema.object_from_id(params[:id], ctx)
+    @params = inputs.to_h
+    @developer = Schema.object_from_id(params[:id], ctx)
   end
 
   def call
-    record.update!(valid_params)
-    { model_name.to_sym => record.reload }
+    developer.update!(valid_params)
+    { developer: developer.reload }
   end
 
   private
@@ -24,11 +23,7 @@ class DeveloperUpdateResolver
     params.instance_variable_get(
       :@argument_values
     ).select do |k, _|
-      record.respond_to? "#{k}="
+      developer.respond_to? "#{k}="
     end.except('id')
-  end
-
-  def model_name
-    record.class.to_s.downcase
   end
 end

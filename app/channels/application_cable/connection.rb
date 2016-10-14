@@ -3,17 +3,13 @@ module ApplicationCable
     identified_by :current_developer
 
     def connect
-      self.current_developer = find_verified_developer
+      self.current_developer = find_current_developer
     end
 
     protected
 
-    def find_verified_developer
-      if current_developer = Developer.find_by(id: cookies.signed['developer.id'])
-        current_developer
-      else
-        nil
-      end
+    def find_current_developer
+      Developer.find_by(id: cookies.signed['developer.id'])
     end
   end
 end

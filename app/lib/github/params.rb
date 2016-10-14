@@ -11,13 +11,14 @@ module Github
         "#{param}:#{value}" if valid?(param) && value.present?
       end.compact.join('+').gsub(/\s+/, '')
 
-      query << "&page=#{params["page"] || 1}&per_page=21"
+      query << "&page=#{params['page'] || 1}&per_page=21"
     end
 
     def request_params
-      params.to_h.map do |param, value|
+      valid_params = params.to_h.map do |param, value|
         valid?(param) && value.present?
-      end.any? ?  params : default_params
+      end
+      valid_params.any? ? params : default_params
     end
 
     def valid?(key)
