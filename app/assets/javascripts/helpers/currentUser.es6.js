@@ -11,22 +11,6 @@ export default class CurrentUser {
     return document.getElementsByName('current_user')[0].content;
   }
 
-  avatar() {
-    return document.getElementsByName('current_user')[0].getAttribute('avatar');
-  }
-
-  profileColor() {
-    return document.getElementsByName('current_user')[0].getAttribute('profile_color');
-  }
-
-  role() {
-    return document.getElementsByName('role')[0].getAttribute('content');
-  }
-
-  education() {
-    return document.getElementsByName('current_user')[0].getAttribute('education');
-  }
-
   authenticated() {
     return document.getElementsByName('logged_in')[0].content === 'true';
   }
