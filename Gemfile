@@ -11,15 +11,14 @@ gem 'passenger'
 # Web Server
 gem 'puma'
 
-# Asset compilation and NPM modules
+# SASS
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 
-# Setup react and dependencies
-gem 'mini_racer'
-
-# Setup Octokit and HTTP cache
+# HTTP requests
 gem 'httparty'
+
+# Background workers
 gem 'sidekiq'
 gem 'redis-namespace'
 
