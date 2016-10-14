@@ -12,7 +12,6 @@ gem 'puma'
 # Asset compilation and NPM modules
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
-gem 'coffee-rails'
 
 # Setup react and dependencies
 gem 'mini_racer'
@@ -24,9 +23,6 @@ gem 'redis'
 gem 'redis-namespace'
 
 # Setup caching and Marshalling
-gem 'readthis'
-gem 'hiredis'
-gem 'oj'
 gem 'dalli'
 
 # Throttle Malacious requests

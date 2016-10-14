@@ -5,7 +5,7 @@ class DeveloperUpdateResolver
     new(*args).call
   end
 
-  def initialize(inputs, ctx)
+  def initialize(obj, inputs, ctx)
     raise StandardError,
           'You are not logged in' unless ctx[:current_developer].present?
     @params = inputs.to_h
