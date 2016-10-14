@@ -2,52 +2,23 @@ module Tokenizeable
   extend ActiveSupport::Concern
 
   included do
-    include VerifyAuthToken
-    before_action :set_token!
-    helper_method :auth_token
-  end
-
-  def auth_token
-    AuthToken.encode(token_payload)
+    include AuthToken
+    before_action :set_token!, unless: :valid_token?
   end
 
   protected
 
-  def set_token!
-    cookies.signed[:_api_token] = auth_token
-  end
-
   def verify_token!
-    unless token?
-      render json: {
-        errors: ['You are not authorised']
-      }, status: :unauthorized
-      return
-    end
+    render_unauthorised && return unless token?
+    redirect_to root_path && return unless valid_token?
 
   rescue JWT::VerificationError, JWT::DecodeError
-    render json: {
-      errors: ['You are not authorised']
-    }, status: :unauthorized
+    render_unauthorised
   end
 
   private
 
-  def request_token
-    return nil unless request.headers['Authorization'].present?
-    @request_token ||= request.headers['Authorization'].split(' ').last
-  end
-
-  def token_payload
-    return {} if permission.nil?
-    { permission: permission, user_id: current_developer.try(:id) }
-  end
-
-  def permission
-    'developer' if current_developer.present?
-  end
-
-  def graphql_controller?
-    params[:controller] == 'graphql/query'
+  def render_unauthorised
+    render json: { errors: ['You are not authorised'] }, status: :unauthorized
   end
 end

@@ -1,8 +1,7 @@
 module Graphql
   class QueryController < ApplicationController
     skip_before_action :ensure_signup_complete
-    before_action :verify_token!
-    before_action :set_current_developer
+    before_action :verify_token!, :set_current_developer
 
     def create
       result = Schema.execute(
