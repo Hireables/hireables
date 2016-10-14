@@ -1,29 +1,18 @@
-module AuthToken
-  def auth_token
-    JsonWebToken.encode(set_token_payload)
+class AuthToken
+  def self.encode(payload)
+    JWT.encode(
+      payload,
+      Rails.application.secrets.secret_key_base
+    )
   end
 
-  private
-
-  def set_token_payload
-    return {} if permission.nil?
-    { permission: permission, user_id: current_developer.try(:id) }
-  end
-
-  def request_token
-    return nil unless request.headers['Authorization'].present?
-    @request_token ||= request.headers['Authorization'].split(' ').last
-  end
-
-  def decoded_token
-    @auth_token ||= JsonWebToken.decode(request_token)
-  end
-
-  def token?
-    request_token.present? && decoded_token
-  end
-
-  def permission
-    'developer' if current_developer.present?
+  def self.decode(token)
+    return HashWithIndifferentAccess.new(
+      JWT.decode(
+        token, Rails.application.secrets.secret_key_base
+      )[0]
+    )
+  rescue
+    nil
   end
 end

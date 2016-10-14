@@ -1,6 +1,6 @@
 module ApplicationCable
   class Connection < ActionCable::Connection::Base
-    include AuthToken
+    include VerifyAuthToken
     identified_by :current_developer
 
     def connect
@@ -19,7 +19,7 @@ module ApplicationCable
     private
 
     def request_token
-      @request_token ||= cookies.signed['_graphql_token']
+      @request_token ||= cookies.signed['_api_token']
     end
   end
 end
