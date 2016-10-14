@@ -3,7 +3,7 @@ class Developer < ApplicationRecord
   store_accessor :data, :html_url, :avatar_url, :company, :blog,
                  :followers, :public_gists, :public_repos
   after_commit :cache_login!, :delete_cache!, :delete_languages_cache!
-  after_commit :set_premium!, on: :update, unless: :completed?
+  after_commit :set_premium!, on: :update, unless: :joined?
 
   def joined?
     premium_fields.all? do |field|
