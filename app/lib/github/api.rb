@@ -13,8 +13,8 @@ module Github
     def search(query)
       Rails.cache.fetch(query, expires_in: 2.days) do
         search = api.get("/search/users?q=#{query}", headers: headers)
-        headers = search.headers['status']
-        raise StandardError, 'Not Found' unless headers == '200 OK'
+        raise StandardError,
+              'Not Found' unless search.headers['status'] == '200 OK'
         JSON.parse(search.body, object_class: OpenStruct)
       end
     end
@@ -40,8 +40,8 @@ module Github
           Developer.find_by(login: login)
         else
           user = api.get("/users/#{login}", headers: headers)
-          headers = user.headers['status']
-          raise StandardError, 'Not Found' unless headers == '200 OK'
+          raise StandardError,
+                'Not Found' unless user.headers['status'] == '200 OK'
           JSON.parse(user.body, object_class: OpenStruct)
         end
       end
@@ -61,8 +61,8 @@ module Github
 
     def fetch_developer_repos(login)
       repos = api.get("/users/#{login}/repos", headers: headers)
-      headers = repos.headers['status']
-      raise StandardError, 'Not Found' unless headers == '200 OK'
+      raise StandardError,
+            'Not Found' unless repos.headers['status'] == '200 OK'
       JSON.parse(repos.body, object_class: OpenStruct)
     end
 
