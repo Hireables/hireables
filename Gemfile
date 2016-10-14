@@ -62,5 +62,6 @@ group :development do
   gem 'graphiql-rails'
   gem 'spring'
   gem 'foreman'
+  gem 'rubocop'
   gem 'figaro'
 end
