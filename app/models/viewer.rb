@@ -1,8 +1,8 @@
-Id = Struct.new :id
+Id = Struct.new :login
 class Viewer < Id
-  STATIC = new(id: 'root').freeze
+  STATIC = new(login: 'root').freeze
 
-  def self.find(_)
+  def self.find_by_login(_)
     STATIC
   end
 end
