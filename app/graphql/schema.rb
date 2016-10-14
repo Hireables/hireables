@@ -17,12 +17,12 @@ def type_name(object)
 end
 
 def encode_object(object, type)
-  GraphQL::Schema::UniqueWithinType.encode(type.name, object.id)
+  GraphQL::Schema::UniqueWithinType.encode(type.name, object.login, separator: '---')
 end
 
 def decode_object(id)
-  type_name, object_id = GraphQL::Schema::UniqueWithinType.decode(id)
-  Object.const_get(type_name).find(object_id)
+  type_name, object_id = GraphQL::Schema::UniqueWithinType.decode(id, separator: '---')
+  Object.const_get(type_name).find_by_login(object_id)
 end
 
 # Responsible for dumping Schema.json
