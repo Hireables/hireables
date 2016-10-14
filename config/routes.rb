@@ -11,6 +11,8 @@ Rails.application.routes.draw do
                  as: :new_developer_session
   end
 
+  devise_for :recruiters
+
   namespace :graphql do
     post '/', to: 'query#create'
   end
