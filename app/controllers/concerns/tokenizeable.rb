@@ -2,18 +2,13 @@ module Tokenizeable
   extend ActiveSupport::Concern
 
   included do
-    before_action :set_token!, if: :graphql_controller?
+    include AuthToken
+    before_action :set_token!
     helper_method :auth_token
   end
 
-  def auth_token
-    JsonWebToken.encode(set_token_payload)
-  end
-
-  protected
-
   def set_token!
-    cookies[:_graphql_token] = auth_token
+    cookies.signed[:_graphql_token] = auth_token
   end
 
   def verify_token!
@@ -34,31 +29,5 @@ module Tokenizeable
 
   def graphql_controller?
     params[:controller] == 'graphql/query'
-  end
-
-  def set_token_payload
-    return {} if permission.nil?
-    {
-      permission: permission,
-      user_id: current_developer.try(:id)
-    }
-  end
-
-  def http_token
-    @http_token ||= if request.headers['Authorization'].present?
-                      request.headers['Authorization'].split(' ').last
-                    end
-  end
-
-  def decoded_token
-    @auth_token ||= JsonWebToken.decode(http_token)
-  end
-
-  def token?
-    http_token && decoded_token
-  end
-
-  def permission
-    'developer' if current_developer.present?
   end
 end

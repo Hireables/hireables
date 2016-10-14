@@ -17,6 +17,6 @@ class CacheChannel < ApplicationCable::Channel
   private
 
   def api
-    Github::Api.new(current_developer.access_token)
+    Github::Api.new(current_developer.try(:access_token))
   end
 end
