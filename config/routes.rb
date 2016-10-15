@@ -6,9 +6,9 @@ Rails.application.routes.draw do
              controllers: { omniauth_callbacks: 'omniauth_callbacks' }
   as :developer do
     delete 'developers/logout', to: 'devise/sessions#destroy',
-                     as: :destroy_developer_session
+                                as: :destroy_developer_session
     get 'developers/login', to: 'devise/sessions#new',
-                 as: :new_developer_session
+                            as: :new_developer_session
   end
 
   devise_for :recruiters
