@@ -16,7 +16,8 @@ gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 
 # HTTP requests
-gem 'httparty'
+gem 'octokit'
+gem 'faraday-http-cache'
 
 # Background workers
 gem 'sidekiq'
