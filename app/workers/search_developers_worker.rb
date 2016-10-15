@@ -2,11 +2,16 @@ class SearchDevelopersWorker
   include Sidekiq::Worker
   sidekiq_options queue: 'urgent'
 
-  def perform(query, current_developer_id)
-    developer = Developer.find_by_id(
-      current_developer_id
-    ) unless current_developer_id.nil?
-    api = Github::Api.new(developer.try(:access_token))
-    api.search(query)
+  def perform(params_cache_key)
+    params = Rails.cache.read(params_cache_key)
+    api = Github::Api.new(params[:access_token])
+
+    search = api.search(params)
+    search.items.each do |item|
+      FetchDeveloperWorker.perform_async(
+        item.login,
+        params[:access_token]
+      ) unless Rails.cache.exist?(item.login)
+    end
   end
 end
