@@ -8,7 +8,6 @@ module AuthToken
 
   def valid_token?
     return false unless token?
-
     JWT.decode(
       cookies.signed[:_api_token],
       Rails.application.secrets.secret_key_base
