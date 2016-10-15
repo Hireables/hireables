@@ -11,15 +11,24 @@ class DevelopersResolver
   end
 
   def call
-    api = Github::Api.new(current_developer.try(:access_token))
     if params['hireable'].present?
-      api.fetch_hireable_developers(query)
+      api.fetch_hireable_developers(search_query_hash)
     else
-      api.fetch_developers(query)
+      api.fetch_developers(search_query_hash)
     end
   end
 
-  def query
-    Github::Params.new(params).set
+  private
+
+  def search_query_hash
+    {
+      query: FormatSearchParams.new(params).to_query,
+      cache_key: FormatSearchParams.new(params).to_cache_key,
+      page: params['page'] || 1
+    }
+  end
+
+  def api
+    Github::Api.new(current_developer.try(:access_token))
   end
 end

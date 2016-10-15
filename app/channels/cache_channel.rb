@@ -1,11 +1,17 @@
 class CacheChannel < ApplicationCable::Channel
+  # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Metrics/AbcSize
   def set(params)
-    stop_all_streams
-    search = api.search(Github::Params.new(params).set)
-    search.items.each do |item|
+    search_params = FormatSearchParams.new(params)
+
+    api.search(
+      query: search_params.to_query,
+      cache_key: search_params.to_cache_key,
+      page: params['page'] || 1
+    ).items.each do |item|
       FetchDeveloperWorker.perform_async(
         item.login,
-        current_developer.try(:id)
+        current_developer.try(:access_token)
       ) unless Rails.cache.exist?(item.login)
     end
   end

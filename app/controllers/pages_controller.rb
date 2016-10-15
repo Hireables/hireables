@@ -1,10 +1,17 @@
 class PagesController < ApplicationController
+  include CacheSearchParams
+  before_action :cache_search_params!, only: :home
+
   # GET /
   def home
-    query = Github::Params.new(params).set
     SearchDevelopersWorker.perform_async(
-      query,
-      current_developer.try(:id)
-    ) unless Rails.cache.exist?(query)
+      search_cache_key
+    ) unless Rails.cache.exist?(search_cache_key)
+  end
+
+  private
+
+  def search_params
+    params.permit(:fullname, :location, :language, :hireable, :page)
   end
 end

@@ -2,8 +2,8 @@ class Developer < ApplicationRecord
   devise :database_authenticatable, :trackable, :validatable, :omniauthable
   store_accessor :data, :html_url, :avatar_url, :company, :blog,
                  :followers, :public_gists, :public_repos
-  after_commit :cache_login!, :delete_cache!, :delete_languages_cache!
   after_commit :set_premium!, on: :update, unless: :joined?
+  after_commit :delete_cache!, :delete_languages_cache!
 
   def joined?
     premium_fields.all? do |field|
@@ -12,10 +12,6 @@ class Developer < ApplicationRecord
   end
 
   private
-
-  def cache_login!
-    REDIS.sadd('hireables:developers_logins', login)
-  end
 
   def set_premium!
     update!(premium: true)
