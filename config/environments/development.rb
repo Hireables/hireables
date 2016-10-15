@@ -15,8 +15,15 @@ Rails.application.configure do
   # Enable/disable caching. By default caching is disabled.
   if Rails.root.join('tmp/caching-dev.txt').exist?
     config.action_controller.perform_caching = true
-
-    config.cache_store = :dalli_store
+    config.cache_store = :dalli_store, {
+      failover: true,
+      compress: true,
+      expires_in: 1.day,
+      socket_timeout: 1.5,
+      pool_size: 25,
+      socket_failure_delay: 0.2,
+      down_retry_delay: 60
+    }
     config.public_file_server.headers = {
       'Cache-Control' => 'public, max-age=172800'
     }

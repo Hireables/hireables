@@ -55,6 +55,9 @@ Rails.application.configure do
     username: ENV['MEMCACHEDCLOUD_USERNAME'],
     password: ENV['MEMCACHEDCLOUD_PASSWORD'],
     failover: true,
+    compress: true,
+    expires_in: 1.day,
+    pool_size: 25,
     socket_timeout: 1.5,
     socket_failure_delay: 0.2,
     down_retry_delay: 60
