@@ -218,6 +218,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  connection_pool
   dalli
   devise
   faraday-http-cache

@@ -15,12 +15,13 @@ gem 'puma'
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 
-# HTTP requests
+# HTTP requests and caching
 gem 'octokit'
 gem 'faraday-http-cache'
 
 # Background workers
 gem 'sidekiq'
+gem 'connection_pool'
 gem 'redis-namespace'
 
 # Setup caching and Marshalling
