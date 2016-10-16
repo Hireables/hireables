@@ -1,10 +1,10 @@
 Rails.application.routes.draw do
   authenticated :developer do
-    root 'developers#show', as: :developer_root
+    root 'developers#home', as: :developer_root
   end
 
   authenticated :recruiter do
-    root 'recruiters#show', as: :recruiter_root
+    root 'recruiters#home', as: :recruiter_root
   end
 
   root to: 'pages#index'
