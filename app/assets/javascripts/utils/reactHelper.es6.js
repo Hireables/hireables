@@ -3,9 +3,9 @@
   * To fetch and attach { components and Route } to global scope
 */
 
-import context from './context.es6.js';
-import ComponentRegistery from './componentRegistry.es6.js';
-import RouteRegistry from './routeRegistry.es6.js';
+import context from './context.es6';
+import ComponentRegistery from './componentRegistry.es6';
+import RouteRegistry from './routeRegistry.es6';
 
 const ctx = context();
 

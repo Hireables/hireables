@@ -11,7 +11,7 @@ const routesMap = new Map();
 
 export default {
   register(routes) {
-    Object.keys(routes).forEach(name => {
+    Object.keys(routes).forEach((name) => {
       if (routesMap.has(name)) {
         console.warn('Called register for route that is already registered', name);
       }
@@ -35,11 +35,11 @@ export default {
   get(name) {
     if (routesMap.has(name)) {
       return routesMap.get(name);
-    } else {
-      const keys = Array.from(routesMap.keys()).join(', ');
-      throw new Error(`Could not find route registered with name ${name}. \
-Registered route names include [ ${keys} ]. Maybe you forgot to register the route?`);
     }
+
+    const keys = Array.from(routesMap.keys()).join(', ');
+    throw new Error(`Could not find route registered with name ${name}. \
+Registered route names include [ ${keys} ]. Maybe you forgot to register the route?`);
   },
 
   /**

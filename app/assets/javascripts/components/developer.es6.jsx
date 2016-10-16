@@ -53,7 +53,6 @@ const DeveloperContainer = Relay.createContainer(Developer, {
         name,
         avatar_url,
         premium,
-        ${PremiumDeveloperStatus.getFragment('developer')},
         ${DeveloperStatus.getFragment('developer')},
         ${DeveloperMeta.getFragment('developer')},
       }

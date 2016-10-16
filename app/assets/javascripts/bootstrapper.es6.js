@@ -2,20 +2,16 @@
   Bootstrap components and api on DOM Load
 */
 
+/* global Turbolinks document */
 import Relay from 'react-relay';
 import {
   mountComponents,
   unmountComponents,
 } from './utils/componentMounter';
 
-/* global Turbolinks document */
-
-// Get auth and csrf tokens
 import Authentication from './helpers/authentication.es6';
 
 const auth = new Authentication();
-
-// Setup API url, inject csrf token and auth token
 const setupNetworkLayer = () => {
   Relay.injectNetworkLayer(
     new Relay.DefaultNetworkLayer('/graphql', {
@@ -29,14 +25,17 @@ const setupNetworkLayer = () => {
   );
 };
 
-// Finally Render components if available in DOM
-document.addEventListener('DOMContentLoaded', () => {
-  if (typeof Turbolinks !== 'undefined' && typeof Turbolinks.controller !== 'undefined') {
-    setupNetworkLayer();
-    document.addEventListener('turbolinks:render', unmountComponents);
-    document.addEventListener('turbolinks:load', mountComponents);
-  } else {
-    setupNetworkLayer();
-    mountComponents();
-  }
-});
+const renderComponents = () => {
+  document.addEventListener('DOMContentLoaded', () => {
+    if (typeof Turbolinks !== 'undefined' && typeof Turbolinks.controller !== 'undefined') {
+      setupNetworkLayer();
+      document.addEventListener('turbolinks:render', unmountComponents);
+      document.addEventListener('turbolinks:load', mountComponents);
+    } else {
+      setupNetworkLayer();
+      mountComponents();
+    }
+  });
+};
+
+export default renderComponents;

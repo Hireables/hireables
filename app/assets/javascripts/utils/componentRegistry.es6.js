@@ -10,7 +10,7 @@ const componentsMap = new Map();
 
 export default {
   register(components) {
-    Object.keys(components).forEach(name => {
+    Object.keys(components).forEach((name) => {
       if (componentsMap.has(name)) {
         console.warn('Called register for component that is already registered', name);
       }
@@ -35,13 +35,13 @@ export default {
   get(name) {
     if (componentsMap.has(name)) {
       return componentsMap.get(name);
-    } else {
-      const keys = Array.from(componentsMap.keys()).join(', ');
-      throw new Error(
-        `Could not find component registered with name ${name}. \
-        Registered component names include [ ${keys} ].
-        Maybe you forgot to register the component?`
-      );
     }
+
+    const keys = Array.from(componentsMap.keys()).join(', ');
+    throw new Error(
+      `Could not find component registered with name ${name}. \
+      Registered component names include [ ${keys} ].
+      Maybe you forgot to register the component?`
+    );
   },
 };
