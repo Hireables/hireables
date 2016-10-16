@@ -1,5 +1,8 @@
 class DevelopersController < ApplicationController
+  include SetSearchParams
   include CacheSearchParams
+  include EnqueueSearchWorker
+
   before_action :authenticate_developer!, only: :edit
   before_action :set_developer, only: [:edit, :show]
   after_action :enqueue_languages_worker, only: :show
@@ -7,9 +10,6 @@ class DevelopersController < ApplicationController
 
   # GET /developers
   def index
-    SearchDevelopersWorker.perform_async(
-      search_cache_key
-    ) unless Rails.cache.exist?(search_cache_key)
   end
 
   # GET /developers/:username
@@ -39,11 +39,5 @@ class DevelopersController < ApplicationController
 
   def set_developer
     @developer = Developer.find_by_login(params[:id])
-  end
-
-  def developer_params
-    params.require(:developer).permit(
-      :city, :available, :remote, :relocate, :jobs, :platforms, :email, :page
-    )
   end
 end
