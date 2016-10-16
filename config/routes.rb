@@ -24,7 +24,7 @@ Rails.application.routes.draw do
 
   resources :developers, except: :create do
     collection do
-      post :search
+      get :search
     end
   end
 end
