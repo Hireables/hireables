@@ -7,7 +7,6 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import RaisedButton from 'material-ui/RaisedButton';
 import Chip from 'material-ui/Chip';
-import AutoComplete from 'material-ui/AutoComplete';
 import _ from 'underscore';
 
 import {
@@ -130,7 +129,7 @@ class Search extends Component {
     ));
 
     const newModel = _.pick(Object.assign(this.formNode.getModel(), {
-      language: languages.toString()
+      language: languages.toString(),
     }), _.identity);
 
     const query = queryString.stringify(newModel);

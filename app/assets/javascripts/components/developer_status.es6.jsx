@@ -188,23 +188,24 @@ DeveloperStatus.propTypes = {
 
 const DeveloperStatusContainer = Relay.createContainer(
   DeveloperStatus, {
-  fragments: {
-    developer: () => Relay.QL`
-      fragment on Developer {
-        email,
-        bio,
-        company,
-        location,
-        premium,
-        blog,
-        login,
-        subscribed,
-        html_url,
-        hireable,
-        remote,
-      }
-    `,
-  },
-});
+    fragments: {
+      developer: () => Relay.QL`
+        fragment on Developer {
+          email,
+          bio,
+          company,
+          location,
+          premium,
+          blog,
+          login,
+          subscribed,
+          html_url,
+          hireable,
+          remote,
+        }
+      `,
+    },
+  }
+);
 
 export default DeveloperStatusContainer;

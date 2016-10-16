@@ -4,7 +4,6 @@ import Relay from 'react-relay';
 import { ListItem } from 'material-ui/List';
 import Avatar from 'material-ui/Avatar';
 import DeveloperStatus from './developer_status.es6';
-import PremiumDeveloperStatus from './premium_developer_status.es6';
 import DeveloperMeta from './developer_meta.es6';
 
 const developerStyle = {
@@ -32,8 +31,6 @@ const Developer = props => (
         />
       )}
       secondaryText={
-        props.developer.premium ?
-        <PremiumDeveloperStatus developer={props.developer} /> :
         <DeveloperStatus developer={props.developer} />
       }
       primaryText={props.developer.name}

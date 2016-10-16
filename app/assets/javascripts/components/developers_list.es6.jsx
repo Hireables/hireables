@@ -8,24 +8,21 @@ import queryString from 'query-string';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Snackbar from 'material-ui/Snackbar';
 import { List } from 'material-ui/List';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import ActionCable from 'actioncable';
+import {
+  Card,
+  CardActions,
+  CardTitle,
+  CardText,
+} from 'material-ui/Card';
 import Developer from './developer.es6';
 import Pagination from './pagination.es6';
 import Search from './search.es6';
 import EmptyList from './empty_list.es6';
 import LoadingList from './loading_list.es6';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import ActionCable from 'actioncable';
-const cable = ActionCable.createConsumer();
 
-// Card for signup
-import FlatButton from 'material-ui/FlatButton';
-import {
-  Card,
-  CardHeader,
-  CardActions,
-  CardTitle,
-  CardText
-} from 'material-ui/Card';
+const cable = ActionCable.createConsumer();
 
 const muiTheme = getMuiTheme({
   palette: {
@@ -112,11 +109,11 @@ class DevelopersList extends Component {
         <div className="developers-list wrapper">
           <div className="container">
             <div className="developers-list developers--small sm-pull-reset col-md-5">
-              <Card style={{ marginBottom: '20px'}}>
+              <Card style={{ marginBottom: '20px' }}>
                 <CardTitle
                   title="Developer"
                   subtitle="Signup to setup a premium profile"
-                  titleColor='rgba(0, 0, 0, 0.54118)'
+                  titleColor="rgba(0, 0, 0, 0.54118)"
                 />
 
                 <CardText style={{ padding: '8px 16px' }}>
@@ -128,9 +125,9 @@ class DevelopersList extends Component {
                 </CardActions>
               </Card>
 
-              <Card style={{ marginBottom: '20px'}}>
+              <Card style={{ marginBottom: '20px' }}>
                 <CardTitle
-                  titleColor='rgba(0, 0, 0, 0.54118)'
+                  titleColor="rgba(0, 0, 0, 0.54118)"
                   title="Recruiter"
                   subtitle="Signup to search premium developers"
                 />
