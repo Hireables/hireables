@@ -1,10 +1,9 @@
 class PagesController < ApplicationController
+  include SetSearchParams
   include CacheSearchParams
+  include EnqueueSearchWorker
 
   # GET /
-  def home
-    SearchDevelopersWorker.perform_async(
-      search_cache_key
-    ) unless Rails.cache.exist?(search_cache_key)
+  def index
   end
 end
