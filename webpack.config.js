@@ -5,8 +5,7 @@
 var webpack = require('webpack');
 var _ = require('underscore');
 var path = require('path');
-var HappyPack = require('happypack');
-var happyThreadPool = HappyPack.ThreadPool({ size: 5 });
+
 var devBuild = process.env.NODE_ENV !== 'production';
 var nodeEnv = devBuild ? 'development' : 'production';
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -47,12 +46,6 @@ var defaults = {
       },
     }),
 
-    new HappyPack({
-      id: 'js',
-      cache: false,
-      threadPool: happyThreadPool,
-    }),
-
     new ExtractTextPlugin('vendor-bundle.css', { allChunks: true }),
 
     // https://webpack.github.io/docs/list-of-plugins.html#2-explicit-vendor-chunk
@@ -78,7 +71,6 @@ var defaults = {
         test: /\.jsx?$/,
         loader: 'babel',
         exclude: /node_modules/,
-        happy: { id: 'js' },
       },
       {
         test: /\.css$/,
