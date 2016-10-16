@@ -1,4 +1,4 @@
-/* global document window $ */
+/* global document window $ Turbolinks */
 
 import React, { Component } from 'react';
 import Relay from 'react-relay';
@@ -48,8 +48,8 @@ class DevelopersList extends Component {
     this.props.relay.setVariables(this.queryObject, (readyState) => {
       if (readyState.done) {
         this.setState({ loaded: true }, () => {
-        const { pageInfo } = this.props.root.developers;
-        if (pageInfo != null && pageInfo.hasNextPage) {
+          const { pageInfo } = this.props.root.developers;
+          if (pageInfo != null && pageInfo.hasNextPage) {
             this.channel.perform(
               'set',
               Object.assign(
@@ -58,8 +58,8 @@ class DevelopersList extends Component {
               )
             );
           }
-          });
-        }
+        });
+      }
     });
   }
 
@@ -69,7 +69,9 @@ class DevelopersList extends Component {
       this.queryObject,
       { page: parseInt(this.props.relay.variables.page, 0) + 1 },
     ), _.identity);
-    Turbolinks.visit(`/developers?${queryString.stringify(newPage)}`);
+
+    const query = queryString.stringify(newPage);
+    Turbolinks.visit(`/developers/search?${query}`);
   }
 
   loadPrevious(event) {
@@ -79,7 +81,9 @@ class DevelopersList extends Component {
       this.queryObject,
       { page: previousPage === 1 ? null : previousPage },
     ), _.identity);
-    Turbolinks.visit(`/developers?${queryString.stringify(newPage)}`);
+
+    const query = queryString.stringify(newPage);
+    Turbolinks.visit(`/developers/search?${query}`);
   }
 
   handleTouchTap() {
@@ -140,7 +144,7 @@ class DevelopersList extends Component {
                   <RaisedButton label="Signup" primary />
                 </CardActions>
               </Card>
-              <Search action={'/developers'} relay={relay} />
+              <Search relay={relay} />
             </div>
             {this.state.loaded ?
               (root.developers.edges && root.developers.edges.length > 0 ?
@@ -152,17 +156,17 @@ class DevelopersList extends Component {
                     />
                   ))}
 
-                {root.developers.pageInfo != null &&
-                  (root.developers.pageInfo.hasNextPage ||
-                    this.queryObject.page >= 2
-                  ) ?
-                  <Pagination
-                    loadNext={this.loadNext}
-                    queryObject={this.queryObject}
-                    pageInfo={root.developers.pageInfo}
-                    loadPrevious={this.loadPrevious}
-                  /> : ''
-                }
+                  {root.developers.pageInfo != null &&
+                    (root.developers.pageInfo.hasNextPage ||
+                      this.queryObject.page >= 2
+                    ) ?
+                      <Pagination
+                        loadNext={this.loadNext}
+                        queryObject={this.queryObject}
+                        pageInfo={root.developers.pageInfo}
+                        loadPrevious={this.loadPrevious}
+                      /> : ''
+                  }
                 </List> : <EmptyList />) : <LoadingList />
               }
             <Snackbar

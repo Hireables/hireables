@@ -85,9 +85,9 @@ class Search extends Component {
     let languagesData = [];
 
     if (languages) {
-      languagesData = languages.split(',').map((elem, index) => {
-        return { key: index, label: elem };
-      });
+      languagesData = languages.split(',').map((elem, index) => (
+        { key: index, label: elem }
+      ));
     }
 
     this.state = {
@@ -133,7 +133,7 @@ class Search extends Component {
     }), _.identity);
 
     const query = queryString.stringify(newModel);
-    Turbolinks.visit(`/developers?${query}`);
+    Turbolinks.visit(`/developers/search?${query}`);
   }
 
   checkComma(event) {
@@ -218,7 +218,6 @@ class Search extends Component {
       <MuiThemeProvider muiTheme={muiTheme}>
         <div className="filters" style={filterStyles}>
           <Formsy.Form
-            action={this.props.action}
             onValid={this.enableButton}
             onKeyDown={Search.onKeyPress}
             autoComplete="off"
@@ -296,7 +295,6 @@ class Search extends Component {
 }
 
 Search.propTypes = {
-  action: React.PropTypes.string,
   relay: React.PropTypes.object,
 };
 
