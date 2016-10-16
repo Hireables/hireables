@@ -20,6 +20,7 @@ var defaults = {
     vendor: [
       'babel-polyfill',
       'jquery',
+      'jquery-ujs',
       'react-dom',
       'react',
     ],
