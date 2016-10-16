@@ -1,12 +1,5 @@
 module Github
   class Api
-    attr_reader :token
-
-    def initialize(token)
-      @token = token.nil? ? ENV['github_access_token'] : token
-      raise StandardError, 'Token is not provided' unless @token.present?
-    end
-
     def search(params)
       Rails.cache.fetch([params[:cache_key], 'search']) do
         client.search_users(params[:query], page: params[:page], per_page: 21)
@@ -58,7 +51,9 @@ module Github
     end
 
     def client
-      client = Octokit::Client.new(access_token: token)
+      client = Octokit::Client.new(
+        access_token: ENV.fetch('github_access_token')
+      )
       client.configure do |c|
         c.middleware = faraday_stack
       end

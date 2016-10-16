@@ -55,6 +55,6 @@ DeveloperType = GraphQL::ObjectType.define do
 end
 
 def resolve_platforms(obj, ctx)
-  api = Github::Api.new(ctx[:current_user].try(:access_token))
+  api = Github::Api.new
   api.fetch_developer_languages(obj.login)
 end
