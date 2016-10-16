@@ -22,10 +22,14 @@ class DevelopersResolver
 
   def search_query_hash
     {
-      query: FormatSearchParams.new(params).to_query,
-      cache_key: FormatSearchParams.new(params).to_cache_key,
+      query: format_search_params.to_query,
+      cache_key: format_search_params.to_cache_key,
       page: params['page'] || 1
     }
+  end
+
+  def format_search_params
+    FormatSearchParams.new(params)
   end
 
   def api
