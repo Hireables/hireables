@@ -11,7 +11,7 @@
   "scripts": {
     "test": "npm test",
     "build:client": "node_modules/webpack/bin/webpack.js --config webpack.config.js -p",
-    "build:dev:client": "node_modules/webpack/bin/webpack.js -w --config webpack.config.js",
+    "build:dev:client": "node_modules/webpack/bin/webpack.js -w --config webpack.config.js"
   },
   "dependencies": {
     "actioncable": "^5.0.0",
