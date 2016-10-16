@@ -1,5 +1,5 @@
 class DevelopersController < ApplicationController
-  before_action :authenticate_developer!, only: [:edit, :search]
+  before_action :authenticate_developer!, only: [:edit, :search, :home, :show]
   before_action :check_search_params!, :cache_search_params, only: :search
   before_action :set_developer, only: [:edit, :show]
   after_action :enqueue_languages_worker, only: :show
@@ -22,6 +22,13 @@ class DevelopersController < ApplicationController
       @login
     ) unless Rails.cache.exist?(@login)
 
+    respond_to do |format|
+      format.html
+      format.json { head :ok }
+    end
+  end
+
+  def home
     respond_to do |format|
       format.html
       format.json { head :ok }
@@ -62,11 +69,7 @@ class DevelopersController < ApplicationController
   end
 
   def set_developer
-    @developer = if developer_signed_in?
-      current_developer
-    else
-      Developer.find_by_login(params[:id])
-    end
-    @login = @developer.try(:login) || params[:id]
+    @login = params[:id]
+    @developer = Developer.find_by_login(@login)
   end
 end
