@@ -10,8 +10,7 @@ class CacheChannel < ApplicationCable::Channel
       page: params['page'] || 1
     ).items.each do |item|
       FetchDeveloperWorker.perform_async(
-        item.login,
-        current_developer.try(:access_token)
+        item.login
       ) unless Rails.cache.exist?(item.login)
     end
   end
@@ -23,6 +22,6 @@ class CacheChannel < ApplicationCable::Channel
   private
 
   def api
-    Github::Api.new(current_developer.try(:access_token))
+    Github::Api.new
   end
 end
