@@ -38,62 +38,76 @@ class Home extends Component {
   }
 
   render() {
-    const containerStyle = {
-      paddingTop: '0px',
-      paddingBottom: '0px',
-      borderRight: '1px solid #f2f2f2',
-      boxShadow: '0 0 16px 0 rgba(63,67,69,0.3)',
-      margin: '40px 0px',
-    };
-
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
-        <div className="developers-list wrapper">
-          <div className="container">
-            <div className="developers-list developers--small sm-pull-reset col-md-5">
-              <Card style={{ marginBottom: '20px' }}>
-                <CardTitle
-                  title="Developer"
-                  subtitle="Signup to setup a premium profile"
-                  titleColor="rgba(0, 0, 0, 0.54118)"
-                />
+        <section className="split-home">
+          <section className="left-section">
+            <div className="hero-section">
+              <div className="hero-content">
+                <div className="developer">
+                  <Card className="card">
+                    <CardTitle
+                      title="Receive Job Offers"
+                      style={{ padding: '16px 16px 8px' }}
+                      titleStyle={{
+                        color: '#6F879A',
+                        borderBottom: '1px solid #6F879A',
+                      }}
+                    />
 
-                <CardText style={{ padding: '8px 16px' }}>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                </CardText>
+                    <CardText style={{ padding: '8px 16px', fontSize: '16px' }}>
+                      <p style={{ marginTop: '0px' }}>
+                        Create a free premium profile to receive high quality
+                        job offers from vetted recruiters.
+                      </p>
+                      <p style={{ marginBottom: '0px' }}>
+                        Control and set amount of job offers you want to receive
+                        per week and opt-out anytime.
+                      </p>
+                    </CardText>
 
-                <CardActions style={{ padding: '8px 16px' }}>
-                  <RaisedButton label="Signup" primary />
-                </CardActions>
-              </Card>
-
-              <Card style={{ marginBottom: '20px' }}>
-                <CardTitle
-                  titleColor="rgba(0, 0, 0, 0.54118)"
-                  title="Recruiter"
-                  subtitle="Signup to search premium developers"
-                />
-
-                <CardText style={{ padding: '8px 16px' }}>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                </CardText>
-
-                <CardActions style={{ padding: '8px 16px' }}>
-                  <RaisedButton label="Signup" primary />
-                </CardActions>
-              </Card>
+                    <CardActions style={{ padding: '8px 16px' }}>
+                      <RaisedButton label="Sign up with Github" primary />
+                    </CardActions>
+                  </Card>
+                </div>
+              </div>
             </div>
-            <h1 style={containerStyle}>Show some text</h1>
-            <Snackbar
-              open={this.state.open}
-              ref="snackbar_404"
-              message="Ohh no! Request failed! Make sure you are using right parameters"
-              action="error"
-              onRequestClose={this.handleRequestClose}
-              autoHideDuration={5000}
-            />
-          </div>
-        </div>
+          </section>
+          <section className="right-section">
+            <div className="hero-section">
+              <div className="hero-content">
+                <div className="recruiter">
+                  <Card className="card" style={{ backgroundColor: '#F2F2F2' }}>
+                    <CardTitle
+                      title="Search tech talents"
+                      style={{ padding: '16px 16px 8px' }}
+                      titleStyle={{
+                        color: '#6F879A',
+                        borderBottom: '1px solid #6F879A',
+                      }}
+                    />
+
+                    <CardText style={{ padding: '8px 16px', fontSize: '16px' }}>
+                      <p style={{ marginTop: '0px' }}>
+                        Search, filter and email hireable talents from around the world
+                        that are looking for their next opportunity.
+                      </p>
+                      <p style={{ marginBottom: '0px' }}>
+                        See salary requirements, work preferences and experiences
+                        upfront so you don't waste time.
+                      </p>
+                    </CardText>
+
+                    <CardActions style={{ padding: '8px 16px' }}>
+                      <RaisedButton label="Sign up with your email" primary />
+                    </CardActions>
+                  </Card>
+                </div>
+              </div>
+            </div>
+          </section>
+        </section>
       </MuiThemeProvider>
     );
   }
