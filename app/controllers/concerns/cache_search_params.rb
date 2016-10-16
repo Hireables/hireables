@@ -1,4 +1,10 @@
 module CacheSearchParams
+  extend ActiveSupport::Concern
+
+  included do
+    before_action :cache_search_params!, only: :index
+  end
+
   def format_search_params
     FormatSearchParams.new(search_params)
   end
@@ -20,5 +26,11 @@ module CacheSearchParams
         access_token: current_developer.try(:access_token)
       }
     end
+  end
+
+  private
+
+  def search_params
+    params.permit(:fullname, :location, :language, :hireable, :page)
   end
 end

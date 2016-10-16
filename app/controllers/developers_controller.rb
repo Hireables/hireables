@@ -1,7 +1,6 @@
 class DevelopersController < ApplicationController
   include CacheSearchParams
   before_action :authenticate_developer!, only: :edit
-  before_action :cache_search_params!, only: :index
   before_action :set_developer, only: [:edit, :show]
   after_action :enqueue_languages_worker, only: :show
   skip_before_action :ensure_signup_complete, only: :edit
@@ -40,10 +39,6 @@ class DevelopersController < ApplicationController
 
   def set_developer
     @developer = Developer.find_by_login(params[:id])
-  end
-
-  def search_params
-    params.permit(:fullname, :location, :language, :hireable, :page)
   end
 
   def developer_params
