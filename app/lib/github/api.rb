@@ -16,21 +16,24 @@ module Github
     end
 
     def fetch_developer(login)
-      developer = Developer.find_by(login: login)
-      if developer.present?
-        Developer.find_by(login: login)
-      else
-        client.user(login)
+      Rails.cache.fetch(login) do
+        developer = Developer.find_by(login: login)
+        if developer.present?
+          developer
+        else
+          client.user(login)
+        end
       end
     end
 
     def fetch_developer_languages(login)
-      developer = Developer.find_by(login: login)
-      if developer.present?
-        platforms = Developer.find_by_login(login).try(:platforms)
-        platforms.empty? ? platforms : platforms[0].split(',')
-      else
-        fetch_developer_repos(login).map(&:language).uniq!
+      Rails.cache.fetch([login, 'languages']) do
+        developer = Developer.find_by(login: login)
+        if developer.present? && !developer.platforms.empty?
+          developer.platforms[0].split(',')
+        else
+          fetch_developer_repos(login).map(&:language).uniq!
+        end
       end
     end
 
