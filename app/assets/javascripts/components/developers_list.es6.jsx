@@ -3,19 +3,12 @@
 import React, { Component } from 'react';
 import Relay from 'react-relay';
 import _ from 'underscore';
-import RaisedButton from 'material-ui/RaisedButton';
 import queryString from 'query-string';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Snackbar from 'material-ui/Snackbar';
 import { List } from 'material-ui/List';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import ActionCable from 'actioncable';
-import {
-  Card,
-  CardActions,
-  CardTitle,
-  CardText,
-} from 'material-ui/Card';
 import Developer from './developer.es6';
 import Pagination from './pagination.es6';
 import Search from './search.es6';
@@ -113,37 +106,6 @@ class DevelopersList extends Component {
         <div className="developers-list wrapper">
           <div className="container">
             <div className="developers-list developers--small sm-pull-reset col-md-5">
-              <Card style={{ marginBottom: '20px' }}>
-                <CardTitle
-                  title="Developer"
-                  subtitle="Signup to setup a premium profile"
-                  titleColor="rgba(0, 0, 0, 0.54118)"
-                />
-
-                <CardText style={{ padding: '8px 16px' }}>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                </CardText>
-
-                <CardActions style={{ padding: '8px 16px' }}>
-                  <RaisedButton label="Signup" primary />
-                </CardActions>
-              </Card>
-
-              <Card style={{ marginBottom: '20px' }}>
-                <CardTitle
-                  titleColor="rgba(0, 0, 0, 0.54118)"
-                  title="Recruiter"
-                  subtitle="Signup to search premium developers"
-                />
-
-                <CardText style={{ padding: '8px 16px' }}>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                </CardText>
-
-                <CardActions style={{ padding: '8px 16px' }}>
-                  <RaisedButton label="Signup" primary />
-                </CardActions>
-              </Card>
               <Search relay={relay} />
             </div>
             {this.state.loaded ?
