@@ -17,6 +17,7 @@ gem 'uglifier', '>= 1.3.0'
 
 # HTTP requests and caching
 gem 'octokit'
+gem 'typhoeus'
 gem 'faraday-http-cache'
 
 # Background workers
