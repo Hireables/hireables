@@ -51,12 +51,8 @@ const DeveloperShow = (props) => {
                 </small> : ''
               }
 
-              {developer.premium ?
-                <PremiumDeveloperStatus developer={props.developer} /> :
-                <DeveloperStatus developer={props.developer} />
-              }
-
-              <Languages languages={developer.languages} />
+              <DeveloperStatus developer={props.developer} />
+              <Languages languages={developer.platforms} />
 
               <div className="p-t-20">
                 <DeveloperMeta developer={developer} />
@@ -80,6 +76,7 @@ const DeveloperShowContainer = Relay.createContainer(DeveloperShow, {
         id,
         name,
         avatar_url,
+        platforms,
         ${DeveloperStatus.getFragment('developer')}
         ${DeveloperMeta.getFragment('developer')}
       }

@@ -106,7 +106,7 @@ class DevelopersList extends Component {
         <div className="developers-list wrapper">
           <div className="container">
             <div className="developers-list developers--small sm-pull-reset col-md-5">
-              <Search relay={relay} />
+              <Search relay={relay} cacheChannel={this.channel} />
             </div>
             {this.state.loaded ?
               (root.developers.edges && root.developers.edges.length > 0 ?
