@@ -2,7 +2,6 @@ class DevelopersController < ApplicationController
   before_action :authenticate_developer!, only: [:edit, :search, :home, :show]
   before_action :check_search_params!, :cache_search_params, only: :search
   before_action :set_developer, only: [:edit, :show]
-  after_action :enqueue_languages_worker, only: :show
   skip_before_action :ensure_signup_complete, only: :edit
 
   # GET /developers
@@ -15,10 +14,6 @@ class DevelopersController < ApplicationController
 
   # GET /developers/:username
   def show
-    FetchDeveloperWorker.perform_async(
-      @login
-    ) unless Rails.cache.exist?(@login)
-
     respond_to do |format|
       format.html
       format.json { head :ok }
@@ -49,12 +44,6 @@ class DevelopersController < ApplicationController
         page: search_params['page'] || 1
       }
     end
-  end
-
-  def enqueue_languages_worker
-    FetchDeveloperLanguagesWorker.perform_async(
-      params[:id]
-    ) unless Rails.cache.exist?([params[:id], 'languages'])
   end
 
   def search_params
