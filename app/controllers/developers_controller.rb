@@ -11,9 +11,6 @@ class DevelopersController < ApplicationController
 
   # GET /developers/search
   def search
-    SearchDevelopersWorker.perform_async(
-      @search_params.to_cache_key
-    ) unless Rails.cache.exist?(@search_params.to_cache_key)
   end
 
   # GET /developers/:username
@@ -48,8 +45,7 @@ class DevelopersController < ApplicationController
   def cache_search_params
     Rails.cache.fetch(@search_params.to_cache_key, expires: 2.days) do
       {
-        query: format_search_params.to_query,
-        cache_key: @search_params.to_cache_key,
+        query: @search_params.to_query,
         page: search_params['page'] || 1
       }
     end

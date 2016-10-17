@@ -10,6 +10,7 @@ class DevelopersResolver
   end
 
   def call
+    return [] unless format_search_params.valid?
     if params['hireable'].present?
       api.fetch_hireable_developers(search_query_hash)
     else
@@ -22,7 +23,6 @@ class DevelopersResolver
   def search_query_hash
     {
       query: format_search_params.to_query,
-      cache_key: format_search_params.to_cache_key,
       page: params['page'] || 1
     }
   end

@@ -6,8 +6,8 @@ class FormatSearchParams
   end
 
   def to_query
-    supported_params.map do |param, value|
-      "#{param}:#{value}"
+    params.to_h.map do |param, value|
+      "#{param}:#{value}" if supported?(param, value)
     end.compact.join(' ') << " #{params['fullname']}"
   end
 
@@ -15,14 +15,10 @@ class FormatSearchParams
     to_query.gsub(/\s+/, '') << "&page=#{params['page'] || 1}"
   end
 
-  def supported_params
-    params.select do |param, value|
-      supported?(param, value)
-    end
-  end
-
   def valid?
-    supported_params.any?
+    params.to_h.map do |param, value|
+      supported?(param, value)
+    end.any?
   end
 
   private

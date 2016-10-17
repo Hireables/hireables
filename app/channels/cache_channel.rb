@@ -6,7 +6,6 @@ class CacheChannel < ApplicationCable::Channel
 
     api.search(
       query: search_params.to_query,
-      cache_key: search_params.to_cache_key,
       page: params['page'] || 1
     ).items.each do |item|
       FetchDeveloperWorker.perform_async(
