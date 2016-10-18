@@ -1,10 +1,10 @@
 Rails.application.routes.draw do
   authenticated :developer do
-    root 'developers#home', as: :developer_root
+    root 'developers#index', as: :developer_root
   end
 
   authenticated :recruiter do
-    root 'recruiters#home', as: :recruiter_root
+    root 'search#index', as: :recruiter_root
   end
 
   root to: 'pages#index'
@@ -30,9 +30,6 @@ Rails.application.routes.draw do
                                    graphql_path: '/graphql'
   end
 
-  resources :developers, except: :create do
-    collection do
-      get :search
-    end
-  end
+  resources :developers, except: [:create, :update]
+  resources :search, only: :index
 end
