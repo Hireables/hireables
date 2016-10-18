@@ -47,7 +47,7 @@ class Home extends Component {
                 <div className="developer">
                   <Card className="card">
                     <CardTitle
-                      title="Receive Job Offers"
+                      title="For Developers"
                       style={{ padding: '16px 16px 8px' }}
                       titleStyle={{
                         color: '#6F879A',
@@ -67,7 +67,7 @@ class Home extends Component {
                     </CardText>
 
                     <CardActions style={{ padding: '8px 16px' }}>
-                      <RaisedButton label="Sign up with Github" primary />
+                      <RaisedButton label="Login with Github" primary />
                     </CardActions>
                   </Card>
                 </div>
@@ -80,7 +80,7 @@ class Home extends Component {
                 <div className="recruiter">
                   <Card className="card" style={{ backgroundColor: '#F2F2F2' }}>
                     <CardTitle
-                      title="Search tech talents"
+                      title="For Recruiters"
                       style={{ padding: '16px 16px 8px' }}
                       titleStyle={{
                         color: '#6F879A',
@@ -95,12 +95,12 @@ class Home extends Component {
                       </p>
                       <p style={{ marginBottom: '0px' }}>
                         See salary requirements, work preferences and experiences
-                        upfront so you don't waste time.
+                        upfront so you save time.
                       </p>
                     </CardText>
 
                     <CardActions style={{ padding: '8px 16px' }}>
-                      <RaisedButton label="Sign up with your email" primary />
+                      <RaisedButton label="Login with your email" primary />
                     </CardActions>
                   </Card>
                 </div>
