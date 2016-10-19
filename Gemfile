@@ -41,9 +41,6 @@ gem 'devise'
 # CORS
 gem 'rack-cors', :require => 'rack/cors'
 
-# Slim rails
-gem 'slim-rails'
-
 # Client side routes
 gem 'js-routes'
 
