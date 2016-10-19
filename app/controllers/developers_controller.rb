@@ -1,16 +1,13 @@
 class DevelopersController < ApplicationController
-  before_action :authenticate_developer!, :set_developer, only: [:edit, :show]
-  skip_before_action :ensure_signup_complete, only: :edit
+  before_action :authenticate_developer!, only: :profile
+  before_action :authenticate_recruiter!, :set_developer, only: :show
 
-  # GET /developers
-  def index
+  # GET /:id
+  def profile
   end
 
-  # GET /developers/:username
+  # GET /:id
   def show
-  end
-
-  def edit
   end
 
   private

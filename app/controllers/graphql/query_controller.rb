@@ -1,7 +1,6 @@
 module Graphql
   class QueryController < ApplicationController
-    skip_before_action :ensure_signup_complete
-    before_action :verify_token!, :set_current_developer
+    before_action :verify_token!, :set_current_recruiter, :set_current_developer
 
     def create
       result = Schema.execute(
@@ -9,13 +8,21 @@ module Graphql
         variables: ensure_hash(params[:variables]),
         context: {
           current_developer: set_current_developer,
-          developer_signed_in: developer_signed_in?
+          current_recruiter: set_current_recruiter,
+          developer_signed_in: developer_signed_in?,
+          recruiter_signed_in: recruiter_signed_in?
         }
       )
       render json: result
     end
 
     private
+
+    def set_current_recruiter
+      Recruiter.find_by(
+        id: cookies.signed['recruiter.id']
+      )
+    end
 
     def set_current_developer
       Developer.find_by(

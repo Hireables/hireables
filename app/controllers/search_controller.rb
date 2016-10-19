@@ -1,6 +1,6 @@
 class SearchController < ApplicationController
-  before_action :authenticate_recruiter!, only: :search
-  before_action :check_search_params!, :cache_search_params, only: :search
+  before_action :authenticate_recruiter!, only: :index
+  before_action :check_search_params!, :cache_search_params, only: :index
 
   def index
   end
