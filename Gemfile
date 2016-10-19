@@ -47,9 +47,6 @@ gem 'graphql'
 # Auth token
 gem 'jwt'
 
-# Pub-sub
-gem 'message_bus'
-
 group :production do
   gem 'rails_12factor'
 end
