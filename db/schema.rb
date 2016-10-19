@@ -18,19 +18,23 @@ ActiveRecord::Schema.define(version: 20161014150901) do
   create_table "developers", force: :cascade do |t|
     t.string   "name",               default: "",    null: false
     t.string   "email",              default: "",    null: false
+    t.string   "login",              default: "",    null: false
+    t.string   "avatar",             default: "",    null: false
     t.text     "bio"
     t.string   "linkedin",           default: ""
-    t.string   "login",              default: "",    null: false
     t.string   "provider",           default: "",    null: false
     t.string   "uid",                default: "",    null: false
-    t.string   "access_token",       default: "",    null: false
+    t.string   "salary",             default: "",    null: false
     t.boolean  "remote",             default: false
     t.boolean  "relocate",           default: false
-    t.boolean  "premium",            default: false
-    t.boolean  "subscribed",         default: false
     t.boolean  "hireable",           default: false
+    t.string   "job_types",          default: [],    null: false, array: true
     t.string   "platforms",          default: [],    null: false, array: true
     t.string   "location",           default: "",    null: false
+    t.boolean  "premium",            default: false
+    t.boolean  "subscribed",         default: false
+    t.integer  "subscriptions",      default: 0
+    t.string   "access_token",       default: "",    null: false
     t.string   "encrypted_password", default: "",    null: false
     t.jsonb    "data",               default: "{}",  null: false
     t.integer  "sign_in_count",      default: 0,     null: false
@@ -54,6 +58,7 @@ ActiveRecord::Schema.define(version: 20161014150901) do
 
   create_table "recruiters", force: :cascade do |t|
     t.string   "email",                  default: "",    null: false
+    t.string   "avatar",                 default: "",    null: false
     t.string   "name",                   default: "",    null: false
     t.boolean  "verified",               default: false
     t.string   "company",                default: "",    null: false
