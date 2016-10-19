@@ -1,0 +1,21 @@
+<div class="login-container">
+  <div class="login-intro">
+    <strong class='login-intro-text'>
+      <%= text %>
+    </strong>
+  </div>
+  <% if flash[:alert] %>
+    <%= link_to 'Sign in with github', developer_github_omniauth_authorize_path, class:'btn large login-button' %>
+  <% else %>
+    <%= link_to developer_github_omniauth_authorize_path, class:'btn github large login-button' do %>
+      <span>Sign in with github</span>
+    <% end %>
+  <% end %>
+  <% unless flash[:alert] %>
+    <div class="login-disclaimer">
+      <small class='login-disclaimer-text'>
+        We won't post anything to github without your permission
+      </strong>
+    </div>
+  <% end %>
+</div>
