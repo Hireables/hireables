@@ -114,9 +114,6 @@ GEM
     orm_adapter (0.5.0)
     parser (2.3.1.4)
       ast (~> 2.2)
-    passenger (5.0.30)
-      rack
-      rake (>= 0.8.1)
     pg (0.19.0)
     powerpack (0.1.1)
     puma (3.6.0)
@@ -230,7 +227,6 @@ DEPENDENCIES
   message_bus
   octokit
   omniauth-github
-  passenger
   pg
   puma
   rack-attack

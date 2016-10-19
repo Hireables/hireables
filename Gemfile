@@ -5,9 +5,6 @@ source 'https://rubygems.org'
 gem 'rails', '>= 5.0.x'
 gem 'pg'
 
-# Socket server
-gem 'passenger'
-
 # Web Server
 gem 'puma'
 
