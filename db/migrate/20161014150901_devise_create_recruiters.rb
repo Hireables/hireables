@@ -3,6 +3,7 @@ class DeviseCreateRecruiters < ActiveRecord::Migration[5.0]
     create_table :recruiters do |t|
       ## Database authenticatable
       t.string :email,              null: false, default: ""
+      t.string :avatar, null: false, default: ""
       t.string :name,              null: false, default: ""
       t.boolean :verified, default: false
       t.string :company,              null: false, default: ""

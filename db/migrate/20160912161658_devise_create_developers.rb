@@ -4,19 +4,23 @@ class DeviseCreateDevelopers < ActiveRecord::Migration
       ## Database authenticatable
       t.string :name, null: false, default: ""
       t.string :email, null: false, default: ""
+      t.string :login, null: false, default: ""
+      t.string :avatar, null: false, default: ""
       t.text :bio
       t.string :linkedin, default: ""
-      t.string :login, null: false, default: ""
       t.string :provider, null: false, default: ""
       t.string :uid, null: false, default: ""
-      t.string :access_token, null: false, default: ""
+      t.string :salary, null: false, default: ""
       t.boolean :remote, default: false, index: true
       t.boolean :relocate, default: false, index: true
-      t.boolean :premium, default: false, index: true
-      t.boolean :subscribed, default: false, index: true
       t.boolean :hireable, default: false, index: true
+      t.string :job_types, null: false, default: "{}", array: true
       t.string :platforms, null: false, default: "{}", array: true
       t.string :location, null: false, default: "", index: true
+      t.boolean :premium, default: false, index: true
+      t.boolean :subscribed, default: false, index: true
+      t.integer :subscriptions, default: 0
+      t.string :access_token, null: false, default: ""
       t.string :encrypted_password, null: false, default: ""
       t.jsonb :data, null: false, default: "{}"
 
