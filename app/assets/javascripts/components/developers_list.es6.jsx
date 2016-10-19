@@ -21,7 +21,11 @@ const muiTheme = getMuiTheme({
   },
 });
 
-const queryObject = _.omit(queryString.parse(document.location.search));
+
+const queryObject = _.pick(
+  queryString.parse(document.location.search),
+  ['language', 'location', 'page', 'hireable']
+);
 
 class DevelopersList extends Component {
   constructor(props) {

@@ -79,13 +79,14 @@ class Search extends Component {
     this.disableButton = this.disableButton.bind(this);
     this.clearValidationErrors = this.clearValidationErrors.bind(this);
     this.submitSearch = this.submitSearch.bind(this);
-    this.queryObject = _.omit(queryString.parse(document.location.search));
+    this.queryObject = _.pick(
+      queryString.parse(document.location.search),
+      ['language', 'location', 'page', 'hireable']
+    );
 
-    const languages = _.pick(this.queryObject, 'language').language;
     let languagesData = [];
-
-    if (languages) {
-      languagesData = languages.split(',').map((elem, index) => (
+    if (this.queryObject.language) {
+      languagesData = this.queryObject.language.split(',').map((elem, index) => (
         { key: index, label: elem }
       ));
     }
