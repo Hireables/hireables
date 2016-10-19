@@ -133,7 +133,6 @@ class Search extends Component {
     }), _.identity);
 
     const query = queryString.stringify(newModel);
-    this.props.cacheChannel.perform('set', query);
     Turbolinks.visit(`/developers/search?${query}`);
   }
 
@@ -297,7 +296,6 @@ class Search extends Component {
 
 Search.propTypes = {
   relay: React.PropTypes.object,
-  cacheChannel: React.PropTypes.object,
 };
 
 export default Search;

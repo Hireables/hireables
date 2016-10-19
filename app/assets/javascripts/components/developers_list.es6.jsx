@@ -8,14 +8,11 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Snackbar from 'material-ui/Snackbar';
 import { List } from 'material-ui/List';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import ActionCable from 'actioncable';
 import Developer from './developer.es6';
 import Pagination from './pagination.es6';
 import Search from './search.es6';
 import EmptyList from './empty_list.es6';
 import LoadingList from './loading_list.es6';
-
-const cable = ActionCable.createConsumer();
 
 const muiTheme = getMuiTheme({
   palette: {
@@ -32,8 +29,6 @@ class DevelopersList extends Component {
     this.loadNext = this.loadNext.bind(this);
     this.loadPrevious = this.loadPrevious.bind(this);
     this.queryObject = _.omit(queryString.parse(document.location.search), 'action');
-    this.channel = cable.subscriptions.create('CacheChannel');
-    this.channel.perform('set', queryString.parse(document.location.search));
     this.state = { open: false, loaded: false };
   }
 
@@ -43,13 +38,7 @@ class DevelopersList extends Component {
         this.setState({ loaded: true }, () => {
           const { pageInfo } = this.props.root.developers;
           if (pageInfo != null && pageInfo.hasNextPage) {
-            this.channel.perform(
-              'set',
-              Object.assign(
-                queryString.parse(document.location.search),
-                { page: parseInt(this.props.relay.variables.page, 0) + 1 },
-              )
-            );
+            // todo to ping server
           }
         });
       }
@@ -106,7 +95,7 @@ class DevelopersList extends Component {
         <div className="developers-list wrapper">
           <div className="container">
             <div className="developers-list developers--small sm-pull-reset col-md-5">
-              <Search relay={relay} cacheChannel={this.channel} />
+              <Search relay={relay} />
             </div>
             {this.state.loaded ?
               (root.developers.edges && root.developers.edges.length > 0 ?
