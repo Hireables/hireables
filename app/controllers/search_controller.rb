@@ -3,6 +3,7 @@ class SearchController < ApplicationController
   before_action :check_search_params!, :cache_search_params, only: :index
 
   def index
+    SearchDevelopersWorker.perform_async(@search_params.to_cache_key)
   end
 
   private
