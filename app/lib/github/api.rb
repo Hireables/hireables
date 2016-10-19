@@ -2,17 +2,23 @@ require 'typhoeus/adapters/faraday'
 module Github
   class Api
     def search(params)
-      client.search_users(params[:query], page: params[:page], per_page: 21)
+      Rails.cache.fetch([params[:query], params[:page], 'search']) do
+        client.search_users(params[:query], page: params[:page], per_page: 21)
+      end
     end
 
     def fetch_developers(params)
-      search(params).items.map do |item|
-        fetch_developer(item.login)
+      Rails.cache.fetch([params[:query], params[:page], 'developers']) do
+        search(params).items.map do |item|
+          fetch_developer(item.login)
+        end
       end
     end
 
     def fetch_hireable_developers(params)
-      fetch_developers(params).select(&:hireable)
+      Rails.cache.fetch([params[:query], params[:page], 'hireables']) do
+        fetch_developers(params).select(&:hireable)
+      end
     end
 
     def fetch_developer(login)
