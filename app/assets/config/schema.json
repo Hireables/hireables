@@ -190,16 +190,6 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "fullname",
-                  "description": null,
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  },
-                  "defaultValue": null
-                },
-                {
                   "name": "location",
                   "description": null,
                   "type": {
