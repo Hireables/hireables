@@ -79,7 +79,7 @@ class Search extends Component {
     this.disableButton = this.disableButton.bind(this);
     this.clearValidationErrors = this.clearValidationErrors.bind(this);
     this.submitSearch = this.submitSearch.bind(this);
-    this.queryObject = _.omit(queryString.parse(document.location.search), 'action');
+    this.queryObject = _.omit(queryString.parse(document.location.search));
 
     const languages = _.pick(this.queryObject, 'language').language;
     let languagesData = [];
