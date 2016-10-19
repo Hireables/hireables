@@ -23,9 +23,6 @@ class SearchController < ApplicationController
   end
 
   def search_params
-    params.permit(
-      :followers, :repos, :fullname, :location,
-      :language, :hireable, :page
-    )
+    params.permit( :followers, :repos, :location, :language, :hireable, :page)
   end
 end

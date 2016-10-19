@@ -8,7 +8,7 @@ class FormatSearchParams
   def to_query
     params.to_h.map do |param, value|
       "#{param}:#{value}" if supported?(param, value)
-    end.compact.join(' ') << " #{params['fullname']}"
+    end.compact.join(' ')
   end
 
   def to_cache_key

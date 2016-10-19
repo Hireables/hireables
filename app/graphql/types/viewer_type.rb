@@ -5,7 +5,6 @@ ViewerType = GraphQL::ObjectType.define do
   global_id_field :id
 
   connection :developers, DeveloperType.connection_type do
-    argument :fullname, types.String, default_value: nil
     argument :location, types.String, default_value: nil
     argument :language, types.String, default_value: nil
     argument :hireable, types.String, default_value: nil
