@@ -1,7 +1,8 @@
+/* global Turbolinks Routes */
+
 import React, { Component } from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import Snackbar from 'material-ui/Snackbar';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import {
   Card,
@@ -45,7 +46,7 @@ class Home extends Component {
             <div className="hero-section">
               <div className="hero-content">
                 <div className="developer">
-                  <Card className="card">
+                  <Card className="hero-card">
                     <CardTitle
                       title="For Developers"
                       style={{ padding: '16px 16px 8px' }}
@@ -67,7 +68,11 @@ class Home extends Component {
                     </CardText>
 
                     <CardActions style={{ padding: '8px 16px' }}>
-                      <RaisedButton label="Login with Github" primary />
+                      <RaisedButton
+                        label="Login with Github"
+                        onClick={() => Turbolinks.visit(Routes.new_developer_session_path())}
+                        primary
+                      />
                     </CardActions>
                   </Card>
                 </div>
@@ -78,7 +83,7 @@ class Home extends Component {
             <div className="hero-section">
               <div className="hero-content">
                 <div className="recruiter">
-                  <Card className="card" style={{ backgroundColor: '#F2F2F2' }}>
+                  <Card className="hero-card" style={{ backgroundColor: '#F2F2F2' }}>
                     <CardTitle
                       title="For Recruiters"
                       style={{ padding: '16px 16px 8px' }}
@@ -100,7 +105,11 @@ class Home extends Component {
                     </CardText>
 
                     <CardActions style={{ padding: '8px 16px' }}>
-                      <RaisedButton label="Login with your email" primary />
+                      <RaisedButton
+                        label="Login with your email"
+                        onClick={() => Turbolinks.visit(Routes.new_recruiter_registration_path())}
+                        primary
+                      />
                     </CardActions>
                   </Card>
                 </div>

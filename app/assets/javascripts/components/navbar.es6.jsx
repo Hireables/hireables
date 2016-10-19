@@ -42,7 +42,6 @@ const NavBar = (props) => {
     display: 'inline-block',
     link: {
       textDecoration: 'none',
-      border: 'none',
     },
     slogan: {
       fontSize: '16px',
@@ -88,9 +87,9 @@ const NavBar = (props) => {
                   />
                   <a
                     style={toolbarGroupStyles.link}
-                    href={Routes.developer_path(props.developer.login)}
+                    href={Routes.developer_root_path()}
                     className={
-                      `profile--link ${Routes.developer_path(props.developer.login) === window.location.pathname ? 'active' : ''}`
+                      `profile--link ${Routes.developer_root_path() === window.location.pathname ? 'active' : ''}`
                     }
                   >
                     <ToolbarTitle
@@ -107,15 +106,15 @@ const NavBar = (props) => {
                     <ToolbarTitle text="Logout" style={toolbarTitleStyles} />
                   </a>
                 </div> :
-                <div className="logged out">
-                  <FlatButton
-                    href={Routes.developer_github_omniauth_authorize_path()}
-                    secondary
-                    label="Login"
-                    icon={<FontIcon className="muidocs-icon-custom-github" />}
-                    style={buttonStyle}
-                  />
-                </div>
+                  <div className="logged out">
+                    <FlatButton
+                      href={Routes.developer_github_omniauth_authorize_path()}
+                      secondary
+                      label="Login"
+                      icon={<FontIcon className="muidocs-icon-custom-github" />}
+                      style={buttonStyle}
+                    />
+                  </div>
               }
             </ToolbarGroup>
           </Toolbar>

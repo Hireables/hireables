@@ -13,6 +13,7 @@ import DeveloperEdit from './components/developer_edit.es6';
 import CookiesTracker from './components/cookies.es6';
 import ReactHelper from './utils/reactHelper.es6';
 import renderComponents from './bootstrapper.es6';
+import RecruiterRegistration from './components/recruiters/registration.es6';
 
 injectTapEventPlugin();
 
@@ -24,6 +25,7 @@ ReactHelper.registerComponent({
   DeveloperEdit,
   CookiesTracker,
   Footer,
+  RecruiterRegistration,
 });
 
 ReactHelper.registerRoute({
