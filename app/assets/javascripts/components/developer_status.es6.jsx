@@ -153,7 +153,7 @@ class DeveloperStatus extends Component {
           <span
             onClick={() =>
               DeveloperStatus.openUrl(
-                `${location.protocol}//${location.host}/developers/${this.props.developer.login}`
+                `${location.protocol}//${location.host}/${this.props.developer.login}`
               )
             }
             className="show-profile"

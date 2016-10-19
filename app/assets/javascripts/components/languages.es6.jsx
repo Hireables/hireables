@@ -23,7 +23,7 @@ const Languages = (props) => {
         {languages ? languages.map(language => (
           <a
             key={Math.random()}
-            href={`/developers?q=language:${language.trim().toLowerCase()}`}
+            href={`/search?language:${language.trim().toLowerCase()}`}
             style={badgeStyles}
           >
             {language}

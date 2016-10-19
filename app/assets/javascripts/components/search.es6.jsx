@@ -133,7 +133,7 @@ class Search extends Component {
     }), _.identity);
 
     const query = queryString.stringify(newModel);
-    Turbolinks.visit(`/developers/search?${query}`);
+    Turbolinks.visit(`/search?${query}`);
   }
 
   checkComma(event) {
@@ -225,18 +225,6 @@ class Search extends Component {
             onInvalid={this.disableButton}
             validationErrors={this.state.validationErrors}
           >
-            <div className="search-box fullname">
-              <FormsyText
-                id="text-field-default"
-                placeholder="(ex: david)"
-                autoFocus="true"
-                name="fullname"
-                fullWidth
-                defaultValue={this.state.form.fullname}
-                floatingLabelText="Search by developer name"
-                floatingLabelFixed
-              />
-            </div>
 
             <div className="search-box language">
               <FormsyText

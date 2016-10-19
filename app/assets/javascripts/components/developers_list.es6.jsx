@@ -21,6 +21,8 @@ const muiTheme = getMuiTheme({
   },
 });
 
+const queryObject = _.omit(queryString.parse(document.location.search));
+
 class DevelopersList extends Component {
   constructor(props) {
     super(props);
@@ -28,21 +30,8 @@ class DevelopersList extends Component {
     this.handleRequestClose = this.handleRequestClose.bind(this);
     this.loadNext = this.loadNext.bind(this);
     this.loadPrevious = this.loadPrevious.bind(this);
-    this.queryObject = _.omit(queryString.parse(document.location.search), 'action');
-    this.state = { open: false, loaded: false };
-  }
-
-  componentDidMount() {
-    this.props.relay.setVariables(this.queryObject, (readyState) => {
-      if (readyState.done) {
-        this.setState({ loaded: true }, () => {
-          const { pageInfo } = this.props.root.developers;
-          if (pageInfo != null && pageInfo.hasNextPage) {
-            // todo to ping server
-          }
-        });
-      }
-    });
+    this.queryObject = queryObject;
+    this.state = { open: false, loaded: true };
   }
 
   loadNext(event) {
@@ -53,7 +42,7 @@ class DevelopersList extends Component {
     ), _.identity);
 
     const query = queryString.stringify(newPage);
-    Turbolinks.visit(`/developers/search?${query}`);
+    Turbolinks.visit(`/search?${query}`);
   }
 
   loadPrevious(event) {
@@ -65,7 +54,7 @@ class DevelopersList extends Component {
     ), _.identity);
 
     const query = queryString.stringify(newPage);
-    Turbolinks.visit(`/developers/search?${query}`);
+    Turbolinks.visit(`/search?${query}`);
   }
 
   handleTouchTap() {
@@ -143,12 +132,11 @@ DevelopersList.propTypes = {
 const DevelopersListContainer = Relay.createContainer(DevelopersList, {
   initialVariables: {
     first: 20,
-    fullname: null,
-    location: null,
-    language: null,
-    hireable: null,
+    location: queryObject.location,
+    language: queryObject.language,
+    hireable: queryObject.hireable,
     order: '-id',
-    page: '1',
+    page: queryObject.page || "1",
   },
 
   fragments: {
@@ -157,7 +145,6 @@ const DevelopersListContainer = Relay.createContainer(DevelopersList, {
         id,
         developers(
           first: $first,
-          fullname: $fullname,
           location: $location,
           language: $language,
           hireable: $hireable,
