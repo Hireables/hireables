@@ -10,26 +10,15 @@ class DevelopersResolver
   end
 
   def call
-    return [] unless format_search_params.valid?
-    if params['hireable'].present?
-      api.fetch_hireable_developers(search_query_hash)
+    query = Rails.cache.read('search_query')
+    if params['hireable'].present? || !query[:search]
+      api.fetch_hireable_developers(query)
     else
-      api.fetch_developers(search_query_hash)
+      api.fetch_developers(query)
     end
   end
 
   private
-
-  def search_query_hash
-    {
-      query: format_search_params.to_query,
-      page: params['page'] || 1
-    }
-  end
-
-  def format_search_params
-    FormatSearchParams.new(params)
-  end
 
   def api
     Github::Api.new

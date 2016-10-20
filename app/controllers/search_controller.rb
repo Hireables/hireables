@@ -1,28 +1,20 @@
 class SearchController < ApplicationController
   before_action :authenticate_recruiter!, only: :index
-  before_action :check_search_params!, :cache_search_params, only: :index
+  before_action :prepare_search_params!, only: :index
 
   def index
-    SearchDevelopersWorker.perform_async(@search_params.to_cache_key)
+    SearchDevelopersWorker.perform_async
   end
 
   private
 
-  def check_search_params!
-    @search_params = FormatSearchParams.new(search_params)
-    redirect_to root_path and return unless @search_params.valid?
-  end
-
-  def cache_search_params
-    Rails.cache.fetch(@search_params.to_cache_key, expires: 2.days) do
-      {
-        query: @search_params.to_query,
-        page: search_params['page'] || 1
-      }
-    end
+  def prepare_search_params!
+    @search_params = PrepareSearchParams.new(
+      search_params, current_recruiter
+    )
   end
 
   def search_params
-    params.permit( :followers, :repos, :location, :language, :hireable, :page)
+    params.permit(:location, :language, :hireable, :page)
   end
 end

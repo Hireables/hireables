@@ -2,8 +2,8 @@ class SearchDevelopersWorker
   include Sidekiq::Worker
   sidekiq_options queue: 'urgent'
 
-  def perform(params_cache_key)
-    params = Rails.cache.read(params_cache_key)
+  def perform
+    params = Rails.cache.read('search_query')
     api = Github::Api.new
 
     search = api.search(params)
