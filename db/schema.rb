@@ -14,6 +14,7 @@ ActiveRecord::Schema.define(version: 20161014150901) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "citext"
 
   create_table "developers", force: :cascade do |t|
     t.string   "name",               default: "",    null: false
@@ -63,6 +64,7 @@ ActiveRecord::Schema.define(version: 20161014150901) do
     t.boolean  "verified",               default: false
     t.string   "company",                default: "",    null: false
     t.string   "website",                default: "",    null: false
+    t.jsonb    "preferences",            default: "{}",  null: false
     t.string   "encrypted_password",     default: "",    null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"

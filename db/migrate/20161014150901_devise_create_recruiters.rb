@@ -1,5 +1,7 @@
+
 class DeviseCreateRecruiters < ActiveRecord::Migration[5.0]
   def change
+    enable_extension 'citext'
     create_table :recruiters do |t|
       ## Database authenticatable
       t.string :email,              null: false, default: ""
@@ -8,6 +10,7 @@ class DeviseCreateRecruiters < ActiveRecord::Migration[5.0]
       t.boolean :verified, default: false
       t.string :company,              null: false, default: ""
       t.string :website,              null: false, default: ""
+      t.jsonb :preferences, null: false, default: '{}'
       t.string :encrypted_password, null: false, default: ""
 
       ## Recoverable
