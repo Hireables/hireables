@@ -191,7 +191,7 @@ class Search extends Component {
     }
 
     const languagesData = this.state.languagesData.concat(
-      [{ key: this.state.languagesData.length, label: newLanguage }]
+      [{ key: this.state.languagesData.length + 1, label: newLanguage }]
     );
 
     this.setState({ languagesData }, () => {

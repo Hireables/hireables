@@ -21,12 +21,6 @@ const muiTheme = getMuiTheme({
   },
 });
 
-
-const queryObject = _.pick(
-  queryString.parse(document.location.search),
-  ['language', 'location', 'page', 'hireable']
-);
-
 class DevelopersList extends Component {
   constructor(props) {
     super(props);
@@ -34,15 +28,36 @@ class DevelopersList extends Component {
     this.handleRequestClose = this.handleRequestClose.bind(this);
     this.loadNext = this.loadNext.bind(this);
     this.loadPrevious = this.loadPrevious.bind(this);
-    this.queryObject = queryObject;
-    this.state = { open: false, loaded: true };
+    this.queryObject = _.pick(
+      queryString.parse(document.location.search),
+      ['language', 'location', 'page', 'hireable']
+    );
+    this.state = { open: false, loaded: false };
+  }
+
+  componentWillMount() {
+    this.props.relay.setVariables(this.queryObject, (readyState) => {
+      if (readyState.done) {
+        this.setState({ loaded: true }, () => {
+          const { pageInfo } = this.props.root.developers;
+          const { relay } = this.props;
+          if (pageInfo != null && pageInfo.hasNextPage) {
+            $.get(
+              '/search',
+              Object.assign(this.queryObject, { page: parseInt(relay.variables.page, 0) + 1 })
+            );
+          }
+        });
+      }
+    });
   }
 
   loadNext(event) {
     event.preventDefault();
+    const { relay } = this.props;
     const newPage = _.pick(Object.assign(
       this.queryObject,
-      { page: parseInt(this.props.relay.variables.page, 0) + 1 },
+      { page: parseInt(relay.variables.page, 0) + 1 },
     ), _.identity);
 
     const query = queryString.stringify(newPage);
@@ -51,7 +66,8 @@ class DevelopersList extends Component {
 
   loadPrevious(event) {
     event.preventDefault();
-    const previousPage = parseInt(this.props.relay.variables.page, 0) - 1;
+    const { relay } = this.props;
+    const previousPage = parseInt(relay.variables.page, 0) - 1;
     const newPage = _.pick(Object.assign(
       this.queryObject,
       { page: previousPage === 1 ? null : previousPage },
@@ -136,11 +152,11 @@ DevelopersList.propTypes = {
 const DevelopersListContainer = Relay.createContainer(DevelopersList, {
   initialVariables: {
     first: 20,
-    location: queryObject.location,
-    language: queryObject.language,
-    hireable: queryObject.hireable,
+    location: null,
+    language: null,
+    hireable: null,
     order: '-id',
-    page: queryObject.page || "1",
+    page: '1',
   },
 
   fragments: {
