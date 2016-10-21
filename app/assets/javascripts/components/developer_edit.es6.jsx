@@ -227,7 +227,7 @@ class DeveloperEdit extends Component {
     const { developer } = this.props;
 
     return (
-       <MuiThemeProvider muiTheme={muiTheme}>
+      <MuiThemeProvider muiTheme={muiTheme}>
           <div className="developer-edit" style={formStyles}>
             <Formsy.Form
               onValid={this.enableButton}

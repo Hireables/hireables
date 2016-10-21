@@ -14,6 +14,7 @@ import CookiesTracker from './components/cookies.es6';
 import ReactHelper from './utils/reactHelper.es6';
 import renderComponents from './bootstrapper.es6';
 import RecruiterRegistration from './components/recruiters/registration.es6';
+import RecruiterLogin from './components/recruiters/login.es6';
 
 injectTapEventPlugin();
 
@@ -25,6 +26,7 @@ ReactHelper.registerComponent({
   DeveloperEdit,
   CookiesTracker,
   Footer,
+  RecruiterLogin,
   RecruiterRegistration,
 });
 

@@ -4,6 +4,9 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import RaisedButton from 'material-ui/RaisedButton';
 import { FormsyText } from 'formsy-material-ui/lib';
+import Snackbar from 'material-ui/Snackbar';
+
+/* global $ Routes Turbolinks window */
 
 const muiTheme = getMuiTheme({
   palette: {
@@ -43,26 +46,54 @@ class RecruiterRegistration extends Component {
     this.onFormSubmit = this.onFormSubmit.bind(this);
     this.enableButton = this.enableButton.bind(this);
     this.disableButton = this.disableButton.bind(this);
+    this.handleTouchTap = this.handleTouchTap.bind(this);
+    this.handleRequestClose = this.handleRequestClose.bind(this);
 
     this.state = {
       form: {},
       open: false,
       loaded: false,
       canSubmit: false,
-      validationErrors: {recruiter: {}},
+      notification: '',
+      validationErrors: { recruiter: {} },
     };
   }
 
   onFormSubmit(event) {
-    $.post(this.props.action, this.formNode.getModel(), (data, textStatus, xhr) => {
-      console.log(xhr);
-    }).fail((xhr, textStatus, errorThrown) => {
-      const response = JSON.parse(xhr.responseText);
-      this.setState({ validationErrors: { recruiter: { email: 'is invalid' } }});
-      console.log(response.errors)
-    }).done((xhr, textStatus, errorThrown) => {
-      const response = JSON.parse(xhr.responseText);
-    })
+    event.preventDefault();
+    $.post(this.props.action, this.formNode.getModel(), (data) => {
+      if (data.verified) {
+        window.location.href = Routes.root_path();
+      } else {
+        this.setState({
+          open: true,
+          notification: 'You have signed up successfully. We will email you once your account is verified.',
+        });
+      }
+    }).fail((xhr) => {
+      const errors = {};
+      Object.keys(xhr.responseJSON.errors).forEach((key) => {
+        if ({}.hasOwnProperty.call(xhr.responseJSON.errors, key)) {
+          errors[`recruiter[${key}]`] = xhr.responseJSON.errors[key].toString();
+        }
+      });
+      this.formNode.updateInputsWithError(errors);
+    });
+  }
+
+
+  handleTouchTap() {
+    this.setState({
+      open: true,
+    });
+  }
+
+  handleRequestClose() {
+    this.setState({
+      open: false,
+    }, () => {
+      window.location.href = Routes.root_path();
+    });
   }
 
   enableButton() {
@@ -79,11 +110,9 @@ class RecruiterRegistration extends Component {
 
   render() {
     const { action } = this.props;
-    console.log(this.state.validationErrors);
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
         <div className="form registration">
-          <h2>Sign up</h2>
           <Formsy.Form
             action={action}
             method="post"
@@ -94,67 +123,93 @@ class RecruiterRegistration extends Component {
             onInvalid={this.disableButton}
             validationErrors={this.state.validationErrors}
           >
-            <div className="field">
-              <FormsyText
-                id="text-field-default"
-                placeholder="John Doe"
-                name="recruiter[name]"
-                floatingLabelText="Full Name"
-                floatingLabelFixed
-              />
+            <div className="row">
+              <div className="header-separator">About (for verification)</div>
+
+              <div className="field">
+                <FormsyText
+                  id="text-field-default"
+                  placeholder="John Doe"
+                  name="recruiter[name]"
+                  floatingLabelText="Full Name *"
+                  floatingLabelFixed
+                />
+              </div>
+
+              <div className="field">
+                <FormsyText
+                  id="text-field-default"
+                  placeholder="Appleseed Inc."
+                  name="recruiter[company]"
+                  floatingLabelText="Company Name *"
+                  floatingLabelFixed
+                />
+              </div>
+
+              <div className="field">
+                <FormsyText
+                  id="text-field-default"
+                  placeholder="http://www.example.com"
+                  name="recruiter[website]"
+                  floatingLabelText="Website or Linkedin *"
+                  floatingLabelFixed
+                />
+              </div>
             </div>
 
-            <div className="field">
-              <FormsyText
-                id="text-field-default"
-                placeholder="Appleseed Inc."
-                name="recruiter[company]"
-                floatingLabelText="Company Name"
-                floatingLabelFixed
-              />
-            </div>
+            <div className="row">
+              <div className="header-separator top-margin">Login (for account)</div>
 
-            <div className="field">
-              <FormsyText
-                id="text-field-default"
-                placeholder="http://www.example.com"
-                name="recruiter[website]"
-                floatingLabelText="Website Link"
-                floatingLabelFixed
-              />
+              <div className="field">
+                <FormsyText
+                  id="text-field-default"
+                  placeholder="john@doe.com"
+                  name="recruiter[email]"
+                  type="email"
+                  autoComplete="new-email"
+                  onKeyDown={this.checkEmail}
+                  floatingLabelText="Email *"
+                  floatingLabelFixed
+                />
+              </div>
+              <div className="field">
+                <FormsyText
+                  id="text-field-default"
+                  placeholder="8 Characters"
+                  type="password"
+                  autoComplete="new-password"
+                  name="recruiter[password]"
+                  floatingLabelText="Password *"
+                  floatingLabelFixed
+                />
+              </div>
             </div>
+            {/*
+            <div className="row">
+              <div className="header-separator top-margin">Preferences (optional)</div>
+              <div className="field">
+                <FormsyText
+                  id="text-field-default"
+                  placeholder="ex: ruby, python"
+                  type="text"
+                  name="recruiter[language]"
+                  floatingLabelText="Default language to search"
+                  floatingLabelFixed
+                />
+              </div>
 
-            <div className="field">
-              <FormsyText
-                id="text-field-default"
-                placeholder="john@doe.com"
-                name="recruiter[email]"
-                type="email"
-                onKeyDown={this.checkEmail}
-                floatingLabelText="Your Email"
-                floatingLabelFixed
-              />
+              <div className="field">
+                <FormsyText
+                  id="text-field-default"
+                  placeholder="ex: london"
+                  type="text"
+                  name="recruiter[location]"
+                  floatingLabelText="Default location to search"
+                  floatingLabelFixed
+                />
+              </div>
             </div>
-            <div className="field">
-              <FormsyText
-                id="text-field-default"
-                placeholder="8 Characters"
-                type="password"
-                name="recruiter[password]"
-                floatingLabelText="Password"
-                floatingLabelFixed
-              />
-            </div>
-            <div className="field">
-              <FormsyText
-                id="text-field-default"
-                placeholder="8 Characters"
-                type="password"
-                name="recruiter[password_confirmation]"
-                floatingLabelText="Password confirmation"
-                floatingLabelFixed
-              />
-            </div>
+            */}
             <div className="actions">
               <RaisedButton
                 label="Register"
@@ -163,6 +218,16 @@ class RecruiterRegistration extends Component {
                 type="submit"
                 disabled={!this.state.canSubmit}
                 style={styles.button}
+              />
+            </div>
+
+            <div className="notifications">
+              <Snackbar
+                open={this.state.open}
+                ref={node => (this.notification = node)}
+                message={this.state.notification}
+                autoHideDuration={5000}
+                onRequestClose={this.handleRequestClose}
               />
             </div>
           </Formsy.Form>
