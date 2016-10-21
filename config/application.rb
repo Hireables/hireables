@@ -39,8 +39,8 @@ module Hireables
     # Default mail delivery
     config.action_mailer.delivery_method = :mailgun
     config.action_mailer.mailgun_settings = {
-      api_key: 'key-8d01b39b2d58bb5eb2341f434e4fa085',
-      domain: 'sandboxc81979b8cdb3464584b7ce7647e3f1fe.mailgun.org'
+      api_key: ENV.fetch('MAILGUN_API_KEY'),
+      domain: ENV.fetch('MAILGUN_API_DOMAIN')
     }
 
     config.middleware.insert_before 0, Rack::Cors do
