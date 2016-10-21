@@ -36,6 +36,13 @@ module Hireables
       g.helper_specs    false
     end
 
+    # Default mail delivery
+    config.action_mailer.delivery_method = :mailgun
+    config.action_mailer.mailgun_settings = {
+      api_key: 'key-8d01b39b2d58bb5eb2341f434e4fa085',
+      domain: 'sandboxc81979b8cdb3464584b7ce7647e3f1fe.mailgun.org'
+    }
+
     config.middleware.insert_before 0, Rack::Cors do
       allow do
         origins 'fonts.gstatic.com'
