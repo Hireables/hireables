@@ -4,8 +4,9 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import RaisedButton from 'material-ui/RaisedButton';
 import { FormsyText } from 'formsy-material-ui/lib';
+import Snackbar from 'material-ui/Snackbar';
 
-/* global $ Routes Turbolinks */
+/* global $ Routes Turbolinks window */
 
 const muiTheme = getMuiTheme({
   palette: {
@@ -45,12 +46,14 @@ class RecruiterLogin extends Component {
     this.onFormSubmit = this.onFormSubmit.bind(this);
     this.enableButton = this.enableButton.bind(this);
     this.disableButton = this.disableButton.bind(this);
+    this.handleRequestClose = this.handleRequestClose.bind(this);
 
     this.state = {
       form: {},
       open: false,
       loaded: false,
       canSubmit: false,
+      notification: '',
       validationErrors: { recruiter: {} },
     };
   }
@@ -60,9 +63,22 @@ class RecruiterLogin extends Component {
     $.post(this.props.action, this.formNode.getModel(), () => {
       window.location.href = Routes.root_path;
     }).fail((xhr) => {
-      this.formNode.updateInputsWithError({
-        'recruiter[email]': xhr.responseText,
-      });
+      switch (xhr.status) {
+        case 401: {
+          this.setState({
+            notification: xhr.responseText,
+          }, () => {
+            this.setState({ open: true });
+          });
+          break;
+        }
+        default: {
+          this.setState({
+            open: true,
+            notification: 'Something went wrong!',
+          });
+        }
+      }
     });
   }
 
@@ -75,6 +91,12 @@ class RecruiterLogin extends Component {
   disableButton() {
     this.setState({
       canSubmit: false,
+    });
+  }
+
+  handleRequestClose() {
+    this.setState({
+      open: false,
     });
   }
 
@@ -94,7 +116,6 @@ class RecruiterLogin extends Component {
             validationErrors={this.state.validationErrors}
           >
             <div className="row">
-              <div className="header-separator">Login</div>
               <div className="field">
                 <FormsyText
                   id="text-field-default"
@@ -128,6 +149,16 @@ class RecruiterLogin extends Component {
                 type="submit"
                 disabled={!this.state.canSubmit}
                 style={styles.button}
+              />
+            </div>
+
+            <div className="notifications">
+              <Snackbar
+                open={this.state.open}
+                ref={node => (this.notification = node)}
+                message={this.state.notification}
+                autoHideDuration={5000}
+                onRequestClose={this.handleRequestClose}
               />
             </div>
           </Formsy.Form>

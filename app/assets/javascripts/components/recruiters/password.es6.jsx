@@ -34,7 +34,7 @@ const styles = {
 };
 
 
-class RecruiterRegistration extends Component {
+class RecruiterPassword extends Component {
   static onKeyPress(event) {
     if (event.keyCode === 13) {
       event.preventDefault();
@@ -46,7 +46,6 @@ class RecruiterRegistration extends Component {
     this.onFormSubmit = this.onFormSubmit.bind(this);
     this.enableButton = this.enableButton.bind(this);
     this.disableButton = this.disableButton.bind(this);
-    this.handleTouchTap = this.handleTouchTap.bind(this);
     this.handleRequestClose = this.handleRequestClose.bind(this);
 
     this.state = {
@@ -61,15 +60,8 @@ class RecruiterRegistration extends Component {
 
   onFormSubmit(event) {
     event.preventDefault();
-    $.post(this.props.action, this.formNode.getModel(), (data) => {
-      if (data.verified) {
-        window.location.href = Routes.root_path();
-      } else {
-        this.setState({
-          open: true,
-          notification: 'You have signed up successfully. We will email you once your account is verified.',
-        });
-      }
+    $.post(this.props.action, this.formNode.getModel(), () => {
+      window.location.href = Routes.root_path;
     }).fail((xhr) => {
       if (xhr.status === 422) {
         const errors = {};
@@ -88,21 +80,6 @@ class RecruiterRegistration extends Component {
     });
   }
 
-
-  handleTouchTap() {
-    this.setState({
-      open: true,
-    });
-  }
-
-  handleRequestClose() {
-    this.setState({
-      open: false,
-    }, () => {
-      window.location.href = Routes.root_path();
-    });
-  }
-
   enableButton() {
     this.setState({
       canSubmit: true,
@@ -115,6 +92,12 @@ class RecruiterRegistration extends Component {
     });
   }
 
+  handleRequestClose() {
+    this.setState({
+      open: false,
+    });
+  }
+
   render() {
     const { action } = this.props;
     return (
@@ -123,7 +106,7 @@ class RecruiterRegistration extends Component {
           <Formsy.Form
             action={action}
             method="post"
-            onKeyDown={RecruiterRegistration.onKeyPress}
+            onKeyDown={RecruiterPassword.onKeyPress}
             onValid={this.enableButton}
             ref={node => (this.formNode = node)}
             autoComplete="off"
@@ -134,97 +117,20 @@ class RecruiterRegistration extends Component {
               <div className="field">
                 <FormsyText
                   id="text-field-default"
-                  placeholder="John Doe"
-                  name="recruiter[name]"
-                  floatingLabelText="Full Name *"
-                  floatingLabelFixed
-                />
-              </div>
-
-              <div className="field">
-                <FormsyText
-                  id="text-field-default"
-                  placeholder="Appleseed Inc."
-                  name="recruiter[company]"
-                  floatingLabelText="Company Name *"
-                  floatingLabelFixed
-                />
-              </div>
-
-              <div className="field">
-                <FormsyText
-                  id="text-field-default"
-                  placeholder="http://www.example.com"
-                  name="recruiter[website]"
-                  floatingLabelText="Website or Linkedin *"
-                  floatingLabelFixed
-                />
-              </div>
-              <div className="field">
-                <FormsyText
-                  id="text-field-default"
                   placeholder="john@doe.com"
                   name="recruiter[email]"
                   type="email"
+                  autoFocus
                   autoComplete="new-email"
                   onKeyDown={this.checkEmail}
-                  floatingLabelText="Email *"
-                  floatingLabelFixed
-                />
-              </div>
-              <div className="field">
-                <FormsyText
-                  id="text-field-default"
-                  placeholder="8 Characters"
-                  type="password"
-                  autoComplete="new-password"
-                  name="recruiter[password]"
-                  floatingLabelText="Password *"
-                  floatingLabelFixed
-                />
-              </div>
-
-              <div className="field">
-                <FormsyText
-                  id="text-field-default"
-                  placeholder="8 Characters"
-                  type="password"
-                  autoComplete="new-password"
-                  name="recruiter[password_confirmation]"
-                  floatingLabelText="Password confirmation *"
+                  floatingLabelText="Your Email"
                   floatingLabelFixed
                 />
               </div>
             </div>
-            {/*
-            <div className="row">
-              <div className="header-separator top-margin">Preferences (optional)</div>
-              <div className="field">
-                <FormsyText
-                  id="text-field-default"
-                  placeholder="ex: ruby, python"
-                  type="text"
-                  name="recruiter[language]"
-                  floatingLabelText="Default language to search"
-                  floatingLabelFixed
-                />
-              </div>
-
-              <div className="field">
-                <FormsyText
-                  id="text-field-default"
-                  placeholder="ex: london"
-                  type="text"
-                  name="recruiter[location]"
-                  floatingLabelText="Default location to search"
-                  floatingLabelFixed
-                />
-              </div>
-            </div>
-            */}
             <div className="actions">
               <RaisedButton
-                label="Register"
+                label="Reset password"
                 secondary
                 onClick={this.onFormSubmit}
                 type="submit"
@@ -249,9 +155,9 @@ class RecruiterRegistration extends Component {
   }
 }
 
-RecruiterRegistration.propTypes = {
+RecruiterPassword.propTypes = {
   action: React.PropTypes.string,
   errors: React.PropTypes.any,
 };
 
-export default RecruiterRegistration;
+export default RecruiterPassword;
