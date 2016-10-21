@@ -47,6 +47,9 @@ gem 'graphql'
 # Auth token
 gem 'jwt'
 
+# Mail delivery
+gem 'mailgun_rails'
+
 group :production do
   gem 'rails_12factor'
 end
