@@ -1,4 +1,7 @@
 <div class="card small">
+  <h2 class="title">Login</h2>
   <%= react_component 'RecruiterLogin', nil, { action: session_path(resource_name), errors: devise_error_messages! }.to_json %>
-  <%= render "recruiters/shared/links" %>
+  <div class="links">
+    <%= render "recruiters/shared/links" %>
+  </div>
 </div>
