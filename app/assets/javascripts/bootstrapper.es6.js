@@ -11,8 +11,8 @@ import {
 
 import Authentication from './helpers/authentication.es6';
 
-const auth = new Authentication();
 const setupNetworkLayer = () => {
+  const auth = new Authentication();
   Relay.injectNetworkLayer(
     new Relay.DefaultNetworkLayer('/graphql', {
       credentials: 'same-origin',
