@@ -5,7 +5,7 @@ class DeveloperResolver
     new(*args).call
   end
 
-  def initialize(developer, args, ctx)
+  def initialize(_developer, args, _ctx)
     @params = args.instance_variable_get(:@argument_values).to_h
   end
 

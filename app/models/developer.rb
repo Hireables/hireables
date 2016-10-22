@@ -2,14 +2,14 @@ class Developer < ApplicationRecord
   devise :database_authenticatable, :trackable, :validatable, :omniauthable
   store_accessor :data, :html_url, :avatar_url, :company, :blog,
                  :followers, :public_gists, :public_repos
-  after_commit :set_premium!, on: :update, unless: :joined?
+  after_commit :set_premium!, on: :update, if: :upgraded?
   after_commit :delete_cache!, :delete_languages_cache!, on: :update
 
-  def joined?
-    return true if premium?
+  def upgraded?
     premium_fields.all? do |field|
-      public_send(field).present?
-    end
+      field = public_send(field)
+      field.present? && !field.empty?
+    end && !premium?
   end
 
   private

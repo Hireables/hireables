@@ -62,7 +62,7 @@ module Github
 
     def faraday_stack
       Faraday::RackBuilder.new do |builder|
-       builder.use :http_cache, store: Rails.cache,
+        builder.use :http_cache, store: Rails.cache,
                                  logger: Rails.logger,
                                  shared_cache: false,
                                  serializer: Marshal

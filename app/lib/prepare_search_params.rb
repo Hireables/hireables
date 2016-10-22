@@ -34,13 +34,9 @@ class PrepareSearchParams
   end
 
   def cache_query
-    Rails.cache.fetch('search_query') do
-      {
-        query: to_query,
-        page: params['page'] || 1,
-        search: valid?
-      }
-    end
+    Rails.cache.write('search_query', query: to_query,
+                                      page: params['page'] || 1,
+                                      search: valid?)
   end
 
   def supported?(key, value)

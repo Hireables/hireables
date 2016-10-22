@@ -1,5 +1,5 @@
 class Recruiter < ApplicationRecord
-  store :preferences, accessors: [ :language, :location ], coder: JSON
+  store :preferences, accessors: [:language, :location], coder: JSON
   devise :database_authenticatable, :registerable, :recoverable,
          :rememberable, :trackable, :validatable
 
@@ -23,7 +23,7 @@ class Recruiter < ApplicationRecord
   private
 
   def send_admin_mail
-    AdminMailerWorker.perform_async(self.id)
+    AdminMailerWorker.perform_async(id)
   end
 
   def expire_search_query
@@ -35,7 +35,11 @@ class Recruiter < ApplicationRecord
   end
 
   def url_valid?
-    url = URI.parse(website) rescue false
-    url.kind_of?(URI::HTTP) || url.kind_of?(URI::HTTPS)
+    url = begin
+            URI.parse(website)
+          rescue
+            false
+          end
+    url.is_a?(URI::HTTP) || url.is_a?(URI::HTTPS)
   end
 end

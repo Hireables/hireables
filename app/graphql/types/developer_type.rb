@@ -20,10 +20,9 @@ DeveloperType = GraphQL::ObjectType.define do
 
   field :hireable, types.Boolean do
     description 'Is developer hireable?'
-    resolve -> (obj, _args, _ctx) { obj.hireable }
+    resolve -> (obj, _args, _ctx) { obj.hireable.nil? ? false : obj.hireable }
   end
 
-  # Custom fields for premium profiles
   field :linkedin, types.String do
     description 'Linkedin profile'
     resolve(DeveloperCustomFieldResolver.new(:linkedin, :string))
@@ -55,7 +54,7 @@ DeveloperType = GraphQL::ObjectType.define do
   end
 end
 
-def resolve_platforms(obj, ctx)
+def resolve_platforms(obj, _ctx)
   api = Github::Api.new
   api.fetch_developer_languages(obj.login)
 end

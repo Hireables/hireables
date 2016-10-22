@@ -5,7 +5,7 @@ class DevelopersResolver
     new(*args).call
   end
 
-  def initialize(_obj, args, ctx)
+  def initialize(_obj, args, _ctx)
     @params = args.instance_variable_get(:@argument_values).to_h
   end
 
