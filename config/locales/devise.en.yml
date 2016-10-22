@@ -11,7 +11,7 @@ en:
       inactive: "Your account is not activated yet."
       invalid: "Invalid %{authentication_keys} or password."
       locked: "Your account is locked."
-      not_verified: 'Your account is not been verified yet.'
+      not_verified: 'Your account has not been verified yet. We will send you an email once verified.'
       last_attempt: "You have one more attempt before your account is locked."
       not_found_in_database: "Invalid %{authentication_keys} or password."
       timeout: "Your session expired. Please sign in again to continue."
