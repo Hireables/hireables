@@ -3,12 +3,13 @@ class Developer < ApplicationRecord
   store_accessor :data, :html_url, :avatar_url, :company, :blog,
                  :followers, :public_gists, :public_repos
   after_commit :set_premium!, on: :update, unless: :joined?
-  after_commit :delete_cache!, :delete_languages_cache!
+  after_commit :delete_cache!, :delete_languages_cache!, on: :update
 
   def joined?
+    return true if premium?
     premium_fields.all? do |field|
       public_send(field).present?
-    end && premium?
+    end
   end
 
   private
