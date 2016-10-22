@@ -38,7 +38,7 @@ module Github
         if developer.present? && !developer.platforms.empty?
           developer.platforms[0].split(',')
         else
-          fetch_developer_repos(login).map(&:language).uniq!
+          fetch_developer_repos(login).map(&:language).compact.uniq!
         end
       end
     end
