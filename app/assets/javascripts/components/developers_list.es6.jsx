@@ -10,7 +10,6 @@ import { List } from 'material-ui/List';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import Developer from './developer.es6';
 import Pagination from './pagination.es6';
-import Search from './search.es6';
 import EmptyList from './empty_list.es6';
 import LoadingList from './loading_list.es6';
 
@@ -98,46 +97,41 @@ class DevelopersList extends Component {
       margin: '40px 0px',
     };
 
-    const { root, relay } = this.props;
+    const { root } = this.props;
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
-        <div className="developers-list wrapper">
-          <div className="container">
-            <div className="developers-list developers--small sm-pull-reset col-md-5">
-              <Search relay={relay} />
-            </div>
-            {this.state.loaded ?
-              (root.developers.edges && root.developers.edges.length > 0 ?
-                <List className="col-md-7 pull-right" style={containerStyle}>
-                  {root.developers.edges.map(({ node }) => (
-                    <Developer
-                      developer={node}
-                      key={node.id}
-                    />
-                  ))}
+        <div className="col-md-7 pull-right">
+          {this.state.loaded ?
+            (root.developers.edges && root.developers.edges.length > 0 ?
+              <List style={containerStyle}>
+                {root.developers.edges.map(({ node }) => (
+                  <Developer
+                    developer={node}
+                    key={node.id}
+                  />
+                ))}
 
-                  {root.developers.pageInfo != null &&
-                    (root.developers.pageInfo.hasNextPage ||
-                      this.queryObject.page >= 2
-                    ) ?
-                      <Pagination
-                        loadNext={this.loadNext}
-                        queryObject={this.queryObject}
-                        pageInfo={root.developers.pageInfo}
-                        loadPrevious={this.loadPrevious}
-                      /> : ''
-                  }
-                </List> : <EmptyList />) : <LoadingList />
-              }
-            <Snackbar
-              open={this.state.open}
-              ref="snackbar_404"
-              message="Ohh no! Request failed! Make sure you are using right parameters"
-              action="error"
-              onRequestClose={this.handleRequestClose}
-              autoHideDuration={5000}
-            />
-          </div>
+                {root.developers.pageInfo != null &&
+                  (root.developers.pageInfo.hasNextPage ||
+                    this.queryObject.page >= 2
+                  ) ?
+                    <Pagination
+                      loadNext={this.loadNext}
+                      queryObject={this.queryObject}
+                      pageInfo={root.developers.pageInfo}
+                      loadPrevious={this.loadPrevious}
+                    /> : ''
+                }
+              </List> : <EmptyList />) : <LoadingList />
+            }
+          <Snackbar
+            open={this.state.open}
+            ref="snackbar_404"
+            message="Ohh no! Request failed! Make sure you are using right parameters"
+            action="error"
+            onRequestClose={this.handleRequestClose}
+            autoHideDuration={5000}
+          />
         </div>
       </MuiThemeProvider>
     );

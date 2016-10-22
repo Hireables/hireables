@@ -2,7 +2,7 @@ import React from 'react';
 import Avatar from 'material-ui/Avatar';
 import { List, ListItem } from 'material-ui/List';
 import _ from 'underscore';
-
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 const containerStyle = {
   paddingTop: '0px',
@@ -19,35 +19,35 @@ const developerStyle = {
 };
 
 const LoadingList = () => {
-  const emptyPlaceholders = _.map(_.range(0, 20, 1), (elem, index) => {
-    return (
-      <div
-        key={index}
-        style={developerStyle}
-        className="developer developer--item"
-        id={`developer_${elem}`}
-      >
-        <ListItem
-          leftAvatar={<Avatar src={"https://placeholdit.imgix.net/~text?w=40&h=40"} />}
-          secondaryText={
-            <div className="animated-background secondary"></div>
-          }
-          primaryText={
-            <div className="loading">
-              <div className="animated-background"></div>
-            </div>
-          }
-          disabled
-          secondaryTextLines={1}
-        />
-      </div>
-    )
-  });
+  const emptyPlaceholders = _.map(_.range(0, 20, 1), (elem, index) => (
+    <div
+      key={index}
+      style={developerStyle}
+      className="developer developer--item"
+      id={`developer_${elem}`}
+    >
+      <ListItem
+        leftAvatar={<Avatar src={'https://placeholdit.imgix.net/~text?w=40&h=40'} />}
+        secondaryText={
+          <div className="animated-background secondary" />
+        }
+        primaryText={
+          <div className="loading">
+            <div className="animated-background" />
+          </div>
+        }
+        disabled
+        secondaryTextLines={1}
+      />
+    </div>
+  ));
 
   return (
-    <List className="col-md-7 pull-right" style={containerStyle}>
-      {emptyPlaceholders}
-    </List>
+    <MuiThemeProvider>
+      <List style={containerStyle}>
+        {emptyPlaceholders}
+      </List>
+    </MuiThemeProvider>
   );
 };
 

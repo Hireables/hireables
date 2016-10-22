@@ -54,7 +54,6 @@ class RecruiterLogin extends Component {
       loaded: false,
       canSubmit: false,
       notification: '',
-      validationErrors: { recruiter: {} },
     };
   }
 
@@ -104,7 +103,7 @@ class RecruiterLogin extends Component {
     const { action } = this.props;
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
-        <div className="form registration">
+        <div className="form login">
           <Formsy.Form
             action={action}
             method="post"
@@ -113,31 +112,40 @@ class RecruiterLogin extends Component {
             ref={node => (this.formNode = node)}
             autoComplete="off"
             onInvalid={this.disableButton}
-            validationErrors={this.state.validationErrors}
           >
             <div className="row">
               <div className="field">
                 <FormsyText
                   id="text-field-default"
-                  placeholder="john@doe.com"
                   name="recruiter[email]"
                   type="email"
                   autoFocus
                   autoComplete="new-email"
                   onKeyDown={this.checkEmail}
                   floatingLabelText="Your Email"
-                  floatingLabelFixed
+                  required
+                  validations={{
+                    isEmail: true,
+                  }}
+                  validationErrors={{
+                    isEmail: 'Invalid email',
+                  }}
                 />
               </div>
               <div className="field">
                 <FormsyText
                   id="text-field-default"
-                  placeholder="8 Characters"
                   type="password"
                   autoComplete="new-password"
                   name="recruiter[password]"
                   floatingLabelText="Password"
-                  floatingLabelFixed
+                  required
+                  validations={{
+                    minLength: 8,
+                  }}
+                  validationErrors={{
+                    minLength: 'Password should be minimum 8 characters',
+                  }}
                 />
               </div>
             </div>

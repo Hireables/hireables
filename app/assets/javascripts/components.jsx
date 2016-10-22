@@ -7,6 +7,7 @@ import NavBar from './components/navbar.es6';
 import Footer from './components/footer.es6';
 import DeveloperRoute from './routes/developerRoute.es6';
 import Home from './components/home.es6';
+import Search from './components/search.es6';
 import DevelopersList from './components/developers_list.es6';
 import DeveloperShow from './components/developer_show.es6';
 import DeveloperEdit from './components/developer_edit.es6';
@@ -15,7 +16,8 @@ import ReactHelper from './utils/reactHelper.es6';
 import renderComponents from './bootstrapper.es6';
 import RecruiterRegistration from './components/recruiters/registration.es6';
 import RecruiterLogin from './components/recruiters/login.es6';
-import RecruiterPassword from './components/recruiters/password.es6';
+import RecruiterNewPassword from './components/recruiters/newPassword.es6';
+import RecruiterUpdatePassword from './components/recruiters/updatePassword.es6';
 
 injectTapEventPlugin();
 
@@ -29,7 +31,9 @@ ReactHelper.registerComponent({
   Footer,
   RecruiterLogin,
   RecruiterRegistration,
-  RecruiterPassword,
+  RecruiterNewPassword,
+  RecruiterUpdatePassword,
+  Search,
 });
 
 ReactHelper.registerRoute({

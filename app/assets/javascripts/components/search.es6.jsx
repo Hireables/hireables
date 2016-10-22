@@ -283,8 +283,4 @@ class Search extends Component {
   }
 }
 
-Search.propTypes = {
-  relay: React.PropTypes.object,
-};
-
 export default Search;
