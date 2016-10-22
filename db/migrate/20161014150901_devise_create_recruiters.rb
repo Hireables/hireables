@@ -1,7 +1,6 @@
 
 class DeviseCreateRecruiters < ActiveRecord::Migration[5.0]
   def change
-    enable_extension 'citext'
     create_table :recruiters do |t|
       ## Database authenticatable
       t.string :email,              null: false, default: ""

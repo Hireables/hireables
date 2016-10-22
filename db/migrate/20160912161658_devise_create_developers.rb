@@ -1,5 +1,6 @@
 class DeviseCreateDevelopers < ActiveRecord::Migration
   def change
+    enable_extension 'citext'
     create_table :developers do |t|
       ## Database authenticatable
       t.string :name, null: false, default: ""
