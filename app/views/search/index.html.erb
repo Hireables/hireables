@@ -1,1 +1,8 @@
-<%= react_component 'DevelopersList', 'RootRoute' %>
+<div class="developers-list wrapper">
+  <div class="container">
+    <div class="developers-list developers--small sm-pull-reset col-md-5">
+      <%= react_component 'Search', nil %>
+    </div>
+    <%= react_component 'DevelopersList', 'RootRoute' %>
+  </div>
+</div>
