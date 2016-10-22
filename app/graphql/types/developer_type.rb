@@ -20,12 +20,13 @@ DeveloperType = GraphQL::ObjectType.define do
 
   field :hireable, types.Boolean do
     description 'Is developer hireable?'
-    resolve(DeveloperCustomFieldResolver.new(:hireable, :boolean))
+    resolve -> (obj, _args, _ctx) { obj.hireable }
   end
 
+  # Custom fields for premium profiles
   field :linkedin, types.String do
     description 'Linkedin profile'
-    resolve(DeveloperCustomFieldResolver.new(:hireable, :string))
+    resolve(DeveloperCustomFieldResolver.new(:linkedin, :string))
   end
 
   field :remote, types.Boolean do
