@@ -13,7 +13,6 @@ class DevelopersController < ApplicationController
   private
 
   def set_developer
-    @login = params[:id]
-    @developer = Developer.find_by_login(@login)
+    @login = params[:id].to_h
   end
 end
