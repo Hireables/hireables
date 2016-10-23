@@ -1,3 +1,12 @@
+GIT
+  remote: https://github.com/carrierwaveuploader/carrierwave.git
+  revision: ec850831eeaf0f2f45c002bcec9b90698b78d0d8
+  specs:
+    carrierwave (1.0.0.beta)
+      activemodel (>= 4.0.0)
+      activesupport (>= 4.0.0)
+      mime-types (>= 1.16)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -57,6 +66,7 @@ GEM
     erubis (2.7.0)
     ethon (0.9.1)
       ffi (>= 1.3.0)
+    excon (0.54.0)
     execjs (2.7.0)
     faraday (0.9.2)
       multipart-post (>= 1.2, < 3)
@@ -65,8 +75,24 @@ GEM
     ffi (1.9.14)
     figaro (1.1.1)
       thor (~> 0.14)
+    fog-aws (0.12.0)
+      fog-core (~> 1.38)
+      fog-json (~> 1.0)
+      fog-xml (~> 0.1)
+      ipaddress (~> 0.8)
+    fog-core (1.43.0)
+      builder
+      excon (~> 0.49)
+      formatador (~> 0.2)
+    fog-json (1.0.2)
+      fog-core (~> 1.0)
+      multi_json (~> 1.10)
+    fog-xml (0.1.2)
+      fog-core
+      nokogiri (~> 1.5, >= 1.5.11)
     foreman (0.82.0)
       thor (~> 0.19.1)
+    formatador (0.2.5)
     globalid (0.3.7)
       activesupport (>= 4.1.0)
     graphiql-rails (1.3.0)
@@ -76,6 +102,7 @@ GEM
     http-cookie (1.0.3)
       domain_name (~> 0.5)
     i18n (0.7.0)
+    ipaddress (0.8.3)
     js-routes (1.3.0)
       railties (>= 3.2)
       sprockets-rails
@@ -93,6 +120,7 @@ GEM
     mime-types (3.1)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2016.0521)
+    mini_magick (4.5.1)
     mini_portile2 (2.1.0)
     minitest (5.9.1)
     multi_json (1.12.1)
@@ -229,17 +257,20 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  carrierwave!
   connection_pool
   dalli
   devise
   faraday-http-cache
   figaro
+  fog-aws
   foreman
   graphiql-rails
   graphql
   js-routes
   jwt
   mailgun_rails
+  mini_magick
   octokit
   omniauth-github
   pg

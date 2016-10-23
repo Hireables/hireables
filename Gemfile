@@ -50,6 +50,15 @@ gem 'jwt'
 # Mail delivery
 gem 'mailgun_rails'
 
+# Image processing and upload
+gem 'mini_magick'
+
+# Amazone s3
+gem 'fog-aws'
+
+# Simple and extremely flexible way to upload files
+gem 'carrierwave', git: 'https://github.com/carrierwaveuploader/carrierwave.git'
+
 group :production do
   gem 'rails_12factor'
 end
