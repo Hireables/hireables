@@ -242,6 +242,7 @@ class Search extends Component {
                 floatingLabelText="Search by programming languages"
                 floatingLabelFixed
                 fullWidth
+                autoFocus
               />
 
               <div style={styles.wrapper}>
