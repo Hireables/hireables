@@ -1,26 +1,16 @@
 import React, { Component } from 'react';
 import Relay from 'react-relay';
 import Formsy from 'formsy-react';
-import { orangeA700 } from 'material-ui/styles/colors';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import RaisedButton from 'material-ui/RaisedButton';
 import Chip from 'material-ui/Chip';
-import AutoComplete from 'material-ui/AutoComplete';
 import _ from 'underscore';
-import UpdateDeveloper from '../mutations/developer/updateDeveloper.es6';
-
 import {
   FormsyCheckbox,
   FormsyText,
 } from 'formsy-material-ui/lib';
-
-const muiTheme = getMuiTheme({
-  palette: {
-    primary1Color: '#6986BD',
-    accent1Color: '#6986BD',
-  },
-});
+import muiTheme from './theme.es6';
+import UpdateDeveloper from '../mutations/developer/updateDeveloper.es6';
 
 const helpStyles = {
   fontSize: '12px',
@@ -28,14 +18,6 @@ const helpStyles = {
   margin: '10px 0',
   display: 'block',
   userSelect: 'none',
-};
-
-const formStyles = {
-  backgroundColor: 'white',
-  padding: '10px',
-  boxShadow: '0 0 16px 0 rgba(63,67,69,0.3)',
-  width: '600px',
-  margin: '50px auto',
 };
 
 const styles = {
@@ -71,7 +53,6 @@ const styles = {
 
 class DeveloperEdit extends Component {
   static onKeyPress(event) {
-    console.log('I run');
     if (event.keyCode === 13) {
       event.preventDefault();
     }
@@ -87,9 +68,13 @@ class DeveloperEdit extends Component {
     this.enableButton = this.enableButton.bind(this);
     this.disableButton = this.disableButton.bind(this);
 
-    const platforms = props.developer.platforms.map((elem, index) => {
-      return { key: index, label: elem };
-    });
+    const platforms = props.developer.platforms.map((elem, index) => (
+      { key: index, label: elem }
+    ));
+
+    const jobTypes = props.developer.job_types.map((elem, index) => (
+      { key: index, label: elem }
+    ));
 
     this.state = {
       open: false,
@@ -97,6 +82,7 @@ class DeveloperEdit extends Component {
       loaded: false,
       canSubmit: false,
       platforms,
+      jobTypes,
       validationErrors: {},
     };
   }
@@ -116,15 +102,13 @@ class DeveloperEdit extends Component {
     };
 
     const newModel = _.pick(Object.assign(this.formNode.getModel(), {
-      platforms: platforms.toString()
+      platforms: platforms.toString(),
     }), _.identity);
 
     Relay.Store.commitUpdate(new UpdateDeveloper({
       id: this.props.developer.id,
       ...newModel,
     }), { onFailure, onSuccess });
-
-    console.log(newModel);
   }
 
   enableButton() {
@@ -183,11 +167,61 @@ class DeveloperEdit extends Component {
       }
 
       const platforms = this.state.platforms.concat(
-        [{ key: this.state.platforms.length, label: newPlatform }]
+        [{ key: this.state.platforms.length + 1, label: newPlatform }]
       );
 
       this.setState({ platforms }, () => {
         this.platformNode.state.value = '';
+        this.setState({
+          canSubmit: true,
+        });
+      });
+    }
+  }
+
+  addNewJobType(event) {
+    if (event.keyCode === 13 || event.keyCode === 188 || event.keyCode === 32) {
+      const newJobType = event.target.value.trim();
+      if (newJobType === '') {
+        this.setState({
+          validationErrors: {
+            job_types: 'Empty job type',
+          },
+        });
+
+        setTimeout(() => {
+          this.clearValidationErrors();
+        }, 3000);
+
+        return;
+      }
+
+      const isDuplicate = this.state.jobTypes.some(jobType => (
+        jobType.label === newJobType
+      ));
+
+      if (isDuplicate) {
+        this.jobTypeNode.state.value = '';
+
+        this.setState({
+          validationErrors: {
+            job_types: 'Duplicate job type',
+          },
+        });
+
+        setTimeout(() => {
+          this.clearValidationErrors();
+        }, 3000);
+
+        return;
+      }
+
+      const jobTypes = this.state.jobTypes.concat(
+        [{ key: this.state.jobTypes.length + 1, label: newJobType }]
+      );
+
+      this.setState({ jobTypes }, () => {
+        this.jobTypeNode.state.value = '';
         this.setState({
           canSubmit: true,
         });
@@ -204,6 +238,15 @@ class DeveloperEdit extends Component {
     this.setState({ platforms: this.platforms });
   }
 
+  handleRequestDeleteJobType(key) {
+    this.jobTypes = this.state.jobTypes;
+    const jobTypeToDelete = this.jobTypes
+    .map(jobType => jobType.key)
+    .indexOf(key);
+    this.jobTypes.splice(jobTypeToDelete, 1);
+    this.setState({ jobTypes: this.jobTypes });
+  }
+
   renderChip(data) {
     return (
       <Chip
@@ -216,134 +259,199 @@ class DeveloperEdit extends Component {
     );
   }
 
+  renderJobTypeChip(data) {
+    return (
+      <Chip
+        key={data.key}
+        onRequestDelete={() => this.handleRequestDeleteJobType(data.key)}
+        style={styles.chip}
+      >
+        {data.label}
+      </Chip>
+    );
+  }
 
   render() {
-    const wrapperStyle = {
-      paddingTop: '60px',
-      paddingBottom: '60px',
-      textAlign: 'center',
-    };
-
     const { developer } = this.props;
 
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
-          <div className="developer-edit" style={formStyles}>
-            <Formsy.Form
-              onValid={this.enableButton}
-              onKeyDown={DeveloperEdit.onKeyPress}
-              autoComplete="off"
-              ref={node => (this.formNode = node)}
-              onInvalid={this.disableButton}
-              validationErrors={this.state.validationErrors}
-            >
-              <label className="header-separator">About</label>
-              <div className="search-box bio">
-                <FormsyText
-                  id="text-field-default"
-                  placeholder="(ex: I am a full-stack developer)"
-                  autoFocus="true"
-                  name="bio"
-                  fullWidth
-                  defaultValue={developer.bio}
-                  floatingLabelText="A brief into"
-                  floatingLabelFixed
-                />
-              </div>
+        <div className="developer-edit card">
+          <Formsy.Form
+            onValid={this.enableButton}
+            onKeyDown={DeveloperEdit.onKeyPress}
+            autoComplete="off"
+            ref={node => (this.formNode = node)}
+            onInvalid={this.disableButton}
+            validationErrors={this.state.validationErrors}
+          >
+            <div className="header-separator">About</div>
+            <div className="search-box bio">
+              <FormsyText
+                id="text-field-default"
+                placeholder="(ex: I am a full-stack developer)"
+                autoFocus
+                name="bio"
+                fullWidth
+                defaultValue={developer.bio}
+                floatingLabelText="A brief into"
+                floatingLabelFixed
+              />
+            </div>
 
-              <div className="search-box location">
-                <FormsyText
-                  id="text-field-default"
-                  placeholder="(ex: London)"
-                  autoFocus="true"
-                  name="location"
-                  fullWidth
-                  defaultValue={developer.location}
-                  floatingLabelText="Where you based?"
-                  floatingLabelFixed
-                />
-              </div>
+            <div className="search-box location">
+              <FormsyText
+                id="text-field-default"
+                placeholder="(ex: London)"
+                name="location"
+                fullWidth
+                defaultValue={developer.location}
+                floatingLabelText="Where you based?"
+                floatingLabelFixed
+              />
+            </div>
 
-              <div className="search-box linkedin">
-                <FormsyText
-                  id="text-field-default"
-                  placeholder="(ex: https://linkedin.com)"
-                  autoFocus="true"
-                  name="linkedin"
-                  fullWidth
-                  defaultValue={developer.linkedin}
-                  floatingLabelText="Linkedin"
-                  floatingLabelFixed
-                />
-              </div>
+            <div className="search-box linkedin">
+              <FormsyText
+                id="text-field-default"
+                placeholder="(ex: https://linkedin.com)"
+                name="linkedin"
+                fullWidth
+                defaultValue={developer.linkedin}
+                floatingLabelText="Linkedin"
+                floatingLabelFixed
+                updateImmediately
+                validations={{
+                  isUrl: true,
+                }}
+                validationErrors={{
+                  isUrl: 'Should be a valid url',
+                }}
+              />
+            </div>
 
-              <div className="search-box platforms">
+            <div className="search-box platforms">
+              <FormsyText
+                id="text-field-default"
+                placeholder="(ex: ruby, python)"
+                name="platforms"
+                onKeyDown={this.addNewPlatform}
+                ref={node => (this.platformNode = node)}
+                floatingLabelText="Languages and frameworks you want to work with"
+                floatingLabelFixed
+                fullWidth
+              />
+
+              <div style={styles.wrapper}>
+                {this.state.platforms.map(this.renderChip, this)}
+              </div>
+            </div>
+
+            <div className="header-separator top-margin">Preferences</div>
+            <div className="search-box preferences" style={styles.preferences}>
+              <FormsyCheckbox
+                label="Available"
+                style={styles.checkbox}
+                name="hireable"
+                defaultChecked={developer.hireable}
+              />
+
+              <FormsyCheckbox
+                label="Willing to relocate?"
+                style={styles.checkbox}
+                name="relocate"
+                defaultChecked={developer.relocate}
+              />
+
+              <FormsyCheckbox
+                label="Prefer Remote"
+                style={styles.checkbox}
+                name="remote"
+                defaultChecked={developer.remote}
+              />
+
+              <div className="search-box job_types">
                 <FormsyText
                   id="text-field-default"
-                  placeholder="(ex: ruby, python)"
-                  name="platforms"
-                  onKeyDown={this.addNewPlatform}
-                  ref={node => (this.platformNode = node)}
-                  floatingLabelText="Enter languages and frameworks you want to work with"
+                  placeholder="(ex: part-time, full-time, contract"
+                  name="job_types"
+                  onKeyDown={this.addNewJobType}
+                  ref={node => (this.jobTypeNode = node)}
+                  floatingLabelText="Job types"
                   floatingLabelFixed
                   fullWidth
                 />
 
                 <div style={styles.wrapper}>
-                  {this.state.platforms.map(this.renderChip, this)}
+                  {this.state.jobTypes.map(this.renderJobTypeChip, this)}
                 </div>
               </div>
 
-              <label className="header-separator top-margin">Preferences</label>
-              <div className="search-box preferences" style={styles.preferences}>
-                <FormsyCheckbox
-                  label="Available"
-                  style={styles.checkbox}
-                  name="hireable"
-                  defaultChecked={developer.hireable}
-                />
+              <FormsyText
+                id="text-field-default"
+                placeholder="in USD($)"
+                name="salary"
+                type="number"
+                floatingLabelText="Expected Salary per year"
+                floatingLabelFixed
+                updateImmediately
+                validations={{
+                  isNumeric: true,
+                  maxLength: 10,
+                }}
+                validationErrors={{
+                  isNumeric: 'Should be a valid number',
+                  maxLength: 'Maximum 10 figure',
+                }}
+              />
+            </div>
 
-                <FormsyCheckbox
-                  label="Willing to relocate?"
-                  style={styles.checkbox}
-                  name="relocate"
-                  defaultChecked={developer.relocate}
-                />
+            <div className="header-separator top-margin">
+              Subscriptions
+            </div>
+            <div className="search-box subscribe" style={styles.preferences}>
+              <FormsyCheckbox
+                label="Looking for a new job? *"
+                style={styles.checkbox}
+                name="subscribed"
+                defaultChecked={developer.subscribed}
+              />
+              <span style={helpStyles}>
+                * Recruiters will be able to contact you
+              </span>
 
-                <FormsyCheckbox
-                  label="Prefer Remote"
-                  style={styles.checkbox}
-                  name="remote"
-                  defaultChecked={developer.remote}
-                />
-              </div>
+              <FormsyText
+                id="text-field-default"
+                placeholder="5"
+                name="subscriptions"
+                floatingLabelText="Recruiter emails per week"
+                floatingLabelFixed
+                type="number"
+                updateImmediately
+                validations={{
+                  isNumeric: true,
+                  maxLength: 2,
+                }}
+                validationErrors={{
+                  isNumeric: 'Should be a valid number',
+                  maxLength: 'Maximum 2 digits',
+                }}
+              />
+            </div>
 
-              <label className="header-separator top-margin">
-                Subscribe
-              </label>
-              <div className="search-box subscribe" style={styles.preferences}>
-                <FormsyCheckbox
-                  label="Looking for a new job?*"
-                  style={styles.checkbox}
-                  name="subscribed"
-                  defaultChecked={developer.subscribed}
-                />
-                <span style={helpStyles}>
-                  Note: *Recruiters will be able to contact you
-                </span>
-              </div>
-
+            <div className="actions">
               <RaisedButton
-                label="Apply filters"
+                label="Update"
                 secondary
                 type="submit"
                 onClick={this.submitForm}
                 disabled={!this.state.canSubmit}
                 style={styles.button}
               />
-            </Formsy.Form>
-          </div>
-        </MuiThemeProvider>
+            </div>
+          </Formsy.Form>
+        </div>
+      </MuiThemeProvider>
     );
   }
 }
@@ -365,6 +473,9 @@ const DeveloperEditContainer = Relay.createContainer(DeveloperEdit, {
         subscribed,
         relocate,
         platforms,
+        job_types,
+        salary,
+        subscriptions,
         location,
       }
     `,

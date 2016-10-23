@@ -7,18 +7,11 @@ import queryString from 'query-string';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Snackbar from 'material-ui/Snackbar';
 import { List } from 'material-ui/List';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import Developer from './developer.es6';
 import Pagination from './pagination.es6';
 import EmptyList from './empty_list.es6';
 import LoadingList from './loading_list.es6';
-
-const muiTheme = getMuiTheme({
-  palette: {
-    primary1Color: '#6986BD',
-    accent1Color: '#6986BD',
-  },
-});
+import muiTheme from './theme.es6';
 
 class DevelopersList extends Component {
   constructor(props) {

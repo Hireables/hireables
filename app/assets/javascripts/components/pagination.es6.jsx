@@ -3,15 +3,7 @@
 import React from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import { orangeA700 } from 'material-ui/styles/colors';
-
-const muiTheme = getMuiTheme({
-  palette: {
-    primary1Color: orangeA700,
-    accent1Color: orangeA700,
-  },
-});
+import muiTheme from './theme.es6';
 
 const Pagination = props => (
   <MuiThemeProvider muiTheme={muiTheme}>

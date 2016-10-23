@@ -4,22 +4,14 @@ import React, { Component } from 'react';
 import Formsy from 'formsy-react';
 import queryString from 'query-string';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import RaisedButton from 'material-ui/RaisedButton';
 import Chip from 'material-ui/Chip';
 import _ from 'underscore';
-
 import {
   FormsyCheckbox,
   FormsyText,
 } from 'formsy-material-ui/lib';
-
-const muiTheme = getMuiTheme({
-  palette: {
-    primary1Color: '#6986BD',
-    accent1Color: '#6986BD',
-  },
-});
+import muiTheme from './theme.es6';
 
 const helpStyles = {
   fontSize: '12px',

@@ -3,20 +3,13 @@
 import React, { Component } from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import {
   Card,
   CardActions,
   CardTitle,
   CardText,
 } from 'material-ui/Card';
-
-const muiTheme = getMuiTheme({
-  palette: {
-    primary1Color: '#6986BD',
-    accent1Color: '#6986BD',
-  },
-});
+import muiTheme from './theme.es6';
 
 class Home extends Component {
   constructor(props) {

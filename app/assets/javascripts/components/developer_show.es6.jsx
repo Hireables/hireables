@@ -1,11 +1,15 @@
+/* global Routes */
+
 import React from 'react';
 import Relay from 'react-relay';
 import Avatar from 'material-ui/Avatar';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { grey700 } from 'material-ui/styles/colors';
 import DeveloperMeta from './developer_meta.es6';
+import RaisedButton from 'material-ui/RaisedButton';
 import DeveloperStatus from './developer_status.es6';
 import Languages from './languages.es6';
+import muiTheme from './theme.es6';
 
 const DeveloperShow = (props) => {
   const wrapperStyle = {
@@ -22,11 +26,18 @@ const DeveloperShow = (props) => {
 
   const { developer } = props;
   return (
-    <MuiThemeProvider>
+    <MuiThemeProvider muiTheme={muiTheme}>
       <div className={`developers-show ${developer.premium ? 'premium' : ''}`}>
         <header className="header header--bg">
           <div className="container">
             <div style={wrapperStyle}>
+              <RaisedButton
+                label="Update profile"
+                secondary
+                className="edit-link"
+                href={Routes.edit_developer_path(developer.login)}
+              />
+
               <Avatar src={developer.avatar_url} size={100} />
               <h1 className="no-margin">
                 <a href={developer.html_url} style={linkStyles}>
@@ -76,6 +87,7 @@ const DeveloperShowContainer = Relay.createContainer(DeveloperShow, {
         id,
         name,
         avatar_url,
+        login,
         platforms,
         ${DeveloperStatus.getFragment('developer')}
         ${DeveloperMeta.getFragment('developer')}

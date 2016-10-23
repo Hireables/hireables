@@ -21,8 +21,10 @@ const iconStyles = {
 
 const Developer = props => (
   <div
-    className={`developer developer--item ${props.developer.premium ? 'premium' : ''}`}
     id={`developer_${props.developer.id}`}
+    className={
+      `developer developer--item ${props.developer.premium ? 'premium' : ''}`
+    }
   >
     <ListItem
       innerDivStyle={{ padding: '20px 10px 16px 115px' }}
