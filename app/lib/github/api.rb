@@ -45,7 +45,7 @@ module Github
 
     def fetch_developer_repos(login)
       client.auto_paginate = true
-      client.repositories(user: login)
+      client.repositories(login)
     end
 
     def client
