@@ -65,7 +65,12 @@ const NavBar = (props) => {
         <div className="container">
           <Toolbar style={toolbarStyles} className="nav--toolbar">
             <ToolbarGroup key={0} style={toolbarGroupStyles}>
-              <a href="/" className="link bold" style={toolbarGroupStyles.link}>
+              <a
+                data-turbolinks="false"
+                href="/"
+                className="link bold"
+                style={toolbarGroupStyles.link}
+              >
                 <ToolbarTitle text="Hireables" style={logoStyles} />
               </a>
               <span style={betaStyles}>BETA</span>
