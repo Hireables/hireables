@@ -1796,7 +1796,7 @@ form-data@~2.0.0:
     combined-stream "^1.0.5"
     mime-types "^2.1.11"
 
-formsy-material-ui@^0.5.0:
+formsy-material-ui@^0.5.2:
   version "0.5.2"
   resolved "https://registry.yarnpkg.com/formsy-material-ui/-/formsy-material-ui-0.5.2.tgz#1196377636061d67d6cddf151f7ee2bec830f8d9"
   dependencies:
@@ -2797,8 +2797,8 @@ normalize-range@^0.1.2:
   resolved "https://registry.yarnpkg.com/normalize-range/-/normalize-range-0.1.2.tgz#2d10c06bdfd312ea9777695a4d28439456b75942"
 
 normalize-url@^1.4.0:
-  version "1.6.1"
-  resolved "https://registry.yarnpkg.com/normalize-url/-/normalize-url-1.6.1.tgz#a9f254fa065bbc2934461c0c09423815976155a2"
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/normalize-url/-/normalize-url-1.7.0.tgz#d82452d98d38821cffddab4d77a5f8d20ce66db0"
   dependencies:
     object-assign "^4.0.1"
     prepend-http "^1.0.0"
