@@ -1,3 +1,5 @@
+/* global $ Routes Turbolinks window */
+
 import React, { Component } from 'react';
 import Formsy from 'formsy-react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -5,8 +7,6 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import RaisedButton from 'material-ui/RaisedButton';
 import { FormsyText } from 'formsy-material-ui/lib';
 import Snackbar from 'material-ui/Snackbar';
-
-/* global $ Routes Turbolinks window */
 
 const muiTheme = getMuiTheme({
   palette: {
@@ -60,13 +60,18 @@ class RecruiterNewPassword extends Component {
   onFormSubmit(event) {
     event.preventDefault();
     $.post(this.props.action, this.formNode.getModel(), () => {
-      window.location.href = Routes.root_path;
+      this.setState({
+        open: true,
+        notification: 'You will receive an email with instructions on ' +
+        'how to reset your password in a few minutes.',
+      });
     }).fail((xhr) => {
       if (xhr.status === 422) {
         const errors = {};
         Object.keys(xhr.responseJSON.errors).forEach((key) => {
           if ({}.hasOwnProperty.call(xhr.responseJSON.errors, key)) {
-            errors[`recruiter[${key}]`] = `${key} ${xhr.responseJSON.errors[key].toString()}`;
+            const value = xhr.responseJSON.errors[key];
+            errors[`recruiter[${key}]`] = `${key} ${value.toString()}`;
           }
         });
         this.formNode.updateInputsWithError(errors);
@@ -76,6 +81,10 @@ class RecruiterNewPassword extends Component {
           notification: 'Something went wrong. Please refresh and try again!',
         });
       }
+    }).always(() => {
+      setTimeout(() => {
+        window.location.href = Routes.root_path();
+      }, 3000);
     });
   }
 
@@ -122,6 +131,7 @@ class RecruiterNewPassword extends Component {
                   onKeyDown={this.checkEmail}
                   floatingLabelText="Your Email"
                   required
+                  updateImmediately
                   validations={{
                     isEmail: true,
                   }}

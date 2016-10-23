@@ -1,3 +1,5 @@
+/* global $ Routes Turbolinks window */
+
 import React, { Component } from 'react';
 import Formsy from 'formsy-react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -5,8 +7,6 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import RaisedButton from 'material-ui/RaisedButton';
 import { FormsyText } from 'formsy-material-ui/lib';
 import Snackbar from 'material-ui/Snackbar';
-
-/* global $ Routes Turbolinks window */
 
 const muiTheme = getMuiTheme({
   palette: {
@@ -60,13 +60,17 @@ class RecruiterUpdatePassword extends Component {
   onFormSubmit(event) {
     event.preventDefault();
     $.put(this.props.action, this.formNode.getModel(), () => {
-      window.location.href = Routes.root_path;
+      this.setState({
+        open: true,
+        notification: 'Your password has been changed successfully.',
+      });
     }).fail((xhr) => {
       if (xhr.status === 422) {
         const errors = {};
         Object.keys(xhr.responseJSON.errors).forEach((key) => {
           if ({}.hasOwnProperty.call(xhr.responseJSON.errors, key)) {
-            errors[`recruiter[${key}]`] = `${key} ${xhr.responseJSON.errors[key].toString()}`;
+            const value = xhr.responseJSON.errors[key];
+            errors[`recruiter[${key}]`] = `${key} ${value.toString()}`;
           }
         });
         this.formNode.updateInputsWithError(errors);
@@ -76,6 +80,10 @@ class RecruiterUpdatePassword extends Component {
           notification: 'Something went wrong. Please refresh and try again!',
         });
       }
+    }).always(() => {
+      setTimeout(() => {
+        window.location.href = Routes.root_path();
+      }, 3000);
     });
   }
 
@@ -120,6 +128,8 @@ class RecruiterUpdatePassword extends Component {
                   autoFocus
                   autoComplete="new-password"
                   floatingLabelText="New Password"
+                  updateImmediately
+                  required
                   validations={{
                     minLength: 8,
                   }}
@@ -137,6 +147,7 @@ class RecruiterUpdatePassword extends Component {
                   autoComplete="new-password-confirmation"
                   floatingLabelText="New Password Confirmation"
                   required
+                  updateImmediately
                   validations={{
                     minLength: 8,
                     equalsField: 'password',

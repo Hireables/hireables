@@ -1,3 +1,5 @@
+/* global $ Routes Turbolinks window */
+
 import React, { Component } from 'react';
 import Formsy from 'formsy-react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -5,8 +7,6 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import RaisedButton from 'material-ui/RaisedButton';
 import { FormsyText } from 'formsy-material-ui/lib';
 import Snackbar from 'material-ui/Snackbar';
-
-/* global $ Routes Turbolinks window */
 
 const muiTheme = getMuiTheme({
   palette: {
@@ -60,7 +60,10 @@ class RecruiterLogin extends Component {
   onFormSubmit(event) {
     event.preventDefault();
     $.post(this.props.action, this.formNode.getModel(), () => {
-      window.location.href = Routes.root_path;
+      this.setState({
+        open: true,
+        notification: 'Logging in...',
+      });
     }).fail((xhr) => {
       switch (xhr.status) {
         case 401: {
@@ -78,6 +81,10 @@ class RecruiterLogin extends Component {
           });
         }
       }
+    }).always(() => {
+      setTimeout(() => {
+        window.location.href = Routes.root_path();
+      }, 3000);
     });
   }
 
@@ -124,6 +131,7 @@ class RecruiterLogin extends Component {
                   onKeyDown={this.checkEmail}
                   floatingLabelText="Your Email"
                   required
+                  updateImmediately
                   validations={{
                     isEmail: true,
                   }}
@@ -140,6 +148,7 @@ class RecruiterLogin extends Component {
                   name="recruiter[password]"
                   floatingLabelText="Password"
                   required
+                  updateImmediately
                   validations={{
                     minLength: 8,
                   }}

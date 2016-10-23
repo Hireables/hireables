@@ -1,3 +1,5 @@
+/* global $ Routes Turbolinks window google MAPS_API_KEY */
+
 import React, { Component } from 'react';
 import Formsy from 'formsy-react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -5,8 +7,6 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import RaisedButton from 'material-ui/RaisedButton';
 import { FormsyText } from 'formsy-material-ui/lib';
 import Snackbar from 'material-ui/Snackbar';
-
-/* global $ Routes Turbolinks window google MAPS_API_KEY */
 
 const muiTheme = getMuiTheme({
   palette: {
@@ -83,16 +83,12 @@ class RecruiterRegistration extends Component {
 
   onFormSubmit(event) {
     event.preventDefault();
-    $.post(this.props.action, this.formNode.getModel(), (data) => {
-      if (data.verified) {
-        window.location.href = Routes.root_path();
-      } else {
-        this.setState({
-          open: true,
-          notification: 'You have signed up successfully.' +
-            'We will email you once your account is verified.',
-        });
-      }
+    $.post(this.props.action, this.formNode.getModel(), () => {
+      this.setState({
+        open: true,
+        notification: 'You have signed up successfully.' +
+          'We will email you once your account is verified.',
+      });
     }).fail((xhr) => {
       if (xhr.status === 422) {
         const errors = {};
@@ -109,6 +105,10 @@ class RecruiterRegistration extends Component {
           notification: 'Something went wrong. Please refresh and try again!',
         });
       }
+    }).always(() => {
+      setTimeout(() => {
+        window.location.href = Routes.root_path();
+      }, 3000);
     });
   }
 
@@ -216,13 +216,14 @@ class RecruiterRegistration extends Component {
                   id="text-field-default"
                   name="recruiter[website]"
                   floatingLabelText="Website or Linkedin link *"
+                  required
+                  updateImmediately
                   validations={{
                     isUrl: true,
                   }}
                   validationErrors={{
                     isUrl: 'Invalid website url',
                   }}
-                  required
                 />
               </div>
 
@@ -235,6 +236,7 @@ class RecruiterRegistration extends Component {
                   floatingLabelText="Location * (ex: london)"
                   onChange={this.handleInputChange}
                   required
+                  updateImmediately
                 />
                 <div
                   id="PlacesAutocomplete__autocomplete-container"
@@ -260,13 +262,14 @@ class RecruiterRegistration extends Component {
                   autoComplete="new-email"
                   onKeyDown={this.checkEmail}
                   floatingLabelText="Email *"
+                  updateImmediately
+                  required
                   validations={{
                     isEmail: true,
                   }}
                   validationErrors={{
                     isEmail: 'Invalid email',
                   }}
-                  required
                 />
               </div>
 
@@ -278,6 +281,7 @@ class RecruiterRegistration extends Component {
                   name="recruiter[password]"
                   floatingLabelText="Password *"
                   required
+                  updateImmediately
                   validations={{
                     minLength: 8,
                   }}
