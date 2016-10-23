@@ -34,4 +34,5 @@ Rails.application.routes.draw do
   resources :recruiters, only: :show
 
   get '/:id', to: 'developers#show', as: :developer
+  get '/:id/edit', to: 'developers#edit', as: :edit_developer
 end
