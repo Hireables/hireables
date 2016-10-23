@@ -31,5 +31,7 @@ Rails.application.routes.draw do
   end
 
   resources :search, only: :index
+  resources :recruiters, only: :show
+
   get '/:id', to: 'developers#show', as: :developer
 end
