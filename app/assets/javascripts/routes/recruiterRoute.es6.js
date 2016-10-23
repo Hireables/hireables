@@ -8,7 +8,7 @@ import Relay from 'react-relay';
 
 const RecruiterRoute = {
   queries: {
-    developer: () => Relay.QL` query {
+    recruiter: () => Relay.QL` query {
       recruiter(id: $id)
     } `,
   },

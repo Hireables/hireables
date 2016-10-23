@@ -64,7 +64,7 @@ RecruiterShow.propTypes = {
 const RecruiterShowContainer = Relay.createContainer(RecruiterShow, {
   fragments: {
     recruiter: () => Relay.QL`
-      fragment on Developer {
+      fragment on Recruiter {
         id,
         name,
         avatar_url,
