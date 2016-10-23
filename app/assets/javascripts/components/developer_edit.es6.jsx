@@ -65,6 +65,7 @@ class DeveloperEdit extends Component {
     this.clearValidationErrors = this.clearValidationErrors.bind(this);
     this.submitForm = this.submitForm.bind(this);
     this.addNewPlatform = this.addNewPlatform.bind(this);
+    this.addNewJobType = this.addNewJobType.bind(this);
     this.enableButton = this.enableButton.bind(this);
     this.disableButton = this.disableButton.bind(this);
 
@@ -93,6 +94,10 @@ class DeveloperEdit extends Component {
       elem.label
     ));
 
+    const jobTypes = this.state.jobTypes.map(elem => (
+      elem.label
+    ));
+
     const onFailure = (transaction) => {
       const error = transaction.getError() || new Error('Mutation failed.');
     };
@@ -103,7 +108,10 @@ class DeveloperEdit extends Component {
 
     const newModel = _.pick(Object.assign(this.formNode.getModel(), {
       platforms: platforms.toString(),
+      job_types: jobTypes.toString(),
     }), _.identity);
+
+    console.log(newModel);
 
     Relay.Store.commitUpdate(new UpdateDeveloper({
       id: this.props.developer.id,

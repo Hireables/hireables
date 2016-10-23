@@ -24,8 +24,8 @@ ActiveRecord::Schema.define(version: 20161014150901) do
     t.text     "bio"
     t.string   "linkedin",           default: ""
     t.string   "provider",           default: "",    null: false
-    t.string   "uid",                default: "",    null: false
-    t.string   "salary",             default: "",    null: false
+    t.bigint   "uid",                                null: false
+    t.bigint   "salary",                             null: false
     t.boolean  "remote",             default: false
     t.boolean  "relocate",           default: false
     t.boolean  "hireable",           default: false
@@ -55,6 +55,7 @@ ActiveRecord::Schema.define(version: 20161014150901) do
     t.index ["relocate"], name: "index_developers_on_relocate", using: :btree
     t.index ["remote"], name: "index_developers_on_remote", using: :btree
     t.index ["subscribed"], name: "index_developers_on_subscribed", using: :btree
+    t.index ["uid"], name: "index_developers_on_uid", unique: true, using: :btree
   end
 
   create_table "recruiters", force: :cascade do |t|

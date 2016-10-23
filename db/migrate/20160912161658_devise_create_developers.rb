@@ -10,8 +10,8 @@ class DeviseCreateDevelopers < ActiveRecord::Migration
       t.text :bio
       t.string :linkedin, default: ""
       t.string :provider, null: false, default: ""
-      t.string :uid, null: false, default: ""
-      t.string :salary, null: false, default: ""
+      t.bigint :uid, null: false, default: ""
+      t.bigint :salary, null: false, default: ""
       t.boolean :remote, default: false, index: true
       t.boolean :relocate, default: false, index: true
       t.boolean :hireable, default: false, index: true
@@ -36,6 +36,7 @@ class DeviseCreateDevelopers < ActiveRecord::Migration
     end
 
     add_index :developers, :email, unique: true
+    add_index :developers, :uid, unique: true
     add_index :developers, :login, unique: true
     add_index :developers, :data, using: :gin
     add_index :developers, :platforms, using: :gin
