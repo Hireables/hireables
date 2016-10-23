@@ -3,37 +3,66 @@ import React from 'react';
 import Relay from 'react-relay';
 import { ListItem } from 'material-ui/List';
 import Avatar from 'material-ui/Avatar';
+import FontIcon from 'material-ui/FontIcon';
+import IconButton from 'material-ui/IconButton';
 import DeveloperStatus from './developer_status.es6';
 import DeveloperMeta from './developer_meta.es6';
-
-const developerStyle = {
-  fontWeight: '500',
-  backgroundColor: 'white',
-};
 
 const paragraphStyles = {
   height: 'auto',
   paddingRight: '10px',
 };
 
+const iconStyles = {
+  position: 'absolute',
+  top: '4px',
+  padding: '12px',
+};
+
 const Developer = props => (
   <div
-    style={developerStyle}
     className={`developer developer--item ${props.developer.premium ? 'premium' : ''}`}
     id={`developer_${props.developer.id}`}
   >
     <ListItem
-      leftAvatar={<Avatar src={props.developer.avatar_url} />}
+      innerDivStyle={{ padding: '20px 10px 16px 115px' }}
+      leftAvatar={
+        <Avatar src={props.developer.avatar_url} size={80} />
+      }
       rightIconButton={(
         <DeveloperMeta
-          positionClass="pull-right"
+          positionClass="pull-right meta"
           developer={props.developer}
         />
       )}
       secondaryText={
         <DeveloperStatus developer={props.developer} />
       }
-      primaryText={props.developer.name}
+      primaryText={
+        <div>
+          {props.developer.name}
+          {props.developer.premium ?
+            <IconButton
+              tooltip="Premium profile"
+              tooltipPosition="bottom-center"
+              style={iconStyles}
+            >
+              <FontIcon
+                className="material-icons"
+              >
+                grade
+              </FontIcon>
+            </IconButton> :
+              <IconButton
+                iconClassName="muidocs-icon-custom-github"
+                disableTouchRipple
+                tooltip="Github profile"
+                tooltipPosition="bottom-center"
+                style={iconStyles}
+              />
+          }
+        </div>
+      }
       disabled
       style={paragraphStyles}
       secondaryTextLines={1}

@@ -14,7 +14,7 @@ const containerStyle = {
 
 const developerStyle = {
   fontWeight: '500',
-  height: '100px',
+  height: '140px',
   backgroundColor: 'white',
 };
 
@@ -27,7 +27,9 @@ const LoadingList = () => {
       id={`developer_${elem}`}
     >
       <ListItem
-        leftAvatar={<Avatar src={'https://placeholdit.imgix.net/~text?w=40&h=40'} />}
+        leftAvatar={
+          <Avatar src={'https://placeholdit.imgix.net/~text?w=80&h=80'} size={80} />
+        }
         secondaryText={
           <div className="animated-background secondary" />
         }

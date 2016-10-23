@@ -1,4 +1,4 @@
-/* global Turbolinks document $ location */
+/* global Turbolinks document $ location Routes */
 
 import React, { Component } from 'react';
 import Formsy from 'formsy-react';
@@ -134,7 +134,13 @@ class Search extends Component {
     }), _.identity);
 
     const query = queryString.stringify(newModel);
-    Turbolinks.visit(`/search?${query}`);
+    console.log(query);
+
+    if (query === '') {
+      Turbolinks.visit(Routes.root_path());
+    } else {
+      Turbolinks.visit(`/search?${query}`);
+    }
   }
 
   checkComma(event) {
