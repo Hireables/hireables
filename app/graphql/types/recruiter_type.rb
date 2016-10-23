@@ -1,5 +1,5 @@
 RecruiterType = GraphQL::ObjectType.define do
-  name 'Developer'
+  name 'Recruiter'
   description 'Fetch recruiter associated fields'
   interfaces [GraphQL::Relay::Node.interface]
   global_id_field :id
