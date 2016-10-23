@@ -60,6 +60,7 @@ ActiveRecord::Schema.define(version: 20161014150901) do
   create_table "recruiters", force: :cascade do |t|
     t.string   "email",                  default: "",    null: false
     t.string   "login",                  default: "",    null: false
+    t.text     "bio",                    default: "",    null: false
     t.string   "avatar",                 default: "",    null: false
     t.string   "name",                   default: "",    null: false
     t.boolean  "verified",               default: false

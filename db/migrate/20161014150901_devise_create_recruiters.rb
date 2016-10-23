@@ -5,6 +5,7 @@ class DeviseCreateRecruiters < ActiveRecord::Migration[5.0]
       ## Database authenticatable
       t.string :email,              null: false, default: ""
       t.string :login, null: false, default: ""
+      t.text :bio, null: false, default: ""
       t.string :avatar, null: false, default: ""
       t.string :name,              null: false, default: ""
       t.boolean :verified, default: false
