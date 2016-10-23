@@ -27,6 +27,6 @@ class Developer < ApplicationRecord
   end
 
   def premium_fields
-    %w(bio email platforms location)
+    %w(bio email platforms location job_types)
   end
 end
