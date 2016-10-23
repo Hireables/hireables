@@ -1,4 +1,4 @@
-/* global document window $ Turbolinks */
+/* global document window $ Turbolinks Routes */
 
 import React, { Component } from 'react';
 import Relay from 'react-relay';
@@ -60,7 +60,12 @@ class DevelopersList extends Component {
     ), _.identity);
 
     const query = queryString.stringify(newPage);
-    Turbolinks.visit(`/search?${query}`);
+
+    if (query === '') {
+      Turbolinks.visit(Routes.root_path());
+    } else {
+      Turbolinks.visit(`/search?${query}`);
+    }
   }
 
   loadPrevious(event) {
@@ -73,7 +78,12 @@ class DevelopersList extends Component {
     ), _.identity);
 
     const query = queryString.stringify(newPage);
-    Turbolinks.visit(`/search?${query}`);
+
+    if (query === '') {
+      Turbolinks.visit(Routes.root_path());
+    } else {
+      Turbolinks.visit(`/search?${query}`);
+    }
   }
 
   handleTouchTap() {
@@ -145,7 +155,7 @@ DevelopersList.propTypes = {
 
 const DevelopersListContainer = Relay.createContainer(DevelopersList, {
   initialVariables: {
-    first: 20,
+    first: 50,
     location: null,
     language: null,
     hireable: null,

@@ -134,7 +134,6 @@ class Search extends Component {
     }), _.identity);
 
     const query = queryString.stringify(newModel);
-    console.log(query);
 
     if (query === '') {
       Turbolinks.visit(Routes.root_path());
