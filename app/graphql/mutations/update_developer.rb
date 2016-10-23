@@ -10,6 +10,8 @@ UpdateDeveloper = GraphQL::Relay::Mutation.define do
   input_field :platforms, types[types.String]
   input_field :linkedin, types.String
   input_field :hireable, types.Boolean
+  input_field :subcriptions, types.Int
+  input_field :job_types, types[types.String]
   input_field :remote, types.Boolean
   input_field :relocate, types.Boolean
   input_field :subscribed, types.Boolean

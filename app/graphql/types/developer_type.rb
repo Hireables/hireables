@@ -48,6 +48,21 @@ DeveloperType = GraphQL::ObjectType.define do
     resolve(DeveloperCustomFieldResolver.new(:subscribed, :boolean))
   end
 
+  field :salary, types.Int do
+    description 'Salary desired'
+    resolve(DeveloperCustomFieldResolver.new(:salary, :Integer))
+  end
+
+  field :subscriptions, types.Int do
+    description 'Number of email subscriptions per week'
+    resolve(DeveloperCustomFieldResolver.new(:subscriptions, :Integer))
+  end
+
+  field :job_types, types[types.String] do
+    description 'Types of jobs interested in'
+    resolve(DeveloperCustomFieldResolver.new(:job_types, :Array))
+  end
+
   field :platforms, types[types.String] do
     description 'Languages or platforms interested in'
     resolve -> (obj, _args, ctx) { resolve_platforms(obj, ctx) }
