@@ -4,6 +4,7 @@ class DeviseCreateRecruiters < ActiveRecord::Migration[5.0]
     create_table :recruiters do |t|
       ## Database authenticatable
       t.string :email,              null: false, default: ""
+      t.string :login, null: false, default: ""
       t.string :avatar, null: false, default: ""
       t.string :name,              null: false, default: ""
       t.boolean :verified, default: false
@@ -30,6 +31,7 @@ class DeviseCreateRecruiters < ActiveRecord::Migration[5.0]
     end
 
     add_index :recruiters, :email,                unique: true
+    add_index :recruiters, :login,                unique: true
     add_index :recruiters, :reset_password_token, unique: true
   end
 end
