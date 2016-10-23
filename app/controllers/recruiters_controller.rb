@@ -1,6 +1,6 @@
 class RecruitersController < ApplicationController
-  before_action :authenticate_recruiter!,
-  :set_recruiter, only: :show, unless: :authenticated?
+  before_action :set_recruiter, only: :show
+  before_action :authenticate_recruiter!, only: :show, unless: :user_signed_in?
 
   # GET /:id
   def show
@@ -9,10 +9,6 @@ class RecruitersController < ApplicationController
   private
 
   def set_recruiter
-    @login = params[:id].to_h
-  end
-
-  def authenticated?
-    recruiter_signed_in? || developer_signed_in?
+    @login = params[:id]
   end
 end
