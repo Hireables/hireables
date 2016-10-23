@@ -13,10 +13,6 @@ class PrepareSearchParams
     end.compact.join(' ')
   end
 
-  def to_cache_key
-    to_query.gsub(/\s+/, '') << "&page=#{params['page'] || 1}"
-  end
-
   def valid?
     valid_params.any?
   end
@@ -35,7 +31,7 @@ class PrepareSearchParams
 
   def cache_query
     Rails.cache.write('search_query', query: to_query,
-                                      page: params['page'] || 1,
+                                      page: Integer(params['page'] || 1),
                                       search: valid?)
   end
 
