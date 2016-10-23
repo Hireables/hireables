@@ -5,6 +5,7 @@ class Recruiter < ApplicationRecord
 
   validates_presence_of :name, :company, :website
   validate :website_url_format, unless: :url_valid?
+  before_create :add_username, unless: :login_present?
   after_commit :expire_search_query, if: :preferences_previously_changed?
   after_commit :send_admin_mail, on: :create
 
@@ -21,6 +22,22 @@ class Recruiter < ApplicationRecord
   end
 
   private
+
+  def add_login
+    login_username = self.name.parameterize
+
+    if User.find_by_login(login_username).blank?
+      login_username = login_username
+    else
+      num = 1
+      while User.find_by_login(login_username).blank?
+        login_username = "#{name.parameterize}#{num}"
+        num += 1
+      end
+    end
+
+    self.username = login_username
+  end
 
   def send_admin_mail
     AdminMailerWorker.perform_async(id)
