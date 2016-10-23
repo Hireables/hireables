@@ -12,7 +12,16 @@ class DevelopersResolver
   def call
     query = Rails.cache.read('search_query')
     if params['hireable'].present? || !query[:search]
-      api.fetch_hireable_developers(query)
+      hireables = api.fetch_hireable_developers(query)
+      count = hireables.length
+
+      while count < 51 && query[:page] < 18
+        query[:page] += 1
+        hireables.push(*(api.fetch_hireable_developers(query)))
+        count = hireables.length
+      end
+
+      hireables.take(51)
     else
       api.fetch_developers(query)
     end
