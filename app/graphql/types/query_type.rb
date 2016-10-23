@@ -14,4 +14,11 @@ QueryType = GraphQL::ObjectType.define do
     description 'Returns a developer profile by id'
     resolve(DeveloperResolver)
   end
+
+  field :recruiter do
+    argument :id, !types.String
+    type DeveloperType
+    description 'Returns a recruiter profile by id'
+    resolve(RecruiterResolver)
+  end
 end
