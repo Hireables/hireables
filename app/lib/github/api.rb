@@ -3,7 +3,7 @@ module Github
   class Api
     def search(params)
       Rails.cache.fetch([params[:query], params[:page], 'search']) do
-        client.search_users(params[:query], page: params[:page], per_page: 21)
+        client.search_users(params[:query], page: params[:page], per_page: 51)
       end
     end
 
