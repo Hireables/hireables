@@ -8,17 +8,13 @@ module Github
     end
 
     def fetch_developers(params)
-      Rails.cache.fetch([params[:query], params[:page], 'developers']) do
-        search(params).items.map do |item|
-          fetch_developer(item.login)
-        end
+      search(params).items.map do |item|
+        fetch_developer(item.login)
       end
     end
 
     def fetch_hireable_developers(params)
-      Rails.cache.fetch([params[:query], params[:page], 'hireables']) do
-        fetch_developers(params).select(&:hireable)
-      end
+      fetch_developers(params).select(&:hireable)
     end
 
     def fetch_developer(login)
