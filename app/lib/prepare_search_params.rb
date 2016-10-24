@@ -5,11 +5,12 @@ class PrepareSearchParams
     @params = params
     @current_recruiter = current_recruiter
     cache_query
+        puts to_query.inspect
   end
 
   def to_query
     request_params.map do |param, value|
-      "#{param}:#{value}" if supported?(param, value)
+      "#{param}:#{value.gsub(/\s+/, '+')}" if supported?(param, value)
     end.compact.join(' ')
   end
 
