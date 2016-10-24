@@ -15,7 +15,7 @@ class DevelopersResolver
       hireables = api.fetch_hireable_developers(query)
       count = hireables.length
 
-      while count < 51 && query[:page] < 18
+      while count < 51 && query[:page] < 10
         query[:page] += 1
         hireables.push(*(api.fetch_hireable_developers(query)))
         count = hireables.length

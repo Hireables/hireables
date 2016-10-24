@@ -9,6 +9,9 @@ class DeveloperCustomFieldResolver
   def call(obj, _args, _ctx)
     if field_type == :boolean
       obj.respond_to?(field_name) ? obj.public_send(field_name) : false
+    elsif field_type == :Array
+      field = obj.respond_to?(field_name) ? obj.public_send(field_name) : []
+      field[0].empty? ? field : field[0].split(',')
     else
       obj.respond_to?(field_name) ? obj.public_send(field_name) : nil
     end
