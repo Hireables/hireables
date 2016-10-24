@@ -20,18 +20,18 @@ ActiveRecord::Schema.define(version: 20161014150901) do
     t.string   "name",               default: "",    null: false
     t.string   "email",              default: "",    null: false
     t.string   "login",              default: "",    null: false
-    t.string   "avatar",             default: "",    null: false
+    t.string   "avatar",             default: ""
     t.text     "bio"
     t.string   "linkedin",           default: ""
     t.string   "provider",           default: "",    null: false
-    t.bigint   "uid",                                null: false
-    t.bigint   "salary",                             null: false
+    t.bigint   "uid",                default: 0,     null: false
+    t.bigint   "salary"
     t.boolean  "remote",             default: false
     t.boolean  "relocate",           default: false
     t.boolean  "hireable",           default: false
-    t.string   "job_types",          default: [],    null: false, array: true
-    t.string   "platforms",          default: [],    null: false, array: true
-    t.string   "location",           default: "",    null: false
+    t.string   "job_types",          default: [],                 array: true
+    t.string   "platforms",          default: [],                 array: true
+    t.string   "location",           default: ""
     t.boolean  "premium",            default: false
     t.boolean  "subscribed",         default: false
     t.integer  "subscriptions",      default: 0

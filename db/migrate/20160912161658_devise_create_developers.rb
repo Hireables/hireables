@@ -6,18 +6,18 @@ class DeviseCreateDevelopers < ActiveRecord::Migration
       t.string :name, null: false, default: ""
       t.string :email, null: false, default: ""
       t.string :login, null: false, default: ""
-      t.string :avatar, null: false, default: ""
+      t.string :avatar, default: ""
       t.text :bio
       t.string :linkedin, default: ""
       t.string :provider, null: false, default: ""
-      t.bigint :uid, null: false, default: ""
-      t.bigint :salary, null: false, default: ""
+      t.bigint :uid, null: false, default: 0
+      t.bigint :salary
       t.boolean :remote, default: false, index: true
       t.boolean :relocate, default: false, index: true
       t.boolean :hireable, default: false, index: true
-      t.string :job_types, null: false, default: "{}", array: true
-      t.string :platforms, null: false, default: "{}", array: true
-      t.string :location, null: false, default: "", index: true
+      t.string :job_types, default: "{}", array: true
+      t.string :platforms, default: "{}", array: true
+      t.string :location, default: "", index: true
       t.boolean :premium, default: false, index: true
       t.boolean :subscribed, default: false, index: true
       t.integer :subscriptions, default: 0
