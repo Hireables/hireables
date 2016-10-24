@@ -1,3 +1,5 @@
+/* global Routes window */
+
 import React, { Component } from 'react';
 import Relay from 'react-relay';
 import Formsy from 'formsy-react';
@@ -102,16 +104,14 @@ class DeveloperEdit extends Component {
       const error = transaction.getError() || new Error('Mutation failed.');
     };
 
-    const onSuccess = (response) => {
-      console.log(response);
+    const onSuccess = () => {
+      window.location.href = Routes.root_path();
     };
 
     const newModel = _.pick(Object.assign(this.formNode.getModel(), {
       platforms: platforms.toString(),
       job_types: jobTypes.toString(),
     }), _.identity);
-
-    console.log(newModel);
 
     Relay.Store.commitUpdate(new UpdateDeveloper({
       id: this.props.developer.id,
@@ -403,6 +403,7 @@ class DeveloperEdit extends Component {
                 floatingLabelText="Expected Salary per year"
                 floatingLabelFixed
                 updateImmediately
+                defaultValue={developer.salary}
                 validations={{
                   isNumeric: true,
                   maxLength: 10,
@@ -436,6 +437,7 @@ class DeveloperEdit extends Component {
                 floatingLabelFixed
                 type="number"
                 updateImmediately
+                defaultValue={developer.subscriptions}
                 validations={{
                   isNumeric: true,
                   maxLength: 2,

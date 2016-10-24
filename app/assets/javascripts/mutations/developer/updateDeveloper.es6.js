@@ -25,6 +25,7 @@ export default class extends Relay.Mutation {
   }
 
   getVariables() {
+    console.log(this.props);
     return {
       ...this.props,
     };
