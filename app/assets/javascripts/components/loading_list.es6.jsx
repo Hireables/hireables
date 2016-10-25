@@ -14,12 +14,12 @@ const containerStyle = {
 
 const developerStyle = {
   fontWeight: '500',
-  height: '140px',
+  height: '100px',
   backgroundColor: 'white',
 };
 
 const LoadingList = () => {
-  const emptyPlaceholders = _.map(_.range(0, 20, 1), (elem, index) => (
+  const emptyPlaceholders = _.map(_.range(0, 50, 1), (elem, index) => (
     <div
       key={index}
       style={developerStyle}

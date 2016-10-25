@@ -1,7 +1,7 @@
 import React from 'react';
 import Relay from 'react-relay';
 
-const Languages = (props) => {
+const JobTypes = (props) => {
   const badgeStyles = {
     border: '2px solid #000',
     borderRadius: 5,
@@ -23,32 +23,31 @@ const Languages = (props) => {
   return (
     <div style={{ marginTop: '10px' }}>
       <span>
-        {developer.platforms.length > 0 ? developer.platforms.map(platform => (
-          <a
+        {developer.job_types.length > 0 ? developer.job_types.map(job => (
+          <div
             key={Math.random()}
-            href={`/search?language:${platform.trim().toLowerCase()}`}
             style={badgeStyles}
           >
-            {platform}
-          </a>
+            {job}
+          </div>
         )) : ''}
       </span>
     </div>
   );
 };
 
-Languages.propTypes = {
+JobTypes.propTypes = {
   developer: React.PropTypes.object,
 };
 
-const LanguagesContainer = Relay.createContainer(Languages, {
+const JobTypesContainer = Relay.createContainer(JobTypes, {
   fragments: {
     developer: () => Relay.QL`
       fragment on Developer {
-        platforms,
+        job_types,
       }
     `,
   },
 });
 
-export default LanguagesContainer;
+export default JobTypesContainer;

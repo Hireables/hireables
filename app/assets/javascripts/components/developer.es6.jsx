@@ -7,6 +7,7 @@ import Avatar from 'material-ui/Avatar';
 import DeveloperMeta from './developer_meta.es6';
 import DeveloperLinks from './developer_links.es6';
 import DeveloperName from './developer_name.es6';
+import JobTypes from './job_types.es6';
 import DeveloperLocation from './developer_location.es6';
 import DeveloperBio from './developer_bio.es6';
 
@@ -67,6 +68,7 @@ const Developer = props => (
       </div>
       <DeveloperBio developer={props.developer} />
       <DeveloperLinks developer={props.developer} />
+      <JobTypes developer={props.developer} />
     </ListItem>
   </div>
 );
@@ -86,6 +88,7 @@ const DeveloperContainer = Relay.createContainer(Developer, {
         premium,
         ${DeveloperName.getFragment('developer')},
         ${DeveloperLinks.getFragment('developer')},
+        ${JobTypes.getFragment('developer')},
         ${DeveloperMeta.getFragment('developer')},
         ${DeveloperLocation.getFragment('developer')},
         ${DeveloperBio.getFragment('developer')},

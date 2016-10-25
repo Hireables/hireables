@@ -5,6 +5,12 @@ import RaisedButton from 'material-ui/RaisedButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import muiTheme from './theme.es6';
 
+const buttonStyles = {
+  boxShadow: 'none',
+  borderRadius: '0',
+  background: 'transparent',
+};
+
 const Pagination = props => (
   <MuiThemeProvider muiTheme={muiTheme}>
     <div className="container">
@@ -13,20 +19,20 @@ const Pagination = props => (
           <RaisedButton
             label="Previous"
             className="link previous"
-            style={{ boxShadow: 'none', borderRadius: '0', background: 'transparent' }}
+            style={buttonStyles}
             onClick={props.loadPrevious}
           />
           : ''
         }
         {props.pageInfo != null &&
           props.pageInfo.hasNextPage ?
-          <RaisedButton
-            label="Next"
-            className="link next"
-            style={{ boxShadow: 'none', borderRadius: '0', background: 'transparent' }}
-            onClick={props.loadNext}
-          />
-          : ''
+            <RaisedButton
+              label="Next"
+              className="link next"
+              style={buttonStyles}
+              onClick={props.loadNext}
+            />
+            : ''
         }
       </div>
     </div>

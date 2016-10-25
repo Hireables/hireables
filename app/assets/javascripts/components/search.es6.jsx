@@ -261,7 +261,7 @@ class Search extends Component {
               <FormsyCheckbox
                 label="Hireable"
                 style={styles.checkbox}
-                defaultChecked={this.state.form.hireable === "true"}
+                defaultChecked={this.state.form.hireable === 'true'}
                 name="hireable"
               />
             </div>
