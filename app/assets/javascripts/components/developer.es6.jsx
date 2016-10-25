@@ -1,23 +1,40 @@
-/* global $ */
+/* global $ Routes */
+
 import React from 'react';
 import Relay from 'react-relay';
 import { ListItem } from 'material-ui/List';
 import Avatar from 'material-ui/Avatar';
-import FontIcon from 'material-ui/FontIcon';
-import IconButton from 'material-ui/IconButton';
-import DeveloperStatus from './developer_status.es6';
 import DeveloperMeta from './developer_meta.es6';
+import DeveloperLinks from './developer_links.es6';
+import DeveloperName from './developer_name.es6';
+import DeveloperLocation from './developer_location.es6';
+import DeveloperBio from './developer_bio.es6';
 
 const paragraphStyles = {
   height: 'auto',
   paddingRight: '10px',
 };
 
-const iconStyles = {
+const badgeStyles = {
+  fontSize: 14,
+  lineHeight: '24px',
   position: 'absolute',
-  top: '4px',
-  padding: '12px',
+  color: 'white',
+  width: 24,
+  height: 24,
+  verticalAlign: 'middle',
+  backgroundColor: '#66bb6a',
+  fontWeight: 600,
+  borderRadius: '100%',
+  padding: 0,
+  left: 65,
+  textAlign: 'center',
+  top: 6,
+  zIndex: 10,
+  boxShadow: 'rgba(63, 67, 69, 0.298039) 0px 0px 16px 0px',
+  border: '1px solid white',
 };
+
 
 const Developer = props => (
   <div
@@ -29,46 +46,28 @@ const Developer = props => (
     <ListItem
       innerDivStyle={{ padding: '20px 10px 16px 115px' }}
       leftAvatar={
-        <Avatar src={props.developer.avatar_url} size={80} />
-      }
-      rightIconButton={(
-        <DeveloperMeta
-          positionClass="pull-right meta"
-          developer={props.developer}
-        />
-      )}
-      secondaryText={
-        <DeveloperStatus developer={props.developer} />
-      }
-      primaryText={
-        <div>
-          {props.developer.name}
-          {props.developer.premium ?
-            <IconButton
-              tooltip="Premium profile"
-              tooltipPosition="bottom-center"
-              style={iconStyles}
-            >
-              <FontIcon
-                className="material-icons"
-              >
-                grade
-              </FontIcon>
-            </IconButton> :
-              <IconButton
-                iconClassName="muidocs-icon-custom-github"
-                disableTouchRipple
-                tooltip="Github profile"
-                tooltipPosition="bottom-center"
-                style={iconStyles}
-              />
-          }
-        </div>
+        <a
+          href={Routes.developer_path(props.developer.login)}
+          target="_blank"
+          style={{ textDecoration: 'none', color: 'inherit' }}
+          rel="noopener noreferrer"
+        >
+          {props.developer.hireable ? <div style={badgeStyles}> H </div> : ''}
+          <Avatar src={props.developer.avatar_url} size={80} />
+        </a>
       }
       disabled
       style={paragraphStyles}
       secondaryTextLines={1}
-    />
+    >
+      <DeveloperName developer={props.developer} />
+      <DeveloperLocation developer={props.developer} />
+      <div style={{ position: 'absolute', right: 0, top: '10px' }}>
+        <DeveloperMeta developer={props.developer} />
+      </div>
+      <DeveloperBio developer={props.developer} />
+      <DeveloperLinks developer={props.developer} />
+    </ListItem>
   </div>
 );
 
@@ -81,11 +80,15 @@ const DeveloperContainer = Relay.createContainer(Developer, {
     developer: () => Relay.QL`
       fragment on Developer {
         id,
-        name,
         avatar_url,
+        hireable,
+        login,
         premium,
-        ${DeveloperStatus.getFragment('developer')},
+        ${DeveloperName.getFragment('developer')},
+        ${DeveloperLinks.getFragment('developer')},
         ${DeveloperMeta.getFragment('developer')},
+        ${DeveloperLocation.getFragment('developer')},
+        ${DeveloperBio.getFragment('developer')},
       }
     `,
   },

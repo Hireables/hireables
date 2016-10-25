@@ -4,12 +4,12 @@ import React from 'react';
 import Relay from 'react-relay';
 import Avatar from 'material-ui/Avatar';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import { grey700 } from 'material-ui/styles/colors';
-import DeveloperMeta from './developer_meta.es6';
 import RaisedButton from 'material-ui/RaisedButton';
-import DeveloperStatus from './developer_status.es6';
 import Languages from './languages.es6';
 import muiTheme from './theme.es6';
+import DeveloperLinks from './developer_links.es6';
+import DeveloperMeta from './developer_meta.es6';
+import DeveloperBio from './developer_bio.es6';
 
 const DeveloperShow = (props) => {
   const wrapperStyle = {
@@ -38,31 +38,22 @@ const DeveloperShow = (props) => {
                 href={Routes.edit_developer_path(developer.login)}
               />
 
-              <Avatar src={developer.avatar_url} size={100} />
-              <h1 className="no-margin">
-                <a href={developer.html_url} style={linkStyles}>
-                  {developer.name}
-                </a>
-              </h1>
-              {developer.blog ?
-                <small>
-                  <a
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{
-                      color: grey700,
-                      marginLeft: '10px',
-                      paddingBottom: '5px',
-                      cursor: 'pointer',
-                    }}
-                    href={developer.blog}
-                  >
-                    Website
-                  </a>
-                </small> : ''
-              }
+              <Avatar
+                src={developer.avatar_url}
+                size={100}
+                className="avatar"
+              />
 
-              <DeveloperStatus developer={props.developer} />
+              <div className="basic-info">
+                <h1 className="name no-margin">
+                  <a href={developer.html_url} style={linkStyles}>
+                    {developer.name}
+                  </a>
+                </h1>
+              </div>
+
+              <DeveloperBio developer={props.developer} />
+              <DeveloperLinks developer={props.developer} />
               <Languages languages={developer.platforms} />
 
               <div className="p-t-20">
@@ -89,8 +80,9 @@ const DeveloperShowContainer = Relay.createContainer(DeveloperShow, {
         avatar_url,
         login,
         platforms,
-        ${DeveloperStatus.getFragment('developer')}
         ${DeveloperMeta.getFragment('developer')}
+        ${DeveloperLinks.getFragment('developer')}
+        ${DeveloperBio.getFragment('developer')}
       }
     `,
   },

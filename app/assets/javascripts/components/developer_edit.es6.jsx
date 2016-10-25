@@ -174,9 +174,10 @@ class DeveloperEdit extends Component {
         return;
       }
 
-      const platforms = this.state.platforms.concat(
-        [{ key: this.state.platforms.length + 1, label: newPlatform }]
-      );
+      const platforms = this.state.platforms.concat([{
+        key: this.state.platforms.length + 1,
+        label: newPlatform,
+      }]);
 
       this.setState({ platforms }, () => {
         this.platformNode.state.value = '';
@@ -224,9 +225,10 @@ class DeveloperEdit extends Component {
         return;
       }
 
-      const jobTypes = this.state.jobTypes.concat(
-        [{ key: this.state.jobTypes.length + 1, label: newJobType }]
-      );
+      const jobTypes = this.state.jobTypes.concat([{
+        key: this.state.jobTypes.length + 1,
+        label: newJobType,
+      }]);
 
       this.setState({ jobTypes }, () => {
         this.jobTypeNode.state.value = '';

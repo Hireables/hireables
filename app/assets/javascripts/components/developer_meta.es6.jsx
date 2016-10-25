@@ -3,7 +3,7 @@ import Relay from 'react-relay';
 import { grey600 } from 'material-ui/styles/colors';
 
 const DeveloperMeta = props => (
-  <div className={props.positionClass}>
+  <div className="stats">
     <ul className="no-style fs-14 hidden-sm" style={{ color: grey600 }}>
       <li className="text-center inline m-r-20">
         <span>Followers</span>
