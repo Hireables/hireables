@@ -11,7 +11,7 @@ import DeveloperLinks from './developer_links.es6';
 import DeveloperMeta from './developer_meta.es6';
 import DeveloperBio from './developer_bio.es6';
 import JobTypes from './job_types.es6';
-import Salary from './salary.es6';
+import Compensation from './compensation.es6';
 import DeveloperLocation from './developer_location.es6';
 
 const badgeStyles = {

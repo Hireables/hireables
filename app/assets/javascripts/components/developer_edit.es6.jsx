@@ -381,31 +381,51 @@ class DeveloperEdit extends Component {
               />
 
               <div className="search-box job_types">
-                <FormsyText
-                  id="text-field-default"
-                  placeholder="(ex: part-time, full-time, contract"
-                  name="job_types"
-                  onKeyDown={this.addNewJobType}
-                  ref={node => (this.jobTypeNode = node)}
-                  floatingLabelText="Job types"
-                  floatingLabelFixed
-                  fullWidth
+                <FormsyCheckbox
+                  label="Part-Time"
+                  style={styles.checkbox}
+                  name="part_time"
+                  defaultChecked={developer.part_time}
                 />
 
-                <div style={styles.wrapper}>
-                  {this.state.jobTypes.map(this.renderJobTypeChip, this)}
-                </div>
+                <FormsyCheckbox
+                  label="Full-Time"
+                  style={styles.checkbox}
+                  name="full_time"
+                  defaultChecked={developer.full_time}
+                />
+
+                <FormsyCheckbox
+                  label="Contract"
+                  style={styles.checkbox}
+                  name="contract"
+                  defaultChecked={developer.contract}
+                />
+
+                <FormsyCheckbox
+                  label="Freelance"
+                  style={styles.checkbox}
+                  name="freelance"
+                  defaultChecked={developer.freelance}
+                />
+
+                <FormsyCheckbox
+                  label="Internship"
+                  style={styles.checkbox}
+                  name="internship"
+                  defaultChecked={developer.internship}
+                />
               </div>
 
               <FormsyText
                 id="text-field-default"
                 placeholder="in USD($)"
-                name="salary"
+                name="compensation"
                 type="number"
-                floatingLabelText="Expected Salary per year"
+                floatingLabelText="Expected Compensation per year"
                 floatingLabelFixed
                 updateImmediately
-                defaultValue={developer.salary}
+                defaultValue={developer.compensation}
                 validations={{
                   isNumeric: true,
                   maxLength: 10,
@@ -486,7 +506,7 @@ const DeveloperEditContainer = Relay.createContainer(DeveloperEdit, {
         relocate,
         platforms,
         job_types,
-        salary,
+        compensation,
         subscriptions,
         location,
       }

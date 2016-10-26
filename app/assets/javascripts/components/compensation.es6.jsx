@@ -1,7 +1,7 @@
 import React from 'react';
 import Relay from 'react-relay';
 
-const Salary = (props) => {
+const Compensation = (props) => {
   const badgeStyles = {
     color: '#333',
     fontWeight: 600,
@@ -14,24 +14,24 @@ const Salary = (props) => {
   return (
     <div style={{ marginTop: '10px' }}>
       <div style={badgeStyles}>
-        Salary: {`${developer.salary}/yr`}
+        Compensation: {`${developer.salary}/yr`}
       </div>
     </div>
   );
 };
 
-Salary.propTypes = {
+Compensation.propTypes = {
   developer: React.PropTypes.object,
 };
 
-const SalaryContainer = Relay.createContainer(Salary, {
+const CompensationContainer = Relay.createContainer(Compensation, {
   fragments: {
     developer: () => Relay.QL`
       fragment on Developer {
-        salary,
+        compensation,
       }
     `,
   },
 });
 
-export default SalaryContainer;
+export default CompensationContainer;
