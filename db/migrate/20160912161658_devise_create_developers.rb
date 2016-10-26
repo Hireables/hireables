@@ -17,7 +17,6 @@ class DeviseCreateDevelopers < ActiveRecord::Migration
       t.string :location, default: "", index: true
 
       # Preferences
-      t.string :compensation, index: true
       t.boolean :remote, default: false, index: true
       t.boolean :relocate, default: false, index: true
       t.boolean :hireable, default: false, index: true
@@ -28,17 +27,18 @@ class DeviseCreateDevelopers < ActiveRecord::Migration
       t.boolean :full_time, default: false, index: true
       t.boolean :contract, default: false, index: true
       t.boolean :freelance, default: false, index: true
+      t.boolean :internship, default: false, index: true
+      t.boolean :startup, default: false, index: true
 
       # Level
       t.boolean :cto, default: false, index: true
       t.boolean :lead, default: false, index: true
       t.boolean :senior, default: false, index: true
+      t.boolean :mid, default: false, index: true
       t.boolean :junior, default: false, index: true
+      t.boolean :student, default: false, index: true
 
-      # Subscriptions
-      t.boolean :subscribed, default: false, index: true
-      t.integer :subscriptions, default: 0
-
+      # Api
       t.string :access_token, null: false, default: ""
       t.string :encrypted_password, null: false, default: ""
 

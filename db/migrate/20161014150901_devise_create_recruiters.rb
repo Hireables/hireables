@@ -12,6 +12,9 @@ class DeviseCreateRecruiters < ActiveRecord::Migration[5.0]
       t.string :company,              null: false, default: ""
       t.string :website,              null: false, default: ""
       t.jsonb :preferences, null: false, default: '{}'
+
+      # Api access
+      t.string :access_token, null: false, default: ""
       t.string :encrypted_password, null: false, default: ""
 
       ## Recoverable

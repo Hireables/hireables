@@ -27,7 +27,6 @@ ActiveRecord::Schema.define(version: 20161014150901) do
     t.string   "linkedin",           default: ""
     t.string   "platforms",          default: [],                 array: true
     t.string   "location",           default: ""
-    t.string   "compensation"
     t.boolean  "remote",             default: false
     t.boolean  "relocate",           default: false
     t.boolean  "hireable",           default: false
@@ -36,12 +35,14 @@ ActiveRecord::Schema.define(version: 20161014150901) do
     t.boolean  "full_time",          default: false
     t.boolean  "contract",           default: false
     t.boolean  "freelance",          default: false
+    t.boolean  "internship",         default: false
+    t.boolean  "startup",            default: false
     t.boolean  "cto",                default: false
     t.boolean  "lead",               default: false
     t.boolean  "senior",             default: false
+    t.boolean  "mid",                default: false
     t.boolean  "junior",             default: false
-    t.boolean  "subscribed",         default: false
-    t.integer  "subscriptions",      default: 0
+    t.boolean  "student",            default: false
     t.string   "access_token",       default: "",    null: false
     t.string   "encrypted_password", default: "",    null: false
     t.jsonb    "data",               default: "{}",  null: false
@@ -52,7 +53,6 @@ ActiveRecord::Schema.define(version: 20161014150901) do
     t.inet     "last_sign_in_ip"
     t.datetime "created_at",                         null: false
     t.datetime "updated_at",                         null: false
-    t.index ["compensation"], name: "index_developers_on_compensation", using: :btree
     t.index ["contract"], name: "index_developers_on_contract", using: :btree
     t.index ["cto"], name: "index_developers_on_cto", using: :btree
     t.index ["data"], name: "index_developers_on_data", using: :gin
@@ -60,17 +60,20 @@ ActiveRecord::Schema.define(version: 20161014150901) do
     t.index ["freelance"], name: "index_developers_on_freelance", using: :btree
     t.index ["full_time"], name: "index_developers_on_full_time", using: :btree
     t.index ["hireable"], name: "index_developers_on_hireable", using: :btree
+    t.index ["internship"], name: "index_developers_on_internship", using: :btree
     t.index ["junior"], name: "index_developers_on_junior", using: :btree
     t.index ["lead"], name: "index_developers_on_lead", using: :btree
     t.index ["location"], name: "index_developers_on_location", using: :btree
     t.index ["login"], name: "index_developers_on_login", unique: true, using: :btree
+    t.index ["mid"], name: "index_developers_on_mid", using: :btree
     t.index ["part_time"], name: "index_developers_on_part_time", using: :btree
     t.index ["platforms"], name: "index_developers_on_platforms", using: :gin
     t.index ["premium"], name: "index_developers_on_premium", using: :btree
     t.index ["relocate"], name: "index_developers_on_relocate", using: :btree
     t.index ["remote"], name: "index_developers_on_remote", using: :btree
     t.index ["senior"], name: "index_developers_on_senior", using: :btree
-    t.index ["subscribed"], name: "index_developers_on_subscribed", using: :btree
+    t.index ["startup"], name: "index_developers_on_startup", using: :btree
+    t.index ["student"], name: "index_developers_on_student", using: :btree
     t.index ["uid"], name: "index_developers_on_uid", unique: true, using: :btree
   end
 
@@ -84,6 +87,7 @@ ActiveRecord::Schema.define(version: 20161014150901) do
     t.string   "company",                default: "",    null: false
     t.string   "website",                default: "",    null: false
     t.jsonb    "preferences",            default: "{}",  null: false
+    t.string   "access_token",           default: "",    null: false
     t.string   "encrypted_password",     default: "",    null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
