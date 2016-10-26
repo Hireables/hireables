@@ -9,7 +9,10 @@ RecruiterType = GraphQL::ObjectType.define do
   field :email, types.String, 'The email of this recruiter'
   field :bio, types.String, 'The bio of this recruiter'
   field :website, types.String, 'The bio of this recruiter'
-  field :avatar_url, types.String, 'The avatar of this recruiter'
+
   field :company, types.String, 'The company of this recruiter'
   field :location, types.String, 'The location of this recruiter'
+  field :avatar_url, types.String, 'The avatar of this recruiter' do
+    resolve -> (obj, _args, ctx) { obj.avatar_url(:thumb) }
+  end
 end
