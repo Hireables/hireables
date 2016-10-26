@@ -466,6 +466,20 @@
               "deprecationReason": null
             },
             {
+              "name": "compensation",
+              "description": "Compensation required",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "email",
               "description": "The email of this developer",
               "args": [
@@ -696,20 +710,6 @@
               "type": {
                 "kind": "SCALAR",
                 "name": "Boolean",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "salary",
-              "description": "Salary desired",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "SCALAR",
-                "name": "Int",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -1219,7 +1219,7 @@
               "defaultValue": null
             },
             {
-              "name": "salary",
+              "name": "compensation",
               "description": null,
               "type": {
                 "kind": "SCALAR",

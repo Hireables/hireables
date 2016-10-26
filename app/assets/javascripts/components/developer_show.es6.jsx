@@ -89,7 +89,7 @@ const DeveloperShow = (props) => {
               <DeveloperLinks developer={developer} />
               <Languages developer={developer} />
               <JobTypes developer={developer} />
-              <Salary developer={developer} />
+              <Compensation developer={developer} />
               <DeveloperMeta developer={developer} />
             </div>
           </div>
@@ -118,7 +118,7 @@ const DeveloperShowContainer = Relay.createContainer(DeveloperShow, {
         ${DeveloperMeta.getFragment('developer')},
         ${DeveloperLinks.getFragment('developer')},
         ${DeveloperBio.getFragment('developer')},
-        ${Salary.getFragment('developer')},
+        ${Compensation.getFragment('developer')},
       }
     `,
   },
