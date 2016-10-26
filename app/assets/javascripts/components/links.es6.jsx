@@ -8,7 +8,7 @@ import IconButton from 'material-ui/IconButton';
 import FontIcon from 'material-ui/FontIcon';
 import SvgIcon from 'material-ui/SvgIcon';
 
-class DeveloperLinks extends Component {
+class Links extends Component {
   static openUrl(url) {
     const clicksCookieName = `${Cookies.get('visitor')}-clicks`;
     const clicksValue = parseInt(Cookies.get(clicksCookieName), 0) + 1;
@@ -195,12 +195,12 @@ class DeveloperLinks extends Component {
   }
 }
 
-DeveloperLinks.propTypes = {
+Links.propTypes = {
   developer: React.PropTypes.object,
 };
 
-const DeveloperLinksContainer = Relay.createContainer(
-  DeveloperLinks, {
+const LinksContainer = Relay.createContainer(
+  Links, {
     fragments: {
       developer: () => Relay.QL`
         fragment on Developer {
@@ -221,4 +221,4 @@ const DeveloperLinksContainer = Relay.createContainer(
   }
 );
 
-export default DeveloperLinksContainer;
+export default LinksContainer;

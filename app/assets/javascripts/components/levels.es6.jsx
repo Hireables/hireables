@@ -1,7 +1,7 @@
 import React from 'react';
 import Relay from 'react-relay';
 
-const JobTypes = (props) => {
+const Levels = (props) => {
   const badgeStyles = {
     border: '2px solid #000',
     borderRadius: 5,
@@ -10,8 +10,8 @@ const JobTypes = (props) => {
     margin: '0.5em',
     textDecoration: 'none',
     color: '#333',
-    minWidth: '70px',
     textAlign: 'center',
+    minWidth: '70px',
     textTransform: 'uppercase',
     fontWeight: 600,
     letterSpacing: '0.02em',
@@ -23,81 +23,81 @@ const JobTypes = (props) => {
 
   return (
     <div style={{ marginTop: '10px' }}>
-      {developer.full_time ?
+      {developer.cto ?
         <span
           key={Math.random()}
           style={badgeStyles}
         >
-          Full-Time
+          CTO
         </span> : ''
       }
 
-      {developer.part_time ?
+      {developer.lead ?
         <span
           key={Math.random()}
           style={badgeStyles}
         >
-          Part-Time
+          Lead
         </span> : ''
       }
 
-      {developer.contract ?
+      {developer.senior ?
         <span
           key={Math.random()}
           style={badgeStyles}
         >
-          Contract
+          Senior
         </span> : ''
       }
 
 
-      {developer.freelance ?
+      {developer.mid ?
         <span
           key={Math.random()}
           style={badgeStyles}
         >
-          Freelance
+          Mid-Level
         </span> : ''
       }
 
-      {developer.startup ?
+      {developer.junior ?
         <span
           key={Math.random()}
           style={badgeStyles}
         >
-          Startup
+          Junior
         </span> : ''
       }
 
-      {developer.internship ?
+      {developer.student ?
         <span
           key={Math.random()}
           style={badgeStyles}
         >
-          Internship
+          Student
         </span> : ''
       }
     </div>
   );
 };
 
-JobTypes.propTypes = {
+Levels.propTypes = {
   developer: React.PropTypes.object,
 };
 
-const JobTypesContainer = Relay.createContainer(JobTypes, {
+const LevelsContainer = Relay.createContainer(Levels, {
   fragments: {
     developer: () => Relay.QL`
       fragment on Developer {
-        full_time,
-        part_time,
-        contract,
-        freelance,
-        startup,
-        internship,
+        cto,
+        lead,
+        senior,
+        mid,
+        junior,
+        student,
       }
     `,
   },
 });
 
-export default JobTypesContainer;
+export default LevelsContainer;

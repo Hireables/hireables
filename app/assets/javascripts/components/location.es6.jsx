@@ -1,7 +1,7 @@
 import React from 'react';
 import Relay from 'react-relay';
 
-const DeveloperLocation = props => (
+const Location = props => (
   <div className="location" style={{ marginTop: '5px' }}>
     <span style={{ color: '#333', fontWeight: '400' }}>
       <small>{props.developer.location}</small>
@@ -9,12 +9,12 @@ const DeveloperLocation = props => (
   </div>
 );
 
-DeveloperLocation.propTypes = {
+Location.propTypes = {
   developer: React.PropTypes.object,
 };
 
-const DeveloperLocationContainer = Relay.createContainer(
-  DeveloperLocation, {
+const LocationContainer = Relay.createContainer(
+  Location, {
     fragments: {
       developer: () => Relay.QL`
         fragment on Developer {
@@ -25,4 +25,4 @@ const DeveloperLocationContainer = Relay.createContainer(
   }
 );
 
-export default DeveloperLocationContainer;
+export default LocationContainer;

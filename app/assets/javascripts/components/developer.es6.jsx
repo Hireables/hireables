@@ -4,12 +4,24 @@ import React from 'react';
 import Relay from 'react-relay';
 import { ListItem } from 'material-ui/List';
 import Avatar from 'material-ui/Avatar';
-import DeveloperMeta from './developer_meta.es6';
-import DeveloperLinks from './developer_links.es6';
-import DeveloperName from './developer_name.es6';
+import IconButton from 'material-ui/IconButton';
+import ActionGrade from 'material-ui/svg-icons/action/grade';
+import Meta from './meta.es6';
+import Links from './links.es6';
+import Name from './name.es6';
 import JobTypes from './job_types.es6';
-import DeveloperLocation from './developer_location.es6';
-import DeveloperBio from './developer_bio.es6';
+import Location from './location.es6';
+import Bio from './bio.es6';
+
+const iconStyles = {
+  position: 'absolute',
+  padding: 0,
+  left: 'calc(104px / 3)',
+  textAlign: 'center',
+  width: 24,
+  height: 24,
+  top: 85,
+};
 
 const paragraphStyles = {
   height: 'auto',
@@ -55,19 +67,29 @@ const Developer = props => (
         >
           {props.developer.hireable ? <div style={badgeStyles}> H </div> : ''}
           <Avatar src={props.developer.avatar_url} size={80} />
+          {props.developer.premium ?
+            <IconButton
+              tooltip="Premium profile"
+              tooltipStyles={{ top: '15px', backgroundColor: '#000' }}
+              tooltipPosition="bottom-center"
+              style={iconStyles}
+            >
+              <ActionGrade />
+            </IconButton> : ''
+          }
         </a>
       }
       disabled
       style={paragraphStyles}
       secondaryTextLines={1}
     >
-      <DeveloperName developer={props.developer} />
-      <DeveloperLocation developer={props.developer} />
+      <Name developer={props.developer} />
+      <Location developer={props.developer} />
       <div style={{ position: 'absolute', right: 0, top: '10px' }}>
-        <DeveloperMeta developer={props.developer} />
+        <Meta developer={props.developer} />
       </div>
-      <DeveloperBio developer={props.developer} />
-      <DeveloperLinks developer={props.developer} />
+      <Bio developer={props.developer} />
+      <Links developer={props.developer} />
       <JobTypes developer={props.developer} />
     </ListItem>
   </div>
@@ -86,12 +108,12 @@ const DeveloperContainer = Relay.createContainer(Developer, {
         hireable,
         login,
         premium,
-        ${DeveloperName.getFragment('developer')},
-        ${DeveloperLinks.getFragment('developer')},
+        ${Name.getFragment('developer')},
+        ${Links.getFragment('developer')},
         ${JobTypes.getFragment('developer')},
-        ${DeveloperMeta.getFragment('developer')},
-        ${DeveloperLocation.getFragment('developer')},
-        ${DeveloperBio.getFragment('developer')},
+        ${Meta.getFragment('developer')},
+        ${Location.getFragment('developer')},
+        ${Bio.getFragment('developer')},
       }
     `,
   },

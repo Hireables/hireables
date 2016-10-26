@@ -6,6 +6,7 @@ import Formsy from 'formsy-react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
 import Chip from 'material-ui/Chip';
+import Snackbar from 'material-ui/Snackbar';
 import _ from 'underscore';
 import {
   FormsyCheckbox,
@@ -16,8 +17,8 @@ import UpdateDeveloper from '../mutations/developer/updateDeveloper.es6';
 
 const helpStyles = {
   fontSize: '12px',
-  color: 'rgba(0, 0, 0, 0.298039)',
-  margin: '10px 0',
+  color: '#333',
+  fontWeight: '500',
   display: 'block',
   userSelect: 'none',
 };
@@ -37,6 +38,9 @@ const styles = {
 
   checkbox: {
     marginBottom: 16,
+    float: 'left',
+    minWidth: '200px',
+    width: 'auto',
   },
 
   input: {
@@ -57,25 +61,23 @@ class DeveloperEdit extends Component {
   static onKeyPress(event) {
     if (event.keyCode === 13) {
       event.preventDefault();
+      return false;
     }
+    return true;
   }
 
   constructor(props) {
     super(props);
     this.renderChip = this.renderChip.bind(this);
     this.handleRequestDelete = this.handleRequestDelete.bind(this);
+    this.handleRequestClose = this.handleRequestClose.bind(this);
     this.clearValidationErrors = this.clearValidationErrors.bind(this);
     this.submitForm = this.submitForm.bind(this);
     this.addNewPlatform = this.addNewPlatform.bind(this);
-    this.addNewJobType = this.addNewJobType.bind(this);
     this.enableButton = this.enableButton.bind(this);
     this.disableButton = this.disableButton.bind(this);
 
     const platforms = props.developer.platforms.map((elem, index) => (
-      { key: index, label: elem }
-    ));
-
-    const jobTypes = props.developer.job_types.map((elem, index) => (
       { key: index, label: elem }
     ));
 
@@ -84,8 +86,8 @@ class DeveloperEdit extends Component {
       value: 1,
       loaded: false,
       canSubmit: false,
+      notification: '',
       platforms,
-      jobTypes,
       validationErrors: {},
     };
   }
@@ -96,12 +98,21 @@ class DeveloperEdit extends Component {
       elem.label
     ));
 
-    const jobTypes = this.state.jobTypes.map(elem => (
-      elem.label
-    ));
-
     const onFailure = (transaction) => {
       const error = transaction.getError() || new Error('Mutation failed.');
+      let errorMessage;
+
+      if (error.source.errors && Array.isArray(error.source.errors)) {
+        errorMessage = error.source.errors[0].message;
+      } else {
+        errorMessage = error.message;
+      }
+
+      this.setState({
+        notification: errorMessage,
+      }, () => {
+        this.setState({ open: true });
+      });
     };
 
     const onSuccess = () => {
@@ -110,7 +121,6 @@ class DeveloperEdit extends Component {
 
     const newModel = _.pick(Object.assign(this.formNode.getModel(), {
       platforms: platforms.toString(),
-      job_types: jobTypes.toString(),
     }), _.identity);
 
     Relay.Store.commitUpdate(new UpdateDeveloper({
@@ -176,7 +186,7 @@ class DeveloperEdit extends Component {
 
       const platforms = this.state.platforms.concat([{
         key: this.state.platforms.length + 1,
-        label: newPlatform,
+        label: newPlatform.toLowerCase(),
       }]);
 
       this.setState({ platforms }, () => {
@@ -188,56 +198,12 @@ class DeveloperEdit extends Component {
     }
   }
 
-  addNewJobType(event) {
-    if (event.keyCode === 13 || event.keyCode === 188 || event.keyCode === 32) {
-      const newJobType = event.target.value.trim();
-      if (newJobType === '') {
-        this.setState({
-          validationErrors: {
-            job_types: 'Empty job type',
-          },
-        });
-
-        setTimeout(() => {
-          this.clearValidationErrors();
-        }, 3000);
-
-        return;
-      }
-
-      const isDuplicate = this.state.jobTypes.some(jobType => (
-        jobType.label === newJobType
-      ));
-
-      if (isDuplicate) {
-        this.jobTypeNode.state.value = '';
-
-        this.setState({
-          validationErrors: {
-            job_types: 'Duplicate job type',
-          },
-        });
-
-        setTimeout(() => {
-          this.clearValidationErrors();
-        }, 3000);
-
-        return;
-      }
-
-      const jobTypes = this.state.jobTypes.concat([{
-        key: this.state.jobTypes.length + 1,
-        label: newJobType,
-      }]);
-
-      this.setState({ jobTypes }, () => {
-        this.jobTypeNode.state.value = '';
-        this.setState({
-          canSubmit: true,
-        });
-      });
-    }
+  handleRequestClose() {
+    this.setState({
+      open: false,
+    });
   }
+
 
   handleRequestDelete(key) {
     this.platforms = this.state.platforms;
@@ -248,32 +214,11 @@ class DeveloperEdit extends Component {
     this.setState({ platforms: this.platforms });
   }
 
-  handleRequestDeleteJobType(key) {
-    this.jobTypes = this.state.jobTypes;
-    const jobTypeToDelete = this.jobTypes
-    .map(jobType => jobType.key)
-    .indexOf(key);
-    this.jobTypes.splice(jobTypeToDelete, 1);
-    this.setState({ jobTypes: this.jobTypes });
-  }
-
   renderChip(data) {
     return (
       <Chip
         key={data.key}
         onRequestDelete={() => this.handleRequestDelete(data.key)}
-        style={styles.chip}
-      >
-        {data.label}
-      </Chip>
-    );
-  }
-
-  renderJobTypeChip(data) {
-    return (
-      <Chip
-        key={data.key}
-        onRequestDelete={() => this.handleRequestDeleteJobType(data.key)}
         style={styles.chip}
       >
         {data.label}
@@ -289,7 +234,6 @@ class DeveloperEdit extends Component {
         <div className="developer-edit card">
           <Formsy.Form
             onValid={this.enableButton}
-            onKeyDown={DeveloperEdit.onKeyPress}
             autoComplete="off"
             ref={node => (this.formNode = node)}
             onInvalid={this.disableButton}
@@ -303,20 +247,31 @@ class DeveloperEdit extends Component {
                 autoFocus
                 name="bio"
                 fullWidth
+                multiLine
                 defaultValue={developer.bio}
                 floatingLabelText="A brief into"
                 floatingLabelFixed
+                updateImmediately
+                validations={{
+                  minLength: 50,
+                  maxLength: 140,
+                }}
+                validationErrors={{
+                  minLength: 'Bio should be minimum 50 characters',
+                  maxLength: 'Bio should be minimum 140 characters',
+                }}
               />
             </div>
 
             <div className="search-box location">
               <FormsyText
                 id="text-field-default"
-                placeholder="(ex: London)"
+                placeholder="(ex: London, Toronto, Oslo)"
                 name="location"
                 fullWidth
+                onKeyDown={DeveloperEdit.onKeyPress}
                 defaultValue={developer.location}
-                floatingLabelText="Where you based?"
+                floatingLabelText="Where are you based?"
                 floatingLabelFixed
               />
             </div>
@@ -327,6 +282,7 @@ class DeveloperEdit extends Component {
                 placeholder="(ex: https://linkedin.com)"
                 name="linkedin"
                 fullWidth
+                onKeyDown={DeveloperEdit.onKeyPress}
                 defaultValue={developer.linkedin}
                 floatingLabelText="Linkedin"
                 floatingLabelFixed
@@ -357,30 +313,44 @@ class DeveloperEdit extends Component {
               </div>
             </div>
 
-            <div className="header-separator top-margin">Preferences</div>
-            <div className="search-box preferences" style={styles.preferences}>
+            <div className="header-separator top-margin">Availability</div>
+            <br />
+            <div className="hireable">
               <FormsyCheckbox
-                label="Available"
+                label="Hireable *"
                 style={styles.checkbox}
                 name="hireable"
                 defaultChecked={developer.hireable}
               />
+              <div className="clearfix" />
+              <span style={helpStyles}>
+                * Recruiters will be able see your email and contact you
+              </span>
+            </div>
 
-              <FormsyCheckbox
-                label="Willing to relocate?"
-                style={styles.checkbox}
-                name="relocate"
-                defaultChecked={developer.relocate}
-              />
+            <div className="clearfix" />
+            <div className="header-separator top-margin">Preferences</div>
+            <div className="search-box preferences" style={styles.preferences}>
+              <div className="work">
+                <FormsyCheckbox
+                  label="Relocate"
+                  style={styles.checkbox}
+                  name="relocate"
+                  defaultChecked={developer.relocate}
+                />
 
-              <FormsyCheckbox
-                label="Prefer Remote"
-                style={styles.checkbox}
-                name="remote"
-                defaultChecked={developer.remote}
-              />
+                <FormsyCheckbox
+                  label="Remote"
+                  style={styles.checkbox}
+                  name="remote"
+                  defaultChecked={developer.remote}
+                />
+              </div>
 
-              <div className="search-box job_types">
+              <div className="clearfix" />
+              <div className="search-box job">
+                <div className="header-separator">Job Type</div>
+                <br />
                 <FormsyCheckbox
                   label="Part-Time"
                   style={styles.checkbox}
@@ -415,62 +385,64 @@ class DeveloperEdit extends Component {
                   name="internship"
                   defaultChecked={developer.internship}
                 />
+
+                <FormsyCheckbox
+                  label="Startup"
+                  style={styles.checkbox}
+                  name="startup"
+                  defaultChecked={developer.startup}
+                />
               </div>
 
-              <FormsyText
-                id="text-field-default"
-                placeholder="in USD($)"
-                name="compensation"
-                type="number"
-                floatingLabelText="Expected Compensation per year"
-                floatingLabelFixed
-                updateImmediately
-                defaultValue={developer.compensation}
-                validations={{
-                  isNumeric: true,
-                  maxLength: 10,
-                }}
-                validationErrors={{
-                  isNumeric: 'Should be a valid number',
-                  maxLength: 'Maximum 10 figure',
-                }}
-              />
+              <div className="clearfix" />
+              <div className="search-box level">
+                <div className="header-separator">Level</div>
+                <br />
+                <FormsyCheckbox
+                  label="CTO"
+                  style={styles.checkbox}
+                  name="cto"
+                  defaultChecked={developer.cto}
+                />
+
+                <FormsyCheckbox
+                  label="Lead"
+                  style={styles.checkbox}
+                  name="lead"
+                  defaultChecked={developer.lead}
+                />
+
+                <FormsyCheckbox
+                  label="Senior"
+                  style={styles.checkbox}
+                  name="senior"
+                  defaultChecked={developer.senior}
+                />
+
+                <FormsyCheckbox
+                  label="Mid-level"
+                  style={styles.checkbox}
+                  name="mid"
+                  defaultChecked={developer.mid}
+                />
+
+                <FormsyCheckbox
+                  label="Junior"
+                  style={styles.checkbox}
+                  name="junior"
+                  defaultChecked={developer.junior}
+                />
+
+                <FormsyCheckbox
+                  label="Student"
+                  style={styles.checkbox}
+                  name="student"
+                  defaultChecked={developer.student}
+                />
+              </div>
             </div>
 
-            <div className="header-separator top-margin">
-              Subscriptions
-            </div>
-            <div className="search-box subscribe" style={styles.preferences}>
-              <FormsyCheckbox
-                label="Looking for a new job? *"
-                style={styles.checkbox}
-                name="subscribed"
-                defaultChecked={developer.subscribed}
-              />
-              <span style={helpStyles}>
-                * Recruiters will be able to contact you
-              </span>
-
-              <FormsyText
-                id="text-field-default"
-                placeholder="5"
-                name="subscriptions"
-                floatingLabelText="Recruiter emails per week"
-                floatingLabelFixed
-                type="number"
-                updateImmediately
-                defaultValue={developer.subscriptions}
-                validations={{
-                  isNumeric: true,
-                  maxLength: 2,
-                }}
-                validationErrors={{
-                  isNumeric: 'Should be a valid number',
-                  maxLength: 'Maximum 2 digits',
-                }}
-              />
-            </div>
-
+            <div className="clearfix" />
             <div className="actions">
               <RaisedButton
                 label="Update"
@@ -479,6 +451,16 @@ class DeveloperEdit extends Component {
                 onClick={this.submitForm}
                 disabled={!this.state.canSubmit}
                 style={styles.button}
+              />
+            </div>
+
+            <div className="notifications">
+              <Snackbar
+                open={this.state.open}
+                ref={node => (this.notification = node)}
+                message={this.state.notification}
+                autoHideDuration={5000}
+                onRequestClose={this.handleRequestClose}
               />
             </div>
           </Formsy.Form>
@@ -498,17 +480,30 @@ const DeveloperEditContainer = Relay.createContainer(DeveloperEdit, {
       fragment on Developer {
         id,
         name,
-        remote,
-        hireable,
         bio,
         linkedin,
-        subscribed,
-        relocate,
-        platforms,
-        job_types,
-        compensation,
-        subscriptions,
         location,
+
+        platforms,
+
+        hireable,
+
+        remote,
+        relocate,
+
+        part_time,
+        full_time,
+        contract,
+        freelance,
+        internship,
+        startup,
+
+        cto,
+        lead,
+        senior,
+        mid,
+        junior,
+        student,
       }
     `,
   },

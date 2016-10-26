@@ -7,12 +7,13 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
 import Languages from './languages.es6';
 import muiTheme from './theme.es6';
-import DeveloperLinks from './developer_links.es6';
-import DeveloperMeta from './developer_meta.es6';
-import DeveloperBio from './developer_bio.es6';
 import JobTypes from './job_types.es6';
-import Compensation from './compensation.es6';
-import DeveloperLocation from './developer_location.es6';
+import Levels from './levels.es6';
+import Meta from './meta.es6';
+import Links from './links.es6';
+import Name from './name.es6';
+import Location from './location.es6';
+import Bio from './bio.es6';
 
 const badgeStyles = {
   fontSize: 14,
@@ -26,7 +27,7 @@ const badgeStyles = {
   fontWeight: 600,
   borderRadius: '100%',
   padding: 0,
-  left: 75,
+  left: 115,
   textAlign: 'center',
   top: 6,
   zIndex: 10,
@@ -38,13 +39,7 @@ const DeveloperShow = (props) => {
   const wrapperStyle = {
     paddingTop: '60px',
     paddingBottom: '60px',
-    textAlign: 'center',
-  };
-
-  const linkStyles = {
-    textStyle: 'none',
-    textDecoration: 'none',
-    color: '#333',
+    display: 'flex',
   };
 
   const { developer } = props;
@@ -56,41 +51,43 @@ const DeveloperShow = (props) => {
           <div className="container">
             <div style={wrapperStyle}>
               <RaisedButton
-                label="Update profile"
+                label="Edit profile"
                 secondary
                 className="edit-link"
                 href={Routes.edit_developer_path(developer.login)}
               />
 
               <div
+                className="image"
                 style={{
                   position: 'relative',
-                  maxWidth: 100,
-                  margin: '0 auto',
+                  minWidth: 200,
                 }}
               >
                 {developer.hireable ? <div style={badgeStyles}> H </div> : ''}
                 <Avatar
                   src={developer.avatar_url}
-                  size={100}
-                  className="avatar"
+                  size={150}
                 />
+
+                <Meta developer={developer} />
               </div>
 
-              <div className="basic-info">
-                <h1 className="name no-margin">
-                  <a href={developer.html_url} style={linkStyles}>
-                    {developer.name}
-                  </a>
-                </h1>
+              <div
+                className="profile"
+                style={{ marginLeft: 50 }}
+              >
+                <Name developer={props.developer} />
+                <Location developer={props.developer} />
+                <Bio developer={developer} />
+                <Links developer={developer} />
+                <div className="header-separator top-margin">Platforms</div>
+                <Languages developer={developer} />
+                <div className="header-separator top-margin">Job Types</div>
+                <JobTypes developer={developer} />
+                <div className="header-separator top-margin">Levels</div>
+                <Levels developer={developer} />
               </div>
-              <DeveloperLocation developer={props.developer} />
-              <DeveloperBio developer={developer} />
-              <DeveloperLinks developer={developer} />
-              <Languages developer={developer} />
-              <JobTypes developer={developer} />
-              <Compensation developer={developer} />
-              <DeveloperMeta developer={developer} />
             </div>
           </div>
         </header>
@@ -108,17 +105,17 @@ const DeveloperShowContainer = Relay.createContainer(DeveloperShow, {
     developer: () => Relay.QL`
       fragment on Developer {
         id,
-        name,
         avatar_url,
         login,
         hireable,
-        ${DeveloperLocation.getFragment('developer')}
+        ${Name.getFragment('developer')}
+        ${Location.getFragment('developer')}
         ${Languages.getFragment('developer')},
         ${JobTypes.getFragment('developer')},
-        ${DeveloperMeta.getFragment('developer')},
-        ${DeveloperLinks.getFragment('developer')},
-        ${DeveloperBio.getFragment('developer')},
-        ${Compensation.getFragment('developer')},
+        ${Levels.getFragment('developer')},
+        ${Meta.getFragment('developer')},
+        ${Links.getFragment('developer')},
+        ${Bio.getFragment('developer')},
       }
     `,
   },

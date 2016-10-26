@@ -57,7 +57,9 @@ class NavBar extends Component {
     const logoStyles = {
       color: '#fff',
       padding: 0,
-      fontSize: '20px',
+      fontWeight: '400',
+      fontFamily: 'Roboto mono, sans-serif',
+      fontSize: '22px',
     };
 
     const betaStyles = {
@@ -88,6 +90,15 @@ class NavBar extends Component {
       color: 'white',
     };
 
+    const { current_user, authenticated } = this.props;
+    const currentUserProfilePath = current_user.type === 'recruiter' ?
+      Routes.recruiter_path(current_user.login) : Routes.developer_root_path();
+
+    const currentUserLogoutPath = current_user.type === 'recruiter' ?
+      Routes.destroy_recruiter_session_path() : Routes.destroy_developer_session_path();
+
+    const active = currentUserProfilePath === window.location.pathname ? 'active' : '';
+
     return (
       <MuiThemeProvider>
         <div className="nav">
@@ -96,13 +107,13 @@ class NavBar extends Component {
               <ToolbarGroup key={0} style={toolbarGroupStyles}>
                 <a
                   data-turbolinks="false"
-                  href="/"
+                  href={Routes.root_path()}
                   className="link bold"
                   style={toolbarGroupStyles.link}
                 >
-                  <ToolbarTitle text="Hireables" style={logoStyles} />
+                  <ToolbarTitle text="hireables" style={logoStyles} />
                 </a>
-                <span style={betaStyles}>BETA</span>
+                <span style={betaStyles}>beta</span>
               </ToolbarGroup>
 
               <ToolbarGroup key={1}>
@@ -113,27 +124,27 @@ class NavBar extends Component {
               </ToolbarGroup>
 
               <ToolbarGroup key={2}>
-                {this.props.authenticated ?
+                {authenticated ?
                   <div className="logged in">
                     <Avatar
-                      src={this.props.developer.avatar_url}
+                      src={current_user.avatar_url}
                       style={userImageStyles}
                     />
                     <a
                       style={toolbarGroupStyles.link}
-                      href={Routes.developer_root_path()}
+                      href={currentUserProfilePath}
                       className={
-                        `profile--link ${Routes.developer_root_path() === window.location.pathname ? 'active' : ''}`
+                        `profile--link ${active}`
                       }
                     >
                       <ToolbarTitle
-                        text={this.props.developer.name}
+                        text={current_user.name}
                         style={toolbarTitleStyles}
                       />
                     </a>
                     <a
                       style={toolbarGroupStyles.link}
-                      href={Routes.destroy_developer_session_path()}
+                      href={currentUserLogoutPath}
                       className="logout--link"
                       data-method="delete"
                     >
@@ -181,7 +192,7 @@ class NavBar extends Component {
 }
 
 NavBar.propTypes = {
-  developer: React.PropTypes.object,
+  current_user: React.PropTypes.object,
   authenticated: React.PropTypes.bool,
 };
 

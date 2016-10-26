@@ -103,7 +103,7 @@ class Home extends Component {
             <div className="hero-section">
               <div className="hero-content">
                 <div className="recruiter">
-                  <Card className="hero-card" style={{ backgroundColor: '#F2F2F2' }}>
+                  <Card className="hero-card">
                     <CardTitle
                       title="For Recruiters"
                       style={{ padding: '16px 16px 8px' }}
@@ -112,7 +112,6 @@ class Home extends Component {
                         borderBottom: '1px solid #6F879A',
                       }}
                     />
-
                     <CardText style={{ padding: '8px 16px', fontSize: '16px' }}>
                       <p style={{ marginTop: '0px', fontWeight: '500' }}>
                         Search hireable developers from around the world.
@@ -120,15 +119,15 @@ class Home extends Component {
                       <ul style={{ padding: 0, marginBottom: '0px', listStyle: 'none' }}>
                         <li style={listStyles}>
                           <ActionCheckCircle style={iconStyles} color="#66bb6a" />
-                          Signup with email to create a profile.
+                          Signup with email.
                         </li>
                         <li style={listStyles}>
                           <ActionCheckCircle style={iconStyles} color="#66bb6a" />
-                          Search Github and premium developers.
+                          Search Github and Premium profiles from one place.
                         </li>
                         <li style={listStyles}>
                           <ActionCheckCircle style={iconStyles} color="#66bb6a" />
-                          See salary and job preferences upfront.
+                          See experiences and job preferences upfront.
                         </li>
                         <li style={listStyles}>
                           <ActionCheckCircle style={iconStyles} color="#66bb6a" />

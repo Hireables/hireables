@@ -10,7 +10,7 @@ const bioStyles = {
   fontWeight: '400',
 };
 
-const DeveloperBio = (props) => {
+const Bio = (props) => {
   const bio = createDOMPurify.sanitize(
     props.developer.bio,
     { ALLOWED_TAGS: ['b', 'i'] }
@@ -29,12 +29,12 @@ const DeveloperBio = (props) => {
   );
 };
 
-DeveloperBio.propTypes = {
+Bio.propTypes = {
   developer: React.PropTypes.object,
 };
 
-const DeveloperBioContainer = Relay.createContainer(
-  DeveloperBio, {
+const BioContainer = Relay.createContainer(
+  Bio, {
     fragments: {
       developer: () => Relay.QL`
         fragment on Developer {
@@ -45,4 +45,4 @@ const DeveloperBioContainer = Relay.createContainer(
   }
 );
 
-export default DeveloperBioContainer;
+export default BioContainer;
