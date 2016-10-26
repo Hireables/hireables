@@ -10,7 +10,8 @@ module Graphql
           current_developer: set_current_developer,
           current_recruiter: set_current_recruiter,
           developer_signed_in: developer_signed_in?,
-          recruiter_signed_in: recruiter_signed_in?
+          recruiter_signed_in: recruiter_signed_in?,
+          file: params[:file]
         }
       )
       render json: result
