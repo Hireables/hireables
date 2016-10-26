@@ -6,7 +6,9 @@ class RecruiterResolver
   end
 
   def initialize(_developer, args, _ctx)
-    @params = args.instance_variable_get(:@argument_values).to_h
+    @params = HashWithIndifferentAccess.new(
+      args.instance_variable_get(:@original_values).to_h
+    )
   end
 
   def call
