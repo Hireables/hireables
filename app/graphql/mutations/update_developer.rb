@@ -13,7 +13,7 @@ UpdateDeveloper = GraphQL::Relay::Mutation.define do
   input_field :subscriptions, types.String
   input_field :job_types, types[types.String]
   input_field :remote, types.Boolean
-  input_field :salary, types.String
+  input_field :compensation, types.String
   input_field :relocate, types.Boolean
   input_field :subscribed, types.Boolean
 

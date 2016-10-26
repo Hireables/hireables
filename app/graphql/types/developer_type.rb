@@ -48,9 +48,9 @@ DeveloperType = GraphQL::ObjectType.define do
     resolve(DeveloperCustomFieldResolver.new(:subscribed, :boolean))
   end
 
-  field :salary, types.Int do
-    description 'Salary desired'
-    resolve(DeveloperCustomFieldResolver.new(:salary, :Integer))
+  field :compensation, types.String do
+    description 'Compensation required'
+    resolve(DeveloperCustomFieldResolver.new(:compensation, :String))
   end
 
   field :subscriptions, types.Int do
