@@ -30,12 +30,10 @@ class DeviseCreateDevelopers < ActiveRecord::Migration
       t.boolean :freelance, default: false, index: true
 
       # Level
-      t.boolean :founder, default: false, index: true
       t.boolean :cto, default: false, index: true
       t.boolean :lead, default: false, index: true
       t.boolean :senior, default: false, index: true
       t.boolean :junior, default: false, index: true
-      t.boolean :student, default: false, index: true
 
       # Subscriptions
       t.boolean :subscribed, default: false, index: true
