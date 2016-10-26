@@ -24,5 +24,7 @@ passenger*
 npm-debug.log*
 ProcfileDevelopment
 dump.rdb
+public/uploads/*
+public/assets/*
 dump*
 start
