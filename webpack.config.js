@@ -81,6 +81,10 @@ var defaults = {
         test: /\.scss$/,
         loaders: ['style', 'css', 'sass'],
       },
+      {
+        test: /\.sass$/,
+        loaders: ['style', 'css', 'sass'],
+      },
       { test: require.resolve('react'), loader: 'expose?React' },
       { test: require.resolve('jquery'), loader: 'expose?$!expose?jQuery' },
       { test: require.resolve('react-dom'), loader: 'expose?ReactDOM' },
