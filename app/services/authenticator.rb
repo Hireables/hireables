@@ -33,6 +33,7 @@ class Authenticator
       name: auth.info.name,
       uid: auth.uid,
       login: auth.info.nickname,
+      avatar: auth.extra.raw_info.avatar_url,
       location: auth.extra.raw_info.location,
       provider: auth.provider,
       hireable: (auth.extra.raw_info.hireable.nil? ? false : true),

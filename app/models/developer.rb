@@ -4,6 +4,7 @@ class Developer < ApplicationRecord
                  :followers, :public_gists, :public_repos
   after_commit :set_premium!, on: :update, if: :upgraded?
   after_commit :delete_cache!, :delete_languages_cache!, on: :update
+  mount_uploader :avatar, ImageUploader
 
   def upgraded?
     premium_fields.all? do |field|
