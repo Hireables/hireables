@@ -7,17 +7,17 @@ import { ListItem } from 'material-ui/List';
 import Avatar from 'material-ui/Avatar';
 import IconButton from 'material-ui/IconButton';
 import ActionGrade from 'material-ui/svg-icons/action/grade';
+import { css } from 'aphrodite';
 
 // Child Components
 import Meta from './meta.es6';
 import Links from './links.es6';
 import Name from './name.es6';
-import JobTypes from './jobTypes.es6';
 import Location from './location.es6';
 import Bio from './bio.es6';
 
-// Stylesheets
-import '../styles/badges.sass';
+// StyleSheets
+import badgeStyles from '../styles/badges.es6';
 
 const iconStyles = {
   position: 'absolute',
@@ -49,7 +49,16 @@ const Developer = props => (
           style={{ textDecoration: 'none', color: 'inherit' }}
           rel="noopener noreferrer"
         >
-          {props.developer.hireable ? <div className="badge hireable"> H </div> : ''}
+          {props.developer.hireable ?
+            <div
+              className={
+                css(
+                  badgeStyles.badge,
+                  badgeStyles.hireable
+                )
+              }
+            > H </div> : ''
+          }
           <Avatar src={props.developer.avatar_url} size={80} />
           {props.developer.premium ?
             <IconButton
@@ -74,7 +83,6 @@ const Developer = props => (
       </div>
       <Bio developer={props.developer} />
       <Links developer={props.developer} />
-      <JobTypes developer={props.developer} />
     </ListItem>
   </div>
 );
@@ -94,7 +102,6 @@ const DeveloperContainer = Relay.createContainer(Developer, {
         premium,
         ${Name.getFragment('developer')},
         ${Links.getFragment('developer')},
-        ${JobTypes.getFragment('developer')},
         ${Meta.getFragment('developer')},
         ${Location.getFragment('developer')},
         ${Bio.getFragment('developer')},

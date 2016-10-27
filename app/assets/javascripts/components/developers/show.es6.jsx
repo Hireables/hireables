@@ -6,6 +6,7 @@ import Relay from 'react-relay';
 import Avatar from 'material-ui/Avatar';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
+import { css } from 'aphrodite';
 
 // Child components
 import Languages from './languages.es6';
@@ -18,8 +19,8 @@ import Name from './name.es6';
 import Location from './location.es6';
 import Bio from './bio.es6';
 
-// Stylesheets
-import '../styles/badges.sass';
+// StyleSheets
+import badgeStyles from '../styles/badges.es6';
 
 const DeveloperShow = (props) => {
   const wrapperStyle = {
@@ -44,7 +45,15 @@ const DeveloperShow = (props) => {
                 }}
               >
                 {developer.hireable ?
-                  <div className="badge hireable big"> H </div> : ''
+                  <div
+                    className={
+                      css(
+                        badgeStyles.badge,
+                        badgeStyles.hireable,
+                        badgeStyles.big
+                      )
+                    }
+                  > H </div> : ''
                 }
                 <Avatar
                   src={developer.avatar_url}
@@ -70,11 +79,8 @@ const DeveloperShow = (props) => {
                 <Location developer={props.developer} />
                 <Bio developer={developer} />
                 <Links developer={developer} />
-                <div className="header-separator top-margin">Platforms</div>
                 <Languages developer={developer} />
-                <div className="header-separator top-margin">Job Types</div>
                 <JobTypes developer={developer} />
-                <div className="header-separator top-margin">Levels</div>
                 <Levels developer={developer} />
               </div>
             </div>

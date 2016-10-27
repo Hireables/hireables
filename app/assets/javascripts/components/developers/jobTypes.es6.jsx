@@ -1,65 +1,79 @@
+// Modules
 import React from 'react';
 import Relay from 'react-relay';
-import '../styles/badges.sass';
+import { css } from 'aphrodite';
+
+// StyleSheets
+import badgeStyles from '../styles/badges.es6';
 
 const JobTypes = (props) => {
   const { developer } = props;
 
   return (
-    <div style={{ marginTop: '10px' }}>
-      {developer.full_time ?
-        <span
-          key={Math.random()}
-          className="badge tag"
-        >
-          Full-Time
-        </span> : ''
-      }
+    <div className="job-types">
+      {developer.full_time ||
+        developer.part_time ||
+        developer.contract ||
+        developer.freelance ||
+        developer.startup ||
+        developer.internship ?
+          <div style={{ marginTop: '10px' }}>
+            <div className="header-separator top-margin">Job Types</div>
+            {developer.full_time ?
+              <span
+                key={Math.random()}
+                className={css(badgeStyles.badge, badgeStyles.tag)}
+              >
+                Full-Time
+              </span> : ''
+            }
 
-      {developer.part_time ?
-        <span
-          key={Math.random()}
-          className="badge"
-        >
-          Part-Time
-        </span> : ''
-      }
+            {developer.part_time ?
+              <span
+                key={Math.random()}
+                className={css(badgeStyles.badge, badgeStyles.tag)}
+              >
+                Part-Time
+              </span> : ''
+            }
 
-      {developer.contract ?
-        <span
-          key={Math.random()}
-          className="badge tag"
-        >
-          Contract
-        </span> : ''
-      }
+            {developer.contract ?
+              <span
+                key={Math.random()}
+                className={css(badgeStyles.badge, badgeStyles.tag)}
+              >
+                Contract
+              </span> : ''
+            }
 
 
-      {developer.freelance ?
-        <span
-          key={Math.random()}
-          className="badge tag"
-        >
-          Freelance
-        </span> : ''
-      }
+            {developer.freelance ?
+              <span
+                key={Math.random()}
+                className={css(badgeStyles.badge, badgeStyles.tag)}
+              >
+                Freelance
+              </span> : ''
+            }
 
-      {developer.startup ?
-        <span
-          key={Math.random()}
-          className="badge tag"
-        >
-          Startup
-        </span> : ''
-      }
+            {developer.startup ?
+              <span
+                key={Math.random()}
+                className={css(badgeStyles.badge, badgeStyles.tag)}
+              >
+                Startup
+              </span> : ''
+            }
 
-      {developer.internship ?
-        <span
-          key={Math.random()}
-          className="badge tag"
-        >
-          Internship
-        </span> : ''
+            {developer.internship ?
+              <span
+                key={Math.random()}
+                className={css(badgeStyles.badge, badgeStyles.tag)}
+              >
+                Internship
+              </span> : ''
+            }
+          </div> : ''
       }
     </div>
   );

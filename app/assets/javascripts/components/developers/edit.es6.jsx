@@ -207,7 +207,7 @@ class DeveloperEdit extends Component {
 
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
-        <div className="developer-edit card">
+        <div className="profile-edit card">
           <Formsy.Form
             onValid={this.enableButton}
             autoComplete="off"

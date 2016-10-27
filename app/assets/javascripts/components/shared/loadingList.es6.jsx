@@ -23,7 +23,7 @@ const LoadingList = () => {
     <div
       key={index}
       style={developerStyle}
-      className="developer developer--item"
+      className="profile--item"
       id={`developer_${elem}`}
     >
       <ListItem
