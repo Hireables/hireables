@@ -1,5 +1,6 @@
 /* global Turbolinks document $ location Routes */
 
+// Modules
 import React, { Component } from 'react';
 import Formsy from 'formsy-react';
 import queryString from 'query-string';
@@ -11,8 +12,11 @@ import {
   FormsyCheckbox,
   FormsyText,
 } from 'formsy-material-ui/lib';
+
+// Local components
 import muiTheme from './theme.es6';
 
+// Styles
 const helpStyles = {
   fontSize: '12px',
   color: 'rgba(0, 0, 0, 0.298039)',

@@ -12,11 +12,14 @@ const Footer = () => {
     maxWidth: '980px',
     padding: '0',
     margin: '0 auto',
+    height: '35px',
     link: {
       textDecoration: 'none',
     },
     powered: {
       display: 'block',
+      fontSize: 14,
+      color: '#bdbdbd',
     },
   };
 
@@ -56,10 +59,9 @@ const Footer = () => {
               >
                 <ToolbarTitle
                   text="Powered by Github API"
-                  style={toolbarTitleStyles}
+                  style={toolbarStyles.powered}
                 />
               </a>
-              <span style={betaStyles}>BETA</span>
             </ToolbarGroup>
 
             <ToolbarGroup key={1} className="copyright">
