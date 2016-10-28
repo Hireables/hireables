@@ -1,57 +1,54 @@
 require 'typhoeus/adapters/faraday'
 module Github
   class Api
+
+    def initialize
+      Octokit.configure do |c|
+        c.middleware = faraday_stack
+        c.per_page = 51
+        c.access_token = ENV.fetch('github_access_token')
+      end
+    end
+
     def search(params)
       Rails.cache.fetch([params[:query], params[:page], 'search']) do
-        client.search_users(params[:query], page: params[:page], per_page: 51)
+        Octokit.search_users(params[:query], page: params[:page])
       end
     end
 
     def fetch_developers(params)
-      search(params).items.map do |item|
-        fetch_developer(item.login)
-      end
-    end
+      logins = search(params).items.map(&:login)
+      local_developers = Developer.where(login: logins)
 
-    def fetch_hireable_developers(params)
-      fetch_developers(params).select(&:hireable)
+      github_developers = (logins - local_developers.map(&:login)).map do |login|
+        fetch_developer(login)
+      end
+
+      all_developers = [local_developers + github_developers]
+      [local_developers + github_developers].flatten!.sort_by do |item|
+        [
+          item.premium && item.hireable ? 0 : 1,
+          item.hireable ? 0 : 1,
+          item.premium ? 0 : 1
+        ]
+      end
     end
 
     def fetch_developer(login)
       Rails.cache.fetch(login) do
-        developer = Developer.find_by(login: login)
-        if developer.present?
-          developer
-        else
-          client.user(login)
-        end
+        Octokit.user(login)
       end
     end
 
     def fetch_developer_languages(login)
       Rails.cache.fetch([login, 'languages']) do
-        developer = Developer.find_by(login: login)
-        if developer.present? && !developer.platforms.empty?
-          developer.platforms[0].split(',')
-        else
-          fetch_developer_repos(login).map(&:language).compact.uniq!
-        end
+        fetch_developer_repos(login).map(&:language).compact.map(&:downcase).uniq!
       end
     end
 
     def fetch_developer_repos(login)
-      client.auto_paginate = true
-      client.repositories(login)
-    end
-
-    def client
-      client = Octokit::Client.new(
-        access_token: ENV.fetch('github_access_token')
-      )
-      client.configure do |c|
-        c.middleware = faraday_stack
-      end
-      client
+      Octokit.auto_paginate = true
+      Octokit.repositories(login)
     end
 
     private
