@@ -1,7 +1,6 @@
 require 'typhoeus/adapters/faraday'
 module Github
   class Api
-
     def initialize
       Octokit.configure do |c|
         c.middleware = faraday_stack
@@ -47,8 +46,10 @@ module Github
     end
 
     def fetch_developer_repos(login)
-      Octokit.auto_paginate = true
-      Octokit.repositories(login)
+      Rails.cache.fetch([login, 'repos']) do
+        Octokit.auto_paginate = true
+        Octokit.repositories(login)
+      end
     end
 
     private
