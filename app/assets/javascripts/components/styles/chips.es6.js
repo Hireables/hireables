@@ -1,4 +1,6 @@
-const Chips = {
+import { StyleSheet } from 'aphrodite';
+
+const Chips = StyleSheet.create({
   wrapper: {
     display: 'flex',
     flexWrap: 'wrap',
@@ -7,6 +9,6 @@ const Chips = {
   chip: {
     margin: 4,
   },
-};
+});
 
 export default Chips;

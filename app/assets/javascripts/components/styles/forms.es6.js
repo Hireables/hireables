@@ -33,14 +33,6 @@ const Forms = StyleSheet.create({
   input: {
     marginBottom: 16,
   },
-
-  select: {
-    marginBottom: 16,
-  },
-
-  button: {
-    marginBottom: 16,
-  },
 });
 
 export default Forms;

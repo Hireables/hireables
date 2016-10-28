@@ -12,50 +12,20 @@ import {
   FormsyCheckbox,
   FormsyText,
 } from 'formsy-material-ui/lib';
+import { css } from 'aphrodite';
 
 // Local components
 import muiTheme from './theme.es6';
 
-// Styles
-const helpStyles = {
-  fontSize: '12px',
-  color: 'rgba(0, 0, 0, 0.298039)',
-  margin: '10px 0',
-  display: 'block',
-  userSelect: 'none',
-};
+// Stylesheets
+import formStyles from './styles/forms.es6';
+import chipStyles from './styles/chips.es6';
 
+// Styles
 const filterStyles = {
   backgroundColor: 'white',
   padding: '10px',
   boxShadow: '0 0 16px 0 rgba(63,67,69,0.3)',
-};
-
-const styles = {
-  chip: {
-    margin: 4,
-  },
-
-  wrapper: {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
-
-  checkbox: {
-    marginBottom: 16,
-  },
-
-  input: {
-    marginBottom: 16,
-  },
-
-  select: {
-    marginBottom: 16,
-  },
-
-  button: {
-    marginBottom: 16,
-  },
 };
 
 class Search extends Component {
@@ -77,7 +47,7 @@ class Search extends Component {
     this.submitSearch = this.submitSearch.bind(this);
     this.queryObject = _.pick(
       queryString.parse(document.location.search),
-      ['language', 'location', 'page', 'hireable']
+      ['language', 'location', 'page', 'hireable', 'repos']
     );
 
     let languagesData = [];
@@ -208,7 +178,7 @@ class Search extends Component {
       <Chip
         key={data.key}
         onRequestDelete={() => this.handleRequestDelete(data.key)}
-        style={styles.chip}
+        className={css(chipStyles.chip)}
       >
         {data.label}
       </Chip>
@@ -241,7 +211,7 @@ class Search extends Component {
                 autoFocus
               />
 
-              <div style={styles.wrapper}>
+              <div className={css(chipStyles.wrapper)}>
                 {this.state.languagesData.map(this.renderChip, this)}
               </div>
             </div>
@@ -257,17 +227,28 @@ class Search extends Component {
                 floatingLabelFixed
               />
             </div>
-            <div className="search-box preferences">
-              <span style={helpStyles}>
-                * Beta filters
-              </span>
 
-              <FormsyCheckbox
-                label="Hireable"
-                style={styles.checkbox}
-                defaultChecked={this.state.form.hireable === 'true'}
-                name="hireable"
+            <div className="search-box repos">
+              <FormsyText
+                id="text-field-default"
+                placeholder="(ex: >=40)"
+                name="repos"
+                fullWidth
+                defaultValue={this.state.form.repos}
+                floatingLabelText="Search by number of developer repos"
+                floatingLabelFixed
               />
+            </div>
+
+            <div className="search-box">
+              <div className={css(formStyles.preferences)}>
+                <FormsyCheckbox
+                  label="Hireable"
+                  className={css(formStyles.input)}
+                  defaultChecked={this.state.form.hireable === 'true'}
+                  name="hireable"
+                />
+              </div>
             </div>
 
             <RaisedButton
@@ -276,7 +257,6 @@ class Search extends Component {
               type="submit"
               onClick={this.submitSearch}
               disabled={!this.state.canSubmit}
-              style={styles.button}
             />
           </Formsy.Form>
         </div>

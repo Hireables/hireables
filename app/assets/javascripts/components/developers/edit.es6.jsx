@@ -195,7 +195,7 @@ class DeveloperEdit extends Component {
       <Chip
         key={data.key}
         onRequestDelete={() => this.handleRequestDelete(data.key)}
-        style={chipStyles.chip}
+        className={css(chipStyles.chip)}
       >
         {data.label}
       </Chip>
@@ -285,7 +285,7 @@ class DeveloperEdit extends Component {
                 fullWidth
               />
 
-              <div style={chipStyles.wrapper}>
+              <div className={css(chipStyles.wrapper)}>
                 {this.state.platforms.map(this.renderChip, this)}
               </div>
             </div>

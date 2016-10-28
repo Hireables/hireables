@@ -4,14 +4,6 @@ import { List, ListItem } from 'material-ui/List';
 import _ from 'underscore';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-const containerStyle = {
-  paddingTop: '0px',
-  paddingBottom: '0px',
-  borderRight: '1px solid #f2f2f2',
-  boxShadow: '0 0 16px 0 rgba(63,67,69,0.3)',
-  margin: '40px 0px',
-};
-
 const developerStyle = {
   fontWeight: '500',
   height: '100px',
@@ -46,7 +38,7 @@ const LoadingList = () => {
 
   return (
     <MuiThemeProvider>
-      <List style={containerStyle}>
+      <List>
         {emptyPlaceholders}
       </List>
     </MuiThemeProvider>

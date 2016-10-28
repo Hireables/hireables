@@ -33,7 +33,7 @@ class DevelopersList extends Component {
 
     this.queryObject = _.pick(
       queryString.parse(document.location.search),
-      ['language', 'location', 'page', 'hireable']
+      ['language', 'location', 'page', 'hireable', 'repos']
     );
     this.state = { loaded: false };
   }
@@ -80,7 +80,6 @@ class DevelopersList extends Component {
 
   render() {
     const containerStyle = {
-      paddingTop: '0px',
       paddingBottom: '0px',
       borderRight: '1px solid #f2f2f2',
       boxShadow: '0 0 16px 0 rgba(63,67,69,0.3)',
@@ -90,10 +89,10 @@ class DevelopersList extends Component {
     const { root } = this.props;
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
-        <div className="col-md-7 pull-right">
+        <div className="col-md-7 pull-right" style={containerStyle}>
           {this.state.loaded ?
             (root.developers.edges && root.developers.edges.length > 0 ?
-              <List style={containerStyle}>
+              <List style={{ paddingTop: '0px', paddingBottom: '0px' }}>
                 {root.developers.edges.map(({ node }) => (
                   <Developer
                     developer={node}
@@ -131,6 +130,7 @@ const DevelopersListContainer = Relay.createContainer(DevelopersList, {
     location: null,
     language: null,
     hireable: null,
+    repos: null,
     order: '-id',
     page: '1',
   },
@@ -143,6 +143,7 @@ const DevelopersListContainer = Relay.createContainer(DevelopersList, {
           first: $first,
           location: $location,
           language: $language,
+          repos: $repos,
           hireable: $hireable,
           order: $order,
           page: $page,
