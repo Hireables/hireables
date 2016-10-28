@@ -43,6 +43,10 @@ module Hireables
       domain: ENV.fetch('MAILGUN_API_DOMAIN')
     }
 
+    # Get client IP on heroku
+    config.middleware.insert 0, RealIp
+
+    # Cors
     config.middleware.insert_before 0, Rack::Cors do
       allow do
         origins 'fonts.gstatic.com'
