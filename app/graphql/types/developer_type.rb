@@ -116,6 +116,6 @@ end
 
 def resolve_platforms(obj, _ctx)
   api = Github::Api.new
-  return obj.platforms[0].split(',') unless obj.platforms.all? &:nil?
+  return obj.platforms[0].split(',') unless obj.platforms.nil?
   api.fetch_developer_languages(obj.login)
 end
