@@ -1,4 +1,10 @@
 GIT
+  remote: git://github.com/quipper/real_ip.git
+  revision: 9369fd98b55cb62ea48b872754de32fe463642a8
+  specs:
+    real_ip (0.1.0)
+
+GIT
   remote: https://github.com/carrierwaveuploader/carrierwave.git
   revision: ec850831eeaf0f2f45c002bcec9b90698b78d0d8
   specs:
@@ -284,6 +290,7 @@ DEPENDENCIES
   rack-cors
   rails (>= 5.0.x)
   rails_12factor
+  real_ip!
   redis-namespace
   rubocop
   sass-rails (~> 5.0)
