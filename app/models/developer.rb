@@ -26,11 +26,11 @@ class Developer < ApplicationRecord
   end
 
   def delete_cache
-    Rails.cache.delete(login)
+    Rails.cache.delete(['developer', login])
   end
 
   def delete_languages_cache
-    Rails.cache.delete([login, 'languages'])
+    Rails.cache.delete(['developer', login, 'languages'])
   end
 
   def premium_fields

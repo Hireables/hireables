@@ -25,19 +25,19 @@ module Github
     end
 
     def fetch_developer(login)
-      Rails.cache.fetch([login, 'developer']) do
+      Rails.cache.fetch(['developer', login]) do
         client.user(login)
       end
     end
 
     def fetch_developer_languages(login)
-      Rails.cache.fetch([login, 'languages']) do
+      Rails.cache.fetch(['developer', login, 'languages']) do
         fetch_developer_repos(login).map(&:language).compact.map(&:downcase).uniq!
       end
     end
 
     def fetch_developer_repos(login)
-      Rails.cache.fetch([login, 'repos']) do
+      Rails.cache.fetch(['developer', login, 'repos']) do
         client.auto_paginate = true
         client.repositories(login)
       end
@@ -57,10 +57,6 @@ module Github
 
     def faraday_stack
       Faraday::RackBuilder.new do |builder|
-        builder.use :http_cache, store: Rails.cache,
-                                 logger: Rails.logger,
-                                 shared_cache: false,
-                                 serializer: Marshal
         builder.response :logger unless Rails.env.test?
         builder.use Octokit::Response::RaiseError
         builder.request :url_encoded
