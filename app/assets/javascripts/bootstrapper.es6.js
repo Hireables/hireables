@@ -3,23 +3,19 @@
 */
 
 /* global Turbolinks document */
-import Relay from 'react-relay';
-import {
-  mountComponents,
-  unmountComponents,
-} from './utils/componentMounter';
 
+import Relay from 'react-relay';
+import { mountComponents, unmountComponents } from './utils/componentMounter';
 import Authentication from './helpers/authentication.es6';
 
 const setupNetworkLayer = () => {
-  const auth = new Authentication();
   Relay.injectNetworkLayer(
     new Relay.DefaultNetworkLayer('/graphql', {
       credentials: 'same-origin',
       fetchTimeout: 30000,
       retryDelays: [5000],
       headers: {
-        'X-CSRF-Token': auth.csrfToken(),
+        'X-CSRF-Token': Authentication.csrfToken(),
       },
     })
   );

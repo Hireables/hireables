@@ -1,21 +1,23 @@
+/* global document */
+
 export default class CurrentUser {
-  id() {
+  static id() {
     return parseInt(document.getElementsByName('current_user')[0].getAttribute('id'), 0);
   }
 
-  email() {
+  static email() {
     return document.getElementsByName('current_user')[0].getAttribute('email');
   }
 
-  name() {
+  static name() {
     return document.getElementsByName('current_user')[0].content;
   }
 
-  authenticated() {
+  static authenticated() {
     return document.getElementsByName('logged_in')[0].content === 'true';
   }
 
-  isCurrent(id) {
+  static isCurrent(id) {
     return this.id() === id;
   }
 }
