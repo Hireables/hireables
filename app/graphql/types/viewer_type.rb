@@ -1,18 +1,10 @@
-DeveloperConnectionWithPagination = DeveloperType.define_connection do
-  name "DeveloperConnectionWithPagination"
-  field :totalCount do
-    type types.Int
-    resolve ->(obj, args, ctx) { obj.nodes.count }
-  end
-end
-
 ViewerType = GraphQL::ObjectType.define do
   name 'Viewer'
   description 'Root queries that fetches object or collections.'
   interfaces [GraphQL::Relay::Node.interface]
   global_id_field :id
 
-  connection :developers, DeveloperConnectionWithPagination do
+  connection :developers, DeveloperType.connection_type do
     argument :location, types.String, default_value: nil
     argument :language, types.String, default_value: nil
     argument :repos, types.String, default_value: nil
