@@ -13,8 +13,8 @@ class DevelopersController < ApplicationController
   # GET /:id
   def show
     FetchDeveloperLanguagesWorker.perform_async(
-      item.login
-    ) unless Rails.cache.exist?([item.login, 'languages'])
+      @login
+    ) unless Rails.cache.exist?([@login, 'languages'])
   end
 
   private
