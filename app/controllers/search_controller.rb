@@ -10,7 +10,7 @@ class SearchController < ApplicationController
 
   def prepare_search_params!
     @search_params = PrepareSearchParams.new(
-      search_params, current_recruiter, request
+      search_params, current_recruiter
     )
   end
 
