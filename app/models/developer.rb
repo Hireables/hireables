@@ -3,7 +3,8 @@ class Developer < ApplicationRecord
   store_accessor :data, :html_url, :avatar_url, :company, :blog,
                  :followers, :public_gists, :public_repos
   after_commit :set_premium!, on: :update, if: :upgraded?
-  after_commit :delete_cache!, :delete_languages_cache!, on: :update
+  after_commit :save_languages!, on: :create
+  after_commit :delete_cache, :delete_languages_cache, on: :update
   mount_uploader :avatar, ImageUploader
 
   def upgraded?
@@ -15,15 +16,20 @@ class Developer < ApplicationRecord
 
   private
 
+  def save_languages!
+    api = Github::Api.new
+    update!(platforms: api.fetch_developer_languages(login))
+  end
+
   def set_premium!
     update!(premium: true)
   end
 
-  def delete_cache!
+  def delete_cache
     Rails.cache.delete(login)
   end
 
-  def delete_languages_cache!
+  def delete_languages_cache
     Rails.cache.delete([login, 'languages'])
   end
 
