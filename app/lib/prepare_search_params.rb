@@ -31,13 +31,11 @@ class PrepareSearchParams
   end
 
   def cache_query
-    client_ip_address = request.env['QUIPPER_REMOTE_ADDR']
-    cache_key = "search_query_#{client_ip_address.gsub('.', '')}"
+    cache_key = "search/recruiter/#{current_recruiter.id}"
     Rails.cache.write(cache_key, query: to_query,
                                  page: Integer(params['page'] || 1),
                                  search: valid?,
-                                 params: params,
-                                 ip: client_ip_address)
+                                 params: params)
   end
 
   def supported?(key, value)

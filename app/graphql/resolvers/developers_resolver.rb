@@ -12,7 +12,7 @@ class DevelopersResolver
   end
 
   def call
-    query = Rails.cache.read('search_query')
+    query = Rails.cache.read("search/recruiter/#{current_recruiter.id}")
     api.fetch_developers(query)
   end
 
