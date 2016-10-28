@@ -18,6 +18,7 @@ module Github
       [local + github].flatten.sort_by do |item|
         [
           item.premium && item.hireable ? 0 : 1,
+          item.hireable && item.email.present? ? 0 : 1,
           item.hireable ? 0 : 1,
           item.premium ? 0 : 1
         ]
