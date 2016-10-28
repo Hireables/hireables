@@ -22,10 +22,6 @@ class PrepareSearchParams
     end
   end
 
-  def search_cache_key
-    "search/recruiter/#{current_recruiter.id}/page/#{params['page'] || 1}"
-  end
-
   private
 
   def request_params

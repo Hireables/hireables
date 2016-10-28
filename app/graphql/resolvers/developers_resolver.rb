@@ -20,7 +20,7 @@ class DevelopersResolver
   private
 
   def search_cache_key
-    "search/recruiter/#{current_recruiter.id}/page/#{params['page'] || 1}"
+    "search/recruiter/#{current_recruiter.id}"
   end
 
   def api
