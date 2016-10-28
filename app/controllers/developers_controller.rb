@@ -12,14 +12,12 @@ class DevelopersController < ApplicationController
 
   # GET /:id
   def show
-    FetchDeveloperLanguagesWorker.perform_async(
-      @login
-    ) unless Rails.cache.exist?([@login, 'languages'])
   end
 
   private
 
   def set_developer
     @login = params[:id]
+    @developer = Developer.find_by_login(@login)
   end
 end
