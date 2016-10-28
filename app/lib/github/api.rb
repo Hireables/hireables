@@ -17,14 +17,13 @@ module Github
 
     def fetch_developers(params)
       logins = search(params).items.map(&:login)
-      local_developers = Developer.where(login: logins)
+      local = Developer.where(login: logins)
 
-      github_developers = (logins - local_developers.map(&:login)).map do |login|
+      github = (logins - local.map(&:login)).map do |login|
         fetch_developer(login)
       end
 
-      all_developers = [local_developers + github_developers]
-      [local_developers + github_developers].flatten!.sort_by do |item|
+      [local + github].flatten.sort_by do |item|
         [
           item.premium && item.hireable ? 0 : 1,
           item.hireable ? 0 : 1,
