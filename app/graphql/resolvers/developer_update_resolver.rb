@@ -13,6 +13,8 @@ class DeveloperUpdateResolver
   end
 
   def call
+    raise StandardError,
+          'Unauthorised' unless developer == ctx[:current_developer]
     developer.update!(valid_params.to_h)
     { developer: developer.reload }
   end

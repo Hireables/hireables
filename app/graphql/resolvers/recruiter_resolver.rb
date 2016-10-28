@@ -12,6 +12,6 @@ class RecruiterResolver
   end
 
   def call
-    Recruiter.find_by_login(params['id'])
+    Recruiter.find_by_login(params[:id])
   end
 end

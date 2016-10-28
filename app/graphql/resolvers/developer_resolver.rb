@@ -12,7 +12,9 @@ class DeveloperResolver
   end
 
   def call
+    developer = Developer.find_by_login(params[:id])
+    return developer unless developer.nil?
     api = Github::Api.new
-    api.fetch_developer(params['id'])
+    api.fetch_developer(params[:id])
   end
 end

@@ -1,5 +1,5 @@
 class DevelopersResolver
-  attr_reader :params, :current_recruiter
+  attr_reader :current_recruiter
 
   def self.call(*args)
     new(*args).call
@@ -7,9 +7,6 @@ class DevelopersResolver
 
   def initialize(_obj, args, ctx)
     @current_recruiter = ctx[:current_recruiter]
-    @params = HashWithIndifferentAccess.new(
-      args.instance_variable_get(:@original_values).to_h
-    )
   end
 
   def call
