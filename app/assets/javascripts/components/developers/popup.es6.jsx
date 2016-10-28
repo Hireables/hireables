@@ -1,30 +1,52 @@
+// Modules
+
 import React, { Component } from 'react';
 import Relay from 'react-relay';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import IconButton from 'material-ui/IconButton';
+import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import 'dialog-polyfill/dialog-polyfill.css';
+import muiTheme from '../theme.es6';
 
 // Util
 import DeveloperShow from './show.es6';
 import Dialog from '../../utils/dialog.es6';
 
-// Question card component
-class Popup extends Component {
-  constructor(props) {
-    super(props);
-  }
+// Stylesheet
+import '../styles/popup.sass';
 
+class Popup extends Component {
   componentDidMount() {
     this.dialog = new Dialog({
-      reactNodeId: 'questions-container',
-      dialogId: this.popupNode,
+      reactNodeId: 'popups-container',
+      dialogId: this.popupNode.id,
     });
+
+    this.dialog.toggle();
+    this.dialog.get().classList.add('pulse');
+    setTimeout(() => {
+      this.dialog.get().classList.remove('pulse');
+    }, 300);
   }
 
   render() {
+    const { developer } = this.props;
     return (
-      <dialog className="card" ref={node => (this.popupNode = node)}>
-        <button className="close" onClick={() => this.dialog.close()} />
-        <DeveloperShow developer={this.props.developer} />
-      </dialog>
+      <MuiThemeProvider muiTheme={muiTheme}>
+        <dialog
+          id={`developer-profile-${developer.id}`}
+          className="popup"
+          ref={node => (this.popupNode = node)}
+        >
+          <IconButton
+            className="close"
+            onClick={() => this.dialog.close()}
+          >
+            <NavigationClose />
+          </IconButton>
+          <DeveloperShow developer={developer} />
+        </dialog>
+      </MuiThemeProvider>
     );
   }
 }
@@ -33,13 +55,12 @@ Popup.propTypes = {
   developer: React.PropTypes.object,
 };
 
-// Relay data container to fetch data
-// for this component from API server
 const PopupContainer = Relay.createContainer(
   Popup, {
     fragments: {
       developer: () => Relay.QL`
-        fragment on Question {
+        fragment on Developer {
+          id,
           ${DeveloperShow.getFragment('developer')}
         }
       `,

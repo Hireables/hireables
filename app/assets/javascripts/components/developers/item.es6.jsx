@@ -1,12 +1,11 @@
-/* global $ Routes */
+/* global $ Routes document */
 
 // Modules
-import React from 'react';
+import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import Relay from 'react-relay';
 import { ListItem } from 'material-ui/List';
 import Avatar from 'material-ui/Avatar';
-import IconButton from 'material-ui/IconButton';
-import ActionGrade from 'material-ui/svg-icons/action/grade';
 import { css } from 'aphrodite';
 
 // Child Components
@@ -15,77 +14,93 @@ import Links from './links.es6';
 import Name from './name.es6';
 import Location from './location.es6';
 import Bio from './bio.es6';
+import ProfilePopup from './popup.es6';
+import LoadingComponent from '../shared/loadingComponent';
+import ErrorComponent from '../shared/errorComponent';
+
+// Route
+import developerRoute from '../../routes/developerRoute.es6';
 
 // StyleSheets
 import badgeStyles from '../styles/badges.es6';
 
-const iconStyles = {
-  position: 'absolute',
-  padding: 0,
-  left: 'calc(104px / 3)',
-  textAlign: 'center',
-  width: 24,
-  height: 24,
-  top: 85,
-};
+class Developer extends Component {
+  constructor(props) {
+    super(props);
+    this.openPopup = this.openPopup.bind(this);
+  }
 
-const paragraphStyles = {
-  height: 'auto',
-  paddingRight: '10px',
-};
+  openPopup() {
+    const { developer } = this.props;
 
-const Developer = props => (
-  <div
-    className={
-      `profile--item ${props.developer.premium ? 'premium' : ''}`
-    }
-  >
-    <ListItem
-      innerDivStyle={{ padding: '20px 10px 16px 115px' }}
-      leftAvatar={
-        <a
-          href={Routes.developer_path(props.developer.login)}
-          target="_blank"
-          style={{ textDecoration: 'none', color: 'inherit' }}
-          rel="noopener noreferrer"
-        >
-          {props.developer.hireable ?
-            <div
-              className={
-                css(
-                  badgeStyles.badge,
-                  badgeStyles.hireable
-                )
+    developerRoute.params = {};
+    developerRoute.params.id = developer.login;
+
+    ReactDOM.render(
+      <Relay.Renderer
+        Container={ProfilePopup}
+        queryConfig={developerRoute}
+        environment={Relay.Store}
+        render={({ props, error, retry }) => {
+          if (props) {
+            return (
+              <ProfilePopup
+                {...props}
+              />
+            );
+          } else if (error) {
+            return <ErrorComponent retry={retry} />;
+          }
+          return <LoadingComponent />;
+        }}
+      />,
+      document.getElementById('popups-container')
+    );
+  }
+
+
+  render() {
+    const { developer } = this.props;
+
+    return (
+      <div
+        className={
+          `profile--item ${developer.premium ? 'premium' : ''}`
+        }
+      >
+        <ListItem
+          innerDivStyle={{ padding: '20px 10px 16px 115px' }}
+          onClick={this.openPopup}
+          leftAvatar={
+            <div className="avatar">
+              {developer.hireable ?
+                <div
+                  className={
+                    css(
+                      badgeStyles.badge,
+                      badgeStyles.hireable
+                    )
+                  }
+                > H </div> : ''
               }
-            > H </div> : ''
+              <Avatar src={developer.avatar_url} size={80} />
+            </div>
           }
-          <Avatar src={props.developer.avatar_url} size={80} />
-          {props.developer.premium ?
-            <IconButton
-              tooltip="Premium profile"
-              tooltipStyles={{ top: '15px', backgroundColor: '#000' }}
-              tooltipPosition="bottom-center"
-              style={iconStyles}
-            >
-              <ActionGrade />
-            </IconButton> : ''
-          }
-        </a>
-      }
-      disabled
-      style={paragraphStyles}
-      secondaryTextLines={1}
-    >
-      <Name developer={props.developer} />
-      <Location developer={props.developer} />
-      <div style={{ position: 'absolute', right: 0, top: '10px' }}>
-        <Meta developer={props.developer} />
+          disabled
+          secondaryTextLines={1}
+        >
+          <Name developer={developer} />
+          <Location developer={developer} />
+          <div style={{ position: 'absolute', right: 0, top: '10px' }}>
+            <Meta developer={developer} />
+          </div>
+          <Bio developer={developer} />
+          <Links developer={developer} />
+        </ListItem>
       </div>
-      <Bio developer={props.developer} />
-      <Links developer={props.developer} />
-    </ListItem>
-  </div>
-);
+    );
+  }
+}
 
 Developer.propTypes = {
   developer: React.PropTypes.object,

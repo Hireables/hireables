@@ -18,7 +18,7 @@ const Languages = (props) => {
             {developer.platforms.map(platform => (
               <a
                 key={Math.random()}
-                href={`/search?language:${platform.trim().toLowerCase()}`}
+                href={`/search?language=${platform.trim().toLowerCase()}`}
                 className={css(badgeStyles.badge, badgeStyles.tag)}
               >
                 {platform}

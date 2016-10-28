@@ -5,16 +5,9 @@ import Relay from 'react-relay';
 
 const Name = props => (
   <div className="name">
-    <a
-      href={Routes.developer_path(props.developer.login)}
-      target="_blank"
-      style={{ textDecoration: 'none', color: 'inherit' }}
-      rel="noopener noreferrer"
-    >
-      <h3 style={{ margin: 0, fontWeight: '500' }}>
-        {props.developer.name ? props.developer.name : 'Anonymous'}
-      </h3>
-    </a>
+    <h3 style={{ margin: 0, fontWeight: '500' }}>
+      {props.developer.name ? props.developer.name : 'Anonymous'}
+    </h3>
   </div>
 );
 

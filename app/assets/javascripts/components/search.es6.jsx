@@ -8,17 +8,13 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
 import Chip from 'material-ui/Chip';
 import _ from 'underscore';
-import {
-  FormsyCheckbox,
-  FormsyText,
-} from 'formsy-material-ui/lib';
+import { FormsyText } from 'formsy-material-ui/lib';
 import { css } from 'aphrodite';
 
 // Local components
 import muiTheme from './theme.es6';
 
 // Stylesheets
-import formStyles from './styles/forms.es6';
 import chipStyles from './styles/chips.es6';
 
 // Styles
@@ -223,7 +219,7 @@ class Search extends Component {
                 name="location"
                 fullWidth
                 defaultValue={this.state.form.location}
-                floatingLabelText="Search by developer location"
+                floatingLabelText="Search by location"
                 floatingLabelFixed
               />
             </div>
@@ -235,26 +231,15 @@ class Search extends Component {
                 name="repos"
                 fullWidth
                 defaultValue={this.state.form.repos}
-                floatingLabelText="Search by number of developer repos"
+                floatingLabelText="Search by number of repos"
                 floatingLabelFixed
               />
             </div>
-
-            <div className="search-box">
-              <div className={css(formStyles.preferences)}>
-                <FormsyCheckbox
-                  label="Hireable"
-                  className={css(formStyles.input)}
-                  defaultChecked={this.state.form.hireable === 'true'}
-                  name="hireable"
-                />
-              </div>
-            </div>
-
             <RaisedButton
               label="Apply filters"
               secondary
               type="submit"
+              style={{ marginTop: '10px' }}
               onClick={this.submitSearch}
               disabled={!this.state.canSubmit}
             />

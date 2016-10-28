@@ -1,12 +1,17 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions, no-nested-ternary */
 /* global $ ga location window Routes */
 
+// Modules
 import React, { Component } from 'react';
 import Relay from 'react-relay';
 import Cookies from 'js-cookie';
 import IconButton from 'material-ui/IconButton';
 import FontIcon from 'material-ui/FontIcon';
 import SvgIcon from 'material-ui/SvgIcon';
+import { css } from 'aphrodite';
+
+// Stylesheet
+import iconStyles from '../styles/icons.es6';
 
 class Links extends Component {
   static openUrl(url) {
@@ -36,26 +41,51 @@ class Links extends Component {
     window.open(urlWithProtocol);
   }
 
-  render() {
-    const paragraphStyles = {
-      height: 'auto',
-      marginTop: '15px',
-      marginLeft: '0px',
-    };
+  constructor(props) {
+    super(props);
+    this.openMail = this.openMail.bind(this);
+  }
 
+  openMail(e) {
+    e.preventDefault();
+    const emailClicksCookieName = `${Cookies.get('visitor')}-email-clicks`;
+    const emailClicksValue = parseInt(Cookies.get(emailClicksCookieName), 0) + 1;
+
+    Cookies.set(
+      emailClicksCookieName,
+      emailClicksValue
+    );
+
+    if ($('meta[name="env"]').data('env') === 'production') {
+      ga(
+        'send',
+        'event',
+        'email',
+        'click',
+        'Clicked email',
+        emailClicksValue,
+        {
+          email: this.props.developer.email,
+          user_id: Cookies.get('visitor'),
+        },
+      );
+    }
+
+    window.location.href = `mailto:${this.props.developer.email}`;
+    e.stopPropagation();
+  }
+
+  render() {
     return (
-      <div style={paragraphStyles} className="links">
-        <div className="social-icons">
+      <div className="links">
+        <div className={css(iconStyles.links)}>
           {this.props.developer.email && this.props.developer.hireable ?
             <IconButton
               tooltip="Email"
               tooltipPosition="bottom-center"
-              className="link-icon"
-              target="_blank"
-              rel="noopener noreferrer"
+              className={css(iconStyles.linkIcon, iconStyles.inline)}
               tooltipStyles={{ top: '15px' }}
-              style={{ color: '#555', padding: '0', marginRight: '10px', width: '24px', height: '24px' }}
-              href={`mailto:${this.props.developer.email}`}
+              onClick={this.openMail}
             >
               <FontIcon
                 className="material-icons"
@@ -71,11 +101,10 @@ class Links extends Component {
             <IconButton
               tooltip="Website"
               tooltipPosition="bottom-center"
-              className="link-icon"
               target="_blank"
               rel="noopener noreferrer"
+              className={css(iconStyles.linkIcon)}
               tooltipStyles={{ top: '15px' }}
-              style={{ color: '#555', padding: '0', marginRight: '10px', width: '24px', height: '24px' }}
               href={this.props.developer.blog}
             >
               <FontIcon
@@ -93,7 +122,7 @@ class Links extends Component {
             target="_blank"
             rel="noopener noreferrer"
             tooltip="Github"
-            style={{ padding: '0', marginRight: '10px', width: '24px', height: '24px' }}
+            className={css(iconStyles.linkIcon)}
             tooltipStyles={{ top: '15px' }}
             tooltipPosition="bottom-center"
             href={this.props.developer.html_url}
@@ -109,10 +138,10 @@ class Links extends Component {
           {this.props.developer.remote ?
             <IconButton
               tooltip="Prefer remote"
-              style={{ padding: '0', marginRight: '10px', width: '24px', height: '24px' }}
               tooltipStyles={{ top: '15px' }}
               tooltipPosition="bottom-center"
               href="#"
+              className={css(iconStyles.linkIcon)}
               onClick={event => event.preventDefault()}
             >
               <FontIcon
@@ -128,10 +157,10 @@ class Links extends Component {
           {this.props.developer.relocate ?
             <IconButton
               tooltip="Can relocate"
-              style={{ padding: '0', marginRight: '10px', width: '24px', height: '24px' }}
               tooltipStyles={{ top: '15px' }}
               tooltipPosition="bottom-center"
               href="#"
+              className={css(iconStyles.linkIcon)}
               onClick={event => event.preventDefault()}
             >
               <FontIcon
@@ -147,10 +176,10 @@ class Links extends Component {
           {this.props.developer.company ?
             <IconButton
               tooltip={`Works at ${this.props.developer.company}`}
-              style={{ padding: '0', marginRight: '10px', width: '24px', height: '24px' }}
               tooltipStyles={{ top: '15px' }}
               tooltipPosition="bottom-center"
               href="#"
+              className={css(iconStyles.linkIcon)}
               onClick={event => event.preventDefault()}
             >
               <FontIcon
@@ -169,7 +198,7 @@ class Links extends Component {
               target="_blank"
               rel="noopener noreferrer"
               tooltip="Linkedin"
-              style={{ padding: '0', marginRight: '10px', width: '24px', height: '24px' }}
+              className={css(iconStyles.linkIcon)}
               tooltipStyles={{ top: '15px' }}
               tooltipPosition="bottom-center"
               href={this.props.developer.linkedin}

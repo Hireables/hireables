@@ -21,14 +21,9 @@ import Bio from './bio.es6';
 
 // StyleSheets
 import badgeStyles from '../styles/badges.es6';
+import '../styles/profile.sass';
 
 const DeveloperShow = (props) => {
-  const wrapperStyle = {
-    paddingTop: '60px',
-    paddingBottom: '60px',
-    display: 'flex',
-  };
-
   const { developer } = props;
 
   return (
@@ -36,13 +31,9 @@ const DeveloperShow = (props) => {
       <div className={`profile--show ${developer.premium ? 'premium' : ''}`}>
         <header className="header header--bg">
           <div className="container">
-            <div style={wrapperStyle}>
+            <div className="wrapper">
               <div
                 className="image"
-                style={{
-                  position: 'relative',
-                  minWidth: 200,
-                }}
               >
                 {developer.hireable ?
                   <div
@@ -60,23 +51,24 @@ const DeveloperShow = (props) => {
                   size={150}
                 />
                 <br /><br />
+
                 <Meta developer={developer} />
                 <br />
-                <RaisedButton
-                  label="Edit profile"
-                  secondary
-                  className="edit-link"
-                  style={{ margin: '0 auto' }}
-                  href={Routes.edit_developer_path(developer.login)}
-                />
+
+                {props.can_edit ?
+                  <RaisedButton
+                    label="Edit profile"
+                    secondary
+                    className="edit-link"
+                    style={{ margin: '0 auto' }}
+                    href={Routes.edit_developer_path(developer.login)}
+                  /> : ''
+                }
               </div>
 
-              <div
-                className="profile"
-                style={{ marginLeft: 50 }}
-              >
-                <Name developer={props.developer} />
-                <Location developer={props.developer} />
+              <div className="profile">
+                <Name developer={developer} />
+                <Location developer={developer} />
                 <Bio developer={developer} />
                 <Links developer={developer} />
                 <Languages developer={developer} />
@@ -92,6 +84,7 @@ const DeveloperShow = (props) => {
 };
 
 DeveloperShow.propTypes = {
+  can_edit: React.PropTypes.bool,
   developer: React.PropTypes.object,
 };
 
@@ -103,6 +96,7 @@ const DeveloperShowContainer = Relay.createContainer(DeveloperShow, {
         avatar_url,
         login,
         hireable,
+        premium,
         ${Name.getFragment('developer')}
         ${Location.getFragment('developer')}
         ${Languages.getFragment('developer')},
