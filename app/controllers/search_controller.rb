@@ -5,19 +5,19 @@ class SearchController < ApplicationController
   def index
     SearchDevelopersWorker.perform_async(
       @search_params.search_cache_key
-    ) unless Rails.cache.exist?(@search_params.search_cache_key)
+    ) unless Rails.cache.exist?("#{@search_params.search_cache_key}/worker")
   end
 
   private
 
   def cache_query_metadata
-    Rails.cache.write(search_cache_key, query_metadata)
+    Rails.cache.write(@search_params.search_cache_key, query_metadata)
   end
 
   def query_metadata
     {
       query: @search_params.to_query,
-      page: Integer(search_params[:page] || 1),
+      page: Integer(search_params['page'] || 1),
       search: @search_params.valid?
     }
   end
