@@ -242,6 +242,16 @@
                   "defaultValue": null
                 },
                 {
+                  "name": "repos",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
                   "name": "hireable",
                   "description": null,
                   "type": {
@@ -274,7 +284,7 @@
               ],
               "type": {
                 "kind": "OBJECT",
-                "name": "DeveloperConnection",
+                "name": "DeveloperConnectionWithPagination",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -312,7 +322,7 @@
         },
         {
           "kind": "OBJECT",
-          "name": "DeveloperConnection",
+          "name": "DeveloperConnectionWithPagination",
           "description": null,
           "fields": [
             {
@@ -347,6 +357,20 @@
                   "name": "PageInfo",
                   "ofType": null
                 }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "totalCount",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
