@@ -10,11 +10,11 @@ class SearchController < ApplicationController
 
   def prepare_search_params!
     @search_params = PrepareSearchParams.new(
-      search_params, current_recruiter
+      search_params, current_recruiter, request
     )
   end
 
   def search_params
-    params.permit(:location, :language, :hireable, :page)
+    params.permit(:location, :language, :hireable, :page, :repos)
   end
 end
