@@ -3,7 +3,7 @@ import { StyleSheet } from 'aphrodite';
 const Forms = StyleSheet.create({
   help: {
     fontSize: '12px',
-    color: '#333',
+    color: '#c9302c',
     fontWeight: '500',
     display: 'block',
     userSelect: 'none',
@@ -32,6 +32,10 @@ const Forms = StyleSheet.create({
 
   input: {
     marginBottom: 16,
+  },
+
+  button: {
+    marginTop: 16,
   },
 });
 

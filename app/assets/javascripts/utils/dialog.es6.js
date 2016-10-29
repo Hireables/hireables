@@ -1,4 +1,4 @@
-/* global document window */
+/* global document window history Routes */
 
 import dialogPolyfill from 'dialog-polyfill';
 import ReactDOM from 'react-dom';

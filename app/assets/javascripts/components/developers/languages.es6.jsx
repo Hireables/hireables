@@ -12,8 +12,8 @@ const Languages = (props) => {
   return (
     <div className="skills">
       {developer.platforms.length > 0 ?
-        <div style={{ marginTop: '10px' }}>
-          <div className="header-separator top-margin">Platforms</div>
+        <div className="badges">
+          <div className="header-separator">Platforms</div>
           <span>
             {developer.platforms.map(platform => (
               <a

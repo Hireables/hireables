@@ -1,4 +1,4 @@
-/* global $ Routes document */
+/* global $ Routes document history */
 
 // Modules
 import React, { Component } from 'react';

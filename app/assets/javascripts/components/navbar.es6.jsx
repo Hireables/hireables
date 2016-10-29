@@ -113,7 +113,7 @@ class NavBar extends Component {
                 >
                   <ToolbarTitle text="hireables" style={logoStyles} />
                 </a>
-                <span style={betaStyles}>beta</span>
+                <span style={betaStyles}>beta2</span>
               </ToolbarGroup>
 
               <ToolbarGroup key={1}>

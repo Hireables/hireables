@@ -61,7 +61,7 @@ export const mountComponents = () => {
                 React.createElement(component, Object.assign(props, hydratedProps))
               );
             } else if (error) {
-              return <ErrorComponent retry={retry} />;
+              return <ErrorComponent {...error} {...props} retry={retry} />;
             }
 
             return <LoadingComponent />;

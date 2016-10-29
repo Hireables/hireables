@@ -1,33 +1,23 @@
 /* global $ Routes Turbolinks window google MAPS_API_KEY */
 
 import React, { Component } from 'react';
+import Relay from 'react-relay';
 import Formsy from 'formsy-react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
 import { FormsyText } from 'formsy-material-ui/lib';
+import _ from 'underscore';
 import Snackbar from 'material-ui/Snackbar';
+import { css } from 'aphrodite';
 import muiTheme from '../theme.es6';
 
-const styles = {
-  checkbox: {
-    marginBottom: 16,
-  },
+// Mutations
+import UpdateRecruiter from '../../mutations/recruiter/updateRecruiter.es6';
 
-  input: {
-    marginBottom: 16,
-  },
+// Stylesheets
+import formStyles from '../styles/forms.es6';
 
-  select: {
-    marginBottom: 16,
-  },
-
-  button: {
-    marginBottom: 16,
-  },
-};
-
-
-class RecruiterRegistration extends Component {
+class RecruiterEdit extends Component {
   static onKeyPress(event) {
     if (event.keyCode === 13) {
       event.preventDefault();
@@ -45,6 +35,7 @@ class RecruiterRegistration extends Component {
     this.clearAutocomplete = this.clearAutocomplete.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.selectAddress = this.selectAddress.bind(this);
+    this.setNotification = this.setNotification.bind(this);
 
     this.state = {
       open: false,
@@ -52,7 +43,7 @@ class RecruiterRegistration extends Component {
       canSubmit: false,
       suggesting: false,
       notification: '',
-      selectedLocation: '',
+      selectedLocation: this.props.recruiter.location,
     };
   }
 
@@ -74,32 +65,36 @@ class RecruiterRegistration extends Component {
 
   onFormSubmit(event) {
     event.preventDefault();
-    $.post(this.props.action, this.formNode.getModel(), () => {
-      this.setState({
-        open: true,
-        notification: 'You have signed up successfully.' +
-          'We will email you once your account is verified.',
-      });
-    }).fail((xhr) => {
-      if (xhr.status === 422) {
-        const errors = {};
-        Object.keys(xhr.responseJSON.errors).forEach((key) => {
-          if ({}.hasOwnProperty.call(xhr.responseJSON.errors, key)) {
-            const value = xhr.responseJSON.errors[key];
-            errors[`recruiter[${key}]`] = `${key} ${value.toString()}`;
-          }
-        });
-        this.formNode.updateInputsWithError(errors);
+    this.setNotification('Saving...');
+
+    const onFailure = (transaction) => {
+      const error = transaction.getError() || new Error('Mutation failed.');
+      let errorMessage;
+
+      if (error.source.errors && Array.isArray(error.source.errors)) {
+        errorMessage = error.source.errors[0].message;
       } else {
-        this.setState({
-          open: true,
-          notification: 'Something went wrong. Please refresh and try again!',
-        });
+        errorMessage = error.message;
       }
-    }).always(() => {
-      setTimeout(() => {
-        window.location.href = Routes.root_path();
-      }, 3000);
+
+      this.setNotification(errorMessage);
+    };
+
+    const onSuccess = () => {
+      window.location.href = Routes.recruiter_path(this.props.recruiter.login);
+    };
+
+    Relay.Store.commitUpdate(new UpdateRecruiter({
+      id: this.props.recruiter.id,
+      ...this.formNode.getModel(),
+    }), { onFailure, onSuccess });
+  }
+
+  setNotification(notification) {
+    this.setState({
+      notification,
+    }, () => {
+      this.setState({ open: true });
     });
   }
 
@@ -113,8 +108,6 @@ class RecruiterRegistration extends Component {
   handleRequestClose() {
     this.setState({
       open: false,
-    }, () => {
-      window.location.href = Routes.root_path();
     });
   }
 
@@ -169,12 +162,12 @@ class RecruiterRegistration extends Component {
   }
 
   render() {
-    const { action } = this.props;
+    const { recruiter } = this.props;
+
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
         <div className="form registration">
           <Formsy.Form
-            action={action}
             method="post"
             onValidSubmit={this.onFormSubmit}
             onValid={this.enableButton}
@@ -186,8 +179,9 @@ class RecruiterRegistration extends Component {
               <div className="field">
                 <FormsyText
                   id="text-field-default"
-                  name="recruiter[name]"
+                  name="name"
                   floatingLabelText="Full Name *"
+                  defaultValue={recruiter.name}
                   autoFocus
                   required
                 />
@@ -196,8 +190,9 @@ class RecruiterRegistration extends Component {
               <div className="field">
                 <FormsyText
                   id="text-field-default"
-                  name="recruiter[company]"
+                  name="company"
                   floatingLabelText="Company Name *"
+                  defaultValue={recruiter.company}
                   required
                 />
               </div>
@@ -205,8 +200,9 @@ class RecruiterRegistration extends Component {
               <div className="field">
                 <FormsyText
                   id="text-field-default"
-                  name="recruiter[website]"
+                  name="website"
                   floatingLabelText="Website or Linkedin link *"
+                  defaultValue={recruiter.website}
                   required
                   updateImmediately
                   validations={{
@@ -223,7 +219,7 @@ class RecruiterRegistration extends Component {
                   id="text-field-default"
                   type="text"
                   value={this.state.selectedLocation}
-                  name="recruiter[location]"
+                  name="location"
                   floatingLabelText="Location * (ex: london)"
                   onChange={this.handleInputChange}
                   required
@@ -248,10 +244,11 @@ class RecruiterRegistration extends Component {
               <div className="field">
                 <FormsyText
                   id="text-field-default"
-                  name="recruiter[email]"
+                  name="email"
                   type="email"
                   autoComplete="new-email"
                   floatingLabelText="Email *"
+                  defaultValue={recruiter.email}
                   updateImmediately
                   required
                   validations={{
@@ -268,29 +265,37 @@ class RecruiterRegistration extends Component {
                   id="text-field-default"
                   type="password"
                   autoComplete="new-password"
-                  name="recruiter[password]"
-                  floatingLabelText="Password *"
-                  required
+                  name="password"
+                  floatingLabelText="New password"
+                  hintText="(leave blank if don't want to update)"
                   updateImmediately
-                  validations={{
-                    minLength: 8,
-                  }}
-                  validationErrors={{
-                    minLength: 'Password should be minimum 8 characters',
-                  }}
+                />
+
+              </div>
+
+              <div className="field">
+                <FormsyText
+                  id="text-field-default"
+                  type="password"
+                  autoComplete="new-current-password"
+                  name="current_password"
+                  floatingLabelText="Current Password *"
+                  hintText="Current password is required"
+                  required
                 />
               </div>
             </div>
 
             <div className="actions">
+              <div className="clearfix" />
               <RaisedButton
                 label="Register"
                 secondary
+                className={css(formStyles.button)}
                 onClick={this.onFormSubmit}
                 type="submit"
                 title="Fill required fields before submitting"
                 disabled={!this.state.canSubmit}
-                style={styles.button}
               />
             </div>
 
@@ -310,9 +315,25 @@ class RecruiterRegistration extends Component {
   }
 }
 
-RecruiterRegistration.propTypes = {
-  action: React.PropTypes.string,
-  errors: React.PropTypes.any,
+RecruiterEdit.propTypes = {
+  recruiter: React.PropTypes.object,
 };
 
-export default RecruiterRegistration;
+const RecruiterEditContainer = Relay.createContainer(RecruiterEdit, {
+  fragments: {
+    recruiter: () => Relay.QL`
+      fragment on Recruiter {
+        id,
+        name,
+        bio,
+        login,
+        company,
+        website,
+        location,
+        email,
+      }
+    `,
+  },
+});
+
+export default RecruiterEditContainer;

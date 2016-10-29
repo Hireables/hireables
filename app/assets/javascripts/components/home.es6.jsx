@@ -58,15 +58,17 @@ class Home extends Component {
                       style={{ padding: '16px 16px 8px' }}
                       titleStyle={{
                         color: '#6F879A',
+                        fontSize: 20,
+                        fontWeight: 500,
                         borderBottom: '1px solid #6F879A',
                       }}
                     />
 
-                    <CardText style={{ padding: '8px 16px', fontSize: '16px' }}>
+                    <CardText style={{ padding: '8px 16px', fontSize: 16 }}>
                       <p style={{ marginTop: '0px', fontWeight: '500' }}>
                         Receive high quality job offers from vetted recruiters.
                       </p>
-                      <ul style={{ padding: 0, marginBottom: '0px', listStyle: 'none' }}>
+                      <ul style={{ padding: 0, marginBottom: 0, listStyle: 'none' }}>
                         <li style={listStyles}>
                           <ActionCheckCircle style={iconStyles} color="#66bb6a" />
                           Signup with Github.
@@ -105,18 +107,20 @@ class Home extends Component {
                 <div className="recruiter">
                   <Card className="hero-card">
                     <CardTitle
-                      title="For Recruiters"
+                      title="For Employers and Recruiters"
                       style={{ padding: '16px 16px 8px' }}
                       titleStyle={{
                         color: '#6F879A',
+                        fontSize: 20,
+                        fontWeight: 500,
                         borderBottom: '1px solid #6F879A',
                       }}
                     />
-                    <CardText style={{ padding: '8px 16px', fontSize: '16px' }}>
-                      <p style={{ marginTop: '0px', fontWeight: '500' }}>
+                    <CardText style={{ padding: '8px 16px', fontSize: 16 }}>
+                      <p style={{ marginTop: 0, fontWeight: '500' }}>
                         Search hireable developers from around the world.
                       </p>
-                      <ul style={{ padding: 0, marginBottom: '0px', listStyle: 'none' }}>
+                      <ul style={{ padding: 0, marginBottom: 0, listStyle: 'none' }}>
                         <li style={listStyles}>
                           <ActionCheckCircle style={iconStyles} color="#66bb6a" />
                           Signup with email.

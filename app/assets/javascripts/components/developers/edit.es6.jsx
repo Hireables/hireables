@@ -215,7 +215,6 @@ class DeveloperEdit extends Component {
             onInvalid={this.disableButton}
             validationErrors={this.state.validationErrors}
           >
-            <div className="header-separator">About</div>
             <div className="search-box bio">
               <FormsyText
                 id="text-field-default"
@@ -280,7 +279,7 @@ class DeveloperEdit extends Component {
                 className="platforms"
                 onKeyDown={this.addNewPlatform}
                 ref={node => (this.platformNode = node)}
-                floatingLabelText="Languages and frameworks you want to work with"
+                floatingLabelText="Languages and frameworks you work with"
                 floatingLabelFixed
                 fullWidth
               />
@@ -290,8 +289,7 @@ class DeveloperEdit extends Component {
               </div>
             </div>
 
-            <div className="header-separator top-margin">Availability</div>
-            <br />
+            <div className="header-separator">Availability</div>
             <div className="hireable">
               <FormsyCheckbox
                 label="Hireable *"
@@ -306,7 +304,7 @@ class DeveloperEdit extends Component {
             </div>
 
             <div className="clearfix" />
-            <div className="header-separator top-margin">Preferences</div>
+            <div className="header-separator">Preferences</div>
             <div className="search-box">
               <div className={css(formStyles.preferences)}>
                 <FormsyCheckbox
@@ -327,7 +325,6 @@ class DeveloperEdit extends Component {
               <div className="clearfix" />
               <div className="search-box job">
                 <div className="header-separator">Job Type</div>
-                <br />
                 <FormsyCheckbox
                   label="Part-Time"
                   className={css(formStyles.inline)}
@@ -372,9 +369,8 @@ class DeveloperEdit extends Component {
               </div>
 
               <div className="clearfix" />
-              <div className="search-box level">
-                <div className="header-separator">Level</div>
-                <br />
+              <div className="search-box levels">
+                <div className="header-separator">Experience Level</div>
                 <FormsyCheckbox
                   label="CTO"
                   className={css(formStyles.inline)}

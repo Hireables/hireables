@@ -16,6 +16,7 @@ import ReactHelper from './utils/reactHelper.es6';
 import renderComponents from './bootstrapper.es6';
 import RecruiterRoute from './routes/recruiterRoute.es6';
 import RecruiterShow from './components/recruiters/show.es6';
+import RecruiterEdit from './components/recruiters/edit.es6';
 import RecruiterRegistration from './components/recruiters/registration.es6';
 import RecruiterLogin from './components/recruiters/login.es6';
 import RecruiterNewPassword from './components/recruiters/newPassword.es6';
@@ -37,6 +38,7 @@ ReactHelper.registerComponent({
   RecruiterUpdatePassword,
   Search,
   RecruiterShow,
+  RecruiterEdit,
 });
 
 ReactHelper.registerRoute({

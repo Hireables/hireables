@@ -17,8 +17,8 @@ const Levels = (props) => {
         developer.mid ||
         developer.junior ||
         developer.student ?
-          <div style={{ marginTop: '10px' }}>
-            <div className="header-separator top-margin">Levels</div>
+          <div className="badges">
+            <div className="header-separator">Levels</div>
             {developer.cto ?
               <span
                 key={Math.random()}

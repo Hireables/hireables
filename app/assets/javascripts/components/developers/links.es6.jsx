@@ -133,7 +133,6 @@ class Links extends Component {
           />
         </IconButton>
 
-
         {this.props.developer.remote ?
           <IconButton
             tooltip="Prefer remote"

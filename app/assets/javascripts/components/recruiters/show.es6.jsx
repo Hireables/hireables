@@ -7,8 +7,10 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { grey700 } from 'material-ui/styles/colors';
 import createDOMPurify from 'dompurify';
 import IconButton from 'material-ui/IconButton';
+import RaisedButton from 'material-ui/RaisedButton';
 import ActionCamera from 'material-ui/svg-icons/image/camera-alt';
 import FileUpload from '../../mutations/recruiter/fileUpload.es6';
+import muiTheme from '../theme.es6';
 
 class RecruiterShow extends Component {
   constructor(props) {
@@ -74,7 +76,7 @@ class RecruiterShow extends Component {
     );
 
     return (
-      <MuiThemeProvider>
+      <MuiThemeProvider muiTheme={muiTheme}>
         <div className="recruiters-show">
           <header className="header header--bg">
             <div className="container">
@@ -140,6 +142,16 @@ class RecruiterShow extends Component {
                     </a>
                   </div> : ''
                 }
+
+                {this.props.can_edit ?
+                  <RaisedButton
+                    label="Edit profile"
+                    secondary
+                    className="edit-link"
+                    style={{ marginTop: 10 }}
+                    href={Routes.edit_recruiter_registration_path()}
+                  /> : ''
+                }
               </div>
             </div>
           </header>
@@ -151,6 +163,7 @@ class RecruiterShow extends Component {
 
 RecruiterShow.propTypes = {
   recruiter: React.PropTypes.object,
+  can_edit: React.PropTypes.bool,
 };
 
 const RecruiterShowContainer = Relay.createContainer(RecruiterShow, {

@@ -17,8 +17,8 @@ const JobTypes = (props) => {
         developer.freelance ||
         developer.startup ||
         developer.internship ?
-          <div style={{ marginTop: '10px' }}>
-            <div className="header-separator top-margin">Job Types</div>
+          <div className="badges">
+            <div className="header-separator">Job Types</div>
             {developer.full_time ?
               <span
                 key={Math.random()}
