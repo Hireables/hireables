@@ -1,1 +1,1 @@
-<%= react_component 'RecruiterShow', 'RecruiterRoute', { id: @login }.to_json %>
+<%= react_component 'RecruiterShow', 'RecruiterRoute', { id: @login, can_edit: recruiter_signed_in? && @recruiter == current_recruiter }.to_json %>

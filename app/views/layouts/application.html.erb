@@ -47,7 +47,7 @@
 
   <body class="<%= controller_name %> <%= action_name %>">
     <%= react_component 'CookiesTracker', nil %>
-    <%= react_component 'NavBar', nil, { authenticated: user_signed_in?, current_user: { name: current_user.try(:name), email: current_user.try(:email), avatar_url: current_user.try(:avatar_url, :thumb), login:  current_user.try(:login), type: current_user.try(:class).try(:name).try(:downcase) } }.to_json %>
+    <%= react_component 'NavBar', nil, { authenticated: signed_in?, current_user: { name: current_user.try(:name), email: current_user.try(:email), avatar_url: current_user.try(:avatar_url, :thumb), login:  current_user.try(:login), type: current_user.try(:class).try(:name).try(:downcase) } }.to_json %>
 
     <div class="content">
       <%= yield %>
