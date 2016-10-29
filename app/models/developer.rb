@@ -2,8 +2,9 @@ class Developer < ApplicationRecord
   devise :database_authenticatable, :trackable, :validatable, :omniauthable
   store_accessor :data, :html_url, :avatar_url, :company, :blog,
                  :followers, :public_gists, :public_repos
+  before_save :format_platforms, unless: :empty_platforms?
   after_commit :set_premium!, on: :update, if: :upgraded?
-  after_commit :save_languages!, on: :create
+  after_commit :save_languages!, on: :create, if: :empty_platforms?
   after_commit :delete_cache, :delete_languages_cache, on: :update
   mount_uploader :avatar, ImageUploader
 
@@ -16,9 +17,18 @@ class Developer < ApplicationRecord
 
   private
 
+  def empty_platforms?
+    platforms.empty?
+  end
+
   def save_languages!
     api = Github::Api.new
-    update!(platforms: api.fetch_developer_languages(login))
+    languages = api.fetch_developer_languages(login)
+    update!(platforms: languages)
+  end
+
+  def format_platforms
+    self.platforms = platforms.join(',').split(',')
   end
 
   def set_premium!

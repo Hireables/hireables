@@ -1,7 +1,7 @@
 class Recruiter < ApplicationRecord
   store :preferences, accessors: [:language, :location], coder: JSON
   devise :database_authenticatable, :registerable, :recoverable,
-         :rememberable, :trackable, :validatable
+         :rememberable, :trackable, :validatable, :omniauthable
 
   validates_presence_of :name, :company, :website
   validate :website_url_format, unless: :url_valid?
@@ -29,19 +29,25 @@ class Recruiter < ApplicationRecord
   end
 
   def add_login
-    login_username = self.name.parameterize
+    self.login = available_login
+  end
 
-    if Recruiter.find_by_login(login_username).blank?
-      login_username = login_username
+  def available_login
+    if Recruiter.find_by_login(name.parameterize).blank?
+      name.parameterize
     else
-      num = 1
-      while Recruiter.find_by_login(login_username).blank?
-        login_username = "#{name.parameterize}#{num}"
-        num += 1
-      end
+      generate_login
     end
+  end
 
-    self.login = login_username
+  def generate_login
+    num = 1
+    login_username = name.parameterize
+    while Recruiter.find_by_login(login_username).blank?
+      login_username = "#{name.parameterize}#{num}"
+      num += 1
+    end
+    login_username
   end
 
   def send_admin_mail
