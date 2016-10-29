@@ -7,7 +7,7 @@ class FetchDeveloperWorker
     api.fetch_developer(login)
 
     FetchDeveloperLanguagesWorker.perform_async(
-      login, params[:access_token]
+      login, access_token
     ) unless Rails.cache.exist?([login, 'languages'])
   end
 end
