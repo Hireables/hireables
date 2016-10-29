@@ -6,7 +6,6 @@ class DeveloperResolver
   end
 
   def initialize(_developer, args, ctx)
-    # Authenticated developer or recruiter
     raise StandardError,
           'You are not logged in' unless ctx[:current_user].present?
     @current_user = ctx[:current_user]

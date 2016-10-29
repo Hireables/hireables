@@ -30,6 +30,8 @@ UpdateDeveloper = GraphQL::Relay::Mutation.define do
   # Preferences
   input_field :remote, types.Boolean
   input_field :relocate, types.Boolean
+
+  # Return field
   return_field :developer, DeveloperType
 
   # Resolve block to update a model

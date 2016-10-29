@@ -10,11 +10,11 @@ class DeveloperUpdateResolver
           'You are not logged in' unless ctx[:current_developer].present?
     @params = inputs
     @developer = Schema.object_from_id(params['id'], ctx)
+    raise StandardError,
+          'Unauthorised' unless developer == ctx[:current_developer]
   end
 
   def call
-    raise StandardError,
-          'Unauthorised' unless developer == ctx[:current_developer]
     developer.update!(valid_params.to_h)
     { developer: developer.reload }
   end

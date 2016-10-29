@@ -5,7 +5,7 @@ class RecruiterResolver
     new(*args).call
   end
 
-  def initialize(_developer, args, _ctx)
+  def initialize(_developer, args, ctx)
     raise StandardError,
           'You are not logged in' unless ctx[:current_user].present?
     @params = HashWithIndifferentAccess.new(

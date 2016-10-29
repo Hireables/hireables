@@ -5,7 +5,7 @@ class DevelopersResolver
     new(*args).call
   end
 
-  def initialize(_obj, args, ctx)
+  def initialize(_obj, _args, ctx)
     raise StandardError,
           'You are not logged in' unless ctx[:current_recruiter].present?
     @current_recruiter = ctx[:current_recruiter]
