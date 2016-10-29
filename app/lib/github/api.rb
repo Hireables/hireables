@@ -3,11 +3,11 @@ module Github
   class Api
     attr_reader :access_token
 
-    def initialize(access_token = nil)
-      @access_token = if access_token.nil?
-                        ENV.fetch('github_access_token')
+    def initialize(token = nil)
+      @access_token = if token.present?
+                        token
                       else
-                        access_token
+                        ENV.fetch('github_access_token')
                       end
     end
 
@@ -20,19 +20,9 @@ module Github
     def fetch_developers(params)
       logins = search(params).items.map(&:login)
       local = Developer.where(login: logins)
-
-      github = (logins - local.map(&:login)).map do |login|
-        fetch_developer(login)
-      end
-
-      [local + github].flatten.sort_by do |item|
-        [
-          item.premium && item.hireable ? 0 : 1,
-          item.hireable && item.email.present? ? 0 : 1,
-          item.hireable ? 0 : 1,
-          item.premium ? 0 : 1
-        ]
-      end
+      remanining = logins - local.map(&:login)
+      github = remanining.map { |login| fetch_developer(login) }
+      sort_developers([local + github])
     end
 
     def fetch_developer(login)
@@ -43,7 +33,11 @@ module Github
 
     def fetch_developer_languages(login)
       Rails.cache.fetch(['developer', login, 'languages']) do
-        fetch_developer_repos(login).map(&:language).compact.map(&:downcase).uniq!
+        fetch_developer_repos(login)
+          .map(&:language)
+          .compact
+          .map(&:downcase)
+          .uniq!
       end
     end
 
@@ -65,6 +59,18 @@ module Github
     end
 
     private
+
+    # rubocop:disable Metrics/CyclomaticComplexity
+    def sort_developers(developers)
+      developers.flatten.sort_by do |item|
+        [
+          item.premium && item.hireable ? 0 : 1,
+          item.hireable && item.email.present? ? 0 : 1,
+          item.hireable ? 0 : 1,
+          item.premium ? 0 : 1
+        ]
+      end
+    end
 
     def faraday_stack
       Faraday::RackBuilder.new do |builder|
