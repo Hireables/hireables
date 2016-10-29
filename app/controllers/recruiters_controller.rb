@@ -1,5 +1,6 @@
 class RecruitersController < ApplicationController
-  before_action :authenticate_recruiter!, only: [:edit, :show]
+  before_action :authenticate_recruiter!, only: :edit
+  before_action :authenticate_user!, except: :edit
   before_action :set_recruiter, only: :show
 
   # GET /recruiters/:id

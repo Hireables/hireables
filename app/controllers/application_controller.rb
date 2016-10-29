@@ -1,17 +1,9 @@
 class ApplicationController < ActionController::Base
+  respond_to :json, :html
   include Tokenizeable
   protect_from_forgery with: :exception
-  respond_to :json, :html
+  devise_group :user, contains: [:developer, :recruiter]
   before_action :configure_permitted_parameters, if: :devise_controller?
-  helper_method :current_user, :user_signed_in?
-
-  def current_user
-    current_recruiter || current_developer
-  end
-
-  def user_signed_in?
-    developer_signed_in? || recruiter_signed_in?
-  end
 
   protected
 

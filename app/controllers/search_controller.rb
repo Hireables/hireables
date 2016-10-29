@@ -1,7 +1,7 @@
 class SearchController < ApplicationController
-  before_action :authenticate_recruiter!, only: :index
+  before_action :authenticate_user!
   before_action :prepare_search_params!, :cache_query_metadata,
-  :enqueue_search_worker, only: :index
+                :enqueue_search_worker, only: :index
 
   def index
   end

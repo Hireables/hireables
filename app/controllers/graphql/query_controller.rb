@@ -1,35 +1,26 @@
 module Graphql
   class QueryController < ApplicationController
-    before_action :verify_token!, :set_current_recruiter, :set_current_developer
+    include GraphqlAuthentication
+    before_action :verify_token!
 
     def create
       result = Schema.execute(
         params[:query],
         variables: ensure_hash(params[:variables]),
-        context: {
-          current_developer: set_current_developer,
-          current_recruiter: set_current_recruiter,
-          developer_signed_in: developer_signed_in?,
-          recruiter_signed_in: recruiter_signed_in?,
-          current_user: current_user,
-          file: params[:file]
-        }
+        context: context_hash
       )
       render json: result
     end
 
     private
 
-    def set_current_recruiter
-      Recruiter.find_by(
-        id: cookies.signed['recruiter.id']
-      )
-    end
-
-    def set_current_developer
-      Developer.find_by(
-        id: cookies.signed['developer.id']
-      )
+    def context_hash
+      {
+        current_developer: find_current_developer,
+        current_recruiter: find_current_recruiter,
+        current_user: find_current_user,
+        file: params[:file]
+      }
     end
 
     def ensure_hash(query_variables)
