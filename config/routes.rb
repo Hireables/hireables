@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/BlockLength
 Rails.application.routes.draw do
   authenticated :developer do
     root 'developers#profile', as: :developer_root
@@ -8,6 +9,10 @@ Rails.application.routes.draw do
   end
 
   root to: 'pages#index'
+
+  namespace :graphql do
+    post '/', to: 'query#create'
+  end
 
   devise_for :developers,
              skip: [:sessions, :passwords, :confirmations, :registrations],
@@ -21,17 +26,13 @@ Rails.application.routes.draw do
 
   devise_for :recruiters
 
-  namespace :graphql do
-    post '/', to: 'query#create'
-  end
-
   if Rails.env.development?
     mount GraphiQL::Rails::Engine, at: '/graphiql',
                                    graphql_path: '/graphql'
   end
 
   resources :search, only: :index
-  resources :recruiters, only: :show
+  resources :recruiters, only: [:show, :edit]
 
   get '/:id', to: 'developers#show', as: :developer
   get '/:id/edit', to: 'developers#edit', as: :edit_developer
