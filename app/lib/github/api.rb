@@ -1,6 +1,16 @@
 require 'typhoeus/adapters/faraday'
 module Github
   class Api
+    attr_reader :access_token
+
+    def initialize(access_token = nil)
+      @access_token = if access_token.nil?
+                        ENV.fetch('github_access_token')
+                      else
+                        access_token
+                      end
+    end
+
     def search(params)
       Rails.cache.fetch([params[:query], params[:page], 'search']) do
         client.search_users(params[:query], page: params[:page])
@@ -45,7 +55,7 @@ module Github
     end
 
     def client
-      client = Octokit::Client.new(access_token: ENV.fetch('github_access_token'))
+      client = Octokit::Client.new(access_token: access_token)
       client.configure do |c|
         c.middleware = faraday_stack
         c.per_page = 51

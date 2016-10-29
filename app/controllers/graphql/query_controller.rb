@@ -11,6 +11,7 @@ module Graphql
           current_recruiter: set_current_recruiter,
           developer_signed_in: developer_signed_in?,
           recruiter_signed_in: recruiter_signed_in?,
+          current_user: current_user,
           file: params[:file]
         }
       )

@@ -15,7 +15,8 @@ class SearchController < ApplicationController
   def query_metadata
     {
       query: @search_params.to_query,
-      page: Integer(search_params['page'] || 1)
+      page: Integer(search_params['page'] || 1),
+      access_token: current_recruiter.try(:access_token)
     }
   end
 
