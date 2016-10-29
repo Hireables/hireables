@@ -5,6 +5,7 @@ class DevelopersController < ApplicationController
 
   # GET /:id
   def profile
+    @developer = current_developer
   end
 
   def edit
