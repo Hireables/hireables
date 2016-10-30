@@ -1,7 +1,7 @@
 class Recruiter < ApplicationRecord
   store :preferences, accessors: [:language, :location], coder: JSON
   devise :database_authenticatable, :registerable, :recoverable,
-         :rememberable, :trackable, :validatable, :omniauthable
+         :rememberable, :trackable, :validatable
 
   validates_presence_of :name, :company, :website
   validate :website_url_format, unless: :url_valid?
