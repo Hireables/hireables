@@ -42,10 +42,8 @@ class NavBar extends Component {
   render() {
     const toolbarStyles = {
       backgroundColor: 'transparent',
-      maxWidth: '980px',
       textAlign: 'center',
       padding: '0',
-      margin: '0 auto',
     };
 
     const toolbarTitleStyles = {
