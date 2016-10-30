@@ -13,4 +13,8 @@ class ApplicationController < ActionController::Base
       keys: [:name, :company, :website, :language, :location]
     )
   end
+
+  def render_unauthorised
+    render json: { errors: [ message: 'Unauthorised'] }, status: 401
+  end
 end

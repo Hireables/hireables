@@ -1,7 +1,7 @@
 module Graphql
   class QueryController < ApplicationController
-    include GraphqlAuthentication
     before_action :verify_token!
+    include GraphqlAuthentication
 
     def create
       result = Schema.execute(

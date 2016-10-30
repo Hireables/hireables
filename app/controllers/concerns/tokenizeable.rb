@@ -15,10 +15,4 @@ module Tokenizeable
   rescue JWT::VerificationError, JWT::DecodeError
     render_unauthorised
   end
-
-  private
-
-  def render_unauthorised
-    render json: { errors: ['You are not authorised'] }, status: :unauthorized
-  end
 end

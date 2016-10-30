@@ -3,12 +3,7 @@ module GraphqlAuthentication
 
   included do
     before_action :find_current_recruiter, :find_current_developer
-    before_action :render_authenticated!, unless: :authenticated?
-  end
-
-  def render_authenticated!
-    render json: { errors: [{ message: 'Unauthenticated' }], status: 401 }
-    return
+    before_action :render_unauthorised, unless: :authenticated?
   end
 
   def authenticated?

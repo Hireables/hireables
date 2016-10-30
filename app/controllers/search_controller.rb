@@ -1,16 +1,27 @@
 class SearchController < ApplicationController
   before_action :authenticate_recruiter!
   before_action :prepare_search_params!, :cache_query_metadata,
-                :enqueue_search_worker, only: :index
+                :enqueue_search_worker
 
-  def index
-  end
-
-  private
+  protected
 
   def cache_query_metadata
     Rails.cache.write(search_cache_key, query_metadata)
   end
+
+  def prepare_search_params!
+    @search_params = PrepareSearchParams.new(
+      search_params, current_recruiter
+    )
+  end
+
+  def enqueue_search_worker
+    SearchDevelopersWorker.perform_async(
+      search_cache_key
+    ) unless Rails.cache.exist?("#{search_cache_key}/worker")
+  end
+
+  private
 
   def query_metadata
     {
@@ -20,23 +31,11 @@ class SearchController < ApplicationController
     }
   end
 
-  def prepare_search_params!
-    @search_params = PrepareSearchParams.new(
-      search_params, current_recruiter
-    )
-  end
-
   def search_cache_key
     "search/recruiter/#{current_recruiter.id}"
   end
 
-  def enqueue_search_worker
-    SearchDevelopersWorker.perform_async(
-      search_cache_key
-    ) unless Rails.cache.exist?("#{search_cache_key}/worker")
-  end
-
   def search_params
-    params.permit(:location, :language, :hireable, :page, :repos)
+    params.permit(:first, :language, :location, :repos, :page)
   end
 end
