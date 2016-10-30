@@ -10,14 +10,19 @@ import muiTheme from '../theme.es6';
 
 // Error component
 const ErrorComponent = (props) => {
-  const { source } = props;
+  const { response, source } = props;
   let errorMessage;
 
-  if (source.errors && Array.isArray(source.errors)) {
+  if (response) {
+    errorMessage = response.statusText;
+  } else if (source && source.errors && Array.isArray(source.errors)) {
     errorMessage = source.errors[0].message;
-  } else {
+  } else if (source && source.message) {
     errorMessage = source.message;
+  } else {
+    errorMessage = 'Something went wrong!';
   }
+
   return (
     <MuiThemeProvider muiTheme={muiTheme}>
       <div className="overlay">
@@ -25,7 +30,7 @@ const ErrorComponent = (props) => {
           <FontIcon style={{ display: 'block' }}>
             <AlertError style={{ width: 50, height: 50 }} color="#c9302c" />
           </FontIcon>
-          Request failed: {errorMessage}
+          <p>Request failed: {errorMessage}</p>
           <RaisedButton
             label="Retry"
             style={{ marginTop: 10 }}
@@ -41,6 +46,7 @@ const ErrorComponent = (props) => {
 ErrorComponent.propTypes = {
   retry: React.PropTypes.func,
   source: React.PropTypes.object,
+  response: React.PropTypes.object,
 };
 
 export default ErrorComponent;

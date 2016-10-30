@@ -12,7 +12,6 @@ import { List } from 'material-ui/List';
 import Developer from './item.es6';
 import Pagination from '../pagination.es6';
 import EmptyList from '../shared/emptyList.es6';
-import LoadingList from '../shared/loadingList.es6';
 import muiTheme from '../theme.es6';
 
 class DevelopersList extends Component {
@@ -35,24 +34,6 @@ class DevelopersList extends Component {
       queryString.parse(document.location.search),
       ['language', 'location', 'page', 'hireable', 'repos']
     );
-    this.state = { loaded: false };
-  }
-
-  componentWillMount() {
-    this.props.relay.setVariables(this.queryObject, (readyState) => {
-      if (readyState.done) {
-        this.setState({ loaded: true }, () => {
-          const { pageInfo } = this.props.root.developers;
-          const { relay } = this.props;
-          if (pageInfo != null && pageInfo.hasNextPage) {
-            $.get(
-              '/search',
-              Object.assign(this.queryObject, { page: parseInt(relay.variables.page, 0) + 1 })
-            );
-          }
-        });
-      }
-    });
   }
 
   loadNext(event) {
@@ -90,29 +71,28 @@ class DevelopersList extends Component {
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
         <div className="col-md-7 pull-right" style={containerStyle}>
-          {this.state.loaded ?
-            (root.developers.edges && root.developers.edges.length > 0 ?
-              <List style={{ paddingTop: '0px', paddingBottom: '0px' }}>
-                {root.developers.edges.map(({ node }) => (
-                  <Developer
-                    developer={node}
-                    key={node.id}
-                  />
-                ))}
+          {root.developers.edges && root.developers.edges.length > 0 ?
+            <List style={{ paddingTop: '0px', paddingBottom: '0px' }}>
+              {root.developers.edges.map(({ node }) => (
+                <Developer
+                  developer={node}
+                  key={node.id}
+                />
+              ))}
 
-                {root.developers.pageInfo != null &&
-                  (root.developers.pageInfo.hasNextPage ||
-                    this.queryObject.page >= 2
-                  ) ?
-                    <Pagination
-                      loadNext={this.loadNext}
-                      queryObject={this.queryObject}
-                      pageInfo={root.developers.pageInfo}
-                      loadPrevious={this.loadPrevious}
-                    /> : ''
-                }
-              </List> : <EmptyList />) : <LoadingList />
-            }
+              {root.developers.pageInfo != null &&
+                (root.developers.pageInfo.hasNextPage ||
+                  this.queryObject.page >= 2
+                ) ?
+                  <Pagination
+                    loadNext={this.loadNext}
+                    queryObject={this.queryObject}
+                    pageInfo={root.developers.pageInfo}
+                    loadPrevious={this.loadPrevious}
+                  /> : ''
+              }
+            </List> : <EmptyList />
+          }
         </div>
       </MuiThemeProvider>
     );
@@ -129,10 +109,8 @@ const DevelopersListContainer = Relay.createContainer(DevelopersList, {
     first: 50,
     location: null,
     language: null,
-    hireable: null,
     repos: null,
-    order: '-id',
-    page: '1',
+    page: 1,
   },
 
   fragments: {
@@ -144,8 +122,6 @@ const DevelopersListContainer = Relay.createContainer(DevelopersList, {
           location: $location,
           language: $language,
           repos: $repos,
-          hireable: $hireable,
-          order: $order,
           page: $page,
         ) {
           edges {

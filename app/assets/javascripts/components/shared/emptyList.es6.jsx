@@ -3,7 +3,7 @@ import { grey500 } from 'material-ui/styles/colors';
 
 const EmptyList = () => {
   const emptyListStyle = {
-    paddingTop: '100px',
+    paddingTop: '60px',
     paddingBottom: '60px',
   };
 

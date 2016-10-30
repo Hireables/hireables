@@ -12,6 +12,7 @@ import ReactHelper from './reactHelper.es6';
 // Notification components
 import LoadingComponent from '../components/shared/loadingComponent';
 import ErrorComponent from '../components/shared/errorComponent';
+import LoadingList from '../components/shared/loadingList.es6';
 
 export const getComponentNodes = () => (
   document.getElementsByClassName('react-component')
@@ -46,16 +47,20 @@ export const mountComponents = () => {
     // Mount the root component to domNodeId
     if (routeName) {
       const { route } = ReactHelper.getRoute(routeName);
-      if (hydratedProps.id) {
-        route.params = {};
-        route.params.id = hydratedProps.id;
-      }
+      route.params = hydratedProps;
+
       ReactDOM.render(
         <Relay.Renderer
           Container={component}
           queryConfig={route}
           environment={Relay.Store}
           render={({ props, error, retry }) => {
+            if (hydratedProps.list && !props && !error) {
+              return (
+                <LoadingList />
+              );
+            }
+
             if (props) {
               return (
                 React.createElement(component, Object.assign(props, hydratedProps))
