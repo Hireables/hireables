@@ -7,6 +7,8 @@ import Avatar from 'material-ui/Avatar';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
 import { css } from 'aphrodite';
+import ActionEdit from 'material-ui/svg-icons/image/edit';
+import ActionDelete from 'material-ui/svg-icons/action/delete';
 
 // Child components
 import Languages from './languages.es6';
@@ -53,15 +55,27 @@ const DeveloperShow = (props) => {
                 <br /><br />
 
                 <Meta developer={developer} />
-                <br />
 
                 {props.can_edit ?
                   <RaisedButton
-                    label="Edit profile"
-                    secondary
+                    primary
+                    label="Edit"
+                    icon={<ActionEdit />}
                     className="edit-link"
-                    style={{ margin: '0 auto' }}
                     href={Routes.edit_developer_path(developer.login)}
+                  /> : ''
+                }
+
+                {props.can_edit ?
+                  <RaisedButton
+                    primary
+                    label="Delete"
+                    icon={<ActionDelete />}
+                    data-method="delete"
+                    data-confirm="This will completely delete your account. Okay?"
+                    className="edit-link"
+                    style={{ marginTop: 20, marginLeft: 10 }}
+                    href={Routes.cancel_developer_registration_path()}
                   /> : ''
                 }
               </div>

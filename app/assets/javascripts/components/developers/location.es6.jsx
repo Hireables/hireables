@@ -1,11 +1,22 @@
+/* global Turbolinks */
+
 import React from 'react';
 import Relay from 'react-relay';
 
 const Location = props => (
-  <div className="location" style={{ marginTop: '5px' }}>
-    <span style={{ color: '#333', fontWeight: '400' }}>
+  <div
+    className="location"
+    style={{ color: 'rgba(0, 0, 0, 0.7)', fontWeight: 400, marginTop: 5 }}
+  >
+    <a
+      target="_blank"
+      rel="noopener noreferrer"
+      style={{ color: 'inherit', textDecoration: 'none' }}
+      onClick={event => event.stopPropagation()}
+      href={`/search?location=${props.developer.location}`}
+    >
       <small>{props.developer.location}</small>
-    </span>
+    </a>
   </div>
 );
 

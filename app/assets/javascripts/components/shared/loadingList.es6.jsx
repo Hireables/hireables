@@ -6,12 +6,13 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 const developerStyle = {
   fontWeight: '500',
-  height: '100px',
+  height: '120px',
   backgroundColor: 'white',
 };
 
 const containerStyle = {
   paddingBottom: '0px',
+  paddingTop: '0px',
   borderRight: '1px solid #f2f2f2',
   boxShadow: '0 0 16px 0 rgba(63,67,69,0.3)',
   margin: '40px 0px',
@@ -33,9 +34,7 @@ const LoadingList = () => {
           <div className="animated-background secondary" />
         }
         primaryText={
-          <div className="loading">
-            <div className="animated-background" />
-          </div>
+          <div className="animated-background" />
         }
         disabled
         secondaryTextLines={1}
