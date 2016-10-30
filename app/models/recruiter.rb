@@ -5,9 +5,11 @@ class Recruiter < ApplicationRecord
 
   validates_presence_of :name, :company, :website
   validate :website_url_format, unless: :url_valid?
+
   before_create :add_login, unless: :login_present?
   after_commit :expire_search_query, if: :preferences_previously_changed?
   after_commit :send_admin_mail, on: :create
+
   mount_uploader :avatar, ImageUploader
 
   def active_for_authentication?
