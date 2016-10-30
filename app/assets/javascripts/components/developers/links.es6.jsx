@@ -140,6 +140,7 @@ class Links extends Component {
             tooltip="Prefer remote"
             tooltipStyles={{ top: '15px' }}
             tooltipPosition="bottom-center"
+            style={{ cursor: 'not-allowed' }}
             className={css(iconStyles.linkIcon, iconStyles.inline)}
             onClick={event => event.stopPropagation()}
           >
@@ -158,6 +159,7 @@ class Links extends Component {
             tooltip="Can relocate"
             tooltipStyles={{ top: '15px' }}
             tooltipPosition="bottom-center"
+            style={{ cursor: 'not-allowed' }}
             className={css(iconStyles.linkIcon, iconStyles.inline)}
             onClick={event => event.stopPropagation()}
           >
@@ -176,6 +178,7 @@ class Links extends Component {
             tooltip={`Works at ${this.props.developer.company}`}
             tooltipStyles={{ top: '15px' }}
             tooltipPosition="bottom-center"
+            style={{ cursor: 'not-allowed' }}
             className={css(iconStyles.linkIcon, iconStyles.inline)}
             onClick={event => event.stopPropagation()}
           >
