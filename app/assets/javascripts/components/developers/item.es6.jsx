@@ -96,6 +96,7 @@ class Developer extends Component {
           </div>
           <Bio developer={developer} />
           <Links developer={developer} />
+          <div className="clearfix" />
         </ListItem>
       </div>
     );

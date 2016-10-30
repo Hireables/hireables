@@ -71,6 +71,7 @@ const DeveloperShow = (props) => {
                 <Location developer={developer} />
                 <Bio developer={developer} />
                 <Links developer={developer} />
+                <div className="clearfix" />
                 <Languages developer={developer} />
                 <JobTypes developer={developer} />
                 <Levels developer={developer} />

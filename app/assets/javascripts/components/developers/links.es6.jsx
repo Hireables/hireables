@@ -14,7 +14,8 @@ import { css } from 'aphrodite';
 import iconStyles from '../styles/icons.es6';
 
 class Links extends Component {
-  static openUrl(url) {
+  static openUrl(event, url) {
+    event.preventDefault();
     const clicksCookieName = `${Cookies.get('visitor')}-clicks`;
     const clicksValue = parseInt(Cookies.get(clicksCookieName), 0) + 1;
 
@@ -39,6 +40,7 @@ class Links extends Component {
 
     const urlWithProtocol = url.match(/^http[s]*:\/\//) ? url : `http://${url}`;
     window.open(urlWithProtocol);
+    event.stopPropagation();
   }
 
   constructor(props) {
@@ -102,9 +104,9 @@ class Links extends Component {
             tooltipPosition="bottom-center"
             target="_blank"
             rel="noopener noreferrer"
-            className={css(iconStyles.linkIcon)}
+            className={css(iconStyles.linkIcon, iconStyles.inline)}
             tooltipStyles={{ top: '15px' }}
-            href={this.props.developer.blog}
+            onClick={event => Links.openUrl(event, this.props.developer.blog)}
           >
             <FontIcon
               className="material-icons"
@@ -121,10 +123,10 @@ class Links extends Component {
           target="_blank"
           rel="noopener noreferrer"
           tooltip="Github"
-          className={css(iconStyles.linkIcon)}
+          className={css(iconStyles.linkIcon, iconStyles.inline)}
           tooltipStyles={{ top: '15px' }}
           tooltipPosition="bottom-center"
-          href={this.props.developer.html_url}
+          onClick={event => Links.openUrl(event, this.props.developer.html_url)}
         >
           <FontIcon
             className="muidocs-icon-custom-github link-icon"
@@ -138,9 +140,8 @@ class Links extends Component {
             tooltip="Prefer remote"
             tooltipStyles={{ top: '15px' }}
             tooltipPosition="bottom-center"
-            href="#"
-            className={css(iconStyles.linkIcon)}
-            onClick={event => event.preventDefault()}
+            className={css(iconStyles.linkIcon, iconStyles.inline)}
+            onClick={event => event.stopPropagation()}
           >
             <FontIcon
               className="material-icons"
@@ -157,9 +158,8 @@ class Links extends Component {
             tooltip="Can relocate"
             tooltipStyles={{ top: '15px' }}
             tooltipPosition="bottom-center"
-            href="#"
-            className={css(iconStyles.linkIcon)}
-            onClick={event => event.preventDefault()}
+            className={css(iconStyles.linkIcon, iconStyles.inline)}
+            onClick={event => event.stopPropagation()}
           >
             <FontIcon
               className="material-icons"
@@ -176,9 +176,8 @@ class Links extends Component {
             tooltip={`Works at ${this.props.developer.company}`}
             tooltipStyles={{ top: '15px' }}
             tooltipPosition="bottom-center"
-            href="#"
-            className={css(iconStyles.linkIcon)}
-            onClick={event => event.preventDefault()}
+            className={css(iconStyles.linkIcon, iconStyles.inline)}
+            onClick={event => event.stopPropagation()}
           >
             <FontIcon
               className="material-icons"
@@ -196,10 +195,10 @@ class Links extends Component {
             target="_blank"
             rel="noopener noreferrer"
             tooltip="Linkedin"
-            className={css(iconStyles.linkIcon)}
+            className={css(iconStyles.linkIcon, iconStyles.inline)}
             tooltipStyles={{ top: '15px' }}
             tooltipPosition="bottom-center"
-            href={this.props.developer.linkedin}
+            onClick={event => Links.openUrl(event, this.props.developer.linkedin)}
           >
             <SvgIcon color="#777" viewBox="0 0 512 512">
               <path
