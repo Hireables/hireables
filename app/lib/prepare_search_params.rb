@@ -12,6 +12,14 @@ class PrepareSearchParams
     end.compact.join(' ')
   end
 
+  def to_props
+    search_props = { first: 50, list: true, page: Integer(params[:page] || 1) }
+    supported.each do |key|
+      search_props[key] = params[key.to_sym]
+    end
+    search_props
+  end
+
   def valid?
     valid_params.any?
   end
