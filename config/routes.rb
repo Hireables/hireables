@@ -22,6 +22,8 @@ Rails.application.routes.draw do
                                 as: :destroy_developer_session
     get 'developers/login', to: 'devise/sessions#new',
                             as: :new_developer_session
+    delete 'developers/cancel', to: 'devise/registrations#destroy',
+                            as: :cancel_developer_registration
   end
 
   devise_for :recruiters
