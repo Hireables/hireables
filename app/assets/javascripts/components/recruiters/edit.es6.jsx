@@ -91,7 +91,7 @@ class RecruiterEdit extends Component {
     };
 
     const onSuccess = () => {
-      window.location.href = Routes.recruiter_path(this.props.recruiter.login);
+      Turbolinks.visit(Routes.recruiter_path(this.props.recruiter.login));
     };
 
     Relay.Store.commitUpdate(new UpdateRecruiter({
@@ -107,7 +107,6 @@ class RecruiterEdit extends Component {
       this.setState({ open: true });
     });
   }
-
 
   handleTouchTap() {
     this.setState({
@@ -139,7 +138,8 @@ class RecruiterEdit extends Component {
 
   autocompleteCallback(predictions, status) {
     if (status !== this.autocompleteOK) {
-      console.error('place autocomplete failed'); return;
+      this.setNotification('Place autocomplete failed');
+      return;
     }
 
     this.setState({

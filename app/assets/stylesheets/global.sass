@@ -47,7 +47,7 @@ body
 
 .application
   .content
-    padding-top: 56px
+    padding: 60px 0
 
 .no-style
   list-style: none
@@ -112,24 +112,14 @@ body
 .pull-right
   float: right
 
+.box-border
+  border: 1px solid #d8d8d8
+
+.box-shadow
+  box-shadow: 0 0 16px 0 rgba(63,67,69,0.3)
+
 .center
   margin: 50px auto
-
-.col-8
-  width: 80%
-  float: left
-
-.col-6
-  width: 45%
-  float: left
-  padding-left: 15px
-  padding-right: 15px
-
-.col-4
-  width: 45%
-  float: left
-  padding-left: 15px
-  padding-right: 15px
 
 .header-separator
   box-sizing: border-box
@@ -160,88 +150,3 @@ body
   margin: 0 auto
   clear: both
   display: block
-  overflow: hidden
-
-.profile-show
-  .profile--small
-    padding: 40px 0 0
-
-.profile-list
-  clear: both
-  display: block
-  width: 100%
-
-  .profile--small
-    margin: 40px 0px
-
-  .filters
-    &.sticky
-      position: fixed
-      top: 50px
-      width: 274px
-
-.footer
-  padding-left: 15px
-  max-width: 980px
-  margin: 0 auto
-  padding-bottom: 20px
-
-.col-md-7
-  float: right
-  width: 65%
-
-.col-md-5
-  float: left
-  width: 30%
-
-
-@media (max-width: 1024px)
-  .col-md-7
-    float: none
-    width: 100%
-    display: block
-
-  .content
-    padding-bottom: 0
-
-  .col-md-5
-    float: none
-    width: 100%
-    display: block
-
-
-
-/* Setup mobile media queries */
-@media (max-width: 600px)
-  .hidden-sm
-    display: none
-
-  .col-md-7
-    float: none
-    width: 100%
-    display: block
-
-  .col-md-5
-    float: none
-    width: 100%
-    display: block
-
-  .profile-list
-    .profile--small
-      margin: 0
-
-
-  .col-6
-    width: 100%
-    padding: 15px
-
-  .col-4
-    width: 100%
-    padding: 15px
-
-  .profile
-    &.profile--item
-      width: 100%
-
-      div
-        width: 100%

@@ -76,7 +76,7 @@ class Home extends Component {
                 <ul style={{ padding: 0, marginBottom: 0, listStyle: 'none' }}>
                   <li style={listStyles}>
                     <ActionCheckCircle style={iconStyles} color="#66bb6a" />
-                    Signup with Github.
+                    Signup with Github to create an extended profile
                   </li>
                   <li style={listStyles}>
                     <ActionCheckCircle style={iconStyles} color="#66bb6a" />
@@ -88,7 +88,7 @@ class Home extends Component {
                   </li>
                   <li style={listStyles}>
                     <ActionCheckCircle style={iconStyles} color="#66bb6a" />
-                    Take control.
+                    Be in control.
                   </li>
                 </ul>
               </CardText>
@@ -97,8 +97,12 @@ class Home extends Component {
                 <RaisedButton
                   label="Signup"
                   icon={<FontIcon className="muidocs-icon-custom-github" />}
-                  onClick={() => Turbolinks.visit(Routes.new_developer_session_path())}
                   primary
+                  onClick={
+                    () => Turbolinks.visit(
+                      Routes.developer_github_omniauth_authorize_path()
+                    )
+                  }
                 />
               </CardActions>
             </Card>
@@ -120,11 +124,11 @@ class Home extends Component {
                 <ul style={{ padding: 0, marginBottom: 0, listStyle: 'none' }}>
                   <li style={listStyles}>
                     <ActionCheckCircle style={iconStyles} color="#66bb6a" />
-                    Signup with email.
+                    Signup with email to create a profile.
                   </li>
                   <li style={listStyles}>
                     <ActionCheckCircle style={iconStyles} color="#66bb6a" />
-                    Search both Github and Premium profiles from one place.
+                    Search Github and extended profiles from one place.
                   </li>
                   <li style={listStyles}>
                     <ActionCheckCircle style={iconStyles} color="#66bb6a" />

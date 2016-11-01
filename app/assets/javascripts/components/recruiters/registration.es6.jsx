@@ -6,6 +6,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
 import { FormsyText } from 'formsy-material-ui/lib';
 import Snackbar from 'material-ui/Snackbar';
+import { css } from 'aphrodite';
 import {
   Card,
   CardTitle,
@@ -13,23 +14,8 @@ import {
 } from 'material-ui/Card';
 import muiTheme from '../theme.es6';
 
-const styles = {
-  checkbox: {
-    marginBottom: 16,
-  },
-
-  input: {
-    marginBottom: 16,
-  },
-
-  select: {
-    marginBottom: 16,
-  },
-
-  button: {
-    marginBottom: 16,
-  },
-};
+// Stylesheets
+import formStyles from '../styles/forms.es6';
 
 const cardTitleStyle = {
   padding: '8px 16px 8px',
@@ -48,6 +34,7 @@ class RecruiterRegistration extends Component {
     super(props);
     this.onFormSubmit = this.onFormSubmit.bind(this);
     this.enableButton = this.enableButton.bind(this);
+    this.setNotification = this.setNotification.bind(this);
     this.disableButton = this.disableButton.bind(this);
     this.handleTouchTap = this.handleTouchTap.bind(this);
     this.handleRequestClose = this.handleRequestClose.bind(this);
@@ -85,11 +72,8 @@ class RecruiterRegistration extends Component {
   onFormSubmit(event) {
     event.preventDefault();
     $.post(this.props.action, this.formNode.getModel(), () => {
-      this.setState({
-        open: true,
-        notification: 'You have signed up successfully.' +
-          'We will email you once your account is verified.',
-      });
+      this.setNotification('You have signed up successfully. ' +
+          'We will email you once your account is verified.');
     }).fail((xhr) => {
       if (xhr.status === 422) {
         const errors = {};
@@ -101,18 +85,18 @@ class RecruiterRegistration extends Component {
         });
         this.formNode.updateInputsWithError(errors);
       } else {
-        this.setState({
-          open: true,
-          notification: 'Something went wrong. Please refresh and try again!',
-        });
+        this.setNotification('Something went wrong. Please refresh and try again!');
       }
-    }).always(() => {
-      setTimeout(() => {
-        window.location.href = Routes.root_path();
-      }, 3000);
     });
   }
 
+  setNotification(notification) {
+    this.setState({
+      notification,
+    }, () => {
+      this.setState({ open: true });
+    });
+  }
 
   handleTouchTap() {
     this.setState({
@@ -146,7 +130,7 @@ class RecruiterRegistration extends Component {
 
   autocompleteCallback(predictions, status) {
     if (status !== this.autocompleteOK) {
-      console.error('place autocomplete failed'); return;
+      this.setNotification('Place autocomplete failed');
     }
 
     this.setState({
@@ -314,7 +298,7 @@ class RecruiterRegistration extends Component {
                     type="submit"
                     title="Fill required fields before submitting"
                     disabled={!this.state.canSubmit}
-                    style={styles.button}
+                    className={css(formStyles.button)}
                   />
                 </div>
 
@@ -323,7 +307,7 @@ class RecruiterRegistration extends Component {
                     label="Login"
                     secondary
                     href={this.props.login_url}
-                    style={styles.button}
+                    className={css(formStyles.button, formStyles.input)}
                   />
                 </div>
 
@@ -347,7 +331,6 @@ class RecruiterRegistration extends Component {
 
 RecruiterRegistration.propTypes = {
   action: React.PropTypes.string,
-  errors: React.PropTypes.any,
   login_url: React.PropTypes.string,
 };
 

@@ -6,6 +6,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
 import { FormsyText } from 'formsy-material-ui/lib';
 import Snackbar from 'material-ui/Snackbar';
+import { css } from 'aphrodite';
 import {
   Card,
   CardTitle,
@@ -13,23 +14,8 @@ import {
 } from 'material-ui/Card';
 import muiTheme from '../theme.es6';
 
-const styles = {
-  checkbox: {
-    marginBottom: 16,
-  },
-
-  input: {
-    marginBottom: 16,
-  },
-
-  select: {
-    marginBottom: 16,
-  },
-
-  button: {
-    marginBottom: 16,
-  },
-};
+// Stylesheets
+import formStyles from '../styles/forms.es6';
 
 const cardTitleStyle = {
   padding: '8px 16px 8px',
@@ -47,6 +33,7 @@ class RecruiterUpdatePassword extends Component {
   constructor(props) {
     super(props);
     this.onFormSubmit = this.onFormSubmit.bind(this);
+    this.setNotification = this.setNotification.bind(this);
     this.enableButton = this.enableButton.bind(this);
     this.disableButton = this.disableButton.bind(this);
     this.handleRequestClose = this.handleRequestClose.bind(this);
@@ -63,10 +50,7 @@ class RecruiterUpdatePassword extends Component {
   onFormSubmit(event) {
     event.preventDefault();
     $.put(this.props.action, this.formNode.getModel(), () => {
-      this.setState({
-        open: true,
-        notification: 'Your password has been changed successfully.',
-      });
+      this.setNotification('Your password has been changed successfully.');
     }).fail((xhr) => {
       if (xhr.status === 422) {
         const errors = {};
@@ -78,15 +62,16 @@ class RecruiterUpdatePassword extends Component {
         });
         this.formNode.updateInputsWithError(errors);
       } else {
-        this.setState({
-          open: true,
-          notification: 'Something went wrong. Please refresh and try again!',
-        });
+        this.setNotification('Something went wrong. Please refresh and try again!');
       }
-    }).always(() => {
-      setTimeout(() => {
-        window.location.href = Routes.root_path();
-      }, 3000);
+    });
+  }
+
+  setNotification(notification) {
+    this.setState({
+      notification,
+    }, () => {
+      this.setState({ open: true });
     });
   }
 
@@ -180,7 +165,7 @@ class RecruiterUpdatePassword extends Component {
                     onClick={this.onFormSubmit}
                     type="submit"
                     disabled={!this.state.canSubmit}
-                    style={styles.button}
+                    className={css(formStyles.button)}
                     required
                   />
                 </div>
@@ -190,14 +175,14 @@ class RecruiterUpdatePassword extends Component {
                     label="Register"
                     secondary
                     href={this.props.signup_url}
-                    style={styles.button}
+                    className={css(formStyles.button)}
                   />
 
                   <RaisedButton
                     label="Login"
                     secondary
                     href={this.props.login_url}
-                    style={styles.button}
+                    className={css(formStyles.button, formStyles.input)}
                   />
                 </div>
 
@@ -221,7 +206,6 @@ class RecruiterUpdatePassword extends Component {
 
 RecruiterUpdatePassword.propTypes = {
   action: React.PropTypes.string,
-  errors: React.PropTypes.any,
   signup_url: React.PropTypes.string,
   login_url: React.PropTypes.string,
 };

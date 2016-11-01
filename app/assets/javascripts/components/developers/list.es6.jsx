@@ -7,6 +7,10 @@ import _ from 'underscore';
 import queryString from 'query-string';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { List } from 'material-ui/List';
+import {
+  Card,
+  CardText,
+} from 'material-ui/Card';
 
 // Local components
 import Developer from './item.es6';
@@ -60,40 +64,35 @@ class DevelopersList extends Component {
   }
 
   render() {
-    const containerStyle = {
-      paddingBottom: '0px',
-      border: '1px solid #d8d8d8',
-      boxShadow: '0 0 16px 0 rgba(63,67,69,0.3)',
-      margin: '40px 0px',
-    };
-
     const { root } = this.props;
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
-        <div className="col-md-7 pull-right" style={containerStyle}>
-          {root.developers.edges && root.developers.edges.length > 0 ?
-            <List style={{ paddingTop: '0px', paddingBottom: '0px' }}>
-              {root.developers.edges.map(({ node }) => (
-                <Developer
-                  developer={node}
-                  key={node.id}
-                />
-              ))}
+        <Card containerStyle={{ paddingBottom: 0 }}>
+          <CardText style={{ padding: 0, overflow: 'hidden' }}>
+            {root.developers.edges && root.developers.edges.length > 0 ?
+              <List style={{ paddingTop: 0, paddingBottom: 0 }}>
+                {root.developers.edges.map(({ node }) => (
+                  <Developer
+                    developer={node}
+                    key={node.id}
+                  />
+                ))}
 
-              {root.developers.pageInfo != null &&
-                (root.developers.pageInfo.hasNextPage ||
-                  this.queryObject.page >= 2
-                ) ?
-                  <Pagination
-                    loadNext={this.loadNext}
-                    queryObject={this.queryObject}
-                    pageInfo={root.developers.pageInfo}
-                    loadPrevious={this.loadPrevious}
-                  /> : ''
-              }
-            </List> : <EmptyList />
-          }
-        </div>
+                {root.developers.pageInfo != null &&
+                  (root.developers.pageInfo.hasNextPage ||
+                    this.queryObject.page >= 2
+                  ) ?
+                    <Pagination
+                      loadNext={this.loadNext}
+                      queryObject={this.queryObject}
+                      pageInfo={root.developers.pageInfo}
+                      loadPrevious={this.loadPrevious}
+                    /> : ''
+                }
+              </List> : <EmptyList />
+            }
+          </CardText>
+        </Card>
       </MuiThemeProvider>
     );
   }

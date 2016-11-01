@@ -71,9 +71,7 @@ class RecruiterLogin extends Component {
         }
       }
     }).always(() => {
-      setTimeout(() => {
-        window.location.href = Routes.root_path();
-      }, 3000);
+      window.location.href = Routes.root_path();
     });
   }
 
@@ -205,7 +203,6 @@ class RecruiterLogin extends Component {
 
 RecruiterLogin.propTypes = {
   action: React.PropTypes.string,
-  errors: React.PropTypes.any,
   signup_url: React.PropTypes.string,
   forgot_password_url: React.PropTypes.string,
 };

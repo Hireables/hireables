@@ -91,7 +91,9 @@ class RecruiterShow extends Component {
                   }}
                 >
                   <Avatar src={recruiter.avatar_url} size={100} />
-                  <IconButton onClick={this.openFileDialog}>
+                  <IconButton
+                    onClick={this.openFileDialog}
+                  >
                     <ActionCamera />
                   </IconButton>
                   <input

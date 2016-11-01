@@ -1,4 +1,4 @@
-/* global Turbolinks document $ location Routes */
+/* global Turbolinks document $ location Routes window */
 
 // Modules
 import React, { Component } from 'react';
@@ -10,6 +10,10 @@ import Chip from 'material-ui/Chip';
 import _ from 'underscore';
 import { FormsyText } from 'formsy-material-ui/lib';
 import { css } from 'aphrodite';
+import {
+  Card,
+  CardText,
+} from 'material-ui/Card';
 
 // Local components
 import muiTheme from './theme.es6';
@@ -17,18 +21,24 @@ import muiTheme from './theme.es6';
 // Stylesheets
 import chipStyles from './styles/chips.es6';
 
-// Styles
-const filterStyles = {
-  backgroundColor: 'white',
-  padding: '10px',
-  border: '1px solid #d8d8d8',
-  boxShadow: '0 0 16px 0 rgba(63,67,69,0.3)',
-};
-
 class Search extends Component {
   static onKeyPress(event) {
     if (event.keyCode === 13) {
       event.preventDefault();
+    }
+  }
+
+  static makeSticky() {
+    if ($(window).width() > 1024) {
+      $(document).scroll(() => {
+        if ($(window).scrollTop() > 350 &&
+            !($(document).height() - $(window).scrollTop() < 600)
+          ) {
+          $('.search-filters').addClass('sticky');
+        } else {
+          $('.search-filters').removeClass('sticky');
+        }
+      });
     }
   }
 
@@ -63,6 +73,13 @@ class Search extends Component {
       languagesData,
       validationErrors: {},
     };
+  }
+
+  componentDidMount() {
+    Search.makeSticky();
+    $(window).resize(() => {
+      Search.makeSticky();
+    });
   }
 
   handleRequestDelete(key) {
@@ -185,67 +202,69 @@ class Search extends Component {
   render() {
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
-        <div className="filters" style={filterStyles}>
-          <Formsy.Form
-            onValid={this.enableButton}
-            onKeyDown={Search.onKeyPress}
-            autoComplete="off"
-            ref={node => (this.formNode = node)}
-            onInvalid={this.disableButton}
-            validationErrors={this.state.validationErrors}
-          >
+        <Card>
+          <CardText style={{ padding: 16, fontSize: 16 }}>
+            <Formsy.Form
+              onValid={this.enableButton}
+              onKeyDown={Search.onKeyPress}
+              autoComplete="off"
+              ref={node => (this.formNode = node)}
+              onInvalid={this.disableButton}
+              validationErrors={this.state.validationErrors}
+            >
 
-            <div className="search-box language">
-              <FormsyText
-                id="text-field-default"
-                placeholder="(ex: ruby, python)"
-                name="language"
-                onKeyDown={this.checkComma}
-                ref={node => (this.languageNode = node)}
-                floatingLabelText="Search by programming languages"
-                floatingLabelFixed
-                fullWidth
-                autoFocus
-              />
+              <div className="search-box language">
+                <FormsyText
+                  id="text-field-default"
+                  placeholder="(ex: ruby, python)"
+                  name="language"
+                  onKeyDown={this.checkComma}
+                  ref={node => (this.languageNode = node)}
+                  floatingLabelText="Search by programming languages"
+                  floatingLabelFixed
+                  fullWidth
+                  autoFocus
+                />
 
-              <div className={css(chipStyles.wrapper)}>
-                {this.state.languagesData.map(this.renderChip, this)}
+                <div className={css(chipStyles.wrapper)}>
+                  {this.state.languagesData.map(this.renderChip, this)}
+                </div>
               </div>
-            </div>
 
-            <div className="search-box location">
-              <FormsyText
-                id="text-field-default"
-                placeholder="(ex: london)"
-                name="location"
-                fullWidth
-                defaultValue={this.state.form.location}
-                floatingLabelText="Search by location"
-                floatingLabelFixed
-              />
-            </div>
+              <div className="search-box location">
+                <FormsyText
+                  id="text-field-default"
+                  placeholder="(ex: london)"
+                  name="location"
+                  fullWidth
+                  defaultValue={this.state.form.location}
+                  floatingLabelText="Search by location"
+                  floatingLabelFixed
+                />
+              </div>
 
-            <div className="search-box repos">
-              <FormsyText
-                id="text-field-default"
-                placeholder="(ex: >=40)"
-                name="repos"
-                fullWidth
-                defaultValue={this.state.form.repos}
-                floatingLabelText="Search by number of repos"
-                floatingLabelFixed
+              <div className="search-box repos">
+                <FormsyText
+                  id="text-field-default"
+                  placeholder="(ex: >=40)"
+                  name="repos"
+                  fullWidth
+                  defaultValue={this.state.form.repos}
+                  floatingLabelText="Search by number of repos"
+                  floatingLabelFixed
+                />
+              </div>
+              <RaisedButton
+                label="Apply filters"
+                secondary
+                type="submit"
+                style={{ marginTop: '10px' }}
+                onClick={this.submitSearch}
+                disabled={!this.state.canSubmit}
               />
-            </div>
-            <RaisedButton
-              label="Apply filters"
-              secondary
-              type="submit"
-              style={{ marginTop: '10px' }}
-              onClick={this.submitSearch}
-              disabled={!this.state.canSubmit}
-            />
-          </Formsy.Form>
-        </div>
+            </Formsy.Form>
+          </CardText>
+        </Card>
       </MuiThemeProvider>
     );
   }

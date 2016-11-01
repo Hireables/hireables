@@ -22,6 +22,7 @@ import RecruiterRegistration from './components/recruiters/registration.es6';
 import RecruiterLogin from './components/recruiters/login.es6';
 import RecruiterNewPassword from './components/recruiters/newPassword.es6';
 import RecruiterUpdatePassword from './components/recruiters/updatePassword.es6';
+import './tracker.es6';
 
 injectTapEventPlugin();
 

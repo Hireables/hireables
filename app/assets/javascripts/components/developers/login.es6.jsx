@@ -33,7 +33,7 @@ const DeveloperLogin = () => (
         <RaisedButton
           label="Login with github"
           icon={<FontIcon className="muidocs-icon-custom-github" />}
-          onClick={() => Turbolinks.visit(Routes.new_developer_session_path())}
+          onClick={() => Turbolinks.visit(Routes.developer_github_omniauth_authorize_path())}
           primary
         />
         <div className="login-disclaimer" style={{ marginTop: 10 }}>

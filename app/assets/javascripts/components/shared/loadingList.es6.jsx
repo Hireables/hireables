@@ -10,14 +10,6 @@ const developerStyle = {
   backgroundColor: 'white',
 };
 
-const containerStyle = {
-  paddingBottom: '0px',
-  paddingTop: '0px',
-  borderRight: '1px solid #f2f2f2',
-  boxShadow: '0 0 16px 0 rgba(63,67,69,0.3)',
-  margin: '40px 0px',
-};
-
 const LoadingList = () => {
   const emptyPlaceholders = _.map(_.range(0, 50, 1), (elem, index) => (
     <div
@@ -44,7 +36,7 @@ const LoadingList = () => {
 
   return (
     <MuiThemeProvider>
-      <div className="col-md-7 pull-right" style={containerStyle}>
+      <div className="box-shadow box-border">
         <List style={{ paddingTop: '0px', paddingBottom: '0px' }}>
           {emptyPlaceholders}
         </List>
