@@ -1,4 +1,4 @@
-/* global Turbolinks document $ location Routes window */
+/* global Turbolinks mixpanel document $ location Routes window */
 
 // Modules
 import React, { Component } from 'react';
@@ -17,6 +17,8 @@ import {
 
 // Local components
 import muiTheme from './theme.es6';
+import CurrentUser from '../helpers/currentUser.es6';
+import Environment from '../helpers/environment.es6';
 
 // Stylesheets
 import chipStyles from './styles/chips.es6';
@@ -114,6 +116,15 @@ class Search extends Component {
     }), _.identity);
 
     const query = queryString.stringify(newModel);
+
+    if (Environment.production()) {
+      mixpanel.track('Search query', {
+        query,
+        userId: CurrentUser.id(),
+        userType: CurrentUser.type(),
+        userName: CurrentUser.name(),
+      });
+    }
 
     if (query === '') {
       Turbolinks.visit(Routes.root_path());

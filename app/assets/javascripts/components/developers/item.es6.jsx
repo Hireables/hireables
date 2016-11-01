@@ -1,4 +1,4 @@
-/* global $ Routes document history */
+/* global Routes document */
 
 // Modules
 import React, { Component } from 'react';
@@ -32,7 +32,6 @@ class Developer extends Component {
 
   openPopup() {
     const { developer } = this.props;
-
     developerRoute.params = {};
     developerRoute.params.id = developer.login;
 

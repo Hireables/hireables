@@ -12,6 +12,8 @@ import {
   CardTitle,
   CardText,
 } from 'material-ui/Card';
+
+// Local components
 import muiTheme from '../theme.es6';
 
 // Stylesheets

@@ -8,8 +8,4 @@ export default class Environment {
   static production() {
     return document.getElementsByName('environment')[0].content === 'production';
   }
-
-  static staging() {
-    return document.getElementsByName('environment')[0].content === 'staging';
-  }
 }

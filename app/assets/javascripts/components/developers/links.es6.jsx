@@ -4,7 +4,6 @@
 // Modules
 import React, { Component } from 'react';
 import Relay from 'react-relay';
-import Cookies from 'js-cookie';
 import IconButton from 'material-ui/IconButton';
 import FontIcon from 'material-ui/FontIcon';
 import SvgIcon from 'material-ui/SvgIcon';
@@ -16,28 +15,6 @@ import iconStyles from '../styles/icons.es6';
 class Links extends Component {
   static openUrl(event, url) {
     event.preventDefault();
-    const clicksCookieName = `${Cookies.get('visitor')}-clicks`;
-    const clicksValue = parseInt(Cookies.get(clicksCookieName), 0) + 1;
-
-    Cookies.set(
-      clicksCookieName,
-      clicksValue
-    );
-
-    if ($('meta[name="env"]').data('env') === 'production') {
-      ga(
-        'send',
-        'event',
-        'link',
-        'click',
-        'Clicked link',
-        clicksValue,
-        {
-          user_id: Cookies.get('visitor'),
-        },
-      );
-    }
-
     const urlWithProtocol = url.match(/^http[s]*:\/\//) ? url : `http://${url}`;
     window.open(urlWithProtocol);
     event.stopPropagation();
@@ -50,29 +27,6 @@ class Links extends Component {
 
   openMail(e) {
     e.preventDefault();
-    const emailClicksCookieName = `${Cookies.get('visitor')}-email-clicks`;
-    const emailClicksValue = parseInt(Cookies.get(emailClicksCookieName), 0) + 1;
-
-    Cookies.set(
-      emailClicksCookieName,
-      emailClicksValue
-    );
-
-    if ($('meta[name="env"]').data('env') === 'production') {
-      ga(
-        'send',
-        'event',
-        'email',
-        'click',
-        'Clicked email',
-        emailClicksValue,
-        {
-          email: this.props.developer.email,
-          user_id: Cookies.get('visitor'),
-        },
-      );
-    }
-
     window.location.href = `mailto:${this.props.developer.email}`;
     e.stopPropagation();
   }

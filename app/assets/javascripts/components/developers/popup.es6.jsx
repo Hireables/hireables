@@ -1,5 +1,7 @@
 // Modules
 
+/* global $ mixpanel */
+
 import React, { Component } from 'react';
 import Relay from 'react-relay';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -7,10 +9,12 @@ import IconButton from 'material-ui/IconButton';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import 'dialog-polyfill/dialog-polyfill.css';
 import muiTheme from '../theme.es6';
+import CurrentUser from '../../helpers/currentUser.es6';
 
 // Util
 import DeveloperShow from './show.es6';
 import Dialog from '../../utils/dialog.es6';
+import Environment from '../../helpers/environment.es6';
 
 // Stylesheet
 import '../styles/popup.sass';
@@ -27,6 +31,16 @@ class Popup extends Component {
     setTimeout(() => {
       this.dialog.get().classList.remove('pulse');
     }, 300);
+
+    if (Environment.production()) {
+      mixpanel.track('Profile loaded', {
+        developerLogin: this.props.developer.login,
+        premium: this.props.developer.premium,
+        userId: CurrentUser.id(),
+        userType: CurrentUser.type(),
+        userName: CurrentUser.id(),
+      });
+    }
   }
 
   render() {

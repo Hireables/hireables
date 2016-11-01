@@ -11,8 +11,7 @@ import Search from './components/search.es6';
 import DevelopersList from './components/developers/list.es6';
 import DeveloperShow from './components/developers/show.es6';
 import DeveloperEdit from './components/developers/edit.es6';
-import DeveloperLogin from './components/developers/login.es6.jsx';
-import CookiesTracker from './components/cookies.es6';
+import DeveloperLogin from './components/developers/login.es6';
 import ReactHelper from './utils/reactHelper.es6';
 import renderComponents from './bootstrapper.es6';
 import RecruiterRoute from './routes/recruiterRoute.es6';
@@ -22,7 +21,7 @@ import RecruiterRegistration from './components/recruiters/registration.es6';
 import RecruiterLogin from './components/recruiters/login.es6';
 import RecruiterNewPassword from './components/recruiters/newPassword.es6';
 import RecruiterUpdatePassword from './components/recruiters/updatePassword.es6';
-import './tracker.es6';
+import './analytics.es6';
 
 injectTapEventPlugin();
 
@@ -32,7 +31,6 @@ ReactHelper.registerComponent({
   DevelopersList,
   DeveloperShow,
   DeveloperEdit,
-  CookiesTracker,
   Footer,
   RecruiterLogin,
   RecruiterRegistration,
