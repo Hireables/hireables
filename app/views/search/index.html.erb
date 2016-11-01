@@ -1,8 +1,14 @@
-<div class="profile-list wrapper">
-  <div class="container">
-    <div class="profile-list profile--small col-md-5">
+<div class="container">
+  <div class="search-wrapper">
+    <div class="search-filters">
       <%= react_component 'Search', nil %>
     </div>
-    <%= react_component 'DevelopersList', 'RootRoute', @search_params.to_props.to_json %>
+    <div class="search-results">
+      <%= react_component(
+        'DevelopersList',
+        'RootRoute',
+        @search_params.to_props.to_json)
+      %>
+    </div>
   </div>
 </div>
