@@ -2,10 +2,10 @@ class PagesController < ApplicationController
   layout 'pages', except: :index
 
   def index
-    @title = "Search hireables without noise"
+    @title = "Search hireable developers through Github"
     @subtitle = "
-      Hireables is a tiny platform on top of Github API
-      that enables developers to extend their Github profiles and
+      Hireables is a small platform that leverages Github API
+      to enables developers extend their Github profiles and
       employers search real hireables.
     "
   end

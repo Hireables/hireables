@@ -6,6 +6,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
 import { FormsyText } from 'formsy-material-ui/lib';
 import Snackbar from 'material-ui/Snackbar';
+import { css } from 'aphrodite';
 import {
   Card,
   CardTitle,
@@ -13,23 +14,8 @@ import {
 } from 'material-ui/Card';
 import muiTheme from '../theme.es6';
 
-const styles = {
-  checkbox: {
-    marginBottom: 16,
-  },
-
-  input: {
-    marginBottom: 16,
-  },
-
-  select: {
-    marginBottom: 16,
-  },
-
-  button: {
-    marginBottom: 16,
-  },
-};
+// Stylesheets
+import formStyles from '../styles/forms.es6';
 
 const cardTitleStyle = {
   padding: '8px 16px 8px',
@@ -176,26 +162,26 @@ class RecruiterLogin extends Component {
                   <RaisedButton
                     label="Login"
                     secondary
+                    className={css(formStyles.button)}
                     onClick={this.onFormSubmit}
                     type="submit"
                     disabled={!this.state.canSubmit}
-                    style={styles.button}
                   />
                 </div>
 
                 <div className="extra-actions">
                   <RaisedButton
                     label="Register"
+                    className={css(formStyles.button)}
                     secondary
                     href={this.props.signup_url}
-                    style={styles.button}
                   />
 
                   <RaisedButton
                     label="Forgot your password?"
+                    className={css(formStyles.button, formStyles.input)}
                     secondary
                     href={this.props.forgot_password_url}
-                    style={styles.button}
                   />
                 </div>
 

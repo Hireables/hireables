@@ -11,6 +11,7 @@ import Search from './components/search.es6';
 import DevelopersList from './components/developers/list.es6';
 import DeveloperShow from './components/developers/show.es6';
 import DeveloperEdit from './components/developers/edit.es6';
+import DeveloperLogin from './components/developers/login.es6.jsx';
 import CookiesTracker from './components/cookies.es6';
 import ReactHelper from './utils/reactHelper.es6';
 import renderComponents from './bootstrapper.es6';
@@ -39,6 +40,7 @@ ReactHelper.registerComponent({
   Search,
   RecruiterShow,
   RecruiterEdit,
+  DeveloperLogin,
 });
 
 ReactHelper.registerRoute({
