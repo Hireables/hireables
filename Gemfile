@@ -61,6 +61,8 @@ gem 'carrierwave', git: 'https://github.com/carrierwaveuploader/carrierwave.git'
 
 group :production do
   gem 'rails_12factor'
+  gem 'sentry-raven'
+  gem 'heroku-deflater'
 end
 
 group :development do

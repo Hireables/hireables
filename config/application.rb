@@ -43,6 +43,8 @@ module Hireables
       domain: ENV.fetch('MAILGUN_API_DOMAIN')
     }
 
+    config.filter_parameters << :password
+
     # Cors
     config.middleware.insert_before 0, Rack::Cors do
       allow do
