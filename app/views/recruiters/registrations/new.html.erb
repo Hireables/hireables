@@ -3,13 +3,4 @@
   window.MAPS_API_KEY = "<%= ENV['GOOGLE_MAPS_API_KEY'] %>";
 </script>
 
-<div class="card">
-  <h2 class="title">Register as recruiter</h2>
-  <p class="subtitle">
-    Please signup and we will be touch once your details are verified. You won't be able to login and use the platform in meantime.
-  </p>
-  <%= react_component 'RecruiterRegistration', nil, { action: registration_path(resource_name), edit_page: false, errors: devise_error_messages! }.to_json %>
-  <div class="links">
-    <%= render "recruiters/shared/links" %>
-  </div>
-</div>
+<%= react_component 'RecruiterRegistration', nil, { action: registration_path(resource_name), login_url: new_session_path(resource_name), edit_page: false, errors: devise_error_messages! }.to_json %>

@@ -1,10 +1,1 @@
-<div class="card small">
-  <h2 class="title">Recover your password</h2>
-  <p class="subtitle">
-    Your account should exist and verified.
-  </p>
-  <%= react_component 'RecruiterNewPassword', nil, { action: password_path(resource_name), errors: devise_error_messages! }.to_json %>
-  <div class="links">
-    <%= render "recruiters/shared/links" %>
-  </div>
-</div>
+<%= react_component 'RecruiterNewPassword', nil, { action: password_path(resource_name), errors: devise_error_messages!, signup_url: new_registration_path(resource_name), login_url: new_session_path(resource_name) }.to_json %>

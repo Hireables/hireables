@@ -45,15 +45,29 @@
 
   </head>
 
-  <body class="application <%= user_signed_in? ? 'authenticated' : 'guest'%>">
-    <%= react_component 'CookiesTracker', nil %>
-    <%= react_component 'NavBar', nil, { authenticated: signed_in?, current_user: { name: current_user.try(:name), email: current_user.try(:email), avatar_url: current_user.try(:avatar_url, :thumb), login:  current_user.try(:login), type: current_user.try(:class).try(:name).try(:downcase) } }.to_json %>
+  <body class="<%= user_signed_in? ? 'authenticated' : 'guest'%>">
+    <div class="jumbotron <%= current_page?(root_path) ? 'landing' : 'page'%>">
+      <%= react_component 'NavBar', nil, { authenticated: signed_in?, current_user: { name: current_user.try(:name), email: current_user.try(:email), avatar_url: current_user.try(:avatar_url, :thumb), login:  current_user.try(:login), type: current_user.try(:class).try(:name).try(:downcase) } }.to_json %>
+      <div class="container">
+        <div class="intro">
+          <h1 class="title">
+            <%= @title %>
+          </h1>
+          <h3 class="subtitle">
+            <%= @subtitle %>
+          </h3>
+        </div>
+      </div>
+    </div>
 
     <div class="content">
-      <%= yield %>
+      <section class="cookies">
+        <div class="container">
+          <%= yield %>
+        </div>
+      </section>
     </div>
 
     <%= react_component 'Footer', nil %>
-    <div id="popups-container"></div>
   </body>
 </html>

@@ -1,10 +1,1 @@
-<div class="card small">
-  <h2 class="title">Recruiter Login</h2>
-  <p class="subtitle">
-    You account should be verified to login.
-  </p>
-  <%= react_component 'RecruiterLogin', nil, { action: session_path(resource_name), errors: devise_error_messages! }.to_json %>
-  <div class="links">
-    <%= render "recruiters/shared/links" %>
-  </div>
-</div>
+<%= react_component 'RecruiterLogin', nil, { action: session_path(resource_name), errors: devise_error_messages!, signup_url: new_registration_path(resource_name), forgot_password_url: new_password_path(resource_name) }.to_json %>

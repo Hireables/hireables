@@ -2,12 +2,4 @@
   /* global window */
   window.MAPS_API_KEY = "<%= ENV['GOOGLE_MAPS_API_KEY'] %>";
 </script>
-
-<div class="card">
-  <h2 class="title">Update your profile</h2>
-  <p class="subtitle">
-    Please provide your current password to update changes.
-  </p>
-
-  <%= react_component 'RecruiterEdit', 'RecruiterRoute', { id: @recruiter.login }.to_json%>
-</div>
+<%= react_component 'RecruiterEdit', 'RecruiterRoute', { id: @recruiter.login }.to_json%>
