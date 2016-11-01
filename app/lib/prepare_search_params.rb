@@ -1,9 +1,9 @@
 class PrepareSearchParams
-  attr_reader :params, :current_recruiter
+  attr_reader :params, :current_user
 
-  def initialize(params, current_recruiter)
+  def initialize(params, current_user)
     @params = params
-    @current_recruiter = current_recruiter
+    @current_user = current_user
   end
 
   def to_query
@@ -33,7 +33,7 @@ class PrepareSearchParams
   private
 
   def request_params
-    valid? ? valid_params : current_recruiter.preferences
+    valid? ? valid_params : { location: current_user.location }
   end
 
   def supported?(key, value)
