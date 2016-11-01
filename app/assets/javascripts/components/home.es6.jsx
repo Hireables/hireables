@@ -24,6 +24,12 @@ const listStyles = {
   display: 'block',
 };
 
+const cardTitleStyle = {
+  padding: '8px 16px 8px',
+  backgroundColor: '#f5f5f5',
+  borderBottom: '1px solid #d8d8d8',
+};
+
 class Home extends Component {
   constructor(props) {
     super(props);
@@ -47,113 +53,101 @@ class Home extends Component {
   render() {
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
-        <section className="split-home">
-          <section className="left-section">
-            <div className="hero-section">
-              <div className="hero-content">
-                <div className="developer">
-                  <Card className="hero-card">
-                    <CardTitle
-                      title="For Developers"
-                      style={{ padding: '16px 16px 8px' }}
-                      titleStyle={{
-                        color: '#6F879A',
-                        fontSize: 20,
-                        fontWeight: 500,
-                        borderBottom: '1px solid #6F879A',
-                      }}
-                    />
+        <div className="container">
+          <section className="split-home">
+            <Card
+              className="hero-card"
+              style={{ border: '1px solid #d8d8d8' }}
+            >
+              <CardTitle
+                title="Developers"
+                style={cardTitleStyle}
+                titleStyle={{
+                  color: '#333',
+                  fontSize: 18,
+                  fontWeight: 500,
+                }}
+              />
 
-                    <CardText style={{ padding: '8px 16px', fontSize: 16 }}>
-                      <p style={{ marginTop: '0px', fontWeight: '500' }}>
-                        Receive high quality job offers from vetted recruiters.
-                      </p>
-                      <ul style={{ padding: 0, marginBottom: 0, listStyle: 'none' }}>
-                        <li style={listStyles}>
-                          <ActionCheckCircle style={iconStyles} color="#66bb6a" />
-                          Signup with Github.
-                        </li>
-                        <li style={listStyles}>
-                          <ActionCheckCircle style={iconStyles} color="#66bb6a" />
-                          Update your experiences and job preferences.
-                        </li>
-                        <li style={listStyles}>
-                          <ActionCheckCircle style={iconStyles} color="#66bb6a" />
-                          Receive high quality job offers.
-                        </li>
-                        <li style={listStyles}>
-                          <ActionCheckCircle style={iconStyles} color="#66bb6a" />
-                          Unsubscribe anytime.
-                        </li>
-                      </ul>
-                    </CardText>
+              <CardText style={{ padding: '16px 16px 0', fontSize: 16 }}>
+                <p style={{ marginTop: '0px', fontWeight: '500' }}>
+                  Receive high quality job offers from vetted recruiters.
+                </p>
+                <ul style={{ padding: 0, marginBottom: 0, listStyle: 'none' }}>
+                  <li style={listStyles}>
+                    <ActionCheckCircle style={iconStyles} color="#66bb6a" />
+                    Signup with Github.
+                  </li>
+                  <li style={listStyles}>
+                    <ActionCheckCircle style={iconStyles} color="#66bb6a" />
+                    Update your experiences and job preferences.
+                  </li>
+                  <li style={listStyles}>
+                    <ActionCheckCircle style={iconStyles} color="#66bb6a" />
+                    Receive high quality job offers.
+                  </li>
+                  <li style={listStyles}>
+                    <ActionCheckCircle style={iconStyles} color="#66bb6a" />
+                    Take control.
+                  </li>
+                </ul>
+              </CardText>
 
-                    <CardActions style={{ padding: '0 16px 10px' }}>
-                      <RaisedButton
-                        label="Signup"
-                        icon={<FontIcon className="muidocs-icon-custom-github" />}
-                        onClick={() => Turbolinks.visit(Routes.new_developer_session_path())}
-                        primary
-                      />
-                    </CardActions>
-                  </Card>
-                </div>
-              </div>
-            </div>
+              <CardActions style={{ padding: '8px 16px 10px' }}>
+                <RaisedButton
+                  label="Signup"
+                  icon={<FontIcon className="muidocs-icon-custom-github" />}
+                  onClick={() => Turbolinks.visit(Routes.new_developer_session_path())}
+                  primary
+                />
+              </CardActions>
+            </Card>
+
+            <Card className="hero-card">
+              <CardTitle
+                title="Employers and Recruiters"
+                style={cardTitleStyle}
+                titleStyle={{
+                  color: '#333',
+                  fontSize: 18,
+                  fontWeight: 500,
+                }}
+              />
+              <CardText style={{ padding: '16px 16px 0', fontSize: 16 }}>
+                <p style={{ marginTop: 0, fontWeight: '500' }}>
+                  Search hireable developers from around the world.
+                </p>
+                <ul style={{ padding: 0, marginBottom: 0, listStyle: 'none' }}>
+                  <li style={listStyles}>
+                    <ActionCheckCircle style={iconStyles} color="#66bb6a" />
+                    Signup with email.
+                  </li>
+                  <li style={listStyles}>
+                    <ActionCheckCircle style={iconStyles} color="#66bb6a" />
+                    Search both Github and Premium profiles from one place.
+                  </li>
+                  <li style={listStyles}>
+                    <ActionCheckCircle style={iconStyles} color="#66bb6a" />
+                    See experiences and job preferences upfront.
+                  </li>
+                  <li style={listStyles}>
+                    <ActionCheckCircle style={iconStyles} color="#66bb6a" />
+                    Reach out to Hireables with your offer.
+                  </li>
+                </ul>
+              </CardText>
+
+              <CardActions style={{ padding: '8px 16px 10px' }}>
+                <RaisedButton
+                  label="Signup"
+                  icon={<ActionContentMail color="white" />}
+                  onClick={() => Turbolinks.visit(Routes.new_recruiter_registration_path())}
+                  primary
+                />
+              </CardActions>
+            </Card>
           </section>
-          <section className="right-section">
-            <div className="hero-section">
-              <div className="hero-content">
-                <div className="recruiter">
-                  <Card className="hero-card">
-                    <CardTitle
-                      title="For Employers and Recruiters"
-                      style={{ padding: '16px 16px 8px' }}
-                      titleStyle={{
-                        color: '#6F879A',
-                        fontSize: 20,
-                        fontWeight: 500,
-                        borderBottom: '1px solid #6F879A',
-                      }}
-                    />
-                    <CardText style={{ padding: '8px 16px', fontSize: 16 }}>
-                      <p style={{ marginTop: 0, fontWeight: '500' }}>
-                        Search hireable developers from around the world.
-                      </p>
-                      <ul style={{ padding: 0, marginBottom: 0, listStyle: 'none' }}>
-                        <li style={listStyles}>
-                          <ActionCheckCircle style={iconStyles} color="#66bb6a" />
-                          Signup with email.
-                        </li>
-                        <li style={listStyles}>
-                          <ActionCheckCircle style={iconStyles} color="#66bb6a" />
-                          Search Github and Premium profiles from one place.
-                        </li>
-                        <li style={listStyles}>
-                          <ActionCheckCircle style={iconStyles} color="#66bb6a" />
-                          See experiences and job preferences upfront.
-                        </li>
-                        <li style={listStyles}>
-                          <ActionCheckCircle style={iconStyles} color="#66bb6a" />
-                          Reach out to Hireables with your offer.
-                        </li>
-                      </ul>
-                    </CardText>
-
-                    <CardActions style={{ padding: '0 16px 10px' }}>
-                      <RaisedButton
-                        label="Signup"
-                        icon={<ActionContentMail color="white" />}
-                        onClick={() => Turbolinks.visit(Routes.new_recruiter_registration_path())}
-                        primary
-                      />
-                    </CardActions>
-                  </Card>
-                </div>
-              </div>
-            </div>
-          </section>
-        </section>
+        </div>
       </MuiThemeProvider>
     );
   }

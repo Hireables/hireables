@@ -21,6 +21,7 @@ import chipStyles from './styles/chips.es6';
 const filterStyles = {
   backgroundColor: 'white',
   padding: '10px',
+  border: '1px solid #d8d8d8',
   boxShadow: '0 0 16px 0 rgba(63,67,69,0.3)',
 };
 

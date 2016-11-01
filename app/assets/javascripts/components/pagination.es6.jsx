@@ -18,6 +18,7 @@ const Pagination = props => (
         {props.queryObject.page >= 2 ?
           <RaisedButton
             label="Previous"
+            primary
             className="link previous"
             style={buttonStyles}
             onClick={props.loadPrevious}
@@ -28,6 +29,7 @@ const Pagination = props => (
           props.pageInfo.hasNextPage ?
             <RaisedButton
               label="Next"
+              primary
               className="link next"
               style={buttonStyles}
               onClick={props.loadNext}

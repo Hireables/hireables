@@ -72,7 +72,7 @@ const DeveloperShow = (props) => {
                     label="Delete"
                     icon={<ActionDelete />}
                     data-method="delete"
-                    data-confirm="This will completely delete your account. Okay?"
+                    data-confirm="This will delete your account. Okay?"
                     className="edit-link"
                     style={{ marginTop: 20, marginLeft: 10 }}
                     href={Routes.cancel_developer_registration_path()}

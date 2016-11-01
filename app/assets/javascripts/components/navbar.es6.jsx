@@ -6,13 +6,14 @@ import {
   ToolbarTitle,
 } from 'material-ui/Toolbar';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
 import Popover from 'material-ui/Popover';
 import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
 import Avatar from 'material-ui/Avatar';
 import ActionContentMail from 'material-ui/svg-icons/content/mail';
+import muiTheme from './theme.es6';
 
 class NavBar extends Component {
   constructor(props) {
@@ -85,7 +86,8 @@ class NavBar extends Component {
 
     const buttonStyle = {
       margin: 12,
-      color: 'white',
+      color: '#333',
+      backgroundColor: 'white',
     };
 
     const { current_user, authenticated } = this.props;
@@ -98,13 +100,12 @@ class NavBar extends Component {
     const active = currentUserProfilePath === window.location.pathname ? 'active' : '';
 
     return (
-      <MuiThemeProvider>
+      <MuiThemeProvider muiTheme={muiTheme}>
         <div className="nav">
           <div className="container">
-            <Toolbar style={toolbarStyles} className="nav--toolbar">
+            <Toolbar style={toolbarStyles}>
               <ToolbarGroup key={0} style={toolbarGroupStyles}>
                 <a
-                  data-turbolinks="false"
                   href={Routes.root_path()}
                   className="link bold"
                   style={toolbarGroupStyles.link}
@@ -112,13 +113,6 @@ class NavBar extends Component {
                   <ToolbarTitle text="hireables" style={logoStyles} />
                 </a>
                 <span style={betaStyles}>beta2</span>
-              </ToolbarGroup>
-
-              <ToolbarGroup key={1}>
-                <ToolbarTitle
-                  text="Search hireable developers through Github"
-                  style={toolbarGroupStyles.slogan}
-                />
               </ToolbarGroup>
 
               <ToolbarGroup key={2}>
@@ -150,10 +144,9 @@ class NavBar extends Component {
                     </a>
                   </div> :
                     <div className="logged out">
-                      <FlatButton
+                      <RaisedButton
                         onTouchTap={this.handleTouchTap}
                         label="Login"
-                        secondary
                         style={buttonStyle}
                       />
                       <Popover

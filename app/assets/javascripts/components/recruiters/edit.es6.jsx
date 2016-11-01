@@ -6,7 +6,11 @@ import Formsy from 'formsy-react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
 import { FormsyText } from 'formsy-material-ui/lib';
-import _ from 'underscore';
+import {
+  Card,
+  CardTitle,
+  CardText,
+} from 'material-ui/Card';
 import Snackbar from 'material-ui/Snackbar';
 import { css } from 'aphrodite';
 import muiTheme from '../theme.es6';
@@ -16,6 +20,12 @@ import UpdateRecruiter from '../../mutations/recruiter/updateRecruiter.es6';
 
 // Stylesheets
 import formStyles from '../styles/forms.es6';
+
+const cardTitleStyle = {
+  padding: '8px 16px 8px',
+  backgroundColor: '#f5f5f5',
+  borderBottom: '1px solid #d8d8d8',
+};
 
 class RecruiterEdit extends Component {
   static onKeyPress(event) {
@@ -166,150 +176,167 @@ class RecruiterEdit extends Component {
 
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
-        <div className="form registration">
-          <Formsy.Form
-            method="post"
-            onValidSubmit={this.onFormSubmit}
-            onValid={this.enableButton}
-            ref={node => (this.formNode = node)}
-            autoComplete="off"
-            onInvalid={this.disableButton}
-          >
-            <div className="row">
-              <div className="field">
-                <FormsyText
-                  id="text-field-default"
-                  name="name"
-                  floatingLabelText="Full Name *"
-                  defaultValue={recruiter.name}
-                  autoFocus
-                  required
-                />
-              </div>
+        <Card
+          className="card"
+          style={{ border: '1px solid #d8d8d8' }}
+        >
+          <CardTitle
+            title="Update your profile"
+            style={cardTitleStyle}
+            titleStyle={{
+              color: '#333',
+              fontSize: 18,
+              fontWeight: 500,
+            }}
+          />
 
-              <div className="field">
-                <FormsyText
-                  id="text-field-default"
-                  name="company"
-                  floatingLabelText="Company Name *"
-                  defaultValue={recruiter.company}
-                  required
-                />
-              </div>
+          <CardText>
+            <div className="form registration">
+              <Formsy.Form
+                method="post"
+                onValidSubmit={this.onFormSubmit}
+                onValid={this.enableButton}
+                ref={node => (this.formNode = node)}
+                autoComplete="off"
+                onInvalid={this.disableButton}
+              >
+                <div className="row">
+                  <div className="field">
+                    <FormsyText
+                      id="text-field-default"
+                      name="name"
+                      floatingLabelText="Full Name *"
+                      defaultValue={recruiter.name}
+                      autoFocus
+                      required
+                    />
+                  </div>
 
-              <div className="field">
-                <FormsyText
-                  id="text-field-default"
-                  name="website"
-                  floatingLabelText="Website or Linkedin link *"
-                  defaultValue={recruiter.website}
-                  required
-                  updateImmediately
-                  validations={{
-                    isUrl: true,
-                  }}
-                  validationErrors={{
-                    isUrl: 'Invalid website url',
-                  }}
-                />
-              </div>
+                  <div className="field">
+                    <FormsyText
+                      id="text-field-default"
+                      name="company"
+                      floatingLabelText="Company Name *"
+                      defaultValue={recruiter.company}
+                      required
+                    />
+                  </div>
 
-              <div className="field">
-                <FormsyText
-                  id="text-field-default"
-                  type="text"
-                  value={this.state.selectedLocation}
-                  name="location"
-                  floatingLabelText="Location * (ex: london)"
-                  onChange={this.handleInputChange}
-                  required
-                  updateImmediately
-                />
-                <div
-                  id="PlacesAutocomplete__autocomplete-container"
-                  className={`dropdown autocomplete ${this.state.suggesting ? 'suggesting' : ''}`}
-                >
-                  {this.state.autocompleteItems.map(p => (
+                  <div className="field">
+                    <FormsyText
+                      id="text-field-default"
+                      name="website"
+                      floatingLabelText="Website or Linkedin link *"
+                      defaultValue={recruiter.website}
+                      required
+                      updateImmediately
+                      validations={{
+                        isUrl: true,
+                      }}
+                      validationErrors={{
+                        isUrl: 'Invalid website url',
+                      }}
+                    />
+                  </div>
+
+                  <div className="field">
+                    <FormsyText
+                      id="text-field-default"
+                      type="text"
+                      value={this.state.selectedLocation}
+                      name="location"
+                      floatingLabelText="Location * (ex: london)"
+                      onChange={this.handleInputChange}
+                      required
+                      updateImmediately
+                    />
                     <div
-                      key={p.placeId}
-                      className="suggestion"
-                      onClick={() => this.selectAddress(p.suggestion)}
+                      id="PlacesAutocomplete__autocomplete-container"
+                      className={`dropdown autocomplete ${this.state.suggesting ? 'suggesting' : ''}`}
                     >
-                      {p.suggestion}
+                      {this.state.autocompleteItems.map(p => (
+                        <div
+                          key={p.placeId}
+                          className="suggestion"
+                          onClick={() => this.selectAddress(p.suggestion)}
+                        >
+                          {p.suggestion}
+                        </div>
+                      ))}
                     </div>
-                  ))}
+                  </div>
+
+                  <div className="field">
+                    <FormsyText
+                      id="text-field-default"
+                      name="email"
+                      type="email"
+                      autoComplete="new-email"
+                      floatingLabelText="Email *"
+                      defaultValue={recruiter.email}
+                      updateImmediately
+                      required
+                      validations={{
+                        isEmail: true,
+                      }}
+                      validationErrors={{
+                        isEmail: 'Invalid email',
+                      }}
+                    />
+                  </div>
+
+                  <div className="field">
+                    <FormsyText
+                      id="text-field-default"
+                      type="password"
+                      autoComplete="new-password"
+                      name="password"
+                      floatingLabelText="New password"
+                      hintText="(leave blank if don't want to update)"
+                      updateImmediately
+                    />
+
+                  </div>
+
+                  <div className="field">
+                    <FormsyText
+                      id="text-field-default"
+                      type="password"
+                      autoComplete="new-current-password"
+                      name="current_password"
+                      floatingLabelText="Current Password *"
+                      hintText="Current password is required"
+                      required
+                    />
+                  </div>
                 </div>
-              </div>
 
-              <div className="field">
-                <FormsyText
-                  id="text-field-default"
-                  name="email"
-                  type="email"
-                  autoComplete="new-email"
-                  floatingLabelText="Email *"
-                  defaultValue={recruiter.email}
-                  updateImmediately
-                  required
-                  validations={{
-                    isEmail: true,
-                  }}
-                  validationErrors={{
-                    isEmail: 'Invalid email',
-                  }}
-                />
-              </div>
+                <div className="actions">
+                  <div className="clearfix" />
+                  <RaisedButton
+                    label="Register"
+                    secondary
+                    className={css(formStyles.button)}
+                    onClick={this.onFormSubmit}
+                    type="submit"
+                    title="Fill required fields before submitting"
+                    disabled={!this.state.canSubmit}
+                  />
+                </div>
 
-              <div className="field">
-                <FormsyText
-                  id="text-field-default"
-                  type="password"
-                  autoComplete="new-password"
-                  name="password"
-                  floatingLabelText="New password"
-                  hintText="(leave blank if don't want to update)"
-                  updateImmediately
-                />
-
-              </div>
-
-              <div className="field">
-                <FormsyText
-                  id="text-field-default"
-                  type="password"
-                  autoComplete="new-current-password"
-                  name="current_password"
-                  floatingLabelText="Current Password *"
-                  hintText="Current password is required"
-                  required
-                />
-              </div>
+                <div className="notifications">
+                  <Snackbar
+                    open={this.state.open}
+                    ref={node => (this.notification = node)}
+                    message={this.state.notification}
+                    autoHideDuration={5000}
+                    onRequestClose={this.handleRequestClose}
+                  />
+                </div>
+              </Formsy.Form>
             </div>
-
-            <div className="actions">
-              <div className="clearfix" />
-              <RaisedButton
-                label="Register"
-                secondary
-                className={css(formStyles.button)}
-                onClick={this.onFormSubmit}
-                type="submit"
-                title="Fill required fields before submitting"
-                disabled={!this.state.canSubmit}
-              />
-            </div>
-
-            <div className="notifications">
-              <Snackbar
-                open={this.state.open}
-                ref={node => (this.notification = node)}
-                message={this.state.notification}
-                autoHideDuration={5000}
-                onRequestClose={this.handleRequestClose}
-              />
-            </div>
-          </Formsy.Form>
-        </div>
+          </CardText>
+        </Card>
       </MuiThemeProvider>
     );
   }

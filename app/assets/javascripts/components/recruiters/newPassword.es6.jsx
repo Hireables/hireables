@@ -6,6 +6,12 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
 import { FormsyText } from 'formsy-material-ui/lib';
 import Snackbar from 'material-ui/Snackbar';
+import {
+  Card,
+  CardTitle,
+  CardText,
+} from 'material-ui/Card';
+
 import muiTheme from '../theme.es6';
 
 const styles = {
@@ -26,6 +32,11 @@ const styles = {
   },
 };
 
+const cardTitleStyle = {
+  padding: '8px 16px 8px',
+  backgroundColor: '#f5f5f5',
+  borderBottom: '1px solid #d8d8d8',
+};
 
 class RecruiterNewPassword extends Component {
   static onKeyPress(event) {
@@ -103,59 +114,88 @@ class RecruiterNewPassword extends Component {
     const { action } = this.props;
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
-        <div className="form new-password">
-          <Formsy.Form
-            action={action}
-            method="post"
-            onKeyDown={RecruiterNewPassword.onKeyPress}
-            onValid={this.enableButton}
-            ref={node => (this.formNode = node)}
-            autoComplete="off"
-            onInvalid={this.disableButton}
-          >
-            <div className="row">
-              <div className="field no-float">
-                <FormsyText
-                  id="text-field-default"
-                  name="recruiter[email]"
-                  type="email"
-                  autoFocus
-                  autoComplete="new-email"
-                  onKeyDown={this.checkEmail}
-                  floatingLabelText="Your Email"
-                  required
-                  updateImmediately
-                  validations={{
-                    isEmail: true,
-                  }}
-                  validationErrors={{
-                    isEmail: 'Invalid email',
-                  }}
-                />
-              </div>
-            </div>
-            <div className="actions">
-              <RaisedButton
-                label="Reset password"
-                secondary
-                onClick={this.onFormSubmit}
-                type="submit"
-                disabled={!this.state.canSubmit}
-                style={styles.button}
-              />
-            </div>
+        <Card className="card small">
+          <CardTitle
+            title="Change your password"
+            style={cardTitleStyle}
+            titleStyle={{
+              color: '#333',
+              fontSize: 18,
+              fontWeight: 500,
+            }}
+          />
+          <CardText style={{ padding: '16px 16px 0', fontSize: 16 }}>
+            <div className="form new-password">
+              <Formsy.Form
+                action={action}
+                method="post"
+                onKeyDown={RecruiterNewPassword.onKeyPress}
+                onValid={this.enableButton}
+                ref={node => (this.formNode = node)}
+                autoComplete="off"
+                onInvalid={this.disableButton}
+              >
+                <div className="row">
+                  <div className="field no-float">
+                    <FormsyText
+                      id="text-field-default"
+                      name="recruiter[email]"
+                      type="email"
+                      autoFocus
+                      autoComplete="new-email"
+                      onKeyDown={this.checkEmail}
+                      floatingLabelText="Your Email"
+                      required
+                      updateImmediately
+                      validations={{
+                        isEmail: true,
+                      }}
+                      validationErrors={{
+                        isEmail: 'Invalid email',
+                      }}
+                    />
+                  </div>
+                </div>
+                <div className="actions">
+                  <RaisedButton
+                    label="Reset password"
+                    secondary
+                    onClick={this.onFormSubmit}
+                    type="submit"
+                    disabled={!this.state.canSubmit}
+                    style={styles.button}
+                  />
+                </div>
 
-            <div className="notifications">
-              <Snackbar
-                open={this.state.open}
-                ref={node => (this.notification = node)}
-                message={this.state.notification}
-                autoHideDuration={5000}
-                onRequestClose={this.handleRequestClose}
-              />
+                <div className="extra-actions">
+                  <RaisedButton
+                    label="Register"
+                    secondary
+                    href={this.props.signup_url}
+                    style={styles.button}
+                  />
+
+                  <RaisedButton
+                    label="Login"
+                    secondary
+                    href={this.props.login_url}
+                    style={styles.button}
+                  />
+                </div>
+
+                <div className="notifications">
+                  <Snackbar
+                    open={this.state.open}
+                    ref={node => (this.notification = node)}
+                    message={this.state.notification}
+                    autoHideDuration={5000}
+                    onRequestClose={this.handleRequestClose}
+                  />
+                </div>
+              </Formsy.Form>
             </div>
-          </Formsy.Form>
-        </div>
+          </CardText>
+        </Card>
       </MuiThemeProvider>
     );
   }

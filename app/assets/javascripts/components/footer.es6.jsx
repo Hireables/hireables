@@ -29,18 +29,8 @@ const Footer = () => {
     color: '#bdbdbd',
   };
 
-  const toolbarTitleStyles = {
-    fontSize: '16px',
-    color: '#bdbdbd',
-  };
-
   const toolbarCopyrightStyles = {
     fontSize: '13px',
-    color: '#bdbdbd',
-  };
-
-  const betaStyles = {
-    fontSize: '11px',
     color: '#bdbdbd',
   };
 

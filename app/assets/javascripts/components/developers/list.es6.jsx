@@ -62,7 +62,7 @@ class DevelopersList extends Component {
   render() {
     const containerStyle = {
       paddingBottom: '0px',
-      borderRight: '1px solid #f2f2f2',
+      border: '1px solid #d8d8d8',
       boxShadow: '0 0 16px 0 rgba(63,67,69,0.3)',
       margin: '40px 0px',
     };

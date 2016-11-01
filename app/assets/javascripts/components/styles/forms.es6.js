@@ -15,7 +15,7 @@ const Forms = StyleSheet.create({
 
   inline: {
     float: 'left',
-    minWidth: '200px',
+    minWidth: 150,
     marginBottom: 16,
     width: 'auto',
   },

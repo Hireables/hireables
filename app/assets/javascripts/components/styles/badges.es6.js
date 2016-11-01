@@ -9,7 +9,7 @@ const badges = StyleSheet.create({
   },
 
   big: {
-    left: 115,
+    left: 160,
   },
 
   tag: {
