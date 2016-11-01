@@ -1,5 +1,5 @@
 class SearchController < ApplicationController
-  before_action :authenticate_recruiter!
+  before_action :authenticate_user!
   before_action :prepare_search_params!, :cache_query_metadata,
                 :enqueue_search_worker
 
@@ -11,7 +11,7 @@ class SearchController < ApplicationController
 
   def prepare_search_params!
     @search_params = PrepareSearchParams.new(
-      search_params, current_recruiter
+      search_params, current_user
     )
   end
 
@@ -27,12 +27,12 @@ class SearchController < ApplicationController
     {
       query: @search_params.to_query,
       page: Integer(search_params['page'] || 1),
-      access_token: current_recruiter.try(:access_token)
+      access_token: current_user.try(:access_token)
     }
   end
 
   def search_cache_key
-    "search/recruiter/#{current_recruiter.id}"
+    "search/#{current_user.class.name.downcase}/#{current_user.id}"
   end
 
   def search_params
