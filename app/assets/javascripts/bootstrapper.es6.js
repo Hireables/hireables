@@ -25,7 +25,7 @@ const renderComponents = () => {
   document.addEventListener('DOMContentLoaded', () => {
     if (typeof Turbolinks !== 'undefined' && typeof Turbolinks.controller !== 'undefined') {
       setupNetworkLayer();
-      document.addEventListener('turbolinks:render', unmountComponents);
+      document.addEventListener('turbolinks:before-render', unmountComponents);
       document.addEventListener('turbolinks:load', mountComponents);
     } else {
       setupNetworkLayer();
