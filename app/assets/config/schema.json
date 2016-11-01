@@ -252,34 +252,14 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "hireable",
-                  "description": null,
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  },
-                  "defaultValue": null
-                },
-                {
                   "name": "page",
                   "description": null,
                   "type": {
                     "kind": "SCALAR",
-                    "name": "String",
+                    "name": "Int",
                     "ofType": null
                   },
-                  "defaultValue": "\"1\""
-                },
-                {
-                  "name": "order",
-                  "description": null,
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  },
-                  "defaultValue": null
+                  "defaultValue": "1"
                 }
               ],
               "type": {
