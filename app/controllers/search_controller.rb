@@ -16,9 +16,11 @@ class SearchController < ApplicationController
   end
 
   def enqueue_search_worker
-    SearchDevelopersWorker.perform_async(
-      search_cache_key
-    ) unless Rails.cache.exist?("#{search_cache_key}/worker")
+    Rails.cache.fetch([search_cache_key, 'worker']) do
+      SearchDevelopersWorker.perform_async(
+        search_cache_key
+      )
+    end
   end
 
   private
