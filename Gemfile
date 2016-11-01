@@ -63,6 +63,7 @@ group :production do
   gem 'rails_12factor'
   gem 'sentry-raven'
   gem 'heroku-deflater'
+  gem 'newrelic_rpm'
 end
 
 group :development do
