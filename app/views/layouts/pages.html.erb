@@ -20,10 +20,8 @@
     <meta name="env" data-env="<%= Rails.env %>" />
 
     <% if Rails.env.production? %>
-      <meta name="google-analytics" data-key="<%= ENV['GOOGLE_ANALYTICS_KEY'] %>" />
+      <%= render partial: 'layouts/tracking' %>
     <% end %>
-
-    <%= render partial: 'tracking' %>
 
     <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>

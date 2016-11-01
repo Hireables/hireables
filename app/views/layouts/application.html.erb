@@ -17,13 +17,12 @@
     <meta name="apple-touch-fullscreen" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="turbolinks-cache-control" content="no-cache">
-    <meta name="env" data-env="<%= Rails.env %>" />
+    <meta name="environment" content="<%= Rails.env %>" />
+    <meta name="current_user" content="<%= current_user.try(:name) %>" id="<%= current_user.try(:id) %>" type="<%= current_user.try(:class).try(:name).try(:downcase) %>" />
 
     <% if Rails.env.production? %>
-      <meta name="google-analytics" data-key="<%= ENV['GOOGLE_ANALYTICS_KEY'] %>" />
+      <%= render partial: 'layouts/tracking' %>
     <% end %>
-
-    <%= render partial: 'tracking' %>
 
     <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
@@ -33,7 +32,6 @@
   </head>
 
   <body class="application <%= user_signed_in? ? 'authenticated' : 'guest'%>">
-    <%= react_component 'CookiesTracker', nil %>
     <%= react_component 'NavBar', nil, { authenticated: signed_in?, current_user: { name: current_user.try(:name), email: current_user.try(:email), avatar_url: current_user.try(:avatar_url, :thumb), login:  current_user.try(:login), type: current_user.try(:class).try(:name).try(:downcase) } }.to_json %>
 
     <div class="content">
