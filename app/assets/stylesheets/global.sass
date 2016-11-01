@@ -11,6 +11,8 @@ body
   -moz-osx-font-smoothing: grayscale
   background-color: white
   width: 100%
+  font-weight: 300
+  font-size: 17px
   font-family: 'Roboto', sans-serif
 
   .overlay
@@ -38,6 +40,14 @@ body
       left: calc(50% - 150px)
       top: calc(40% + 30px)
       position: absolute
+
+  .content
+    background-color: #f2f2f2
+    overflow: hidden
+
+.application
+  .content
+    padding-top: 56px
 
 .no-style
   list-style: none
@@ -121,10 +131,6 @@ body
   padding-left: 15px
   padding-right: 15px
 
-.nav
-  box-shadow: rgba(63, 67, 69, 0.298039) 0px 0px 16px 0px
-  background-color: #6986BD
-
 .header-separator
   box-sizing: border-box
   display: block
@@ -135,9 +141,6 @@ body
   width: 100%
   margin: 15px 0
   clear: both
-
-.content
-  padding-bottom: 50px
 
 .pagination
   padding: 0
@@ -169,22 +172,13 @@ body
   width: 100%
 
   .profile--small
-    margin: 40px 20px
+    margin: 40px 0px
 
   .filters
     &.sticky
       position: fixed
       top: 50px
       width: 274px
-
-.nav
-  .profile--link
-    margin-right: 16px
-    &.active
-      font-weight: 500
-      border-bottom: 1px solid white
-
-
 
 .footer
   padding-left: 15px
