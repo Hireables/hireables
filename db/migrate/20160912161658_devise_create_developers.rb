@@ -13,8 +13,12 @@ class DeviseCreateDevelopers < ActiveRecord::Migration
       t.string :email, null: false, default: ""
       t.text :bio
       t.string :linkedin, default: ""
-      t.string :platforms, default: "{}", array: true
       t.string :location, default: "", index: true
+
+      # Work
+      t.string :platforms, default: "{}", array: true
+      t.jsonb :orgs, default: "{}"
+      t.jsonb :repos, default: "{}"
 
       # Preferences
       t.boolean :remote, default: false, index: true
@@ -59,6 +63,8 @@ class DeviseCreateDevelopers < ActiveRecord::Migration
     add_index :developers, :uid, unique: true
     add_index :developers, :login, unique: true
     add_index :developers, :data, using: :gin
+    add_index :developers, :repos, using: :gin
+    add_index :developers, :orgs, using: :gin
     add_index :developers, :platforms, using: :gin
   end
 end
