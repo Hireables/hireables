@@ -1,4 +1,4 @@
-/* global Routes document */
+/* global Routes document $ */
 
 // Modules
 import React, { Component } from 'react';
@@ -34,6 +34,8 @@ class Developer extends Component {
     const { developer } = this.props;
     developerRoute.params = {};
     developerRoute.params.id = developer.login;
+
+    $.getJSON(`/${developer.login}`);
 
     ReactDOM.render(
       <Relay.Renderer
