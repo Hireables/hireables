@@ -250,7 +250,7 @@ class DeveloperEdit extends Component {
                     fullWidth
                     multiLine
                     defaultValue={developer.bio}
-                    floatingLabelText="A brief into"
+                    floatingLabelText="A brief intro"
                     floatingLabelFixed
                     updateImmediately
                     validations={{
