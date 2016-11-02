@@ -12,8 +12,8 @@ const setupNetworkLayer = () => {
   Relay.injectNetworkLayer(
     new Relay.DefaultNetworkLayer('/graphql', {
       credentials: 'same-origin',
-      fetchTimeout: 10000,
-      retryDelays: [2000],
+      fetchTimeout: 20000,
+      retryDelays: [5000],
       headers: {
         'X-CSRF-Token': Authentication.csrfToken(),
       },
