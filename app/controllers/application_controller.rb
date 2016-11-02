@@ -20,7 +20,7 @@ class ApplicationController < ActionController::Base
   end
 
   def render_unauthorised
-    render json: { errors: [ message: 'Unauthorised'] }, status: 401
+    render json: { errors: [message: 'Unauthorised'] }, status: 401
   end
 
   private
@@ -31,17 +31,21 @@ class ApplicationController < ActionController::Base
 
   def set_raven_context
     current_user_context = if user_signed_in?
-                             {
-                               id: current_user.id,
-                               email: current_user.email,
-                               type: current_user.class.name.downcase
-                             }
+                             logged_in_context
                            else
                              {}
                            end
 
     Raven.user_context(current_user_context)
     Raven.extra_context(params: params.to_h, url: request.url)
+  end
+
+  def logged_in_context
+    {
+      id: current_user.id,
+      email: current_user.email,
+      type: current_user.class.name.downcase
+    }
   end
 
   # after login and logout path

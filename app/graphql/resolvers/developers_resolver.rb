@@ -12,8 +12,14 @@ class DevelopersResolver
   end
 
   def call
-    query = Rails.cache.read("search/#{current_user.class.name.downcase}/#{current_user.id}")
+    query = Rails.cache.read(search_cache_key)
     api = Github::Api.new(current_user.try(:access_token))
     api.fetch_developers(query)
+  end
+
+  private
+
+  def search_cache_key
+    "search/#{current_user.class.name.downcase}/#{current_user.id}"
   end
 end
