@@ -13,6 +13,12 @@ const muiTheme = getMuiTheme({
   appBar: {
     backgroundColor: '#5b98e0',
   },
+
+  raisedButton: {
+    secondaryColor: '#c9302c',
+    color: 'white',
+    secondaryTextColor: 'white',
+  },
 });
 
 export default muiTheme;

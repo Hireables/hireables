@@ -1,3 +1,5 @@
+/* global Routes */
+
 import React from 'react';
 import {
   Toolbar,
@@ -19,11 +21,24 @@ const Footer = () => (
             text="Powered by Github API"
             className={css(footerStyles.text)}
           />
-          <ToolbarTitle
-            key={1}
-            text="&copy; 2015-2016 Hireables"
-            className={css(footerStyles.text, footerStyles.copyright)}
-          />
+          <div key={2}>
+            <ToolbarTitle
+              text="&copy; 2015-2016 Hireables"
+              className={css(footerStyles.text, footerStyles.copyright)}
+            />
+            <a href={Routes.privacy_policy_path()}>
+              <ToolbarTitle
+                text="Privacy Policy"
+                className={css(footerStyles.text, footerStyles.copyright)}
+              />
+            </a>
+            <a href={Routes.cookies_policy_path()}>
+              <ToolbarTitle
+                text="Cookies Policy"
+                className={css(footerStyles.text, footerStyles.copyright)}
+              />
+            </a>
+          </div>
         </ToolbarGroup>
       </Toolbar>
 

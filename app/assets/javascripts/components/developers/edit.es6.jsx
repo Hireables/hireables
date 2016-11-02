@@ -6,6 +6,7 @@ import Relay from 'react-relay';
 import Formsy from 'formsy-react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
+import ActionDelete from 'material-ui/svg-icons/action/delete';
 import Chip from 'material-ui/Chip';
 import Snackbar from 'material-ui/Snackbar';
 import _ from 'underscore';
@@ -445,11 +446,21 @@ class DeveloperEdit extends Component {
                 <div className="actions">
                   <RaisedButton
                     label="Update"
-                    secondary
+                    primary
                     className={css(formStyles.input)}
                     type="submit"
                     onClick={this.submitForm}
                     disabled={!this.state.canSubmit}
+                  />
+
+                  <RaisedButton
+                    secondary
+                    label="Delete"
+                    icon={<ActionDelete />}
+                    data-method="delete"
+                    data-confirm="This will delete your account. Okay?"
+                    className="edit-link pull-right"
+                    href={Routes.cancel_developer_registration_path()}
                   />
                 </div>
 

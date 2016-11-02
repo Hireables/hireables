@@ -295,7 +295,7 @@ class RecruiterRegistration extends Component {
                 <div className="actions">
                   <RaisedButton
                     label="Register"
-                    secondary
+                    primary
                     onClick={this.onFormSubmit}
                     type="submit"
                     title="Fill required fields before submitting"
@@ -307,7 +307,7 @@ class RecruiterRegistration extends Component {
                 <div className="extra-actions">
                   <RaisedButton
                     label="Login"
-                    secondary
+                    primary
                     href={this.props.login_url}
                     className={css(formStyles.button, formStyles.input)}
                   />

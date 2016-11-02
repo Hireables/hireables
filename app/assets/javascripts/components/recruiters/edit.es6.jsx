@@ -6,6 +6,7 @@ import Formsy from 'formsy-react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
 import { FormsyText } from 'formsy-material-ui/lib';
+import ActionDelete from 'material-ui/svg-icons/action/delete';
 import {
   Card,
   CardTitle,
@@ -311,16 +312,25 @@ class RecruiterEdit extends Component {
                   </div>
                 </div>
 
+                <div className="clearfix" />
                 <div className="actions">
-                  <div className="clearfix" />
                   <RaisedButton
                     label="Register"
-                    secondary
-                    className={css(formStyles.button)}
+                    primary
                     onClick={this.onFormSubmit}
                     type="submit"
                     title="Fill required fields before submitting"
                     disabled={!this.state.canSubmit}
+                  />
+
+                  <RaisedButton
+                    label="Delete"
+                    secondary
+                    icon={<ActionDelete />}
+                    data-method="delete"
+                    data-confirm="This will completely delete your account. Okay?"
+                    className="edit-link pull-right"
+                    href={Routes.cancel_recruiter_registration_path()}
                   />
                 </div>
 

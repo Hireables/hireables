@@ -35,7 +35,7 @@ const ErrorComponent = (props) => {
             label="Retry"
             style={{ marginTop: 10 }}
             onClick={props.retry}
-            secondary
+            primary
           />
         </div>
       </div>

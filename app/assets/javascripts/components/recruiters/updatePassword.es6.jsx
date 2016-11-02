@@ -161,7 +161,7 @@ class RecruiterUpdatePassword extends Component {
                 <div className="actions">
                   <RaisedButton
                     label="Save password"
-                    secondary
+                    primary
                     onClick={this.onFormSubmit}
                     type="submit"
                     disabled={!this.state.canSubmit}
@@ -173,14 +173,14 @@ class RecruiterUpdatePassword extends Component {
                 <div className="extra-actions">
                   <RaisedButton
                     label="Register"
-                    secondary
+                    primary
                     href={this.props.signup_url}
                     className={css(formStyles.button)}
                   />
 
                   <RaisedButton
                     label="Login"
-                    secondary
+                    primary
                     href={this.props.login_url}
                     className={css(formStyles.button, formStyles.input)}
                   />

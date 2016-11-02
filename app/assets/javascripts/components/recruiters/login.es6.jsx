@@ -159,7 +159,7 @@ class RecruiterLogin extends Component {
                 <div className="actions">
                   <RaisedButton
                     label="Login"
-                    secondary
+                    primary
                     className={css(formStyles.button)}
                     onClick={this.onFormSubmit}
                     type="submit"
@@ -171,14 +171,14 @@ class RecruiterLogin extends Component {
                   <RaisedButton
                     label="Register"
                     className={css(formStyles.button)}
-                    secondary
+                    primary
                     href={this.props.signup_url}
                   />
 
                   <RaisedButton
                     label="Forgot your password?"
                     className={css(formStyles.button, formStyles.input)}
-                    secondary
+                    primary
                     href={this.props.forgot_password_url}
                   />
                 </div>

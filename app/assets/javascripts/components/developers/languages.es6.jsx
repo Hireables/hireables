@@ -1,13 +1,27 @@
 // Modules
+
+/* global document */
+
 import React from 'react';
 import Relay from 'react-relay';
 import { css } from 'aphrodite';
+import queryString from 'query-string';
+import _ from 'underscore';
 
 // StyleSheets
 import badgeStyles from '../styles/badges.es6';
 
 const Languages = (props) => {
   const { developer } = props;
+  const queryObject = _.pick(
+    queryString.parse(document.location.search),
+    ['language', 'location', 'page', 'hireable', 'repos']
+  );
+
+  const query = (language) => {
+    const newQuery = Object.assign(queryObject, { language });
+    return queryString.stringify(newQuery);
+  };
 
   return (
     <div className="skills">
@@ -18,7 +32,7 @@ const Languages = (props) => {
             {developer.platforms.map(platform => (
               <a
                 key={Math.random()}
-                href={`/search?language=${platform.trim().toLowerCase()}`}
+                href={`/search?${query(platform)}`}
                 className={css(badgeStyles.badge, badgeStyles.tag)}
               >
                 {platform}

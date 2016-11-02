@@ -9,7 +9,6 @@ import createDOMPurify from 'dompurify';
 import IconButton from 'material-ui/IconButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import ActionEdit from 'material-ui/svg-icons/image/edit';
-import ActionDelete from 'material-ui/svg-icons/action/delete';
 import ActionCamera from 'material-ui/svg-icons/image/camera-alt';
 import FileUpload from '../../mutations/recruiter/fileUpload.es6';
 import muiTheme from '../theme.es6';
@@ -150,24 +149,11 @@ class RecruiterShow extends Component {
                 {this.props.can_edit ?
                   <RaisedButton
                     label="Edit"
-                    secondary
+                    primary
                     icon={<ActionEdit />}
                     className="edit-link"
                     style={{ marginTop: 10 }}
                     href={Routes.edit_recruiter_registration_path()}
-                  /> : ''
-                }
-
-                {this.props.can_edit ?
-                  <RaisedButton
-                    label="Delete"
-                    primary
-                    icon={<ActionDelete />}
-                    data-method="delete"
-                    data-confirm="This will completely delete your account. Okay?"
-                    className="edit-link"
-                    style={{ marginTop: 20, marginLeft: 10 }}
-                    href={Routes.cancel_recruiter_registration_path()}
                   /> : ''
                 }
               </div>

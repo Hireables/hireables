@@ -267,7 +267,7 @@ class Search extends Component {
               </div>
               <RaisedButton
                 label="Apply filters"
-                secondary
+                primary
                 type="submit"
                 style={{ marginTop: '10px' }}
                 onClick={this.submitSearch}
