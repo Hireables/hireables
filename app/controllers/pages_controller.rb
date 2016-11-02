@@ -4,9 +4,9 @@ class PagesController < ApplicationController
   def index
     @title = "Search hireable developers through Github"
     @subtitle = "
-      Hireables is a small platform that leverages Github API
-      to enables developers extend their Github profiles and
-      employers search real hireables.
+      Hireables leverages Github API to enable developers
+      extend their Github profiles and employers
+      search real hireables.
     "
   end
 
