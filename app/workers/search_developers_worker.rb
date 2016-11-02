@@ -1,6 +1,6 @@
 class SearchDevelopersWorker
   include Sidekiq::Worker
-  sidekiq_options queue: 'urgent'
+  sidekiq_options queue: 'urgent', retry: 5
 
   def perform(search_cache_key)
     params = Rails.cache.read(search_cache_key)
