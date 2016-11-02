@@ -3,7 +3,7 @@ import Relay from 'react-relay';
 import { grey800 } from 'material-ui/styles/colors';
 
 const Meta = props => (
-  <div className="stats">
+  <div className="stats" style={{ fontWeight: 500 }}>
     <ul className="no-style fs-14 hidden-sm" style={{ color: grey800, padding: 0 }}>
       <li className="text-center inline m-r-20">
         <span>Followers</span>
