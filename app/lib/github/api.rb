@@ -17,12 +17,22 @@ module Github
       end
     end
 
+    # rubocop:disable Metrics/CyclomaticComplexity
     def fetch_developers(params)
       logins = search(params).items.map(&:login)
       local = Developer.where(login: logins)
       remanining = logins - local.map(&:login)
       github = remanining.map { |login| fetch_developer(login) }
-      sort_developers([local + github])
+
+      # Sort developers based on given criterias
+      [local + github].flatten.lazy.sort_by do |item|
+        [
+          item.premium && item.hireable ? 0 : 1,
+          item.hireable && item.email.present? ? 0 : 1,
+          item.hireable ? 0 : 1,
+          item.premium ? 0 : 1,
+        ]
+      end.to_a
     end
 
     def fetch_developer(login)
@@ -34,17 +44,33 @@ module Github
     def fetch_developer_languages(login)
       Rails.cache.fetch(['developer', login, 'languages']) do
         fetch_developer_repos(login)
+          .lazy
           .map(&:language)
           .compact
           .map(&:downcase)
           .uniq!
+          .to_a
       end
     end
 
     def fetch_developer_repos(login)
       Rails.cache.fetch(['developer', login, 'repos']) do
         client.auto_paginate = true
-        client.repositories(login)
+        client.repositories(login, { sort: 'updated' })
+      end
+    end
+
+    def fetch_top_developer_repos(login)
+      fetch_developer_repos(login)
+        .lazy
+        .sort_by(&:stargazers_count)
+        .take(6)
+        .to_a
+    end
+
+    def fetch_developer_orgs(login)
+      Rails.cache.fetch(['developer', login, 'organizations']) do
+        client.organizations(login)
       end
     end
 
@@ -59,18 +85,6 @@ module Github
     end
 
     private
-
-    # rubocop:disable Metrics/CyclomaticComplexity
-    def sort_developers(developers)
-      developers.flatten.sort_by do |item|
-        [
-          item.premium && item.hireable ? 0 : 1,
-          item.hireable && item.email.present? ? 0 : 1,
-          item.hireable ? 0 : 1,
-          item.premium ? 0 : 1
-        ]
-      end
-    end
 
     def faraday_stack
       Faraday::RackBuilder.new do |builder|
