@@ -113,12 +113,12 @@ DeveloperType = GraphQL::ObjectType.define do
     resolve(DeveloperCustomFieldResolver.new(:student, :boolean))
   end
 
-  connection :repos, RepoType.connection_type do
+  field :repos, types[RepoType] do
     description 'Repo connection to fetch developer repos.'
     resolve -> (obj, _args, ctx) { resolve_repos(obj, ctx) }
   end
 
-  connection :orgs, OrgType.connection_type do
+  field :orgs, types[OrgType] do
     description 'Repo connection to fetch developer orgs.'
     resolve -> (obj, _args, ctx) { resolve_orgs(obj, ctx) }
   end
