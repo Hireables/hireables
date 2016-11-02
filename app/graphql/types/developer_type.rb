@@ -120,7 +120,6 @@ DeveloperType = GraphQL::ObjectType.define do
 end
 
 def resolve_orgs(obj, ctx)
-  return obj.orgs unless obj.orgs.nil?
   api = Github::Api.new(ctx[:current_user].try(:access_token))
   api.fetch_developer_orgs(obj.login)
 end

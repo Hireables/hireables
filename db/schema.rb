@@ -27,8 +27,6 @@ ActiveRecord::Schema.define(version: 20161014150901) do
     t.string   "linkedin",           default: ""
     t.string   "location",           default: ""
     t.string   "platforms",          default: [],                 array: true
-    t.jsonb    "orgs",               default: "{}"
-    t.jsonb    "repos",              default: "{}"
     t.boolean  "remote",             default: false
     t.boolean  "relocate",           default: false
     t.boolean  "hireable",           default: false
@@ -68,13 +66,11 @@ ActiveRecord::Schema.define(version: 20161014150901) do
     t.index ["location"], name: "index_developers_on_location", using: :btree
     t.index ["login"], name: "index_developers_on_login", unique: true, using: :btree
     t.index ["mid"], name: "index_developers_on_mid", using: :btree
-    t.index ["orgs"], name: "index_developers_on_orgs", using: :gin
     t.index ["part_time"], name: "index_developers_on_part_time", using: :btree
     t.index ["platforms"], name: "index_developers_on_platforms", using: :gin
     t.index ["premium"], name: "index_developers_on_premium", using: :btree
     t.index ["relocate"], name: "index_developers_on_relocate", using: :btree
     t.index ["remote"], name: "index_developers_on_remote", using: :btree
-    t.index ["repos"], name: "index_developers_on_repos", using: :gin
     t.index ["senior"], name: "index_developers_on_senior", using: :btree
     t.index ["startup"], name: "index_developers_on_startup", using: :btree
     t.index ["student"], name: "index_developers_on_student", using: :btree

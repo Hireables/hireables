@@ -5,6 +5,7 @@ class FetchDeveloperLanguagesWorker
   def perform(login, access_token)
     api = Github::Api.new(access_token)
     languages = api.fetch_developer_languages(login)
+
     # Update languages in a transaction block
     Developer.connection_pool.with_connection do |conn|
       developer = Developer.find_by_login(login)

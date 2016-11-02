@@ -9,7 +9,7 @@ class Developer < ApplicationRecord
 
   # Fetch developer data async
   after_commit :fetch_languages!, on: :create
-  after_commit :fetch_orgs!, on: :create
+  after_commit :cache_orgs!, on: :create
 
   # Mount image uploader
   mount_uploader :avatar, ImageUploader
@@ -39,7 +39,7 @@ class Developer < ApplicationRecord
     FetchDeveloperLanguagesWorker.perform_async(login, access_token)
   end
 
-  def fetch_orgs!
+  def cache_orgs!
     FetchDeveloperOrgsWorker.perform_async(login, access_token)
   end
 

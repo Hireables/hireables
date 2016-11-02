@@ -17,7 +17,6 @@ class DeviseCreateDevelopers < ActiveRecord::Migration
 
       # Work
       t.string :platforms, default: "{}", array: true
-      t.jsonb :orgs, default: "{}"
 
       # Preferences
       t.boolean :remote, default: false, index: true
@@ -62,8 +61,6 @@ class DeviseCreateDevelopers < ActiveRecord::Migration
     add_index :developers, :uid, unique: true
     add_index :developers, :login, unique: true
     add_index :developers, :data, using: :gin
-    add_index :developers, :repos, using: :gin
-    add_index :developers, :orgs, using: :gin
     add_index :developers, :platforms, using: :gin
   end
 end
