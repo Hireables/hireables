@@ -1,4 +1,5 @@
 New <%= @user.class.name.downcase %> signup
 <%= @user.name %>
 <%= @user.email %>
+<%= @user.company unless @user.company.nil? %>
 <%= @user.website unless @user.website.nil? %>
