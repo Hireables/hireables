@@ -10,25 +10,21 @@ class SearchController < ApplicationController
   end
 
   def prepare_search_params!
-    @search_params = PrepareSearchParams.new(
+    @prepared_params = PrepareSearchParams.new(
       search_params, current_user
     )
   end
 
   def enqueue_search_worker
-    Rails.cache.fetch([search_cache_key, 'worker']) do
-      SearchDevelopersWorker.perform_async(
-        search_cache_key
-      )
-    end
+    SearchDevelopersWorker.perform_async(search_cache_key)
   end
 
   private
 
   def query_metadata
     {
-      query: @search_params.to_query,
-      page: Integer(search_params['page'] || 1),
+      query: @prepared_params.to_query,
+      page: Integer(search_params[:page] || 1),
       access_token: current_user.try(:access_token)
     }
   end
