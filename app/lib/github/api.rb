@@ -19,20 +19,31 @@ module Github
 
     # rubocop:disable Metrics/CyclomaticComplexity
     def fetch_developers(params)
-      logins = search(params).items.map(&:login)
-      local = Developer.where(login: logins)
-      remanining = logins - local.map(&:login)
-      github = remanining.map { |login| fetch_developer(login) }
+      logins = {}
+
+      search(params).items.each do |item|
+        logins["developer/#{item.login}"] = item.login
+      end
+
+      all = Rails.cache.fetch_multi(logins.keys) do |key|
+        local = Developer.where(login: logins.values)
+        remaining = logins.values - local.map(&:login)
+        github = remaining.map do |login|
+          fetch_developer(login)
+        end
+
+        [local + github]
+      end
 
       # Sort developers based on given criterias
-      [local + github].flatten.lazy.sort_by do |item|
+      all[logins.keys].flatten.sort_by do |item|
         [
           item.premium && item.hireable ? 0 : 1,
           item.hireable && item.email.present? ? 0 : 1,
           item.hireable ? 0 : 1,
           item.premium ? 0 : 1,
         ]
-      end.to_a
+      end
     end
 
     def fetch_developer(login)
@@ -46,10 +57,10 @@ module Github
         fetch_developer_repos(login)
           .lazy
           .map(&:language)
+          .to_a
           .compact
           .map(&:downcase)
           .uniq!
-          .to_a
       end
     end
 
@@ -70,7 +81,11 @@ module Github
 
     def fetch_developer_orgs(login)
       Rails.cache.fetch(['developer', login, 'organizations']) do
-        client.organizations(login)
+        client
+          .organizations(login)
+          .lazy
+          .take(5)
+          .to_a
       end
     end
 
