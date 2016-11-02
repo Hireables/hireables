@@ -112,10 +112,32 @@ DeveloperType = GraphQL::ObjectType.define do
     description 'Student level'
     resolve(DeveloperCustomFieldResolver.new(:student, :boolean))
   end
+
+  connection :repos, RepoType.connection_type do
+    description 'Repo connection to fetch developer repos.'
+    resolve -> (obj, _args, ctx) { resolve_repos(obj, ctx) }
+  end
+
+  connection :orgs, OrgType.connection_type do
+    description 'Repo connection to fetch developer orgs.'
+    resolve -> (obj, _args, ctx) { resolve_orgs(obj, ctx) }
+  end
+end
+
+def resolve_orgs(obj, ctx)
+  return obj.orgs unless obj.orgs.nil?
+  api = Github::Api.new(ctx[:current_user].try(:access_token))
+  api.fetch_developer_orgs(obj.login)
+end
+
+def resolve_repos(obj, ctx)
+  return obj.repos unless obj.repos.nil?
+  api = Github::Api.new(ctx[:current_user].try(:access_token))
+  api.fetch_top_developer_repos(obj.login)
 end
 
 def resolve_platforms(obj, ctx)
-  api = Github::Api.new(ctx[:current_user].try(:access_token))
   return obj.platforms unless obj.platforms.nil?
+  api = Github::Api.new(ctx[:current_user].try(:access_token))
   api.fetch_developer_languages(obj.login)
 end
