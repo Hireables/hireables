@@ -1,15 +1,19 @@
 class Recruiter < ApplicationRecord
-  store :preferences, accessors: [:language, :location], coder: JSON
   devise :database_authenticatable, :registerable, :recoverable,
          :rememberable, :trackable, :validatable
 
-  validates_presence_of :name, :company, :website
+  # Expose json objects
+  store :preferences, accessors: [:language, :location], coder: JSON
+
+  # Validations
+  validates_presence_of :name, :company, :website, :login, :provider, :uid
   validate :website_url_format, unless: :url_valid?
 
+  # Callbacks to add login and notify admin
   before_create :add_login, unless: :login_present?
-  after_commit :expire_search_query, if: :preferences_previously_changed?
-  after_commit :send_admin_mail, on: :create
+  after_commit :notify_admin!, on: :create
 
+  # Image uploader
   mount_uploader :avatar, ImageUploader
 
   def active_for_authentication?
@@ -52,12 +56,8 @@ class Recruiter < ApplicationRecord
     login_username
   end
 
-  def send_admin_mail
+  def notify_admin!
     AdminMailerWorker.perform_async(id)
-  end
-
-  def expire_search_query
-    Rails.cache.delete('search_query')
   end
 
   def website_url_format

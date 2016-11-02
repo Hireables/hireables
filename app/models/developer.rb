@@ -1,7 +1,12 @@
 class Developer < ApplicationRecord
   devise :database_authenticatable, :trackable, :validatable, :omniauthable
+
+  # Expose json objects
   store_accessor :data, :html_url, :company, :blog, :followers,
   :public_gists, :public_repos
+
+  # Validations
+  validates_presence_of :name, :bio, :location, :login, :provider, :uid
 
   # Cleanup platforms array and set premium
   before_save :format_platforms, unless: :empty_platforms?
@@ -10,6 +15,7 @@ class Developer < ApplicationRecord
   # Fetch developer data async
   after_commit :fetch_languages!, on: :create
   after_commit :cache_orgs!, on: :create
+  after_commit :notify_admin!, on: :create
 
   # Mount image uploader
   mount_uploader :avatar, ImageUploader
@@ -22,6 +28,10 @@ class Developer < ApplicationRecord
   end
 
   private
+
+  def notify_admin!
+    AdminMailerWorker.perform_async(self.class.name, id)
+  end
 
   def empty_platforms?
     platforms.empty?
