@@ -1,5 +1,10 @@
 <h1>New <%= @user.class.name.downcase %> signup</h1>
 <br/>
+<label>Name</label>
 <%= @user.name %>
 <br/>
+<label>Email</label>
 <%= @user.email %>
+<br/>
+<label>Website</label>
+<%= @user.website unless @user.website.nil? %>
