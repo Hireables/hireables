@@ -18,6 +18,8 @@ module Github
     end
 
     # rubocop:disable Metrics/CyclomaticComplexity
+    # rubocop:disable Metrics/MethodLength
+    # rubocop:disable Metrics/AbcSize
     def fetch_developers(params)
       logins = {}
 
@@ -25,7 +27,7 @@ module Github
         logins["developer/#{item.login}"] = item.login
       end
 
-      all = Rails.cache.fetch_multi(logins.keys) do |key|
+      all = Rails.cache.fetch_multi(logins.keys) do |_key|
         local = Developer.where(login: logins.values)
         remaining = logins.values - local.map(&:login)
         github = remaining.map do |login|
@@ -41,7 +43,7 @@ module Github
           item.premium && item.hireable ? 0 : 1,
           item.hireable && item.email.present? ? 0 : 1,
           item.hireable ? 0 : 1,
-          item.premium ? 0 : 1,
+          item.premium ? 0 : 1
         ]
       end
     end
@@ -67,7 +69,7 @@ module Github
     def fetch_developer_repos(login)
       Rails.cache.fetch(['developer', login, 'repos']) do
         client.auto_paginate = true
-        client.repositories(login, { sort: 'updated' })
+        client.repositories(login, sort: 'updated')
       end
     end
 

@@ -1,23 +1,17 @@
 class Developer < ApplicationRecord
   devise :database_authenticatable, :trackable, :validatable, :omniauthable
 
-  # Expose json objects
   store_accessor :data, :html_url, :company, :blog, :followers,
-  :public_gists, :public_repos
+                 :public_gists, :public_repos
 
-  # Validations
-  validates_presence_of :name, :bio, :location, :login, :provider, :uid
+  validates_presence_of :name, :login, :provider, :uid
 
-  # Cleanup platforms array and set premium
   before_save :format_platforms, unless: :empty_platforms?
   after_commit :set_premium!, on: :update, if: :profile_completed?
-
-  # Fetch developer data async
   after_commit :fetch_languages!, on: :create
   after_commit :cache_orgs!, on: :create
   after_commit :notify_admin!, on: :create
 
-  # Mount image uploader
   mount_uploader :avatar, ImageUploader
 
   def profile_completed?

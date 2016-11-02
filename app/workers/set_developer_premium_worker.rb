@@ -4,7 +4,7 @@ class SetDeveloperPremiumWorker
 
   def perform(id)
     # Update developer in a transaction block
-    Developer.connection_pool.with_connection do |conn|
+    Developer.connection_pool.with_connection do |_conn|
       developer = Developer.find(id)
       developer.update!(premium: true)
     end

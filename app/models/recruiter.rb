@@ -2,18 +2,14 @@ class Recruiter < ApplicationRecord
   devise :database_authenticatable, :registerable, :recoverable,
          :rememberable, :trackable, :validatable
 
-  # Expose json objects
   store :preferences, accessors: [:language, :location], coder: JSON
 
-  # Validations
-  validates_presence_of :name, :company, :website, :login, :provider, :uid
+  validates_presence_of :name, :company, :website, :login, :location
   validate :website_url_format, unless: :url_valid?
 
-  # Callbacks to add login and notify admin
-  before_create :add_login, unless: :login_present?
+  before_validation :add_login, unless: :login_present?
   after_commit :notify_admin!, on: :create
 
-  # Image uploader
   mount_uploader :avatar, ImageUploader
 
   def active_for_authentication?
@@ -57,7 +53,7 @@ class Recruiter < ApplicationRecord
   end
 
   def notify_admin!
-    AdminMailerWorker.perform_async(id)
+    AdminMailerWorker.perform_async(self.class.name, id)
   end
 
   def website_url_format
