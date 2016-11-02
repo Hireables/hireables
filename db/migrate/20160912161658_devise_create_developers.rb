@@ -18,7 +18,6 @@ class DeviseCreateDevelopers < ActiveRecord::Migration
       # Work
       t.string :platforms, default: "{}", array: true
       t.jsonb :orgs, default: "{}"
-      t.jsonb :repos, default: "{}"
 
       # Preferences
       t.boolean :remote, default: false, index: true

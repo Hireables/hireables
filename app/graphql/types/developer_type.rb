@@ -113,11 +113,6 @@ DeveloperType = GraphQL::ObjectType.define do
     resolve(DeveloperCustomFieldResolver.new(:student, :boolean))
   end
 
-  field :repos, types[RepoType] do
-    description 'Repo connection to fetch developer repos.'
-    resolve -> (obj, _args, ctx) { resolve_repos(obj, ctx) }
-  end
-
   field :orgs, types[OrgType] do
     description 'Repo connection to fetch developer orgs.'
     resolve -> (obj, _args, ctx) { resolve_orgs(obj, ctx) }
@@ -128,12 +123,6 @@ def resolve_orgs(obj, ctx)
   return obj.orgs unless obj.orgs.nil?
   api = Github::Api.new(ctx[:current_user].try(:access_token))
   api.fetch_developer_orgs(obj.login)
-end
-
-def resolve_repos(obj, ctx)
-  return obj.repos unless obj.repos.nil?
-  api = Github::Api.new(ctx[:current_user].try(:access_token))
-  api.fetch_top_developer_repos(obj.login)
 end
 
 def resolve_platforms(obj, ctx)

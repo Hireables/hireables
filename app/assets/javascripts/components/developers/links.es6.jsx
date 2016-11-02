@@ -127,25 +127,6 @@ class Links extends Component {
           </IconButton> : ''
         }
 
-        {this.props.developer.company ?
-          <IconButton
-            tooltip={`Works at ${this.props.developer.company}`}
-            tooltipStyles={{ top: '15px' }}
-            tooltipPosition="bottom-center"
-            style={{ cursor: 'not-allowed' }}
-            className={css(iconStyles.linkIcon, iconStyles.inline)}
-            onClick={event => event.stopPropagation()}
-          >
-            <FontIcon
-              className="material-icons"
-              color="#777"
-              hoverColor="#333"
-            >
-              work
-            </FontIcon>
-          </IconButton> : ''
-        }
-
         {this.props.developer.linkedin ?
           <IconButton
             disableTouchRipple
@@ -191,7 +172,6 @@ const LinksContainer = Relay.createContainer(
           html_url,
           email,
           remote,
-          company,
           linkedin,
           premium,
           relocate,

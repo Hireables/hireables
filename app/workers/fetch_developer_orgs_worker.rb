@@ -9,6 +9,7 @@ class FetchDeveloperOrgsWorker
     # Update orgs in a transaction block
     Developer.connection_pool.with_connection do |conn|
       developer = Developer.find_by_login(login)
+      return unless developer.present?
       developer.update!(orgs: orgs)
     end
   end

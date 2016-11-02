@@ -14,6 +14,7 @@ import Links from './links.es6';
 import Name from './name.es6';
 import Location from './location.es6';
 import Bio from './bio.es6';
+import Company from './company.es6';
 import ProfilePopup from './popup.es6';
 import LoadingComponent from '../shared/loadingComponent';
 import ErrorComponent from '../shared/errorComponent';
@@ -92,6 +93,7 @@ class Developer extends Component {
         >
           <Name developer={developer} />
           <Location developer={developer} />
+          <Company developer={developer} />
           <div style={{ position: 'absolute', right: 0, top: '10px' }}>
             <Meta developer={developer} />
           </div>
@@ -118,6 +120,7 @@ const DeveloperContainer = Relay.createContainer(Developer, {
         login,
         premium,
         ${Name.getFragment('developer')},
+        ${Company.getFragment('developer')},
         ${Links.getFragment('developer')},
         ${Meta.getFragment('developer')},
         ${Location.getFragment('developer')},

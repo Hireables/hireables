@@ -15,7 +15,7 @@ const Location = props => (
       onClick={event => event.stopPropagation()}
       href={`/search?location=${props.developer.location}`}
     >
-      <small>{props.developer.location}</small>
+      <small>Based in {props.developer.location}</small>
     </a>
   </div>
 );

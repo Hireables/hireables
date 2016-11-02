@@ -20,6 +20,8 @@ import Links from './links.es6';
 import Name from './name.es6';
 import Location from './location.es6';
 import Bio from './bio.es6';
+import Orgs from './orgs.es6';
+import Company from './company.es6';
 
 // StyleSheets
 import badgeStyles from '../styles/badges.es6';
@@ -52,7 +54,7 @@ const DeveloperShow = (props) => {
                   src={developer.avatar_url}
                   size={150}
                 />
-                <br /><br />
+                <br />
 
                 <Meta developer={developer} />
 
@@ -83,9 +85,11 @@ const DeveloperShow = (props) => {
               <div className="profile">
                 <Name developer={developer} />
                 <Location developer={developer} />
+                <Company developer={developer} />
                 <Bio developer={developer} />
                 <Links developer={developer} />
                 <div className="clearfix" />
+                <Orgs developer={developer} />
                 <Languages developer={developer} />
                 <JobTypes developer={developer} />
                 <Levels developer={developer} />
@@ -112,7 +116,9 @@ const DeveloperShowContainer = Relay.createContainer(DeveloperShow, {
         login,
         hireable,
         premium,
-        ${Name.getFragment('developer')}
+        ${Name.getFragment('developer')},
+        ${Company.getFragment('developer')},
+        ${Orgs.getFragment('developer')},
         ${Location.getFragment('developer')}
         ${Languages.getFragment('developer')},
         ${JobTypes.getFragment('developer')},

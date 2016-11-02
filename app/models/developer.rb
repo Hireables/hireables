@@ -9,7 +9,6 @@ class Developer < ApplicationRecord
 
   # Fetch developer data async
   after_commit :fetch_languages!, on: :create
-  after_commit :fetch_repos!, on: :create
   after_commit :fetch_orgs!, on: :create
 
   # Mount image uploader
@@ -34,10 +33,6 @@ class Developer < ApplicationRecord
 
   def required_fields
     %w(bio email platforms location)
-  end
-
-  def fetch_repos!
-    FetchDeveloperReposWorker.perform_async(login, access_token)
   end
 
   def fetch_languages!
