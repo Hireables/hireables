@@ -2,6 +2,8 @@ class Developer < ApplicationRecord
   devise :database_authenticatable, :trackable, :validatable, :omniauthable
   store_accessor :data, :html_url, :company, :blog, :followers,
   :public_gists, :public_repos
+
+  # Cleanup platforms array and set premium
   before_save :format_platforms, unless: :empty_platforms?
   after_commit :set_premium!, on: :update, if: :profile_completed?
 
@@ -22,6 +24,18 @@ class Developer < ApplicationRecord
 
   private
 
+  def empty_platforms?
+    platforms.empty?
+  end
+
+  def format_platforms
+    self.platforms = platforms.join(',').split(',')
+  end
+
+  def required_fields
+    %w(bio email platforms location)
+  end
+
   def fetch_repos!
     FetchDeveloperReposWorker.perform_async(login, access_token)
   end
@@ -34,15 +48,7 @@ class Developer < ApplicationRecord
     FetchDeveloperOrgsWorker.perform_async(login, access_token)
   end
 
-  def format_platforms
-    self.platforms = platforms.join(',').split(',')
-  end
-
   def set_premium!
-    update!(premium: true)
-  end
-
-  def required_fields
-    %w(bio email platforms location)
+    SetDeveloperPremiumWorker.perform_async(id)
   end
 end
