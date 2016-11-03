@@ -3,7 +3,7 @@
   font-weight: 500
   position: relative
   background-color: white
-  padding-bottom: 20px
+  cursor: pointer
 
   &.premium
     background-color: #eaf4fb
@@ -16,7 +16,17 @@
   .badges
     margin: 10px auto!important
 
+
 @media(max-width: 500px)
   .profile--show
-    max-width: 300px
-    margin: 0 auto
+    .container
+      max-width: calc(100% - 40px)
+
+  .profile--item
+    padding-bottom: 0
+
+    .stats
+      display: none!important
+
+    .links
+      display: none!important
