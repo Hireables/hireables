@@ -28,7 +28,6 @@ export default class Dialog {
     const dialog = this.get();
     if (typeof HTMLDialogElement !== 'function') {
       dialogPolyfill.registerDialog(dialog);
-      dialogPolyfill.registerDialog(dialog);
     }
     return dialog;
   }

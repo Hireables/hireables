@@ -41,6 +41,7 @@ class Links extends Component {
             className={css(iconStyles.linkIcon, iconStyles.inline)}
             tooltipStyles={{ top: '15px' }}
             onClick={this.openMail}
+            touch
           >
             <FontIcon
               className="material-icons"
@@ -61,6 +62,7 @@ class Links extends Component {
             className={css(iconStyles.linkIcon, iconStyles.inline)}
             tooltipStyles={{ top: '15px' }}
             onClick={event => Links.openUrl(event, this.props.developer.blog)}
+            touch
           >
             <FontIcon
               className="material-icons"
@@ -81,6 +83,7 @@ class Links extends Component {
           tooltipStyles={{ top: '15px' }}
           tooltipPosition="bottom-center"
           onClick={event => Links.openUrl(event, this.props.developer.html_url)}
+          touch
         >
           <FontIcon
             className="muidocs-icon-custom-github link-icon"
@@ -97,6 +100,7 @@ class Links extends Component {
             style={{ cursor: 'not-allowed' }}
             className={css(iconStyles.linkIcon, iconStyles.inline)}
             onClick={event => event.stopPropagation()}
+            touch
           >
             <FontIcon
               className="material-icons"
@@ -116,6 +120,7 @@ class Links extends Component {
             style={{ cursor: 'not-allowed' }}
             className={css(iconStyles.linkIcon, iconStyles.inline)}
             onClick={event => event.stopPropagation()}
+            touch
           >
             <FontIcon
               className="material-icons"
@@ -137,6 +142,7 @@ class Links extends Component {
             tooltipStyles={{ top: '15px' }}
             tooltipPosition="bottom-center"
             onClick={event => Links.openUrl(event, this.props.developer.linkedin)}
+            touch
           >
             <SvgIcon color="#777" viewBox="0 0 512 512">
               <path
