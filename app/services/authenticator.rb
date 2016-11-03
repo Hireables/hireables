@@ -17,6 +17,7 @@ class Authenticator
     if developer.nil?
       create_from_omniauth
     else
+      developer.update!(access_token: auth.credentials.token)
       developer
     end
   end
