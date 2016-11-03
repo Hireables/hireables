@@ -14,7 +14,7 @@ import footerStyles from './styles/footer.es6';
 
 const Footer = () => (
   <MuiThemeProvider>
-    <div className="container p-b-20">
+    <div className="container p-b-20 p-t-20">
       <Toolbar className={css(footerStyles.toolbar)}>
         <ToolbarGroup key={0} className={css(footerStyles.group)}>
           <ToolbarTitle
@@ -41,8 +41,6 @@ const Footer = () => (
           </div>
         </ToolbarGroup>
       </Toolbar>
-
-      <hr />
 
       <small className={css(footerStyles.text)}>
         Disclaimer: This project is not affiliated with GitHub.

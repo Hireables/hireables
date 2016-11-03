@@ -2,9 +2,12 @@
 import React from 'react';
 import Relay from 'react-relay';
 import { css } from 'aphrodite';
+import FontIcon from 'material-ui/FontIcon';
+import Chip from 'material-ui/Chip';
+import Avatar from 'material-ui/Avatar';
 
 // StyleSheets
-import badgeStyles from '../styles/badges.es6';
+import chipStyles from '../styles/chips.es6';
 
 const JobTypes = (props) => {
   const { developer } = props;
@@ -17,61 +20,79 @@ const JobTypes = (props) => {
         developer.freelance ||
         developer.startup ||
         developer.internship ?
-          <div className="badges">
+          <div className={css(chipStyles.wrapper)}>
             <div className="header-separator">Job Types</div>
             {developer.full_time ?
-              <span
+              <Chip
                 key={Math.random()}
-                className={css(badgeStyles.badge, badgeStyles.tag)}
+                className={css(chipStyles.chip)}
               >
+                <Avatar
+                  icon={<FontIcon className="material-icons">work</FontIcon>}
+                />
                 Full-Time
-              </span> : ''
+              </Chip> : ''
             }
 
             {developer.part_time ?
-              <span
+              <Chip
                 key={Math.random()}
-                className={css(badgeStyles.badge, badgeStyles.tag)}
+                className={css(chipStyles.chip)}
               >
+                <Avatar
+                  icon={<FontIcon className="material-icons">work</FontIcon>}
+                />
                 Part-Time
-              </span> : ''
+              </Chip> : ''
             }
 
             {developer.contract ?
-              <span
+              <Chip
                 key={Math.random()}
-                className={css(badgeStyles.badge, badgeStyles.tag)}
+                className={css(chipStyles.chip)}
               >
+                <Avatar
+                  icon={<FontIcon className="material-icons">work</FontIcon>}
+                />
                 Contract
-              </span> : ''
+              </Chip> : ''
             }
 
 
             {developer.freelance ?
-              <span
+              <Chip
                 key={Math.random()}
-                className={css(badgeStyles.badge, badgeStyles.tag)}
+                className={css(chipStyles.chip)}
               >
+                <Avatar
+                  icon={<FontIcon className="material-icons">work</FontIcon>}
+                />
                 Freelance
-              </span> : ''
+              </Chip> : ''
             }
 
             {developer.startup ?
-              <span
+              <Chip
                 key={Math.random()}
-                className={css(badgeStyles.badge, badgeStyles.tag)}
+                className={css(chipStyles.chip)}
               >
+                <Avatar
+                  icon={<FontIcon className="material-icons">work</FontIcon>}
+                />
                 Startup
-              </span> : ''
+              </Chip> : ''
             }
 
             {developer.internship ?
-              <span
+              <Chip
                 key={Math.random()}
-                className={css(badgeStyles.badge, badgeStyles.tag)}
+                className={css(chipStyles.chip)}
               >
+                <Avatar
+                  icon={<FontIcon className="material-icons">work</FontIcon>}
+                />
                 Internship
-              </span> : ''
+              </Chip> : ''
             }
           </div> : ''
       }

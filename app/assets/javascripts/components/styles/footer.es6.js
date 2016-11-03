@@ -5,6 +5,8 @@ const footerToolbarStyles = StyleSheet.create({
     backgroundColor: 'transparent',
     padding: '0',
     height: '40px',
+    borderTop: '1px solid #ccc',
+    marginBottom: 10,
   },
 
   group: {

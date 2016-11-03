@@ -36,8 +36,6 @@ class Developer extends Component {
     developerRoute.params = {};
     developerRoute.params.id = developer.login;
 
-    $.getJSON(`/${developer.login}`);
-
     ReactDOM.render(
       <Relay.Renderer
         Container={ProfilePopup}

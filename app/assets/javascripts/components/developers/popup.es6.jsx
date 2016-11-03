@@ -6,6 +6,7 @@ import React, { Component } from 'react';
 import Relay from 'react-relay';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import FontIcon from 'material-ui/FontIcon';
+import Avatar from 'material-ui/Avatar';
 import 'dialog-polyfill/dialog-polyfill.css';
 import muiTheme from '../theme.es6';
 import CurrentUser from '../../helpers/currentUser.es6';
@@ -51,12 +52,12 @@ class Popup extends Component {
           className="popup"
           ref={node => (this.popupNode = node)}
         >
-          <FontIcon
-            className="close material-icons"
+          <Avatar
+            size={50}
+            className="close"
             onClick={() => this.dialog.close()}
-          >
-            close
-          </FontIcon>
+            icon={<FontIcon className="material-icons">close</FontIcon>}
+          />
           <DeveloperShow developer={developer} />
         </dialog>
       </MuiThemeProvider>

@@ -4,8 +4,9 @@
 // Modules
 import React, { Component } from 'react';
 import Relay from 'react-relay';
-import IconButton from 'material-ui/IconButton';
 import FontIcon from 'material-ui/FontIcon';
+import Chip from 'material-ui/Chip';
+import Avatar from 'material-ui/Avatar';
 import SvgIcon from 'material-ui/SvgIcon';
 import { css } from 'aphrodite';
 
@@ -35,129 +36,98 @@ class Links extends Component {
     return (
       <div className={css(iconStyles.links)}>
         {this.props.developer.email && this.props.developer.hireable ?
-          <IconButton
-            tooltip="Email"
-            tooltipPosition="bottom-center"
-            className={css(iconStyles.linkIcon, iconStyles.inline)}
-            tooltipStyles={{ top: '15px' }}
+          <Chip
+            className={css(iconStyles.linkIcon)}
             onClick={this.openMail}
-            touch
+            style={{ cursor: 'pointer' }}
           >
-            <FontIcon
-              className="material-icons"
-              color="#777"
-              hoverColor="#333"
-            >
-              email
-            </FontIcon>
-          </IconButton> : ''
+            <Avatar
+              className={css(iconStyles.iconAvatar)}
+              icon={<FontIcon className="material-icons">email</FontIcon>}
+            />
+            Email
+          </Chip> : ''
         }
 
         {this.props.developer.blog ?
-          <IconButton
-            tooltip="Website"
-            tooltipPosition="bottom-center"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={css(iconStyles.linkIcon, iconStyles.inline)}
-            tooltipStyles={{ top: '15px' }}
+          <Chip
+            className={css(iconStyles.linkIcon)}
+            style={{ cursor: 'pointer' }}
             onClick={event => Links.openUrl(event, this.props.developer.blog)}
-            touch
           >
-            <FontIcon
-              className="material-icons"
-              color="#777"
-              hoverColor="#333"
-            >
-              web
-            </FontIcon>
-          </IconButton> : ''
+            <Avatar
+              className={css(iconStyles.iconAvatar)}
+              icon={<FontIcon className="material-icons">web</FontIcon>}
+            />
+            Website
+          </Chip> : ''
         }
 
-        <IconButton
-          disableTouchRipple
-          target="_blank"
-          rel="noopener noreferrer"
-          tooltip="Github"
-          className={css(iconStyles.linkIcon, iconStyles.inline)}
-          tooltipStyles={{ top: '15px' }}
-          tooltipPosition="bottom-center"
+        <Chip
+          className={css(iconStyles.linkIcon)}
+          style={{ cursor: 'pointer' }}
           onClick={event => Links.openUrl(event, this.props.developer.html_url)}
-          touch
         >
-          <FontIcon
-            className="muidocs-icon-custom-github link-icon"
-            color="#777"
-            hoverColor="#333"
+          <Avatar
+            className={css(iconStyles.iconAvatar)}
+            icon={<FontIcon
+              className="muidocs-icon-custom-github link-icon"
+            />
+            }
           />
-        </IconButton>
+          Github
+        </Chip>
+
+        {this.props.developer.linkedin ?
+          <Chip
+            className={css(iconStyles.linkIcon)}
+            style={{ cursor: 'pointer' }}
+            onClick={event => Links.openUrl(event, this.props.developer.linkedin)}
+          >
+            <Avatar
+              className={css(iconStyles.iconAvatar)}
+              icon={
+                (<SvgIcon color="#777" viewBox="0 0 512 512">
+                  <path
+                    d="M186.4 142.4c0 19-15.3 34.5-34.2 34.5
+                    -18.9 0-34.2-15.4-34.2-34.5 0-19 15.3-34.5 34.2-34.5C171.1
+                    107.9 186.4 123.4 186.4 142.4zM181.4
+                    201.3h-57.8V388.1h57.8V201.3zM273.8
+                    201.3h-55.4V388.1h55.4c0 0 0-69.3 0-98 0-26.3
+                    12.1-41.9 35.2-41.9 21.3 0 31.5 15 31.5 41.9 0 26.9 0 98
+                    0 98h57.5c0
+                    0 0-68.2 0-118.3 0-50-28.3-74.2-68-74.2 -39.6
+                    0-56.3 30.9-56.3 30.9v-25.2H273.8z"
+                  />
+                </SvgIcon>)
+              }
+            />
+            Linkedin
+          </Chip> : ''
+        }
 
         {this.props.developer.remote ?
-          <IconButton
-            tooltip="Prefer remote"
-            tooltipStyles={{ top: '15px' }}
-            tooltipPosition="bottom-center"
-            style={{ cursor: 'not-allowed' }}
-            className={css(iconStyles.linkIcon, iconStyles.inline)}
-            onClick={event => event.stopPropagation()}
-            touch
+          <Chip
+            className={css(iconStyles.linkIcon)}
           >
-            <FontIcon
-              className="material-icons"
-              color="#777"
-              hoverColor="#333"
-            >
-              settings_remote
-            </FontIcon>
-          </IconButton> : ''
+            <Avatar
+              className={css(iconStyles.iconAvatar)}
+              icon={<FontIcon className="material-icons">settings_remote</FontIcon>}
+            />
+            Remote
+          </Chip> : ''
         }
 
         {this.props.developer.relocate ?
-          <IconButton
-            tooltip="Can relocate"
-            tooltipStyles={{ top: '15px' }}
-            tooltipPosition="bottom-center"
-            style={{ cursor: 'not-allowed' }}
-            className={css(iconStyles.linkIcon, iconStyles.inline)}
-            onClick={event => event.stopPropagation()}
-            touch
+          <Chip
+            className={css(iconStyles.linkIcon)}
           >
-            <FontIcon
-              className="material-icons"
-              color="#777"
-              hoverColor="#333"
-            >
-              location_on
-            </FontIcon>
-          </IconButton> : ''
-        }
-
-        {this.props.developer.linkedin ?
-          <IconButton
-            disableTouchRipple
-            target="_blank"
-            rel="noopener noreferrer"
-            tooltip="Linkedin"
-            className={css(iconStyles.linkIcon, iconStyles.inline)}
-            tooltipStyles={{ top: '15px' }}
-            tooltipPosition="bottom-center"
-            onClick={event => Links.openUrl(event, this.props.developer.linkedin)}
-            touch
-          >
-            <SvgIcon color="#777" viewBox="0 0 512 512">
-              <path
-                d="M186.4 142.4c0 19-15.3 34.5-34.2 34.5
-                  -18.9 0-34.2-15.4-34.2-34.5 0-19 15.3-34.5 34.2-34.5C171.1
-                  107.9 186.4 123.4 186.4 142.4zM181.4
-                  201.3h-57.8V388.1h57.8V201.3zM273.8
-                  201.3h-55.4V388.1h55.4c0 0 0-69.3 0-98 0-26.3
-                  12.1-41.9 35.2-41.9 21.3 0 31.5 15 31.5 41.9 0 26.9 0 98
-                  0 98h57.5c0
-                  0 0-68.2 0-118.3 0-50-28.3-74.2-68-74.2 -39.6
-                  0-56.3 30.9-56.3 30.9v-25.2H273.8z"
-              />
-            </SvgIcon>
-          </IconButton> : ''
+            <Avatar
+              className={css(iconStyles.iconAvatar)}
+              icon={<FontIcon className="material-icons">location_on</FontIcon>}
+            />
+            Relocate
+          </Chip> : ''
         }
       </div>
     );

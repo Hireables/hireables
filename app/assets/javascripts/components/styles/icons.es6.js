@@ -5,19 +5,20 @@ const iconStyles = StyleSheet.create({
     height: 'auto',
     marginTop: 15,
     marginLeft: 0,
+    display: 'flex',
+    flexWrap: 'wrap',
   },
 
   linkIcon: {
     color: '#555',
     padding: 0,
     marginRight: 10,
-    width: 24,
-    height: 24,
   },
 
-  inline: {
-    float: 'left',
+  iconAvatar: {
+    backgroundColor: 'rgb(91, 152, 224)',
   },
+
 });
 
 export default iconStyles;

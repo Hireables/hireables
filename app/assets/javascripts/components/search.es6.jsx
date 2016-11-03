@@ -56,7 +56,7 @@ class Search extends Component {
     this.submitSearch = this.submitSearch.bind(this);
     this.queryObject = _.pick(
       queryString.parse(document.location.search),
-      ['language', 'location', 'page', 'hireable', 'repos']
+      ['language', 'location', 'hireable', 'repos', 'page']
     );
 
     let languagesData = [];

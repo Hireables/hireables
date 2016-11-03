@@ -2,9 +2,12 @@
 import React from 'react';
 import Relay from 'react-relay';
 import { css } from 'aphrodite';
+import FontIcon from 'material-ui/FontIcon';
+import Chip from 'material-ui/Chip';
+import Avatar from 'material-ui/Avatar';
 
 // StyleSheets
-import badgeStyles from '../styles/badges.es6';
+import chipStyles from '../styles/chips.es6';
 
 const Levels = (props) => {
   const { developer } = props;
@@ -17,61 +20,79 @@ const Levels = (props) => {
         developer.mid ||
         developer.junior ||
         developer.student ?
-          <div className="badges">
+          <div className={css(chipStyles.wrapper)}>
             <div className="header-separator">Levels</div>
             {developer.cto ?
-              <span
+              <Chip
                 key={Math.random()}
-                className={css(badgeStyles.badge, badgeStyles.tag)}
+                className={css(chipStyles.chip)}
               >
+                <Avatar
+                  icon={<FontIcon className="material-icons">label</FontIcon>}
+                />
                 CTO
-              </span> : ''
+              </Chip> : ''
             }
 
             {developer.lead ?
-              <span
+              <Chip
                 key={Math.random()}
-                className={css(badgeStyles.badge, badgeStyles.tag)}
+                className={css(chipStyles.chip)}
               >
+                <Avatar
+                  icon={<FontIcon className="material-icons">label</FontIcon>}
+                />
                 Lead
-              </span> : ''
+              </Chip> : ''
             }
 
             {developer.senior ?
-              <span
+              <Chip
                 key={Math.random()}
-                className={css(badgeStyles.badge, badgeStyles.tag)}
+                className={css(chipStyles.chip)}
               >
+                <Avatar
+                  icon={<FontIcon className="material-icons">label</FontIcon>}
+                />
                 Senior
-              </span> : ''
+              </Chip> : ''
             }
 
 
             {developer.mid ?
-              <span
+              <Chip
                 key={Math.random()}
-                className={css(badgeStyles.badge, badgeStyles.tag)}
+                className={css(chipStyles.chip)}
               >
+                <Avatar
+                  icon={<FontIcon className="material-icons">label</FontIcon>}
+                />
                 Mid-Level
-              </span> : ''
+              </Chip> : ''
             }
 
             {developer.junior ?
-              <span
+              <Chip
                 key={Math.random()}
-                className={css(badgeStyles.badge, badgeStyles.tag)}
+                className={css(chipStyles.chip)}
               >
+                <Avatar
+                  icon={<FontIcon className="material-icons">label</FontIcon>}
+                />
                 Junior
-              </span> : ''
+              </Chip> : ''
             }
 
             {developer.student ?
-              <span
+              <Chip
                 key={Math.random()}
-                className={css(badgeStyles.badge, badgeStyles.tag)}
+                className={css(chipStyles.chip)}
               >
+                <Avatar
+                  icon={<FontIcon className="material-icons">label</FontIcon>}
+                />
                 Student
-              </span> : ''
+              </Chip> : ''
             }
           </div> : ''
         }

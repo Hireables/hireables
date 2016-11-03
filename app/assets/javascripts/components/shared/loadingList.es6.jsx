@@ -2,6 +2,10 @@ import React from 'react';
 import Avatar from 'material-ui/Avatar';
 import { List, ListItem } from 'material-ui/List';
 import _ from 'underscore';
+import {
+  Card,
+  CardText,
+} from 'material-ui/Card';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 const developerStyle = {
@@ -36,11 +40,13 @@ const LoadingList = () => {
 
   return (
     <MuiThemeProvider>
-      <div className="box-shadow box-border">
-        <List style={{ paddingTop: '0px', paddingBottom: '0px' }}>
-          {emptyPlaceholders}
-        </List>
-      </div>
+      <Card>
+        <CardText style={{ padding: 0, overflow: 'hidden' }}>
+          <List style={{ paddingTop: '0px', paddingBottom: '0px' }}>
+            {emptyPlaceholders}
+          </List>
+        </CardText>
+      </Card>
     </MuiThemeProvider>
   );
 };

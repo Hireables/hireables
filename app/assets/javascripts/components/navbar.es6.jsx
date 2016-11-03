@@ -7,6 +7,9 @@ import {
 } from 'material-ui/Toolbar';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
+import IconMenu from 'material-ui/IconMenu';
+import IconButton from 'material-ui/IconButton';
+import NavigationExpandMoreIcon from 'material-ui/svg-icons/navigation/expand-more';
 import FontIcon from 'material-ui/FontIcon';
 import Popover from 'material-ui/Popover';
 import Menu from 'material-ui/Menu';
@@ -70,9 +73,12 @@ class NavBar extends Component {
     const toolbarGroupStyles = {
       float: 'none',
       display: 'inline-block',
+
       link: {
         textDecoration: 'none',
+        cursor: 'pointer',
       },
+
       slogan: {
         fontSize: '16px',
         color: 'white',
@@ -96,6 +102,9 @@ class NavBar extends Component {
 
     const currentUserLogoutPath = current_user.type === 'recruiter' ?
       Routes.destroy_recruiter_session_path() : Routes.destroy_developer_session_path();
+
+    const currentUserSearchPath = current_user.type === 'recruiter' ?
+      Routes.root_path() : Routes.search_index_path();
 
     const active = currentUserProfilePath === window.location.pathname ? 'active' : '';
 
@@ -124,23 +133,56 @@ class NavBar extends Component {
                     />
                     <a
                       style={toolbarGroupStyles.link}
-                      href={currentUserProfilePath}
-                      className={
-                        `profile--link ${active}`
-                      }
+                      onClick={this.handleTouchTap}
+                      className={`profile-link ${active}`}
                     >
                       <ToolbarTitle
                         text={current_user.name}
                         style={toolbarTitleStyles}
                       />
-                    </a>
-                    <a
-                      style={toolbarGroupStyles.link}
-                      href={currentUserLogoutPath}
-                      className="logout--link"
-                      data-method="delete"
-                    >
-                      <ToolbarTitle text="Logout" style={toolbarTitleStyles} />
+
+                      <IconMenu
+                        open={this.state.open}
+                        onRequestChange={this.handleRequestClose}
+                        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                        targetOrigin={{ horizontal: 'right', vertical: 'top' }}
+                        iconButtonElement={
+                          <IconButton
+                            touch
+                            style={{
+                              verticalAlign: 'middle',
+                            }}
+                          >
+                            <NavigationExpandMoreIcon color="white" />
+                          </IconButton>
+                        }
+                      >
+                        <MenuItem
+                          innerDivStyle={{ padding: '0px 16px 0px 50px' }}
+                          href={currentUserProfilePath}
+                          primaryText="Profile"
+                          leftIcon={
+                            <FontIcon className="material-icons">
+                              account_box
+                            </FontIcon>
+                          }
+                        />
+
+                        <MenuItem
+                          innerDivStyle={{ padding: '0px 16px 0px 50px' }}
+                          href={currentUserSearchPath}
+                          primaryText="Search"
+                          leftIcon={<FontIcon className="material-icons">search</FontIcon>}
+                        />
+
+                        <MenuItem
+                          leftIcon={<FontIcon className="material-icons">power_settings_new</FontIcon>}
+                          href={currentUserLogoutPath}
+                          data-method="delete"
+                          primaryText="Logout"
+                          innerDivStyle={{ padding: '0px 16px 0px 50px' }}
+                        />
+                      </IconMenu>
                     </a>
                   </div> :
                     <div className="logged out">
