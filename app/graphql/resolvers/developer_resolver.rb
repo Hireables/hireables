@@ -17,6 +17,15 @@ class DeveloperResolver
   def call
     developer = Developer.find_by_login(params[:id])
     return developer unless developer.nil?
+
+    FetchDeveloperLanguagesWorker.perform_async(
+      params[:id], current_user.try(:access_token)
+    ) unless Rails.cache.exist?(['developer', params[:id], 'languages'])
+
+    FetchDeveloperOrgsWorker.perform_async(
+      params[:id], current_user.try(:access_token)
+    ) unless Rails.cache.exist?(['developer', params[:id], 'organizations'])
+
     api = Github::Api.new(current_user.try(:access_token))
     api.fetch_developer(params[:id])
   end
