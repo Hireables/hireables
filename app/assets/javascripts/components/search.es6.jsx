@@ -13,6 +13,7 @@ import { css } from 'aphrodite';
 import {
   Card,
   CardText,
+  CardTitle,
 } from 'material-ui/Card';
 
 // Local components
@@ -22,6 +23,13 @@ import Environment from '../helpers/environment.es6';
 
 // Stylesheets
 import chipStyles from './styles/chips.es6';
+
+const cardTitleStyle = {
+  padding: '8px 16px 8px',
+  backgroundColor: '#f5f5f5',
+  borderBottom: '1px solid #d8d8d8',
+};
+
 
 class Search extends Component {
   static onKeyPress(event) {
@@ -214,6 +222,17 @@ class Search extends Component {
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
         <Card>
+          <CardTitle
+            title="Search"
+            className="search-card-title"
+            style={cardTitleStyle}
+            titleStyle={{
+              color: '#333',
+              fontSize: 18,
+              fontWeight: 400,
+            }}
+          />
+
           <CardText style={{ padding: 16, fontSize: 16 }}>
             <Formsy.Form
               onValid={this.enableButton}

@@ -13,6 +13,7 @@ const iconStyles = StyleSheet.create({
     color: '#555',
     padding: 0,
     marginRight: 10,
+    marginBottom: 5,
   },
 
   iconAvatar: {

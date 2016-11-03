@@ -69,10 +69,12 @@ const DeveloperShow = (props) => {
               </div>
 
               <div className="profile">
-                <Name developer={developer} />
-                <Location developer={developer} />
-                <Company developer={developer} />
-                <Bio developer={developer} />
+                <div className="basic">
+                  <Name developer={developer} />
+                  <Location developer={developer} />
+                  <Company developer={developer} />
+                  <Bio developer={developer} />
+                </div>
                 <Links developer={developer} />
                 <div className="clearfix" />
                 <Orgs developer={developer} />
