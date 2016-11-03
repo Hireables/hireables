@@ -13,13 +13,6 @@ class DevelopersController < ApplicationController
 
   # GET /:id
   def show
-    FetchDeveloperLanguagesWorker.perform_async(
-      params[:id], current_user.try(:access_token)
-    ) unless Rails.cache.exist?(['developer', params[:id], 'languages'])
-
-    FetchDeveloperOrgsWorker.perform_async(
-      params[:id], current_user.try(:access_token)
-    ) unless Rails.cache.exist?(['developer', params[:id], 'organizations'])
   end
 
   private
