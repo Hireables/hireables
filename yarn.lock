@@ -3310,6 +3310,10 @@ react-addons-create-fragment@^15.2.1:
   version "15.3.2"
   resolved "https://registry.yarnpkg.com/react-addons-create-fragment/-/react-addons-create-fragment-15.3.2.tgz#0e589c8c7add0e5db5db48367b5167cbed9c5852"
 
+react-addons-perf:
+  version "15.3.2"
+  resolved "https://registry.yarnpkg.com/react-addons-perf/-/react-addons-perf-15.3.2.tgz#bbdbebe8649f936f9636a5750ac145bf5c620213"
+
 react-addons-pure-render-mixin@^15.3.2:
   version "15.3.2"
   resolved "https://registry.yarnpkg.com/react-addons-pure-render-mixin/-/react-addons-pure-render-mixin-15.3.2.tgz#c5f54764667ead26e6cdf7178b6c8dbbd8463ec2"
