@@ -10,13 +10,13 @@ class SearchController < ApplicationController
   end
 
   def prepare_search_params!
-    @prepared_params = PrepareSearchParams.new(
-      search_params, current_user
-    )
+    @prepared_params = PrepareSearchParams.new(search_params, current_user)
   end
 
   def enqueue_search_worker
-    SearchDevelopersWorker.perform_async(search_cache_key)
+    Rails.cache.fetch([@prepared_params.to_query, 'worker']) do
+      SearchDevelopersWorker.perform_async(search_cache_key)
+    end
   end
 
   private
