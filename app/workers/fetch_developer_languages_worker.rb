@@ -11,5 +11,9 @@ class FetchDeveloperLanguagesWorker
       developer = Developer.find_by_login(login)
       developer.update!(platforms: languages) unless developer.nil?
     end
+
+  ensure
+    ActiveRecord::Base.clear_active_connections!
+    ActiveRecord::Base.connection.close
   end
 end
