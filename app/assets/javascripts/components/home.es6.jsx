@@ -17,10 +17,11 @@ import muiTheme from './theme.es6';
 const iconStyles = {
   marginRight: '10px',
   verticalAlign: 'middle',
+  float: 'left',
 };
 
 const listStyles = {
-  marginBottom: 10,
+  marginBottom: 15,
   display: 'block',
 };
 
@@ -57,6 +58,7 @@ class Home extends Component {
           <section className="split-home">
             <Card
               className="hero-card"
+              containerStyle={{ paddingBottom: 10 }}
               style={{ border: '1px solid #d8d8d8' }}
             >
               <CardTitle
@@ -107,7 +109,7 @@ class Home extends Component {
               </CardActions>
             </Card>
 
-            <Card className="hero-card">
+            <Card className="hero-card" containerStyle={{ paddingBottom: 10 }}>
               <CardTitle
                 title="Employers and Recruiters"
                 style={cardTitleStyle}

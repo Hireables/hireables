@@ -455,7 +455,7 @@ class DeveloperEdit extends Component {
 
                   <RaisedButton
                     secondary
-                    label="Delete"
+                    label="Cancel my account"
                     icon={<ActionDelete />}
                     data-method="delete"
                     data-confirm="This will delete your account. Okay?"

@@ -14,7 +14,7 @@ import footerStyles from './styles/footer.es6';
 
 const Footer = () => (
   <MuiThemeProvider>
-    <div className="container p-b-20 p-t-20">
+    <div className="footer container p-b-20 p-t-20">
       <Toolbar className={css(footerStyles.toolbar)}>
         <ToolbarGroup key={0} className={css(footerStyles.group)}>
           <ToolbarTitle

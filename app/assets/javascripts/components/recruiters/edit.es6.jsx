@@ -324,7 +324,7 @@ class RecruiterEdit extends Component {
                   />
 
                   <RaisedButton
-                    label="Delete"
+                    label="Cancel my account"
                     secondary
                     icon={<ActionDelete />}
                     data-method="delete"

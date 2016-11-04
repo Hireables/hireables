@@ -126,10 +126,11 @@ class NavBar extends Component {
 
               <ToolbarGroup key={2}>
                 {authenticated ?
-                  <div className="logged in">
+                  <div className="logged-in">
                     <Avatar
                       src={current_user.avatar_url}
                       style={userImageStyles}
+                      className="logged-in-image"
                     />
                     <a
                       style={toolbarGroupStyles.link}
@@ -137,6 +138,7 @@ class NavBar extends Component {
                       className={`profile-link ${active}`}
                     >
                       <ToolbarTitle
+                        className="logged-in-name"
                         text={current_user.name}
                         style={toolbarTitleStyles}
                       />
