@@ -4,7 +4,7 @@ class Developer < ApplicationRecord
   store_accessor :data, :html_url, :company, :blog, :followers,
                  :public_gists, :public_repos
 
-  validates_presence_of :name, :login, :provider, :bio, :location, :uid
+  validates_presence_of :name, :login, :provider, :uid
 
   before_save :format_platforms, unless: :empty_platforms?
   after_commit :set_premium!, on: :update, if: :profile_completed?
