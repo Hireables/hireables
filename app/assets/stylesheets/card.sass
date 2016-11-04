@@ -1,0 +1,48 @@
+.card
+  background-color: white
+  max-width: 600px
+  margin: 50px auto
+  border: 1px solid #ccc
+  box-shadow: none !important
+
+  &.small
+    max-width: 300px
+
+  &.full
+    max-width: 800px
+
+  .title
+    padding: 0
+    margin: 0
+    color: #777
+    font-weight: 500
+    font-size: 24px
+    color: rgb(111, 135, 154)
+
+  .subtitle
+    font-size: 13px
+    color: #555
+    margin: 5px 0
+
+  .actions
+    margin-top: 20px
+
+
+.pulse
+  animation-name: pulse
+  animation-timing-function: ease-in-out
+  animation-duration: 180ms
+  animation-iteration-count: 1
+
+@-webkit-keyframes pulse
+  0%
+    transform: scale(1)
+
+  40%
+    transform: scale(1.05)
+
+  60%
+    transform: scale(1.05)
+
+  100%
+    transform: scale(1)

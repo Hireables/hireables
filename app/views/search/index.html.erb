@@ -1,0 +1,14 @@
+<div class="container">
+  <div class="search-wrapper">
+    <div class="search-filters">
+      <%= react_component 'Search', nil %>
+    </div>
+    <div class="search-results">
+      <%= react_component(
+        'DevelopersList',
+        'RootRoute',
+        @prepared_params.to_props.to_json)
+      %>
+    </div>
+  </div>
+</div>

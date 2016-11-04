@@ -1,0 +1,19 @@
+<h1>New <%= @user.class.name.downcase %> signup</h1>
+<br/>
+<label>Name</label>
+<%= @user.name %>
+<br/>
+<label>Email</label>
+<%= @user.email %>
+<br/>
+
+<% if @user.respond_to?(:website) %>
+  <label>Website</label>
+  <%= @user.website %>
+<% end %>
+<br/>
+
+<% if @user.respond_to?(:company) %>
+  <label>Company</label>
+  <%= @user.company %>
+<% end %>

@@ -1,0 +1,37 @@
+.split-home
+  width: 100%
+  display: flex
+  justify-content: space-around
+
+  .hero-card
+    border: 1px solid #ccc
+    box-shadow: none !important
+
+    h1
+      font-weight: 600
+      font-size: 42px
+
+    h4
+      font-size: 16px
+      font-weight: 300
+      color: #3C4B5D
+      line-height: 1.4
+      margin-top: 20px
+
+@media(max-width: 980px)
+  .split-home
+    width: 100%
+    display: block
+
+    .hero-card
+      width: 100%
+      margin-bottom: 50px
+
+      &:last-of-type
+        margin-bottom: 0
+
+@media(max-width: 500px)
+  .split-home
+
+    .hero-card
+      margin-bottom: 0

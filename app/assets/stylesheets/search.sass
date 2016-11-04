@@ -1,0 +1,43 @@
+.search-wrapper
+  position: relative
+  margin: 40px 0px
+
+  .search-filters
+    width: 30%
+    float: left
+
+    &.sticky
+      position: fixed
+      top: 50px
+      width: 294px
+
+    .filters
+      padding: 10px
+      background-color: white
+
+  .search-results
+    width: 68%
+    float: right
+
+@media(max-width: 980px)
+  .search-wrapper
+    .search-filters, .search-results
+      width: 100%
+      float: none
+
+    .search-results
+      margin-top: 40px
+
+@media(max-width: 500px)
+  .search-wrapper
+    margin: 0
+
+    .search-filters, .search-results
+      width: 100%
+      float: none
+
+      .search-card-title
+        display: none!important
+
+    .search-results
+      margin-top: 0

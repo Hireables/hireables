@@ -1,0 +1,32 @@
+.profile--item
+  border-bottom: 1px solid #f2f2f2
+  font-weight: 500
+  position: relative
+  background-color: white
+  cursor: pointer
+
+  &.premium
+    background-color: #eaf4fb
+
+.profile--show
+  max-width: 980px
+  margin: 50px auto
+  position: relative
+
+  .badges
+    margin: 10px auto!important
+
+
+@media(max-width: 500px)
+  .profile--show
+    .container
+      max-width: calc(100% - 40px)
+
+  .profile--item
+    padding-bottom: 0
+
+    .stats
+      display: none!important
+
+    .links
+      display: none!important

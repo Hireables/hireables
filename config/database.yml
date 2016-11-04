@@ -1,0 +1,20 @@
+# Postgres database
+
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: 25
+
+development:
+  <<: *default
+  host: localhost
+  database: hireables_development
+
+test:
+  <<: *default
+  host: localhost
+  database: hireables_test
+
+production:
+  <<: *default
+  url: <%= ENV['DATABASE_URL'] %>

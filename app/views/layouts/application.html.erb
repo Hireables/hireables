@@ -2,37 +2,26 @@
 <html lang="en">
   <head>
     <title>Find developers through Github</title>
+    <%= favicon_link_tag 'favicon.ico' %>
     <meta name="description" content="Find hireable developers on Github"/>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+
     <!--[if IE]>
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta http-equiv="imagetoolbar" content="no" />
     <![endif]-->
-    <%= favicon_link_tag 'favicon.ico' %>
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui">
-    <meta name="turbolinks-cache-control" content="no-cache">
-    <meta name="env" data-env="<%= Rails.env %>" />
-    <meta name="google-analytics" data-key="<%= ENV['GOOGLE_ANALYTICS_KEY'] %>" />
-    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="HandheldFriendly" content="true">
     <meta name="apple-touch-fullscreen" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="turbolinks-cache-control" content="no-cache">
+    <meta name="environment" content="<%= Rails.env %>" />
+    <meta name="current_user" content="<%= current_user.try(:name) %>" id="<%= current_user.try(:id) %>" type="<%= current_user.try(:class).try(:name).try(:downcase) %>" />
 
     <% if Rails.env.production? %>
-      <script type="text/javascript">
-        !function(g,s,q,r,d){r=g[r]=g[r]||function(){(r.q=r.q||[]).push(
-        arguments)};d=s.createElement(q);q=s.getElementsByTagName(q)[0];
-        d.src='//d1l6p2sc9645hc.cloudfront.net/tracker.js';q.parentNode.
-        insertBefore(d,q)}(window,document,'script','_gs');
-        _gs('GSN-715128-G');
-      </script>
-
-      <script type="text/javascript">
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-      </script>
+      <%= render partial: 'layouts/tracking' %>
     <% end %>
 
     <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
@@ -40,17 +29,16 @@
 
     <%= csrf_meta_tags %>
     <%= yield :head %>
-
   </head>
 
-  <body class="<%= controller_name %> <%= action_name %>">
-    <%= react_component 'app.CookiesTracker', { prerender: true } %>
-    <%= react_component 'app.NavBar', { prerender: true } %>
+  <body class="application <%= user_signed_in? ? 'authenticated' : 'guest'%>">
+    <%= react_component 'NavBar', nil, { authenticated: signed_in?, current_user: { name: current_user.try(:name), email: current_user.try(:email), avatar_url: current_user.try(:avatar_url, :thumb), login:  current_user.try(:login), type: current_user.try(:class).try(:name).try(:downcase) } }.to_json %>
 
     <div class="content">
       <%= yield %>
     </div>
 
-    <%= react_component 'app.Footer', { prerender: true } %>
+    <%= react_component 'Footer', nil %>
+    <div id="popups-container"></div>
   </body>
 </html>

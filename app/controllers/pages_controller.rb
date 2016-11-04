@@ -1,16 +1,22 @@
 class PagesController < ApplicationController
-  # Setup params for the request
-  include SetupRequestParams
-  include CacheRequest
-  include GetApiUri
+  layout 'pages', except: :index
 
-  def home
-    # Unless request cached fetch async members
-    FetchMembersJob.perform_later(cache_key, request_uri, params
-    ) unless key_cached?
+  def index
+    @title = 'Search hireable developers through Github'
+    @subtitle = "
+      Hireables leverages Github API to enable developers
+      extend their Github profiles and employers
+      search real hireables.
+    "
+  end
 
-    respond_to do |format|
-      format.html
-    end
+  def privacy_policy
+    @title = 'Privacy Policy'
+    @subtitle = 'How we protect and use your private data'
+  end
+
+  def cookies_policy
+    @title = 'Cookies Policy'
+    @subtitle = 'What private data we store and why'
   end
 end

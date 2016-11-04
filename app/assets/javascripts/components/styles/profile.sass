@@ -1,0 +1,45 @@
+.wrapper
+  display: flex
+
+  .skills
+    max-width: 80%
+
+  .image
+    position: relative
+    min-width: 250px
+    width: 250px
+    text-align: center
+
+  .profile
+    margin-left: 50px
+    width: calc(100% - 250px)
+
+.popup
+  .profile--show
+    margin: 80px auto
+
+  .wrapper
+    .profile
+      margin-left: 0
+
+    .skills
+      max-width: 100%
+
+
+@media(max-width: 500px)
+  .wrapper
+    display: block
+
+    .image, .profile
+      width: 100%
+
+    .profile
+      margin-left: 0
+
+      .basic
+        text-align: center
+        margin: 30px auto
+        max-width: 80%
+
+  .profile--show
+    max-width: 100%

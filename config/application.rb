@@ -1,15 +1,17 @@
-require File.expand_path('../boot', __FILE__)
+$LOAD_PATH << File.expand_path('../lib', __dir__)
+require_relative 'boot'
 
-require "rails"
 # Pick the frameworks you want:
-#require "active_model/railtie"
-require "active_job/railtie"
-# require "active_record/railtie"
-require "action_controller/railtie"
-#require "action_mailer/railtie"
-require "action_view/railtie"
-require "sprockets/railtie"
+# require "active_job/railtie"
 # require "rails/test_unit/railtie"
+# require 'action_cable/engine'
+require 'active_model/railtie'
+require 'active_record/railtie'
+require 'action_controller/railtie'
+require 'action_mailer/railtie'
+require 'action_view/railtie'
+require 'sprockets/railtie'
+require 'schema_reloader'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -17,19 +19,14 @@ Bundler.require(*Rails.groups)
 
 module Hireables
   class Application < Rails::Application
-
-    # Configure react rendering
-    config.react.addons = true
-    config.react.server_renderer_pool_size  ||= 5
-    config.react.server_renderer_timeout    ||= 20
-    config.react.server_renderer = React::ServerRendering::SprocketsRenderer
-    config.react.server_renderer_options = {
-      files: ["react.js", "components.js"],
-      replay_console: true,
-    }
-
-    # Autoload lib
+    # Autloaded paths
+    config.autoload_paths += Dir["#{config.root}/app/graphql/*"]
     config.autoload_paths += Dir["#{config.root}/app/lib/*"]
+    config.autoload_paths += Dir["#{config.root}/app/workers/*"]
+    config.autoload_paths << Rails.root.join('app/services')
+
+    # Middlewares
+    config.middleware.use SchemaReloader
 
     # Configure rails g to skip helper/assets files
     config.generators do |g|
@@ -39,6 +36,16 @@ module Hireables
       g.helper_specs    false
     end
 
+    # Default mail delivery
+    config.action_mailer.delivery_method = :mailgun
+    config.action_mailer.mailgun_settings = {
+      api_key: ENV.fetch('MAILGUN_API_KEY'),
+      domain: ENV.fetch('MAILGUN_API_DOMAIN')
+    }
+
+    config.filter_parameters << :password
+
+    # Cors
     config.middleware.insert_before 0, Rack::Cors do
       allow do
         origins 'fonts.gstatic.com'
@@ -46,13 +53,7 @@ module Hireables
       end
     end
 
-    # Setup sidekiq
-    config.active_job.queue_adapter = :sidekiq
-
-    # Setup browserify with Babel
-    config.browserify_rails.commandline_options = "-t babelify --extension=\"es6.js\""
-    config.browserify_rails.source_map_environments << "development"
-    config.browserify_rails.evaluate_node_modules = true
-
+    # Don't silence errors
+    ActiveSupport.halt_callback_chains_on_return_false = false
   end
 end
