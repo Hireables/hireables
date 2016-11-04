@@ -1,7 +1,7 @@
 # rubocop:disable Metrics/BlockLength
 Rails.application.routes.draw do
   authenticated :developer do
-    root 'developers#profile', as: :developer_root
+    root 'search#index', as: :developer_root
   end
 
   authenticated :employer do
@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   end
 
   root to: 'pages#index'
+
   get '/cookies-policy', to: 'pages#cookies_policy'
   get '/privacy-policy', to: 'pages#privacy_policy'
 
