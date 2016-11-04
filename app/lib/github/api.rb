@@ -55,6 +55,7 @@ module Github
         begin
           client.user(login)
         rescue Octokit::NotFound
+          raise StandardError, 'Not found'
         end
       end
     end
