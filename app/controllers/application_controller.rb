@@ -4,7 +4,11 @@ class ApplicationController < ActionController::Base
 
   devise_group :user, contains: [:developer, :employer]
 
-  before_action :check_developer_status!, unless: :premium_developer_profile?
+  before_action :show_developer_edit!, if: [
+    :developer_signed_in?,
+    :profile_incomplete?
+  ]
+  skip_before_action :show_developer_edit!, if: :devise_controller?
   before_action :set_raven_context, if: :tracking?
   before_action :store_current_location, unless: :devise_controller?
   before_action :configure_permitted_parameters, if: :devise_controller?
@@ -13,12 +17,12 @@ class ApplicationController < ActionController::Base
 
   protected
 
-  def check_developer_status!
+  def show_developer_edit!
     redirect_to edit_developer_path(current_developer.login)
   end
 
-  def premium_developer_profile?
-    developer_signed_in? && current_developer.premium?
+  def profile_incomplete?
+    !current_developer.premium?
   end
 
   def configure_permitted_parameters
@@ -63,7 +67,7 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_out_path_for(_resource)
-    request.referrer || root_path
+    root_path
   end
 
   def after_sign_in_path_for(resource)
