@@ -48,7 +48,7 @@ module Hireables
     # Cors
     config.middleware.insert_before 0, Rack::Cors do
       allow do
-        origins 'fonts.gstatic.com', 'api.mixpanel.com'
+        origins '//fonts.gstatic.com', '//api.mixpanel.com'
         resource '*', headers: :any, methods: [:get, :options]
       end
     end
