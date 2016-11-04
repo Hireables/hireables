@@ -7,7 +7,7 @@ class FetchDeveloperLanguagesWorker
     languages = api.fetch_developer_languages(login)
 
     # Update languages in a transaction block
-    Developer.connection_pool.with_connection do |_conn|
+    Developer.connection_pool.with_connection do
       developer = Developer.find_by_login(login)
       developer.update!(platforms: languages) unless developer.nil?
     end
