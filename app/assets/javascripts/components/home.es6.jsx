@@ -111,7 +111,7 @@ class Home extends Component {
 
             <Card className="hero-card" containerStyle={{ paddingBottom: 10 }}>
               <CardTitle
-                title="Employers and Employers"
+                title="Employers"
                 style={cardTitleStyle}
                 titleStyle={{
                   color: '#333',
