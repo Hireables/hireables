@@ -155,12 +155,9 @@ class NavBar extends Component {
                     }
                     <a
                       style={toolbarGroupStyles.link}
-                      onClick={this.handleTouchTap}
                       className={`profile-link ${active}`}
                     >
                       <IconMenu
-                        open={this.state.open}
-                        onRequestChange={this.handleRequestClose}
                         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                         targetOrigin={{ horizontal: 'right', vertical: 'top' }}
                         iconButtonElement={
