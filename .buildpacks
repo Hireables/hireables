@@ -1,3 +1,5 @@
 https://github.com/heroku/heroku-buildpack-nodejs
+https://github.com/ddollar/heroku-buildpack-apt
+https://github.com/goco-inc/heroku-buildpack-libgraphqlparser.git
+https://github.com/timolehto/heroku-bundle-config.git
 https://github.com/heroku/heroku-buildpack-ruby
-https://github.com/heroku/heroku-buildpack-apt
