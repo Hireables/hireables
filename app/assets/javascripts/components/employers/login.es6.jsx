@@ -176,7 +176,7 @@ class EmployerLogin extends Component {
                   />
 
                   <RaisedButton
-                    label="Forgot your password?"
+                    label="Forgot your password"
                     className={css(formStyles.button, formStyles.input)}
                     primary
                     href={this.props.forgot_password_url}
