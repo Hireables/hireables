@@ -15,6 +15,6 @@ class EmployersController < ApplicationController
 
   def set_employer
     @login = params[:id]
-    @employer = Employer.find_by_login(@login)
+    @employer = Employer.find_by_login!(@login)
   end
 end
