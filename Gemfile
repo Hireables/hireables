@@ -42,7 +42,6 @@ gem 'js-routes'
 
 # Graphql
 gem 'graphql'
-gem 'graphql-libgraphqlparser'
 
 # Auth token
 gem 'jwt'
