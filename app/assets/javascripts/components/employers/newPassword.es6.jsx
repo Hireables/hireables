@@ -55,6 +55,10 @@ class EmployerNewPassword extends Component {
         notification: 'You will receive an email with instructions on ' +
         'how to reset your password in a few minutes.',
       });
+
+      setTimeout(() => {
+        window.location.href = Routes.root_path();
+      }, 2000);
     }).fail((xhr) => {
       if (xhr.status === 422) {
         const errors = {};
@@ -89,8 +93,6 @@ class EmployerNewPassword extends Component {
   handleRequestClose() {
     this.setState({
       open: false,
-    }, () => {
-      window.location.href = Routes.root_path();
     });
   }
 

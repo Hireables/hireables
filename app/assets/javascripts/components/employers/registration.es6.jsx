@@ -76,6 +76,10 @@ class EmployerRegistration extends Component {
     $.post(this.props.action, this.formNode.getModel(), () => {
       this.setNotification('You have signed up successfully. ' +
           'We will email you once your account is verified.');
+
+      setTimeout(() => {
+        window.location.href = Routes.root_path();
+      }, 2000);
     }).fail((xhr) => {
       if (xhr.status === 422) {
         const errors = {};
@@ -109,8 +113,6 @@ class EmployerRegistration extends Component {
   handleRequestClose() {
     this.setState({
       open: false,
-    }, () => {
-      window.location.href = Routes.root_path();
     });
   }
 

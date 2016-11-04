@@ -53,6 +53,7 @@ class EmployerLogin extends Component {
         open: true,
         notification: 'Logging in...',
       });
+      window.location.href = Routes.root_path();
     }).fail((xhr) => {
       switch (xhr.status) {
         case 401: {
@@ -88,8 +89,6 @@ class EmployerLogin extends Component {
   handleRequestClose() {
     this.setState({
       open: false,
-    }, () => {
-      window.location.href = Routes.root_path();
     });
   }
 

@@ -1,7 +1,8 @@
-/* global $ Routes Turbolinks window */
+/* global $ Routes Turbolinks window document */
 
 import React, { Component } from 'react';
 import Formsy from 'formsy-react';
+import queryString from 'query-string';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
 import { FormsyText } from 'formsy-material-ui/lib';
@@ -38,6 +39,7 @@ class EmployerUpdatePassword extends Component {
     this.disableButton = this.disableButton.bind(this);
     this.handleRequestClose = this.handleRequestClose.bind(this);
 
+    this.reset_password_token = queryString.parse(document.location.search).reset_password_token;
     this.state = {
       form: {},
       open: false,
@@ -49,21 +51,30 @@ class EmployerUpdatePassword extends Component {
 
   onFormSubmit(event) {
     event.preventDefault();
-    $.put(this.props.action, this.formNode.getModel(), () => {
-      this.setNotification('Your password has been changed successfully.');
-    }).fail((xhr) => {
-      if (xhr.status === 422) {
-        const errors = {};
-        Object.keys(xhr.responseJSON.errors).forEach((key) => {
-          if ({}.hasOwnProperty.call(xhr.responseJSON.errors, key)) {
-            const value = xhr.responseJSON.errors[key];
-            errors[`employer[${key}]`] = `${key} ${value.toString()}`;
-          }
-        });
-        this.formNode.updateInputsWithError(errors);
-      } else {
-        this.setNotification('Something went wrong. Please refresh and try again!');
-      }
+    $.ajax({
+      url: this.props.action,
+      data: this.formNode.getModel(),
+      type: 'PUT',
+      success: () => {
+        this.setNotification('Your password has been changed successfully.');
+        setTimeout(() => {
+          window.location.href = Routes.root_path();
+        }, 2000);
+      },
+      fail: (xhr) => {
+        if (xhr.status === 422) {
+          const errors = {};
+          Object.keys(xhr.responseJSON.errors).forEach((key) => {
+            if ({}.hasOwnProperty.call(xhr.responseJSON.errors, key)) {
+              const value = xhr.responseJSON.errors[key];
+              errors[`employer[${key}]`] = `${key} ${value.toString()}`;
+            }
+          });
+          this.formNode.updateInputsWithError(errors);
+        } else {
+          this.setNotification('Something went wrong. Please refresh and try again!');
+        }
+      },
     });
   }
 
@@ -90,8 +101,6 @@ class EmployerUpdatePassword extends Component {
   handleRequestClose() {
     this.setState({
       open: false,
-    }, () => {
-      window.location.href = Routes.root_path();
     });
   }
 
@@ -120,6 +129,14 @@ class EmployerUpdatePassword extends Component {
                 autoComplete="off"
                 onInvalid={this.disableButton}
               >
+                <FormsyText
+                  id="text-field-default"
+                  name="employer[reset_password_token]"
+                  type="hidden"
+                  style={{ display: 'none' }}
+                  defaultValue={this.reset_password_token}
+                />
+
                 <div className="row">
                   <div className="field">
                     <FormsyText
@@ -146,12 +163,12 @@ class EmployerUpdatePassword extends Component {
                       name="employer[password_confirmation]"
                       type="password"
                       autoComplete="new-password-confirmation"
-                      floatingLabelText="New Password Confirmation"
+                      floatingLabelText="Confirm New Password"
                       required
                       updateImmediately
                       validations={{
                         minLength: 8,
-                        equalsField: 'password',
+                        equalsField: 'employer[password]',
                       }}
                       validationErrors={{
                         minLength: 'Password should be minimum 8 characters',
@@ -162,7 +179,7 @@ class EmployerUpdatePassword extends Component {
                 </div>
                 <div className="actions">
                   <RaisedButton
-                    label="Save password"
+                    label="Change password"
                     primary
                     onClick={this.onFormSubmit}
                     type="submit"
@@ -171,23 +188,6 @@ class EmployerUpdatePassword extends Component {
                     required
                   />
                 </div>
-
-                <div className="extra-actions">
-                  <RaisedButton
-                    label="Register"
-                    primary
-                    href={this.props.signup_url}
-                    className={css(formStyles.button)}
-                  />
-
-                  <RaisedButton
-                    label="Login"
-                    primary
-                    href={this.props.login_url}
-                    className={css(formStyles.button, formStyles.input)}
-                  />
-                </div>
-
                 <div className="notifications">
                   <Snackbar
                     open={this.state.open}
@@ -208,8 +208,6 @@ class EmployerUpdatePassword extends Component {
 
 EmployerUpdatePassword.propTypes = {
   action: React.PropTypes.string,
-  signup_url: React.PropTypes.string,
-  login_url: React.PropTypes.string,
 };
 
 export default EmployerUpdatePassword;
