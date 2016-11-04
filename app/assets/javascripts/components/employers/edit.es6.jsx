@@ -311,7 +311,7 @@ class EmployerEdit extends Component {
                 <div className="clearfix" />
                 <div className="actions">
                   <RaisedButton
-                    label="Register"
+                    label="Update"
                     primary
                     onClick={this.onFormSubmit}
                     type="submit"
@@ -320,7 +320,7 @@ class EmployerEdit extends Component {
                   />
 
                   <RaisedButton
-                    label="Cancel my account"
+                    label="Delete account"
                     secondary
                     icon={<ActionDelete />}
                     data-method="delete"

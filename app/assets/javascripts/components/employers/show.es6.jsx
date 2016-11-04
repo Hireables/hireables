@@ -76,6 +76,12 @@ class EmployerShow extends Component {
       { ALLOWED_TAGS: ['b', 'i'] }
     );
 
+    const userBadge = () => {
+      const { name } = employer;
+      const chunks = name.split(' ');
+      return chunks[0][0] + chunks[1][0];
+    };
+
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
         <div className="employers-show">
@@ -89,7 +95,15 @@ class EmployerShow extends Component {
                     margin: '0 auto',
                   }}
                 >
-                  <Avatar src={employer.avatar_url} size={100} />
+                  {employer.avatar_url ?
+                    <Avatar
+                      src={employer.avatar_url}
+                      size={100}
+                    /> : <Avatar
+                      src={employer.avatar_url}
+                      size={100}
+                    >{userBadge()}</Avatar>
+                  }
                   <IconButton
                     onClick={this.openFileDialog}
                   >

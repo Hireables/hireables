@@ -96,7 +96,14 @@ class NavBar extends Component {
       backgroundColor: 'white',
     };
 
+    const userBadge = () => {
+      const { name } = this.props.current_user;
+      const chunks = name.split(' ');
+      return chunks[0][0] + chunks[1][0];
+    };
+
     const { current_user, authenticated } = this.props;
+
     const currentUserProfilePath = current_user.type === 'employer' ?
       Routes.employer_path(current_user.login) : Routes.developer_root_path();
 
@@ -106,9 +113,13 @@ class NavBar extends Component {
     const currentUserSearchPath = current_user.type === 'employer' ?
       Routes.root_path() : Routes.search_index_path();
 
-    const currentUserEditProfilePath = current_user.type === 'employer' ?
-      Routes.edit_employer_path(current_user.login) :
-        Routes.edit_developer_path(current_user.login);
+    let currentUserEditProfilePath = null;
+
+    if (authenticated) {
+      currentUserEditProfilePath = current_user.type === 'employer' ?
+        Routes.edit_employer_registration_path() :
+          Routes.edit_developer_path(current_user.login);
+    }
 
     const active = currentUserProfilePath === window.location.pathname ? 'active' : '';
 
@@ -131,22 +142,22 @@ class NavBar extends Component {
               <ToolbarGroup key={2}>
                 {authenticated ?
                   <div className="logged-in">
-                    <Avatar
-                      src={current_user.avatar_url}
-                      style={userImageStyles}
-                      className="logged-in-image"
-                    />
+                    {current_user.avatar_url ?
+                      <Avatar
+                        src={current_user.avatar_url}
+                        style={userImageStyles}
+                        className="logged-in-image"
+                      /> : <Avatar
+                        src={current_user.avatar_url}
+                        style={userImageStyles}
+                        className="logged-in-image"
+                      >{userBadge()}</Avatar>
+                    }
                     <a
                       style={toolbarGroupStyles.link}
                       onClick={this.handleTouchTap}
                       className={`profile-link ${active}`}
                     >
-                      <ToolbarTitle
-                        className="logged-in-name"
-                        text={current_user.name}
-                        style={toolbarTitleStyles}
-                      />
-
                       <IconMenu
                         open={this.state.open}
                         onRequestChange={this.handleRequestClose}

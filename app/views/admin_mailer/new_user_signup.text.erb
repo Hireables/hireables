@@ -1,5 +1,11 @@
 New <%= @user.class.name.downcase %> signup
 <%= @user.name %>
 <%= @user.email %>
-<%= @user.company unless @user.company.nil? %>
-<%= @user.website unless @user.website.nil? %>
+
+<% if @user.respond_to?(:website) %>
+  <%= @user.website %>
+<% end %>
+
+<% if @user.respond_to?(:company) %>
+  <%= @user.company %>
+<% end %>
