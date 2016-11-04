@@ -78,10 +78,6 @@ var defaults = {
         loader: ExtractTextPlugin.extract('style-loader', 'css-loader', 'autoprefixer'),
       },
       {
-        test: /\.scss$/,
-        loaders: ['style', 'css', 'sass'],
-      },
-      {
         test: /\.sass$/,
         loaders: ['style', 'css', 'sass'],
       },
