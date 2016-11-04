@@ -100,12 +100,12 @@ class DeveloperEdit extends Component {
     };
 
     const onSuccess = () => {
-      window.location.href = Routes.root_path();
+      window.location.href = Routes.developer_path(this.props.developer.login);
     };
 
-    const newModel = _.pick(Object.assign(this.formNode.getModel(), {
+    const newModel = Object.assign(this.formNode.getModel(), {
       platforms: platforms.toString(),
-    }), _.identity);
+    });
 
     Relay.Store.commitUpdate(new UpdateDeveloper({
       id: this.props.developer.id,
@@ -245,13 +245,13 @@ class DeveloperEdit extends Component {
                 <div className="search-box bio">
                   <FormsyText
                     id="text-field-default"
-                    placeholder="(ex: I am a full-stack developer)"
+                    placeholder="(ex: Looking for opportunities in AI)"
                     autoFocus
                     name="bio"
                     fullWidth
                     multiLine
                     defaultValue={developer.bio}
-                    floatingLabelText="A brief intro"
+                    floatingLabelText="What are you looking for *"
                     floatingLabelFixed
                     updateImmediately
                     required
@@ -274,7 +274,7 @@ class DeveloperEdit extends Component {
                     fullWidth
                     onKeyDown={DeveloperEdit.onKeyPress}
                     defaultValue={developer.location}
-                    floatingLabelText="Where are you based?"
+                    floatingLabelText="Where are you based *"
                     floatingLabelFixed
                     required
                     className={css(formStyles.half)}
@@ -494,6 +494,7 @@ const DeveloperEditContainer = Relay.createContainer(DeveloperEdit, {
       fragment on Developer {
         id,
         name,
+        login,
         bio,
         linkedin,
         location,
