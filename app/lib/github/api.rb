@@ -22,12 +22,14 @@ module Github
     # rubocop:disable Metrics/AbcSize
     def fetch_developers(params)
       logins = {}
+      items = search(params).items
+      return [] unless items.any?
 
-      search(params).items.each do |item|
+      items.each do |item|
         logins["developer/#{item.login}"] = item.login
       end
 
-      all = Rails.cache.fetch_multi(logins.keys) do |_key|
+      result = Rails.cache.fetch_multi(logins.keys) do |_key|
         local = Developer.where(login: logins.values)
         remaining = logins.values - local.map(&:login)
         github = remaining.map do |login|
@@ -35,10 +37,10 @@ module Github
         end
 
         [local + github]
-      end
+      end[logins.keys].flatten
 
       # Sort developers based on given criterias
-      all[logins.keys].flatten.sort_by do |item|
+      result.sort_by do |item|
         [
           item.premium && item.hireable ? 0 : 1,
           item.hireable && item.email.present? ? 0 : 1,
