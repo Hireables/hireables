@@ -52,36 +52,60 @@ module Github
 
     def fetch_developer(login)
       Rails.cache.fetch(['developer', login]) do
-        client.user(login)
+        begin
+          client.user(login)
+        rescue Octokit::NotFound
+        end
       end
     end
 
     def fetch_developer_languages(login)
       Rails.cache.fetch(['developer', login, 'languages']) do
-        fetch_developer_repos(login)
-          .lazy
-          .map(&:language)
-          .to_a
-          .compact
-          .map(&:downcase)
-          .uniq!
+        begin
+          languages = fetch_developer_repos(login)
+            .lazy
+            .map(&:language)
+            .to_a
+            .compact
+            .map(&:downcase)
+            .uniq!
+
+          return [] if languages.nil?
+          languages
+        rescue Octokit::NotFound
+          []
+        end
       end
     end
 
     def fetch_developer_repos(login)
       Rails.cache.fetch(['developer', login, 'repos']) do
         client.auto_paginate = true
-        client.repositories(login, sort: 'updated')
+        begin
+          repos = client.repositories(login, sort: 'updated')
+
+          return [] if repos.nil?
+          repos
+        rescue Octokit::NotFound
+          []
+        end
       end
     end
 
     def fetch_developer_orgs(login)
       Rails.cache.fetch(['developer', login, 'organizations']) do
-        client
-          .organizations(login)
-          .lazy
-          .take(5)
-          .to_a
+        begin
+          orgs = client
+            .organizations(login)
+            .lazy
+            .take(5)
+            .to_a
+
+          return [] if orgs.nil?
+          orgs
+        rescue Octokit::NotFound
+          []
+        end
       end
     end
 
