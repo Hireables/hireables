@@ -104,9 +104,6 @@ class NavBar extends Component {
 
     const { current_user, authenticated } = this.props;
 
-    const currentUserProfilePath = current_user.type === 'employer' ?
-      Routes.employer_path(current_user.login) : Routes.developer_root_path();
-
     const currentUserLogoutPath = current_user.type === 'employer' ?
       Routes.destroy_employer_session_path() : Routes.destroy_developer_session_path();
 
@@ -114,8 +111,12 @@ class NavBar extends Component {
       Routes.root_path() : Routes.search_index_path();
 
     let currentUserEditProfilePath = null;
+    let currentUserProfilePath = null;
 
     if (authenticated) {
+      currentUserProfilePath = current_user.type === 'employer' ?
+      Routes.employer_path(current_user.login) :
+        Routes.developer_path(current_user.login);
       currentUserEditProfilePath = current_user.type === 'employer' ?
         Routes.edit_employer_registration_path() :
           Routes.edit_developer_path(current_user.login);
