@@ -254,6 +254,7 @@ class DeveloperEdit extends Component {
                     floatingLabelText="A brief intro"
                     floatingLabelFixed
                     updateImmediately
+                    required
                     validations={{
                       minLength: 50,
                       maxLength: 140,
@@ -275,6 +276,7 @@ class DeveloperEdit extends Component {
                     defaultValue={developer.location}
                     floatingLabelText="Where are you based?"
                     floatingLabelFixed
+                    required
                     className={css(formStyles.half)}
                   />
 

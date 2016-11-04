@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
 
   devise_group :user, contains: [:developer, :employer]
 
+  before_action :check_developer_status!, unless: :premium_developer_profile?
   before_action :set_raven_context, if: :tracking?
   before_action :store_current_location, unless: :devise_controller?
   before_action :configure_permitted_parameters, if: :devise_controller?
@@ -11,6 +12,14 @@ class ApplicationController < ActionController::Base
   include Tokenizeable
 
   protected
+
+  def check_developer_status!
+    redirect_to edit_developer_path(current_developer.login)
+  end
+
+  def premium_developer_profile?
+    developer_signed_in? && current_developer.premium?
+  end
 
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(

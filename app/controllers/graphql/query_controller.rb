@@ -1,6 +1,7 @@
 module Graphql
   class QueryController < ApplicationController
     before_action :verify_token!
+    skip_before_action :check_developer_status!
     include GraphqlAuthentication
 
     def create

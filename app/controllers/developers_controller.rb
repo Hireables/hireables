@@ -1,5 +1,6 @@
 class DevelopersController < ApplicationController
   before_action :authenticate_developer!, only: [:profile, :edit]
+  skip_before_action :check_developer_status!, only: :edit
   before_action :authenticate_user!, only: :show
   before_action :set_developer, only: [:show, :edit]
 
