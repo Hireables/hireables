@@ -106,6 +106,10 @@ class NavBar extends Component {
     const currentUserSearchPath = current_user.type === 'recruiter' ?
       Routes.root_path() : Routes.search_index_path();
 
+    const currentUserEditProfilePath = current_user.type === 'recruiter' ?
+      Routes.edit_recruiter_path(current_user.login) :
+        Routes.edit_developer_path(current_user.login);
+
     const active = currentUserProfilePath === window.location.pathname ? 'active' : '';
 
     return (
@@ -174,11 +178,31 @@ class NavBar extends Component {
                           innerDivStyle={{ padding: '0px 16px 0px 50px' }}
                           href={currentUserSearchPath}
                           primaryText="Search"
-                          leftIcon={<FontIcon className="material-icons">search</FontIcon>}
+                          leftIcon={
+                            <FontIcon
+                              className="material-icons"
+                            >
+                              search</FontIcon>
+                          }
                         />
 
                         <MenuItem
-                          leftIcon={<FontIcon className="material-icons">power_settings_new</FontIcon>}
+                          innerDivStyle={{ padding: '0px 16px 0px 50px' }}
+                          href={currentUserEditProfilePath}
+                          primaryText="Edit"
+                          leftIcon={
+                            <FontIcon className="material-icons">
+                              mode_edit
+                            </FontIcon>
+                          }
+                        />
+
+                        <MenuItem
+                          leftIcon={
+                            <FontIcon
+                              className="material-icons"
+                            >power_settings_new</FontIcon>
+                          }
                           href={currentUserLogoutPath}
                           data-method="delete"
                           primaryText="Logout"
