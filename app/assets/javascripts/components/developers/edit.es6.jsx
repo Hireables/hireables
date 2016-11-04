@@ -308,7 +308,7 @@ class DeveloperEdit extends Component {
                     className="platforms"
                     onKeyDown={this.addNewPlatform}
                     ref={node => (this.platformNode = node)}
-                    floatingLabelText="Languages and frameworks you work with"
+                    floatingLabelText="Languages and frameworks you work with *"
                     floatingLabelFixed
                     fullWidth
                   />
