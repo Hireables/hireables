@@ -71,10 +71,6 @@ class EmployerNewPassword extends Component {
           notification: 'Something went wrong. Please refresh and try again!',
         });
       }
-    }).always(() => {
-      setTimeout(() => {
-        window.location.href = Routes.root_path();
-      }, 2000);
     });
   }
 
@@ -93,6 +89,8 @@ class EmployerNewPassword extends Component {
   handleRequestClose() {
     this.setState({
       open: false,
+    }, () => {
+      window.location.href = Routes.root_path();
     });
   }
 

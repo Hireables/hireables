@@ -70,8 +70,6 @@ class EmployerLogin extends Component {
           });
         }
       }
-    }).always(() => {
-      window.location.href = Routes.root_path();
     });
   }
 
@@ -90,6 +88,8 @@ class EmployerLogin extends Component {
   handleRequestClose() {
     this.setState({
       open: false,
+    }, () => {
+      window.location.href = Routes.root_path();
     });
   }
 

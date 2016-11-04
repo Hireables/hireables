@@ -90,6 +90,8 @@ class EmployerUpdatePassword extends Component {
   handleRequestClose() {
     this.setState({
       open: false,
+    }, () => {
+      window.location.href = Routes.root_path();
     });
   }
 
