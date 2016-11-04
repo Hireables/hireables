@@ -4,8 +4,8 @@ Rails.application.routes.draw do
     root 'developers#profile', as: :developer_root
   end
 
-  authenticated :recruiter do
-    root 'search#index', as: :recruiter_root
+  authenticated :employer do
+    root 'search#index', as: :employer_root
   end
 
   root to: 'pages#index'
@@ -28,7 +28,7 @@ Rails.application.routes.draw do
                                 as: :cancel_developer_registration
   end
 
-  devise_for :recruiters
+  devise_for :employers
 
   if Rails.env.development?
     mount GraphiQL::Rails::Engine, at: '/graphiql',
@@ -36,7 +36,7 @@ Rails.application.routes.draw do
   end
 
   resources :search, only: :index
-  resources :recruiters, only: [:show, :edit]
+  resources :employers, only: [:show, :edit]
 
   get '/:id', to: 'developers#show', as: :developer
   get '/:id/edit', to: 'developers#edit', as: :edit_developer

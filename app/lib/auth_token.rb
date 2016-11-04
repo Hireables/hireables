@@ -25,7 +25,7 @@ module AuthToken
   def payload
     {
       data: {
-        permission: current_recruiter.present? ? 'recruiter' : 'developer'
+        permission: current_employer.present? ? 'employer' : 'developer'
       },
       exp: Time.now.to_i + 1440
     }

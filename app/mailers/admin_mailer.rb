@@ -13,6 +13,6 @@ class AdminMailer < ActionMailer::Base
   private
 
   def user_types
-    { 'Recruiter' => Recruiter, 'Developer' => Developer }.freeze
+    { 'Employer' => Employer, 'Developer' => Developer }.freeze
   end
 end

@@ -1,4 +1,4 @@
-class Recruiter < ApplicationRecord
+class Employer < ApplicationRecord
   devise :database_authenticatable, :registerable, :recoverable,
          :rememberable, :trackable, :validatable
 
@@ -35,7 +35,7 @@ class Recruiter < ApplicationRecord
   end
 
   def available_login
-    if Recruiter.find_by_login(name.parameterize).blank?
+    if Employer.find_by_login(name.parameterize).blank?
       name.parameterize
     else
       generate_login
@@ -45,7 +45,7 @@ class Recruiter < ApplicationRecord
   def generate_login
     num = 1
     login_username = name.parameterize
-    while Recruiter.find_by_login(login_username).blank?
+    while Employer.find_by_login(login_username).blank?
       login_username = "#{name.parameterize}#{num}"
       num += 1
     end

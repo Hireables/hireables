@@ -1,4 +1,4 @@
-class RecruiterResolver
+class EmployerResolver
   attr_reader :params, :current_user
 
   def self.call(*args)
@@ -14,6 +14,6 @@ class RecruiterResolver
   end
 
   def call
-    Recruiter.find_by_login(params[:id])
+    Employer.find_by_login(params[:id])
   end
 end

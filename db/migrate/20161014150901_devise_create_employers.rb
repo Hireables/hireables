@@ -1,7 +1,6 @@
-
-class DeviseCreateRecruiters < ActiveRecord::Migration[5.0]
+class DeviseCreateEmployers < ActiveRecord::Migration[5.0]
   def change
-    create_table :recruiters do |t|
+    create_table :employers do |t|
       ## Database authenticatable
       t.string :email,              null: false, default: ""
       t.string :login, null: false, default: ""
@@ -34,8 +33,8 @@ class DeviseCreateRecruiters < ActiveRecord::Migration[5.0]
       t.timestamps null: false
     end
 
-    add_index :recruiters, :email,                unique: true
-    add_index :recruiters, :login,                unique: true
-    add_index :recruiters, :reset_password_token, unique: true
+    add_index :employers, :email,                unique: true
+    add_index :employers, :login,                unique: true
+    add_index :employers, :reset_password_token, unique: true
   end
 end

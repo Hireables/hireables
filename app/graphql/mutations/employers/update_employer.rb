@@ -1,7 +1,7 @@
-module Recruiters
-  UpdateRecruiter = GraphQL::Relay::Mutation.define do
-    name 'UpdateRecruiter'
-    description 'Update Recruiter'
+module Employers
+  UpdateEmployer = GraphQL::Relay::Mutation.define do
+    name 'UpdateEmployer'
+    description 'Update Employer'
 
     # Define input and return field
     input_field :id, !types.ID
@@ -15,9 +15,9 @@ module Recruiters
     input_field :current_password, types.String
 
     # Return field
-    return_field :recruiter, RecruiterType
+    return_field :employer, EmployerType
 
     # Resolve block to update a model
-    resolve(RecruiterUpdateResolver)
+    resolve(EmployerUpdateResolver)
   end
 end

@@ -14,13 +14,13 @@ import DeveloperEdit from './components/developers/edit.es6';
 import DeveloperLogin from './components/developers/login.es6';
 import ReactHelper from './utils/reactHelper.es6';
 import renderComponents from './bootstrapper.es6';
-import RecruiterRoute from './routes/recruiterRoute.es6';
-import RecruiterShow from './components/recruiters/show.es6';
-import RecruiterEdit from './components/recruiters/edit.es6';
-import RecruiterRegistration from './components/recruiters/registration.es6';
-import RecruiterLogin from './components/recruiters/login.es6';
-import RecruiterNewPassword from './components/recruiters/newPassword.es6';
-import RecruiterUpdatePassword from './components/recruiters/updatePassword.es6';
+import EmployerRoute from './routes/employerRoute.es6';
+import EmployerShow from './components/employers/show.es6';
+import EmployerEdit from './components/employers/edit.es6';
+import EmployerRegistration from './components/employers/registration.es6';
+import EmployerLogin from './components/employers/login.es6';
+import EmployerNewPassword from './components/employers/newPassword.es6';
+import EmployerUpdatePassword from './components/employers/updatePassword.es6';
 import './analytics.es6';
 
 injectTapEventPlugin();
@@ -32,19 +32,19 @@ ReactHelper.registerComponent({
   DeveloperShow,
   DeveloperEdit,
   Footer,
-  RecruiterLogin,
-  RecruiterRegistration,
-  RecruiterNewPassword,
-  RecruiterUpdatePassword,
+  EmployerLogin,
+  EmployerRegistration,
+  EmployerNewPassword,
+  EmployerUpdatePassword,
   Search,
-  RecruiterShow,
-  RecruiterEdit,
+  EmployerShow,
+  EmployerEdit,
   DeveloperLogin,
 });
 
 ReactHelper.registerRoute({
   RootRoute,
-  RecruiterRoute,
+  EmployerRoute,
   DeveloperRoute,
 });
 

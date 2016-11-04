@@ -73,7 +73,7 @@ class Home extends Component {
 
               <CardText style={{ padding: '16px 16px 0', fontSize: 16 }}>
                 <p style={{ marginTop: '0px', fontWeight: '500' }}>
-                  Receive high quality job offers from vetted recruiters.
+                  Receive high quality job offers from vetted employers.
                 </p>
                 <ul style={{ padding: 0, marginBottom: 0, listStyle: 'none' }}>
                   <li style={listStyles}>
@@ -111,7 +111,7 @@ class Home extends Component {
 
             <Card className="hero-card" containerStyle={{ paddingBottom: 10 }}>
               <CardTitle
-                title="Employers and Recruiters"
+                title="Employers and Employers"
                 style={cardTitleStyle}
                 titleStyle={{
                   color: '#333',
@@ -147,7 +147,7 @@ class Home extends Component {
                 <RaisedButton
                   label="Signup"
                   icon={<ActionContentMail color="white" />}
-                  onClick={() => Turbolinks.visit(Routes.new_recruiter_registration_path())}
+                  onClick={() => Turbolinks.visit(Routes.new_employer_registration_path())}
                   primary
                 />
               </CardActions>

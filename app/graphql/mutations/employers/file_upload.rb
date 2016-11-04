@@ -1,11 +1,11 @@
-module Recruiters
+module Employers
   FileUpload = GraphQL::Relay::Mutation.define do
-    name 'RecruiterFileUpload'
-    description 'Uploads image for the recruiter'
+    name 'EmployerFileUpload'
+    description 'Uploads image for the employer'
 
     # Define input and return field
     input_field :id, !types.ID
-    return_field :recruiter, RecruiterType
+    return_field :employer, EmployerType
 
     # Resolve block to upload file
     resolve(FileUploadResolver)

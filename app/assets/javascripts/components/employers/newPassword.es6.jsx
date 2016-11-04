@@ -12,6 +12,7 @@ import {
   CardTitle,
   CardText,
 } from 'material-ui/Card';
+
 import muiTheme from '../theme.es6';
 
 // Stylesheets
@@ -23,7 +24,7 @@ const cardTitleStyle = {
   borderBottom: '1px solid #d8d8d8',
 };
 
-class RecruiterLogin extends Component {
+class EmployerNewPassword extends Component {
   static onKeyPress(event) {
     if (event.keyCode === 13) {
       event.preventDefault();
@@ -51,27 +52,29 @@ class RecruiterLogin extends Component {
     $.post(this.props.action, this.formNode.getModel(), () => {
       this.setState({
         open: true,
-        notification: 'Logging in...',
+        notification: 'You will receive an email with instructions on ' +
+        'how to reset your password in a few minutes.',
       });
     }).fail((xhr) => {
-      switch (xhr.status) {
-        case 401: {
-          this.setState({
-            notification: xhr.responseText,
-          }, () => {
-            this.setState({ open: true });
-          });
-          break;
-        }
-        default: {
-          this.setState({
-            open: true,
-            notification: 'Something went wrong!',
-          });
-        }
+      if (xhr.status === 422) {
+        const errors = {};
+        Object.keys(xhr.responseJSON.errors).forEach((key) => {
+          if ({}.hasOwnProperty.call(xhr.responseJSON.errors, key)) {
+            const value = xhr.responseJSON.errors[key];
+            errors[`employer[${key}]`] = `${key} ${value.toString()}`;
+          }
+        });
+        this.formNode.updateInputsWithError(errors);
+      } else {
+        this.setState({
+          open: true,
+          notification: 'Something went wrong. Please refresh and try again!',
+        });
       }
     }).always(() => {
-      window.location.href = Routes.root_path();
+      setTimeout(() => {
+        window.location.href = Routes.root_path();
+      }, 2000);
     });
   }
 
@@ -99,7 +102,7 @@ class RecruiterLogin extends Component {
       <MuiThemeProvider muiTheme={muiTheme}>
         <Card className="card small">
           <CardTitle
-            title="Recruiter Login"
+            title="Change your password"
             style={cardTitleStyle}
             titleStyle={{
               color: '#333',
@@ -108,21 +111,21 @@ class RecruiterLogin extends Component {
             }}
           />
           <CardText style={{ padding: '16px 16px 0', fontSize: 16 }}>
-            <div className="form login">
+            <div className="form new-password">
               <Formsy.Form
                 action={action}
                 method="post"
-                onKeyDown={RecruiterLogin.onKeyPress}
+                onKeyDown={EmployerNewPassword.onKeyPress}
                 onValid={this.enableButton}
                 ref={node => (this.formNode = node)}
                 autoComplete="off"
                 onInvalid={this.disableButton}
               >
                 <div className="row">
-                  <div className="field">
+                  <div className="field no-float">
                     <FormsyText
                       id="text-field-default"
-                      name="recruiter[email]"
+                      name="employer[email]"
                       type="email"
                       autoFocus
                       autoComplete="new-email"
@@ -138,48 +141,31 @@ class RecruiterLogin extends Component {
                       }}
                     />
                   </div>
-                  <div className="field">
-                    <FormsyText
-                      id="text-field-default"
-                      type="password"
-                      autoComplete="new-password"
-                      name="recruiter[password]"
-                      floatingLabelText="Password"
-                      required
-                      updateImmediately
-                      validations={{
-                        minLength: 8,
-                      }}
-                      validationErrors={{
-                        minLength: 'Password should be minimum 8 characters',
-                      }}
-                    />
-                  </div>
                 </div>
                 <div className="actions">
                   <RaisedButton
-                    label="Login"
+                    label="Reset password"
                     primary
-                    className={css(formStyles.button)}
                     onClick={this.onFormSubmit}
                     type="submit"
                     disabled={!this.state.canSubmit}
+                    className={css(formStyles.button)}
                   />
                 </div>
 
                 <div className="extra-actions">
                   <RaisedButton
                     label="Register"
-                    className={css(formStyles.button)}
                     primary
                     href={this.props.signup_url}
+                    className={css(formStyles.button)}
                   />
 
                   <RaisedButton
-                    label="Forgot your password?"
-                    className={css(formStyles.button, formStyles.input)}
+                    label="Login"
                     primary
-                    href={this.props.forgot_password_url}
+                    href={this.props.login_url}
+                    className={css(formStyles.button, formStyles.input)}
                   />
                 </div>
 
@@ -201,10 +187,10 @@ class RecruiterLogin extends Component {
   }
 }
 
-RecruiterLogin.propTypes = {
+EmployerNewPassword.propTypes = {
   action: React.PropTypes.string,
   signup_url: React.PropTypes.string,
-  forgot_password_url: React.PropTypes.string,
+  login_url: React.PropTypes.string,
 };
 
-export default RecruiterLogin;
+export default EmployerNewPassword;

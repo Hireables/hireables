@@ -17,7 +17,7 @@ module Graphql
     def context_hash
       {
         current_developer: find_current_developer,
-        current_recruiter: find_current_recruiter,
+        current_employer: find_current_employer,
         current_user: find_current_user,
         file: params[:file]
       }

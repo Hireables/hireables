@@ -97,17 +97,17 @@ class NavBar extends Component {
     };
 
     const { current_user, authenticated } = this.props;
-    const currentUserProfilePath = current_user.type === 'recruiter' ?
-      Routes.recruiter_path(current_user.login) : Routes.developer_root_path();
+    const currentUserProfilePath = current_user.type === 'employer' ?
+      Routes.employer_path(current_user.login) : Routes.developer_root_path();
 
-    const currentUserLogoutPath = current_user.type === 'recruiter' ?
-      Routes.destroy_recruiter_session_path() : Routes.destroy_developer_session_path();
+    const currentUserLogoutPath = current_user.type === 'employer' ?
+      Routes.destroy_employer_session_path() : Routes.destroy_developer_session_path();
 
-    const currentUserSearchPath = current_user.type === 'recruiter' ?
+    const currentUserSearchPath = current_user.type === 'employer' ?
       Routes.root_path() : Routes.search_index_path();
 
-    const currentUserEditProfilePath = current_user.type === 'recruiter' ?
-      Routes.edit_recruiter_path(current_user.login) :
+    const currentUserEditProfilePath = current_user.type === 'employer' ?
+      Routes.edit_employer_path(current_user.login) :
         Routes.edit_developer_path(current_user.login);
 
     const active = currentUserProfilePath === window.location.pathname ? 'active' : '';
@@ -233,8 +233,8 @@ class NavBar extends Component {
                           />
                           <MenuItem
                             innerDivStyle={{ padding: '0px 16px 0px 50px' }}
-                            href={Routes.new_recruiter_session_path()}
-                            primaryText="Recruiter"
+                            href={Routes.new_employer_session_path()}
+                            primaryText="Employer"
                             leftIcon={<ActionContentMail />}
                           />
                         </Menu>

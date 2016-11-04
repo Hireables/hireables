@@ -12,7 +12,6 @@ import {
   CardTitle,
   CardText,
 } from 'material-ui/Card';
-
 import muiTheme from '../theme.es6';
 
 // Stylesheets
@@ -24,7 +23,7 @@ const cardTitleStyle = {
   borderBottom: '1px solid #d8d8d8',
 };
 
-class RecruiterNewPassword extends Component {
+class EmployerUpdatePassword extends Component {
   static onKeyPress(event) {
     if (event.keyCode === 13) {
       event.preventDefault();
@@ -34,6 +33,7 @@ class RecruiterNewPassword extends Component {
   constructor(props) {
     super(props);
     this.onFormSubmit = this.onFormSubmit.bind(this);
+    this.setNotification = this.setNotification.bind(this);
     this.enableButton = this.enableButton.bind(this);
     this.disableButton = this.disableButton.bind(this);
     this.handleRequestClose = this.handleRequestClose.bind(this);
@@ -49,32 +49,29 @@ class RecruiterNewPassword extends Component {
 
   onFormSubmit(event) {
     event.preventDefault();
-    $.post(this.props.action, this.formNode.getModel(), () => {
-      this.setState({
-        open: true,
-        notification: 'You will receive an email with instructions on ' +
-        'how to reset your password in a few minutes.',
-      });
+    $.put(this.props.action, this.formNode.getModel(), () => {
+      this.setNotification('Your password has been changed successfully.');
     }).fail((xhr) => {
       if (xhr.status === 422) {
         const errors = {};
         Object.keys(xhr.responseJSON.errors).forEach((key) => {
           if ({}.hasOwnProperty.call(xhr.responseJSON.errors, key)) {
             const value = xhr.responseJSON.errors[key];
-            errors[`recruiter[${key}]`] = `${key} ${value.toString()}`;
+            errors[`employer[${key}]`] = `${key} ${value.toString()}`;
           }
         });
         this.formNode.updateInputsWithError(errors);
       } else {
-        this.setState({
-          open: true,
-          notification: 'Something went wrong. Please refresh and try again!',
-        });
+        this.setNotification('Something went wrong. Please refresh and try again!');
       }
-    }).always(() => {
-      setTimeout(() => {
-        window.location.href = Routes.root_path();
-      }, 2000);
+    });
+  }
+
+  setNotification(notification) {
+    this.setState({
+      notification,
+    }, () => {
+      this.setState({ open: true });
     });
   }
 
@@ -102,7 +99,7 @@ class RecruiterNewPassword extends Component {
       <MuiThemeProvider muiTheme={muiTheme}>
         <Card className="card small">
           <CardTitle
-            title="Change your password"
+            title="Recover your password"
             style={cardTitleStyle}
             titleStyle={{
               color: '#333',
@@ -111,45 +108,65 @@ class RecruiterNewPassword extends Component {
             }}
           />
           <CardText style={{ padding: '16px 16px 0', fontSize: 16 }}>
-            <div className="form new-password">
+            <div className="form change-password">
               <Formsy.Form
                 action={action}
                 method="post"
-                onKeyDown={RecruiterNewPassword.onKeyPress}
+                onKeyDown={EmployerUpdatePassword.onKeyPress}
                 onValid={this.enableButton}
                 ref={node => (this.formNode = node)}
                 autoComplete="off"
                 onInvalid={this.disableButton}
               >
                 <div className="row">
-                  <div className="field no-float">
+                  <div className="field">
                     <FormsyText
                       id="text-field-default"
-                      name="recruiter[email]"
-                      type="email"
+                      name="employer[password]"
+                      type="password"
                       autoFocus
-                      autoComplete="new-email"
-                      onKeyDown={this.checkEmail}
-                      floatingLabelText="Your Email"
+                      autoComplete="new-password"
+                      floatingLabelText="New Password"
+                      updateImmediately
+                      required
+                      validations={{
+                        minLength: 8,
+                      }}
+                      validationErrors={{
+                        minLength: 'Password should be minimum 8 characters',
+                      }}
+                    />
+                  </div>
+
+                  <div className="field">
+                    <FormsyText
+                      id="text-field-default"
+                      name="employer[password_confirmation]"
+                      type="password"
+                      autoComplete="new-password-confirmation"
+                      floatingLabelText="New Password Confirmation"
                       required
                       updateImmediately
                       validations={{
-                        isEmail: true,
+                        minLength: 8,
+                        equalsField: 'password',
                       }}
                       validationErrors={{
-                        isEmail: 'Invalid email',
+                        minLength: 'Password should be minimum 8 characters',
+                        equalsField: 'Password do not match',
                       }}
                     />
                   </div>
                 </div>
                 <div className="actions">
                   <RaisedButton
-                    label="Reset password"
+                    label="Save password"
                     primary
                     onClick={this.onFormSubmit}
                     type="submit"
                     disabled={!this.state.canSubmit}
                     className={css(formStyles.button)}
+                    required
                   />
                 </div>
 
@@ -187,10 +204,10 @@ class RecruiterNewPassword extends Component {
   }
 }
 
-RecruiterNewPassword.propTypes = {
+EmployerUpdatePassword.propTypes = {
   action: React.PropTypes.string,
   signup_url: React.PropTypes.string,
   login_url: React.PropTypes.string,
 };
 
-export default RecruiterNewPassword;
+export default EmployerUpdatePassword;

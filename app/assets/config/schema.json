@@ -42,6 +42,33 @@
               "deprecationReason": null
             },
             {
+              "name": "employer",
+              "description": "Returns a employer profile by id",
+              "args": [
+                {
+                  "name": "id",
+                  "description": null,
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": "Non-Null",
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Employer",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "node",
               "description": "Fetches an object given its ID.",
               "args": [
@@ -63,33 +90,6 @@
               "type": {
                 "kind": "INTERFACE",
                 "name": "Node",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "recruiter",
-              "description": "Returns a recruiter profile by id",
-              "args": [
-                {
-                  "name": "id",
-                  "description": null,
-                  "type": {
-                    "kind": "NON_NULL",
-                    "name": "Non-Null",
-                    "ofType": {
-                      "kind": "SCALAR",
-                      "name": "String",
-                      "ofType": null
-                    }
-                  },
-                  "defaultValue": null
-                }
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Recruiter",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -152,12 +152,12 @@
             },
             {
               "kind": "OBJECT",
-              "name": "Org",
+              "name": "Employer",
               "ofType": null
             },
             {
               "kind": "OBJECT",
-              "name": "Recruiter",
+              "name": "Org",
               "ofType": null
             },
             {
@@ -1076,12 +1076,12 @@
         },
         {
           "kind": "OBJECT",
-          "name": "Recruiter",
-          "description": "Fetch recruiter associated fields",
+          "name": "Employer",
+          "description": "Fetch employer associated fields",
           "fields": [
             {
               "name": "avatar_url",
-              "description": "The avatar of this recruiter",
+              "description": "The avatar of this employer",
               "args": [
 
               ],
@@ -1095,7 +1095,7 @@
             },
             {
               "name": "bio",
-              "description": "The bio of this recruiter",
+              "description": "The bio of this employer",
               "args": [
 
               ],
@@ -1109,7 +1109,7 @@
             },
             {
               "name": "company",
-              "description": "The company of this recruiter",
+              "description": "The company of this employer",
               "args": [
 
               ],
@@ -1123,7 +1123,7 @@
             },
             {
               "name": "email",
-              "description": "The email of this recruiter",
+              "description": "The email of this employer",
               "args": [
 
               ],
@@ -1155,7 +1155,7 @@
             },
             {
               "name": "location",
-              "description": "The location of this recruiter",
+              "description": "The location of this employer",
               "args": [
 
               ],
@@ -1169,7 +1169,7 @@
             },
             {
               "name": "login",
-              "description": "The slug of this recruiter",
+              "description": "The slug of this employer",
               "args": [
 
               ],
@@ -1183,7 +1183,7 @@
             },
             {
               "name": "name",
-              "description": "The name of this recruiter",
+              "description": "The name of this employer",
               "args": [
 
               ],
@@ -1197,7 +1197,7 @@
             },
             {
               "name": "website",
-              "description": "The bio of this recruiter",
+              "description": "The bio of this employer",
               "args": [
 
               ],
@@ -1227,8 +1227,8 @@
           "description": "The mutation root of this schema for creating or changing data.",
           "fields": [
             {
-              "name": "RecruiterFileUpload",
-              "description": "Uploads image for the recruiter",
+              "name": "EmployerFileUpload",
+              "description": "Uploads image for the employer",
               "args": [
                 {
                   "name": "input",
@@ -1238,7 +1238,7 @@
                     "name": "Non-Null",
                     "ofType": {
                       "kind": "INPUT_OBJECT",
-                      "name": "RecruiterFileUploadInput",
+                      "name": "EmployerFileUploadInput",
                       "ofType": null
                     }
                   },
@@ -1247,7 +1247,7 @@
               ],
               "type": {
                 "kind": "OBJECT",
-                "name": "RecruiterFileUploadPayload",
+                "name": "EmployerFileUploadPayload",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -1281,8 +1281,8 @@
               "deprecationReason": null
             },
             {
-              "name": "UpdateRecruiter",
-              "description": "Update Recruiter",
+              "name": "UpdateEmployer",
+              "description": "Update Employer",
               "args": [
                 {
                   "name": "input",
@@ -1292,7 +1292,7 @@
                     "name": "Non-Null",
                     "ofType": {
                       "kind": "INPUT_OBJECT",
-                      "name": "UpdateRecruiterInput",
+                      "name": "UpdateEmployerInput",
                       "ofType": null
                     }
                   },
@@ -1301,7 +1301,7 @@
               ],
               "type": {
                 "kind": "OBJECT",
-                "name": "UpdateRecruiterPayload",
+                "name": "UpdateEmployerPayload",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -1597,8 +1597,8 @@
         },
         {
           "kind": "OBJECT",
-          "name": "UpdateRecruiterPayload",
-          "description": "Autogenerated return type of UpdateRecruiter",
+          "name": "UpdateEmployerPayload",
+          "description": "Autogenerated return type of UpdateEmployer",
           "fields": [
             {
               "name": "clientMutationId",
@@ -1615,14 +1615,14 @@
               "deprecationReason": null
             },
             {
-              "name": "recruiter",
+              "name": "employer",
               "description": null,
               "args": [
 
               ],
               "type": {
                 "kind": "OBJECT",
-                "name": "Recruiter",
+                "name": "Employer",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -1638,8 +1638,8 @@
         },
         {
           "kind": "INPUT_OBJECT",
-          "name": "UpdateRecruiterInput",
-          "description": "Autogenerated input type of UpdateRecruiter",
+          "name": "UpdateEmployerInput",
+          "description": "Autogenerated input type of UpdateEmployer",
           "fields": null,
           "inputFields": [
             {
@@ -1753,8 +1753,8 @@
         },
         {
           "kind": "OBJECT",
-          "name": "RecruiterFileUploadPayload",
-          "description": "Autogenerated return type of RecruiterFileUpload",
+          "name": "EmployerFileUploadPayload",
+          "description": "Autogenerated return type of EmployerFileUpload",
           "fields": [
             {
               "name": "clientMutationId",
@@ -1771,14 +1771,14 @@
               "deprecationReason": null
             },
             {
-              "name": "recruiter",
+              "name": "employer",
               "description": null,
               "args": [
 
               ],
               "type": {
                 "kind": "OBJECT",
-                "name": "Recruiter",
+                "name": "Employer",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -1794,8 +1794,8 @@
         },
         {
           "kind": "INPUT_OBJECT",
-          "name": "RecruiterFileUploadInput",
-          "description": "Autogenerated input type of RecruiterFileUpload",
+          "name": "EmployerFileUploadInput",
+          "description": "Autogenerated input type of EmployerFileUpload",
           "fields": null,
           "inputFields": [
             {

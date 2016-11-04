@@ -23,7 +23,7 @@ const cardTitleStyle = {
   borderBottom: '1px solid #d8d8d8',
 };
 
-class RecruiterUpdatePassword extends Component {
+class EmployerLogin extends Component {
   static onKeyPress(event) {
     if (event.keyCode === 13) {
       event.preventDefault();
@@ -33,7 +33,6 @@ class RecruiterUpdatePassword extends Component {
   constructor(props) {
     super(props);
     this.onFormSubmit = this.onFormSubmit.bind(this);
-    this.setNotification = this.setNotification.bind(this);
     this.enableButton = this.enableButton.bind(this);
     this.disableButton = this.disableButton.bind(this);
     this.handleRequestClose = this.handleRequestClose.bind(this);
@@ -49,29 +48,30 @@ class RecruiterUpdatePassword extends Component {
 
   onFormSubmit(event) {
     event.preventDefault();
-    $.put(this.props.action, this.formNode.getModel(), () => {
-      this.setNotification('Your password has been changed successfully.');
+    $.post(this.props.action, this.formNode.getModel(), () => {
+      this.setState({
+        open: true,
+        notification: 'Logging in...',
+      });
     }).fail((xhr) => {
-      if (xhr.status === 422) {
-        const errors = {};
-        Object.keys(xhr.responseJSON.errors).forEach((key) => {
-          if ({}.hasOwnProperty.call(xhr.responseJSON.errors, key)) {
-            const value = xhr.responseJSON.errors[key];
-            errors[`recruiter[${key}]`] = `${key} ${value.toString()}`;
-          }
-        });
-        this.formNode.updateInputsWithError(errors);
-      } else {
-        this.setNotification('Something went wrong. Please refresh and try again!');
+      switch (xhr.status) {
+        case 401: {
+          this.setState({
+            notification: xhr.responseText,
+          }, () => {
+            this.setState({ open: true });
+          });
+          break;
+        }
+        default: {
+          this.setState({
+            open: true,
+            notification: 'Something went wrong!',
+          });
+        }
       }
-    });
-  }
-
-  setNotification(notification) {
-    this.setState({
-      notification,
-    }, () => {
-      this.setState({ open: true });
+    }).always(() => {
+      window.location.href = Routes.root_path();
     });
   }
 
@@ -99,7 +99,7 @@ class RecruiterUpdatePassword extends Component {
       <MuiThemeProvider muiTheme={muiTheme}>
         <Card className="card small">
           <CardTitle
-            title="Recover your password"
+            title="Employer Login"
             style={cardTitleStyle}
             titleStyle={{
               color: '#333',
@@ -108,11 +108,11 @@ class RecruiterUpdatePassword extends Component {
             }}
           />
           <CardText style={{ padding: '16px 16px 0', fontSize: 16 }}>
-            <div className="form change-password">
+            <div className="form login">
               <Formsy.Form
                 action={action}
                 method="post"
-                onKeyDown={RecruiterUpdatePassword.onKeyPress}
+                onKeyDown={EmployerLogin.onKeyPress}
                 onValid={this.enableButton}
                 ref={node => (this.formNode = node)}
                 autoComplete="off"
@@ -122,67 +122,64 @@ class RecruiterUpdatePassword extends Component {
                   <div className="field">
                     <FormsyText
                       id="text-field-default"
-                      name="recruiter[password]"
-                      type="password"
+                      name="employer[email]"
+                      type="email"
                       autoFocus
-                      autoComplete="new-password"
-                      floatingLabelText="New Password"
-                      updateImmediately
+                      autoComplete="new-email"
+                      onKeyDown={this.checkEmail}
+                      floatingLabelText="Your Email"
                       required
+                      updateImmediately
                       validations={{
-                        minLength: 8,
+                        isEmail: true,
                       }}
                       validationErrors={{
-                        minLength: 'Password should be minimum 8 characters',
+                        isEmail: 'Invalid email',
                       }}
                     />
                   </div>
-
                   <div className="field">
                     <FormsyText
                       id="text-field-default"
-                      name="recruiter[password_confirmation]"
                       type="password"
-                      autoComplete="new-password-confirmation"
-                      floatingLabelText="New Password Confirmation"
+                      autoComplete="new-password"
+                      name="employer[password]"
+                      floatingLabelText="Password"
                       required
                       updateImmediately
                       validations={{
                         minLength: 8,
-                        equalsField: 'password',
                       }}
                       validationErrors={{
                         minLength: 'Password should be minimum 8 characters',
-                        equalsField: 'Password do not match',
                       }}
                     />
                   </div>
                 </div>
                 <div className="actions">
                   <RaisedButton
-                    label="Save password"
+                    label="Login"
                     primary
+                    className={css(formStyles.button)}
                     onClick={this.onFormSubmit}
                     type="submit"
                     disabled={!this.state.canSubmit}
-                    className={css(formStyles.button)}
-                    required
                   />
                 </div>
 
                 <div className="extra-actions">
                   <RaisedButton
                     label="Register"
+                    className={css(formStyles.button)}
                     primary
                     href={this.props.signup_url}
-                    className={css(formStyles.button)}
                   />
 
                   <RaisedButton
-                    label="Login"
-                    primary
-                    href={this.props.login_url}
+                    label="Forgot your password?"
                     className={css(formStyles.button, formStyles.input)}
+                    primary
+                    href={this.props.forgot_password_url}
                   />
                 </div>
 
@@ -204,10 +201,10 @@ class RecruiterUpdatePassword extends Component {
   }
 }
 
-RecruiterUpdatePassword.propTypes = {
+EmployerLogin.propTypes = {
   action: React.PropTypes.string,
   signup_url: React.PropTypes.string,
-  login_url: React.PropTypes.string,
+  forgot_password_url: React.PropTypes.string,
 };
 
-export default RecruiterUpdatePassword;
+export default EmployerLogin;

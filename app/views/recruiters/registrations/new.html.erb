@@ -1,6 +1,0 @@
-<script type="text/javascript">
-  /* global window */
-  window.MAPS_API_KEY = "<%= ENV['GOOGLE_MAPS_API_KEY'] %>";
-</script>
-
-<%= react_component 'RecruiterRegistration', nil, { action: registration_path(resource_name), login_url: new_session_path(resource_name), edit_page: false, errors: devise_error_messages! }.to_json %>

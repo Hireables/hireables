@@ -6,17 +6,17 @@ import Relay from 'react-relay';
   params: {}
 */
 
-const RecruiterRoute = {
+const EmployerRoute = {
   queries: {
-    recruiter: () => Relay.QL` query {
-      recruiter(id: $id)
+    employer: () => Relay.QL` query {
+      employer(id: $id)
     } `,
   },
 
   paramDefinitions: {
     id: { required: true },
   },
-  name: 'RecruiterRoute',
+  name: 'EmployerRoute',
 };
 
-export default RecruiterRoute;
+export default EmployerRoute;

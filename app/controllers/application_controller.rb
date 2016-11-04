@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   respond_to :json, :html
 
-  devise_group :user, contains: [:developer, :recruiter]
+  devise_group :user, contains: [:developer, :employer]
 
   before_action :set_raven_context, if: :tracking?
   before_action :store_current_location, unless: :devise_controller?

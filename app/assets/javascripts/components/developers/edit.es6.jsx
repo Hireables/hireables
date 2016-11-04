@@ -326,7 +326,7 @@ class DeveloperEdit extends Component {
                   />
                   <div className="clearfix" />
                   <span className={css(formStyles.help)}>
-                    * Recruiters will be able see your email and contact you
+                    * Employers will be able see your email and contact you
                   </span>
                 </div>
 

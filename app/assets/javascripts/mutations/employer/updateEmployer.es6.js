@@ -2,21 +2,15 @@ import Relay from 'react-relay';
 
 export default class extends Relay.Mutation {
   getMutation() {
-    return Relay.QL`mutation { RecruiterFileUpload }`;
+    return Relay.QL`mutation{ UpdateEmployer }`;
   }
 
   getFatQuery() {
     return Relay.QL`
-      fragment on RecruiterFileUploadPayload {
-        recruiter,
+      fragment on UpdateEmployerPayload {
+        employer
       }
     `;
-  }
-
-  getFiles() {
-    return {
-      file: this.props.file,
-    };
   }
 
   getConfigs() {
@@ -24,7 +18,7 @@ export default class extends Relay.Mutation {
       {
         type: 'FIELDS_CHANGE',
         fieldIDs: {
-          recruiter: this.props.id,
+          employer: this.props.id,
         },
       },
     ];
@@ -32,7 +26,7 @@ export default class extends Relay.Mutation {
 
   getVariables() {
     return {
-      id: this.props.id,
+      ...this.props,
     };
   }
 }

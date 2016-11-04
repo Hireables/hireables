@@ -10,10 +10,10 @@ import IconButton from 'material-ui/IconButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import ActionEdit from 'material-ui/svg-icons/image/edit';
 import ActionCamera from 'material-ui/svg-icons/image/camera-alt';
-import FileUpload from '../../mutations/recruiter/fileUpload.es6';
+import FileUpload from '../../mutations/employer/fileUpload.es6';
 import muiTheme from '../theme.es6';
 
-class RecruiterShow extends Component {
+class EmployerShow extends Component {
   constructor(props) {
     super(props);
     this.openFileDialog = this.openFileDialog.bind(this);
@@ -26,7 +26,7 @@ class RecruiterShow extends Component {
   }
 
   uploadAvatar() {
-    const { recruiter } = this.props;
+    const { employer } = this.props;
     this.setState({
       uploading: true,
     });
@@ -45,7 +45,7 @@ class RecruiterShow extends Component {
     };
 
     Relay.Store.commitUpdate(new FileUpload({
-      id: recruiter.id,
+      id: employer.id,
       file: this.fileNode.files[0],
     }), { onFailure, onSuccess });
   }
@@ -70,15 +70,15 @@ class RecruiterShow extends Component {
       fontWeight: '400',
     };
 
-    const { recruiter } = this.props;
+    const { employer } = this.props;
     const bio = createDOMPurify.sanitize(
-      recruiter.bio,
+      employer.bio,
       { ALLOWED_TAGS: ['b', 'i'] }
     );
 
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
-        <div className="recruiters-show">
+        <div className="employers-show">
           <header className="header header--bg">
             <div className="container">
               <div style={wrapperStyle}>
@@ -89,7 +89,7 @@ class RecruiterShow extends Component {
                     margin: '0 auto',
                   }}
                 >
-                  <Avatar src={recruiter.avatar_url} size={100} />
+                  <Avatar src={employer.avatar_url} size={100} />
                   <IconButton
                     onClick={this.openFileDialog}
                   >
@@ -104,8 +104,8 @@ class RecruiterShow extends Component {
                 </div>
 
                 <h1 className="no-margin">
-                  <a href={Routes.recruiter_path(recruiter.login)} style={linkStyles}>
-                    {recruiter.name}
+                  <a href={Routes.employer_path(employer.login)} style={linkStyles}>
+                    {employer.name}
                   </a>
                 </h1>
 
@@ -118,17 +118,17 @@ class RecruiterShow extends Component {
 
                 <div className="location" style={{ marginTop: '5px' }}>
                   <span style={{ color: '#333', fontWeight: '400' }}>
-                    <small>Based in {recruiter.location}</small>
+                    <small>Based in {employer.location}</small>
                   </span>
                 </div>
 
                 <div className="company" style={{ marginTop: '5px' }}>
                   <span style={{ color: '#333', fontWeight: '400' }}>
-                    <small>Works at {recruiter.company}</small>
+                    <small>Works at {employer.company}</small>
                   </span>
                 </div>
 
-                {recruiter.website ?
+                {employer.website ?
                   <div style={{ marginTop: '5px' }}>
                     <a
                       target="_blank"
@@ -139,7 +139,7 @@ class RecruiterShow extends Component {
                         paddingBottom: '5px',
                         cursor: 'pointer',
                       }}
-                      href={recruiter.website}
+                      href={employer.website}
                     >
                       Website
                     </a>
@@ -153,7 +153,7 @@ class RecruiterShow extends Component {
                     icon={<ActionEdit />}
                     className="edit-link"
                     style={{ marginTop: 10 }}
-                    href={Routes.edit_recruiter_registration_path()}
+                    href={Routes.edit_employer_registration_path()}
                   /> : ''
                 }
               </div>
@@ -165,15 +165,15 @@ class RecruiterShow extends Component {
   }
 }
 
-RecruiterShow.propTypes = {
-  recruiter: React.PropTypes.object,
+EmployerShow.propTypes = {
+  employer: React.PropTypes.object,
   can_edit: React.PropTypes.bool,
 };
 
-const RecruiterShowContainer = Relay.createContainer(RecruiterShow, {
+const EmployerShowContainer = Relay.createContainer(EmployerShow, {
   fragments: {
-    recruiter: () => Relay.QL`
-      fragment on Recruiter {
+    employer: () => Relay.QL`
+      fragment on Employer {
         id,
         login,
         name,
@@ -187,4 +187,4 @@ const RecruiterShowContainer = Relay.createContainer(RecruiterShow, {
   },
 });
 
-export default RecruiterShowContainer;
+export default EmployerShowContainer;
