@@ -4,7 +4,7 @@ class Developer < ApplicationRecord
   store_accessor :data, :html_url, :company, :blog, :followers,
                  :public_gists, :public_repos
 
-  validates_presence_of :name, :login, :provider, :uid
+  validates_presence_of :name, :login, :provider, :bio, :location, :uid
 
   before_save :format_platforms, unless: :empty_platforms?
   after_commit :set_premium!, on: :update, if: :profile_completed?
@@ -28,7 +28,7 @@ class Developer < ApplicationRecord
   end
 
   def empty_platforms?
-    platforms.empty?
+    platforms.nil? || platforms.empty?
   end
 
   def format_platforms
@@ -36,7 +36,7 @@ class Developer < ApplicationRecord
   end
 
   def required_fields
-    %w(bio email platforms location)
+    %w(bio email location)
   end
 
   def fetch_languages!
@@ -48,6 +48,6 @@ class Developer < ApplicationRecord
   end
 
   def set_premium!
-    SetDeveloperPremiumWorker.perform_async(id)
+    update!(premium: profile_completed?)
   end
 end
