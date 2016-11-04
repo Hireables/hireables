@@ -3,7 +3,7 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  pool: 25
+  pool: 10
 
 development:
   <<: *default
@@ -18,3 +18,4 @@ test:
 production:
   <<: *default
   url: <%= ENV['DATABASE_URL'] %>
+  pool: <%= ENV['RAILS_MAX_THREADS'] %>
