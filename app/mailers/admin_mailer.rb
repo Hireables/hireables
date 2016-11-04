@@ -4,7 +4,7 @@ class AdminMailer < ActionMailer::Base
 
   def new_user_signup(user_type, user_id)
     @user = user_types.fetch(user_type).find(user_id)
-    mail(subject: "New #{user_type.downcase} signup!") do |format|
+    mail(subject: "#{@user.name} joined as #{user_type.downcase}!") do |format|
       format.text
       format.html
     end
