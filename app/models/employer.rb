@@ -1,4 +1,6 @@
 class Employer < ApplicationRecord
+  include Redis::Objects
+
   devise :database_authenticatable, :registerable, :recoverable,
          :rememberable, :trackable, :validatable
 
@@ -11,6 +13,7 @@ class Employer < ApplicationRecord
   after_commit :notify_admin!, on: :create
 
   has_many :favorites
+  set :favorited_logins
 
   mount_uploader :avatar, ImageUploader
 
