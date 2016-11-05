@@ -15,4 +15,9 @@ EmployerType = GraphQL::ObjectType.define do
   field :avatar_url, types.String, 'The avatar of this employer' do
     resolve -> (obj, _args, _ctx) { obj.avatar_url(:thumb) }
   end
+
+  connection :favourites, DeveloperType.connection_type do
+    description 'Favourites connection to fetch paginated saved developers.'
+    resolve(FavouritesResolver)
+  end
 end

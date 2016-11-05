@@ -10,7 +10,7 @@ class ToggleFavouriteResolver
           'You are not logged in' unless ctx[:current_employer].present?
     @current_employer = ctx[:current_employer]
     @params = HashWithIndifferentAccess.new(
-      args.instance_variable_get(:@original_values).to_h
+      inputs.instance_variable_get(:@original_values).to_h
     )
   end
 
@@ -30,11 +30,11 @@ class ToggleFavouriteResolver
   private
 
   def fetch_developer
-    database_developer = Developer.find_by_login(params[:id])
+    database_developer = Developer.find_by_login(params[:login])
 
     if database_developer.blank?
-      api = Github::Api.new(current_user.try(:access_token))
-      api.fetch_developer(params[:id])
+      api = Github::Api.new(current_employer.try(:access_token))
+      api.fetch_developer(params[:login])
     else
       database_developer
     end
