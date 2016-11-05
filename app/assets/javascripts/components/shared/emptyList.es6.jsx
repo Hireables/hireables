@@ -9,7 +9,7 @@ const EmptyList = () => {
 
   return (
     <div className="no_content text-center" style={emptyListStyle}>
-      <h1 style={{ color: grey500 }}>No developers found</h1>
+      <h1 style={{ color: grey500 }}>No results</h1>
     </div>
   );
 };

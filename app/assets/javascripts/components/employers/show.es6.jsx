@@ -16,6 +16,7 @@ import FileUpload from '../../mutations/employer/fileUpload.es6';
 
 // Components
 import Favourites from './favourites.es6';
+import Search from '../search.es6';
 
 // Utils
 import muiTheme from '../theme.es6';
@@ -25,6 +26,10 @@ class EmployerShow extends Component {
     super(props);
     this.openFileDialog = this.openFileDialog.bind(this);
     this.uploadAvatar = this.uploadAvatar.bind(this);
+  }
+
+  componentDidMount() {
+    Search.makeSticky();
   }
 
   openFileDialog(event) {
