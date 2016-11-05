@@ -25,7 +25,9 @@ class Developer < ApplicationRecord
   private
 
   def notify_admin!
-    AdminMailerWorker.perform_async(self.class.name, id) if Rails.env.production?
+    AdminMailerWorker.perform_async(
+      self.class.name, id
+    ) if Rails.env.production?
   end
 
   def empty_platforms?

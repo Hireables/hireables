@@ -30,13 +30,13 @@ class ToggleFavouriteResolver
   private
 
   def fetch_developer
-    database_developer = Developer.find_by_login(params[:login])
+    local = Developer.find_by_login(params[:login])
 
-    if database_developer.blank?
+    if local.blank?
       api = Github::Api.new(current_employer.try(:access_token))
       api.fetch_developer(params[:login])
     else
-      database_developer
+      local
     end
   end
 end

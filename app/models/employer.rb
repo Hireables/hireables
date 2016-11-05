@@ -77,7 +77,9 @@ class Employer < ApplicationRecord
   end
 
   def notify_admin!
-    AdminMailerWorker.perform_async(self.class.name, id) if Rails.env.production?
+    AdminMailerWorker.perform_async(
+      self.class.name, id
+    ) if Rails.env.production?
   end
 
   def website_url_format
