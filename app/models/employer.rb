@@ -12,8 +12,8 @@ class Employer < ApplicationRecord
   before_validation :add_login, unless: :login_present?
   after_commit :notify_admin!, on: :create
 
-  has_many :favorites
-  set :favorited_developers
+  has_many :favourites
+  set :favourited_developers
 
   mount_uploader :avatar, ImageUploader
 
@@ -29,8 +29,20 @@ class Employer < ApplicationRecord
     end
   end
 
-  def favorited?(developer)
-    favorited_developers.member?(developer.login)
+  def favourited?(developer)
+    favourited_developers.member?(developer.login)
+  end
+
+  def add_to_favourites!(developer)
+    if developer.respond_to?(:premium)
+      favourites.create!(login: login, developer: developer)
+    else
+      favourites.create!(login: developer.login)
+    end
+  end
+
+  def remove_from_favourites(login)
+    favourites.find_by(login: login).destroy
   end
 
   private

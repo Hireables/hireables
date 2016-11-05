@@ -19,9 +19,9 @@ DeveloperType = GraphQL::ObjectType.define do
   field :public_gists, types.Int, 'The gists of this developer'
   field :public_repos, types.Int, 'The repos of this developer'
 
-  field :favorited, types.Boolean do
-    description 'Is developer favorited by current employer?'
-    resolve -> (obj, _args, ctx) { favorited?(obj, ctx) }
+  field :favourited, types.Boolean do
+    description 'Is developer favourited by current employer?'
+    resolve -> (obj, _args, ctx) { favourited?(obj, ctx) }
   end
 
   field :premium, types.Boolean do
@@ -124,8 +124,8 @@ DeveloperType = GraphQL::ObjectType.define do
   end
 end
 
-def favorited?(obj, ctx)
-  ctx[:current_employer] ? ctx[:current_employer].favorited?(obj) : false
+def favourited?(obj, ctx)
+  ctx[:current_employer] ? ctx[:current_employer].favourited?(obj) : false
 end
 
 def resolve_orgs(obj, ctx)
