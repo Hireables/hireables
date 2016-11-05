@@ -7,6 +7,7 @@ class Employer < ApplicationRecord
   store :preferences, accessors: [:language, :location], coder: JSON
 
   validates_presence_of :name, :company, :website, :login, :location
+  validates_uniqueness_of :login
   validate :website_url_format, unless: :url_valid?
 
   before_validation :add_login, unless: :login_present?
@@ -35,7 +36,7 @@ class Employer < ApplicationRecord
 
   def add_to_favourites!(developer)
     if developer.respond_to?(:premium)
-      favourites.create!(login: login, developer: developer)
+      favourites.create!(login: developer.login, developer: developer)
     else
       favourites.create!(login: developer.login)
     end
@@ -56,8 +57,10 @@ class Employer < ApplicationRecord
   end
 
   def available_login
+    login_username = name.parameterize
+
     if Employer.find_by_login(name.parameterize).blank?
-      name.parameterize
+      login_username
     else
       generate_login
     end
@@ -66,7 +69,7 @@ class Employer < ApplicationRecord
   def generate_login
     num = 1
     login_username = name.parameterize
-    while Employer.find_by_login(login_username).blank?
+    while Employer.find_by_login(login_username).present?
       login_username = "#{name.parameterize}#{num}"
       num += 1
     end
@@ -74,7 +77,7 @@ class Employer < ApplicationRecord
   end
 
   def notify_admin!
-    AdminMailerWorker.perform_async(self.class.name, id)
+    AdminMailerWorker.perform_async(self.class.name, id) if Rails.env.production?
   end
 
   def website_url_format

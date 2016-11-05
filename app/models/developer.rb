@@ -5,6 +5,7 @@ class Developer < ApplicationRecord
                  :public_gists, :public_repos
 
   validates_presence_of :name, :login, :provider, :uid
+  validates_uniqueness_of :login
 
   before_save :format_platforms, unless: :empty_platforms?
   after_commit :set_premium!, on: :update, if: :profile_completed?
