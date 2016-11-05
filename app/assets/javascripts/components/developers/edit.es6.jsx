@@ -237,6 +237,7 @@ class DeveloperEdit extends Component {
               <Formsy.Form
                 onValid={this.enableButton}
                 autoComplete="off"
+                className="form"
                 ref={node => (this.formNode = node)}
                 onInvalid={this.disableButton}
                 validationErrors={this.state.validationErrors}
@@ -468,7 +469,7 @@ class DeveloperEdit extends Component {
                     icon={<ActionDelete />}
                     data-method="delete"
                     data-confirm="This will delete your account. Okay?"
-                    className="edit-link pull-right"
+                    className="delete-link pull-right"
                     href={Routes.cancel_developer_registration_path()}
                   />
                 </div>

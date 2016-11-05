@@ -187,7 +187,7 @@ class EmployerEdit extends Component {
             }}
           />
 
-          <CardText>
+          <CardText style={{ padding: '16px 16px 0', fontSize: 16 }}>
             <div className="form registration">
               <Formsy.Form
                 method="post"
@@ -333,7 +333,7 @@ class EmployerEdit extends Component {
                     icon={<ActionDelete />}
                     data-method="delete"
                     data-confirm="This will completely delete your account. Okay?"
-                    className="edit-link pull-right"
+                    className="delete-link pull-right"
                     href={Routes.cancel_employer_registration_path()}
                   />
                 </div>
