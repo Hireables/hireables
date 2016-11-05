@@ -22,12 +22,12 @@ module Github
     # rubocop:disable Metrics/MethodLength
     # rubocop:disable Metrics/AbcSize
     def fetch_developers(params)
-      logins = search(params)
-      return [] unless logins.any?
-      find_developers_by_login(logins)
+      find_developers_by_login(search(params))
     end
 
     def find_developers_by_login(logins)
+      return [] unless logins.any?
+
       logins_hash = {}
       logins.each do |login|
         logins_hash["developer/#{login}"] = login
