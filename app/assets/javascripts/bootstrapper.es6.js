@@ -6,7 +6,7 @@
 
 import Relay from 'react-relay';
 import { mountComponents, unmountComponents } from './utils/componentMounter';
-import Authentication from './helpers/authentication.es6';
+import authentication from './helpers/authentication.es6';
 
 const setupNetworkLayer = () => {
   Relay.injectNetworkLayer(
@@ -15,7 +15,7 @@ const setupNetworkLayer = () => {
       fetchTimeout: 20000,
       retryDelays: [5000],
       headers: {
-        'X-CSRF-Token': Authentication.csrfToken(),
+        'X-CSRF-Token': authentication.csrfToken,
       },
     })
   );

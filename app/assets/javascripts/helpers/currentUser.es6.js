@@ -1,15 +1,10 @@
 /* global document */
 
-export default class CurrentUser {
-  static id() {
-    return document.getElementsByName('current_user')[0].getAttribute('id');
-  }
-
-  static name() {
-    return document.getElementsByName('current_user')[0].content;
-  }
-
-  static type() {
-    return document.getElementsByName('current_user')[0].getAttribute('type');
-  }
+function CurrentUser() {
+  const currentUserNode = document.getElementsByName('current_user')[0];
+  this.id = currentUserNode ? currentUserNode.getAttribute('id') : null;
+  this.name = currentUserNode ? currentUserNode.content : null;
+  this.type = currentUserNode ? currentUserNode.getAttribute('type') : null;
 }
+
+export default new CurrentUser();

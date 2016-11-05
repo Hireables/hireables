@@ -112,6 +112,7 @@ class NavBar extends Component {
 
     let currentUserEditProfilePath = null;
     let currentUserProfilePath = null;
+    let active = false;
 
     if (authenticated) {
       currentUserProfilePath = current_user.type === 'employer' ?
@@ -120,9 +121,8 @@ class NavBar extends Component {
       currentUserEditProfilePath = current_user.type === 'employer' ?
         Routes.edit_employer_registration_path() :
           Routes.edit_developer_path(current_user.login);
+      active = currentUserProfilePath === window.location.pathname ? 'active' : '';
     }
-
-    const active = currentUserProfilePath === window.location.pathname ? 'active' : '';
 
     return (
       <MuiThemeProvider muiTheme={muiTheme}>

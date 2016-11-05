@@ -8,13 +8,13 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import FontIcon from 'material-ui/FontIcon';
 import Avatar from 'material-ui/Avatar';
 import 'dialog-polyfill/dialog-polyfill.css';
-import muiTheme from '../theme.es6';
-import CurrentUser from '../../helpers/currentUser.es6';
 
 // Util
+import muiTheme from '../theme.es6';
+import currentUser from '../../helpers/currentUser.es6';
 import DeveloperShow from './show.es6';
 import Dialog from '../../utils/dialog.es6';
-import Environment from '../../helpers/environment.es6';
+import environment from '../../helpers/environment.es6';
 
 // Stylesheet
 import '../styles/popup.sass';
@@ -32,13 +32,13 @@ class Popup extends Component {
       this.dialog.get().classList.remove('pulse');
     }, 300);
 
-    if (Environment.production()) {
+    if (environment.isProduction) {
       mixpanel.track('Profile loaded', {
         developerLogin: this.props.developer.login,
         premium: this.props.developer.premium,
-        userId: CurrentUser.id(),
-        userType: CurrentUser.type(),
-        userName: CurrentUser.id(),
+        userId: currentUser.id,
+        userType: currentUser.type,
+        userName: currentUser.name,
       });
     }
   }

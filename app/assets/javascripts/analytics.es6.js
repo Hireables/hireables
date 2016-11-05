@@ -2,9 +2,9 @@
 
 import $ from 'jquery';
 import DOMLoadEvent from './utils/domLoadEvent.es6';
-import Environment from './helpers/environment.es6';
+import environment from './helpers/environment.es6';
 
-if (Environment.production()) {
+if (environment.isProduction) {
   $(document).on(DOMLoadEvent, () => {
     ga('send', 'pageview');
     _gs('track');

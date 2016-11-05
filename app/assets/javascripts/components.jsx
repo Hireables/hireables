@@ -2,6 +2,7 @@
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import 'babel-polyfill';
 import 'jquery-ujs';
+import 'es6-shim';
 import RootRoute from './routes/rootRoute.es6';
 import NavBar from './components/navbar.es6';
 import Footer from './components/footer.es6';

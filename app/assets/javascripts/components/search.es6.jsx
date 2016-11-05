@@ -18,8 +18,8 @@ import {
 
 // Local components
 import muiTheme from './theme.es6';
-import CurrentUser from '../helpers/currentUser.es6';
-import Environment from '../helpers/environment.es6';
+import currentUser from '../helpers/currentUser.es6';
+import environment from '../helpers/environment.es6';
 
 // Stylesheets
 import chipStyles from './styles/chips.es6';
@@ -125,12 +125,12 @@ class Search extends Component {
 
     const query = queryString.stringify(newModel);
 
-    if (Environment.production()) {
+    if (environment.isProduction) {
       mixpanel.track('Search query', {
         query,
-        userId: CurrentUser.id(),
-        userType: CurrentUser.type(),
-        userName: CurrentUser.name(),
+        userId: currentUser.id,
+        userType: currentUser.type,
+        userName: currentUser.name,
       });
     }
 
