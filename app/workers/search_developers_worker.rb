@@ -5,12 +5,12 @@ class SearchDevelopersWorker
   def perform(search_cache_key)
     params = Rails.cache.read(search_cache_key)
     api = Github::Api.new(params[:access_token])
+    logins = api.search(params)
 
-    search = api.search(params)
-    search.items.each do |item|
+    logins.each do |login|
       FetchDeveloperWorker.perform_async(
-        item.login, params[:access_token]
-      ) unless Rails.cache.exist?(['developer', item.login])
+        login, params[:access_token]
+      ) unless Rails.cache.exist?(['developer', login])
     end
   end
 end
