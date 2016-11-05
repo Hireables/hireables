@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   respond_to :json, :html
 
-  devise_group :user, contains: [:developer, :employer]
+  devise_group :user, contains: [:employer, :developer]
 
   before_action :show_developer_edit!, if: [
     :developer_signed_in?,
