@@ -10,7 +10,15 @@ import IconButton from 'material-ui/IconButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import ActionEdit from 'material-ui/svg-icons/image/edit';
 import ActionCamera from 'material-ui/svg-icons/image/camera-alt';
+
+// Mutations
 import FileUpload from '../../mutations/employer/fileUpload.es6';
+
+// Components
+import Favourites from './favourites.es6';
+import Search from '../search.es6';
+
+// Utils
 import muiTheme from '../theme.es6';
 
 class EmployerShow extends Component {
@@ -18,6 +26,10 @@ class EmployerShow extends Component {
     super(props);
     this.openFileDialog = this.openFileDialog.bind(this);
     this.uploadAvatar = this.uploadAvatar.bind(this);
+  }
+
+  componentDidMount() {
+    Search.makeSticky();
   }
 
   openFileDialog(event) {
@@ -84,92 +96,97 @@ class EmployerShow extends Component {
 
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
-        <div className="employers-show">
+        <div className="employers-show-wrapper">
           <header className="header header--bg">
             <div className="container">
-              <div style={wrapperStyle}>
-                <div
-                  className="avatar"
-                  style={{
-                    width: 100,
-                    margin: '0 auto',
-                  }}
-                >
-                  {employer.avatar_url ?
-                    <Avatar
-                      src={employer.avatar_url}
-                      size={100}
-                    /> : <Avatar
-                      src={employer.avatar_url}
-                      size={100}
-                    >{userBadge()}</Avatar>
-                  }
-                  <IconButton
-                    onClick={this.openFileDialog}
+              <div className="employer-profile">
+                <div style={wrapperStyle}>
+                  <div
+                    className="avatar"
+                    style={{
+                      width: 100,
+                      margin: '0 auto',
+                    }}
                   >
-                    <ActionCamera />
-                  </IconButton>
-                  <input
-                    type="file"
-                    ref={node => (this.fileNode = node)}
-                    style={{ display: 'none' }}
-                    onChange={this.uploadAvatar}
-                  />
-                </div>
-
-                <h1 className="no-margin">
-                  <a href={Routes.employer_path(employer.login)} style={linkStyles}>
-                    {employer.name}
-                  </a>
-                </h1>
-
-                <div className="bio" style={{ marginTop: '5px' }}>
-                  <span
-                    style={bioStyles}
-                    dangerouslySetInnerHTML={{ __html: bio }}
-                  />
-                </div>
-
-                <div className="location" style={{ marginTop: '5px' }}>
-                  <span style={{ color: '#333', fontWeight: '400' }}>
-                    <small>Based in {employer.location}</small>
-                  </span>
-                </div>
-
-                <div className="company" style={{ marginTop: '5px' }}>
-                  <span style={{ color: '#333', fontWeight: '400' }}>
-                    <small>Works at {employer.company}</small>
-                  </span>
-                </div>
-
-                {employer.website ?
-                  <div style={{ marginTop: '5px' }}>
-                    <a
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{
-                        color: grey700,
-                        marginLeft: '10px',
-                        paddingBottom: '5px',
-                        cursor: 'pointer',
-                      }}
-                      href={employer.website}
+                    {employer.avatar_url ?
+                      <Avatar
+                        src={employer.avatar_url}
+                        size={100}
+                      /> : <Avatar
+                        src={employer.avatar_url}
+                        size={100}
+                      >{userBadge()}</Avatar>
+                    }
+                    <IconButton
+                      onClick={this.openFileDialog}
                     >
-                      Website
-                    </a>
-                  </div> : ''
-                }
+                      <ActionCamera />
+                    </IconButton>
+                    <input
+                      type="file"
+                      ref={node => (this.fileNode = node)}
+                      style={{ display: 'none' }}
+                      onChange={this.uploadAvatar}
+                    />
+                  </div>
 
-                {this.props.can_edit ?
-                  <RaisedButton
-                    label="Edit"
-                    primary
-                    icon={<ActionEdit />}
-                    className="edit-link"
-                    style={{ marginTop: 10 }}
-                    href={Routes.edit_employer_registration_path()}
-                  /> : ''
-                }
+                  <h1 className="no-margin">
+                    <a href={Routes.employer_path(employer.login)} style={linkStyles}>
+                      {employer.name}
+                    </a>
+                  </h1>
+
+                  <div className="bio" style={{ marginTop: '5px' }}>
+                    <span
+                      style={bioStyles}
+                      dangerouslySetInnerHTML={{ __html: bio }}
+                    />
+                  </div>
+
+                  <div className="location" style={{ marginTop: '5px' }}>
+                    <span style={{ color: '#333', fontWeight: '400' }}>
+                      <small>Based in {employer.location}</small>
+                    </span>
+                  </div>
+
+                  <div className="company" style={{ marginTop: '5px' }}>
+                    <span style={{ color: '#333', fontWeight: '400' }}>
+                      <small>Works at {employer.company}</small>
+                    </span>
+                  </div>
+
+                  {employer.website ?
+                    <div style={{ marginTop: '5px' }}>
+                      <a
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                          color: grey700,
+                          marginLeft: '10px',
+                          paddingBottom: '5px',
+                          cursor: 'pointer',
+                        }}
+                        href={employer.website}
+                      >
+                        Website
+                      </a>
+                    </div> : ''
+                  }
+
+                  {this.props.can_edit ?
+                    <RaisedButton
+                      label="Edit"
+                      primary
+                      icon={<ActionEdit />}
+                      className="edit-link"
+                      style={{ marginTop: 10 }}
+                      href={Routes.edit_employer_registration_path()}
+                    /> : ''
+                  }
+                </div>
+              </div>
+              <div className="employer-favourites">
+                <Favourites employer={employer} />
               </div>
             </div>
           </header>
@@ -196,6 +213,7 @@ const EmployerShowContainer = Relay.createContainer(EmployerShow, {
         website,
         company,
         location,
+        ${Favourites.getFragment('employer')},
       }
     `,
   },

@@ -9,7 +9,6 @@ import RaisedButton from 'material-ui/RaisedButton';
 import ActionDelete from 'material-ui/svg-icons/action/delete';
 import Chip from 'material-ui/Chip';
 import Snackbar from 'material-ui/Snackbar';
-import _ from 'underscore';
 import {
   Card,
   CardTitle,

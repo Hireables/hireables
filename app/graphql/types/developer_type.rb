@@ -5,6 +5,10 @@ DeveloperType = GraphQL::ObjectType.define do
   interfaces [GraphQL::Relay::Node.interface]
   global_id_field :id
 
+  field :database_id, types.Int, 'The database id of this developer' do
+    resolve -> (obj, _args, _ctx) { obj.id }
+  end
+
   # About
   field :login, types.String, 'The login of this developer'
   field :name, types.String, 'The name of this developer'
@@ -18,6 +22,11 @@ DeveloperType = GraphQL::ObjectType.define do
   field :followers, types.Int, 'The followers of this developer'
   field :public_gists, types.Int, 'The gists of this developer'
   field :public_repos, types.Int, 'The repos of this developer'
+
+  field :favourited, types.Boolean do
+    description 'Is developer favourited by current employer?'
+    resolve -> (obj, _args, ctx) { favourited?(obj, ctx) }
+  end
 
   field :premium, types.Boolean do
     description 'Is it premium profile?'
@@ -117,6 +126,10 @@ DeveloperType = GraphQL::ObjectType.define do
     description 'Repo connection to fetch developer orgs.'
     resolve -> (obj, _args, ctx) { resolve_orgs(obj, ctx) }
   end
+end
+
+def favourited?(obj, ctx)
+  ctx[:current_employer] ? ctx[:current_employer].favourited?(obj) : false
 end
 
 def resolve_orgs(obj, ctx)

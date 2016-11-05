@@ -21,10 +21,16 @@ import Location from './location.es6';
 import Bio from './bio.es6';
 import Orgs from './orgs.es6';
 import Company from './company.es6';
+import Actions from './actions.es6';
 
 // StyleSheets
 import badgeStyles from '../styles/badges.es6';
 import '../styles/profile.sass';
+
+// Utils
+import CurrentUser from '../../helpers/currentUser.es6';
+
+const currentUser = new CurrentUser();
 
 const DeveloperShow = (props) => {
   const { developer } = props;
@@ -56,6 +62,7 @@ const DeveloperShow = (props) => {
                 <br />
 
                 <Meta developer={developer} />
+                {currentUser.isEmployer ? <Actions developer={developer} /> : ''}
 
                 {props.can_edit ?
                   <RaisedButton
@@ -114,6 +121,7 @@ const DeveloperShowContainer = Relay.createContainer(DeveloperShow, {
         ${Meta.getFragment('developer')},
         ${Links.getFragment('developer')},
         ${Bio.getFragment('developer')},
+        ${Actions.getFragment('developer')}
       }
     `,
   },

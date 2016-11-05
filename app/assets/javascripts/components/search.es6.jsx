@@ -46,9 +46,9 @@ class Search extends Component {
         if ($(window).scrollTop() > 350 &&
             !($(document).height() - $(window).scrollTop() < 600)
           ) {
-          $('.search-filters').addClass('sticky');
+          $('.search-filters, .employer-profile').addClass('sticky');
         } else {
-          $('.search-filters').removeClass('sticky');
+          $('.search-filters, .employer-profile').removeClass('sticky');
         }
       });
     }

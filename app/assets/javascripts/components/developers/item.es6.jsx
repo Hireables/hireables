@@ -18,12 +18,18 @@ import Company from './company.es6';
 import ProfilePopup from './popup.es6';
 import LoadingComponent from '../shared/loadingComponent';
 import ErrorComponent from '../shared/errorComponent';
+import Actions from './actions.es6';
 
 // Route
 import developerRoute from '../../routes/developerRoute.es6';
 
 // StyleSheets
 import badgeStyles from '../styles/badges.es6';
+
+// Utils
+import CurrentUser from '../../helpers/currentUser.es6';
+
+const currentUser = new CurrentUser();
 
 class Developer extends Component {
   constructor(props) {
@@ -69,10 +75,10 @@ class Developer extends Component {
         }
       >
         <ListItem
-          innerDivStyle={{ padding: '20px 10px 16px 115px' }}
+          innerDivStyle={{ padding: '30px 10px 16px 125px' }}
           onClick={this.openPopup}
           leftAvatar={
-            <div className="avatar">
+            <div className="avatar" style={{ top: 20 }}>
               {developer.hireable ?
                 <div
                   className={
@@ -84,6 +90,7 @@ class Developer extends Component {
                 > H </div> : ''
               }
               <Avatar src={developer.avatar_url} size={80} />
+              {currentUser.isEmployer ? <Actions developer={developer} /> : ''}
             </div>
           }
           disabled
@@ -123,6 +130,7 @@ const DeveloperContainer = Relay.createContainer(Developer, {
         ${Meta.getFragment('developer')},
         ${Location.getFragment('developer')},
         ${Bio.getFragment('developer')},
+        ${Actions.getFragment('developer')}
       }
     `,
   },

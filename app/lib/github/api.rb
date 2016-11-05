@@ -4,42 +4,41 @@ module Github
     attr_reader :access_token
 
     def initialize(token = nil)
-      @access_token = if token.present?
-                        token
-                      else
-                        ENV.fetch('github_access_token')
-                      end
+      @access_token = token.present? ? token : ENV.fetch('github_access_token')
     end
 
     def search(params)
       Rails.cache.fetch([params[:query], params[:page], 'search']) do
-        client.search_users(params[:query], page: params[:page])
+        search = client.search_users(params[:query], page: params[:page])
+        search.items.lazy.map(&:login).to_a
       end
     end
 
+    def fetch_developers(params)
+      find_developers_by_login(search(params))
+    end
+
     # rubocop:disable Metrics/CyclomaticComplexity
+    # rubocop:disable Metrics/PerceivedComplexity
     # rubocop:disable Metrics/MethodLength
     # rubocop:disable Metrics/AbcSize
-    def fetch_developers(params)
-      logins = {}
-      items = search(params).items
-      return [] unless items.any?
-
-      items.each do |item|
-        logins["developer/#{item.login}"] = item.login
+    def find_developers_by_login(logins)
+      return [] unless logins.any?
+      logins_hash = {}
+      logins.each do |login|
+        logins_hash["developer/#{login}"] = login
       end
 
-      result = Rails.cache.fetch_multi(logins.keys) do |_key|
-        local = Developer.where(login: logins.values)
-        remaining = logins.values - local.map(&:login)
+      result = Rails.cache.fetch_multi(logins_hash.keys) do |_key|
+        local = Developer.where(login: logins_hash.values)
+        remaining = logins_hash.values - local.map(&:login)
         github = remaining.map do |login|
           fetch_developer(login)
         end
 
         [local + github]
-      end[logins.keys].flatten
+      end[logins_hash.keys].flatten
 
-      # Sort developers based on given criterias
       result.sort_by do |item|
         [
           item.premium && item.hireable ? 0 : 1,
@@ -63,16 +62,9 @@ module Github
     def fetch_developer_languages(login)
       Rails.cache.fetch(['developer', login, 'languages']) do
         begin
-          languages = fetch_developer_repos(login)
-            .lazy
-            .map(&:language)
-            .to_a
-            .compact
-            .map(&:downcase)
-            .uniq!
-
+          languages = fetch_developer_repos(login).lazy.map(&:language)
           return [] if languages.nil?
-          languages
+          languages.to_a.compact.map(&:downcase).uniq!
         rescue Octokit::NotFound
           []
         end
@@ -84,7 +76,6 @@ module Github
         client.auto_paginate = true
         begin
           repos = client.repositories(login, sort: 'updated')
-
           return [] if repos.nil?
           repos
         rescue Octokit::NotFound
@@ -96,12 +87,7 @@ module Github
     def fetch_developer_orgs(login)
       Rails.cache.fetch(['developer', login, 'organizations']) do
         begin
-          orgs = client
-            .organizations(login)
-            .lazy
-            .take(5)
-            .to_a
-
+          orgs = client.organizations(login).lazy.take(5).to_a
           return [] if orgs.nil?
           orgs
         rescue Octokit::NotFound
@@ -116,7 +102,6 @@ module Github
         c.middleware = faraday_stack
         c.per_page = 51
       end
-
       client
     end
 
