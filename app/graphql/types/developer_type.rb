@@ -5,6 +5,10 @@ DeveloperType = GraphQL::ObjectType.define do
   interfaces [GraphQL::Relay::Node.interface]
   global_id_field :id
 
+  field :database_id, types.Int, 'The database id of this developer' do
+    resolve -> (obj, _args, _ctx) { obj.id }
+  end
+
   # About
   field :login, types.String, 'The login of this developer'
   field :name, types.String, 'The name of this developer'
