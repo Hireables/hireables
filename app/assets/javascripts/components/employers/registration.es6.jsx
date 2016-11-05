@@ -82,14 +82,12 @@ class EmployerRegistration extends Component {
       }, 2000);
     }).fail((xhr) => {
       if (xhr.status === 422) {
-        const errors = {};
         Object.keys(xhr.responseJSON.errors).forEach((key) => {
           if ({}.hasOwnProperty.call(xhr.responseJSON.errors, key)) {
             const value = xhr.responseJSON.errors[key];
-            errors[`employer[${key}]`] = `${key} ${value.toString()}`;
+            this.setNotification(`${key} ${value.toString()}`);
           }
         });
-        this.formNode.updateInputsWithError(errors);
       } else {
         this.setNotification('Something went wrong. Please refresh and try again!');
       }
