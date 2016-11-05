@@ -1,5 +1,5 @@
 class Favourite < ApplicationRecord
-  after_commit :cache_favorited_login, on: :create
+  after_create :cache_favorited_login
   before_destroy :delete_cached_favorited_login
   belongs_to :employer
   belongs_to :developer
