@@ -39,6 +39,7 @@ module Github
         [local + github]
       end[logins_hash.keys].flatten
 
+      return [] unless result.any?
       result.sort_by do |item|
         [
           item.premium && item.hireable ? 0 : 1,
