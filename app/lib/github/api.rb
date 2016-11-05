@@ -30,8 +30,8 @@ module Github
       end
 
       result = Rails.cache.fetch_multi(logins_hash.keys) do |_key|
-        local = Developer.where(login: logins_hash.values)
-        remaining = logins_hash.values - local.map(&:login)
+        local = Developer.where(login: logins)
+        remaining = logins - local.map(&:login)
         github = remaining.map do |login|
           fetch_developer(login)
         end
@@ -51,7 +51,7 @@ module Github
     end
 
     def fetch_developer(login)
-      Rails.cache.fetch(['developer', login]) do
+      Rails.cache.fetch(['developer', login, 'full']) do
         begin
           client.user(login)
         rescue Octokit::NotFound

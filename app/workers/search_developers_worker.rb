@@ -10,7 +10,7 @@ class SearchDevelopersWorker
     logins.each do |login|
       FetchDeveloperWorker.perform_async(
         login, params[:access_token]
-      ) unless Rails.cache.exist?(['developer', login])
+      ) unless Rails.cache.exist?(['developer', login, 'full'])
     end
   end
 end
