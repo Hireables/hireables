@@ -37,6 +37,10 @@ class Favourites extends Component {
     this.state = { loading: false };
   }
 
+  componentWillMount() {
+    this.props.relay.forceFetch();
+  }
+
   componentDidMount() {
     window.addEventListener('scroll', this.handleScrollLoad);
   }

@@ -455,6 +455,14 @@ class DeveloperEdit extends Component {
                   />
 
                   <RaisedButton
+                    label="Back"
+                    primary
+                    type="submit"
+                    style={{ marginLeft: 10 }}
+                    href={Routes.root_path()}
+                  />
+
+                  <RaisedButton
                     secondary
                     label="Delete account"
                     icon={<ActionDelete />}

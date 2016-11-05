@@ -320,6 +320,14 @@ class EmployerEdit extends Component {
                   />
 
                   <RaisedButton
+                    label="Back"
+                    primary
+                    style={{ marginLeft: 10 }}
+                    type="submit"
+                    href={Routes.root_path()}
+                  />
+
+                  <RaisedButton
                     label="Delete account"
                     secondary
                     icon={<ActionDelete />}

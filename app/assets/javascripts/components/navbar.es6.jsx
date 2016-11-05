@@ -147,10 +147,12 @@ class NavBar extends Component {
                       <Avatar
                         src={current_user.avatar_url}
                         style={userImageStyles}
+                        onClick={() => Turbolinks.visit(currentUserProfilePath)}
                         className="logged-in-image"
                       /> : <Avatar
                         src={current_user.avatar_url}
                         style={userImageStyles}
+                        onClick={() => Turbolinks.visit(currentUserProfilePath)}
                         className="logged-in-image"
                       >{userBadge()}</Avatar>
                     }

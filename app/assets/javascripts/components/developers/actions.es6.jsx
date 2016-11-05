@@ -14,7 +14,7 @@ class DeveloperActions extends Component {
     this.toggleFavourite = this.toggleFavourite.bind(this);
     this.setNotification = this.setNotification.bind(this);
     this.handleRequestClose = this.handleRequestClose.bind(this);
-    this.state = { notification: '', open: false };
+    this.state = { notification: '', open: false, saving: false };
   }
 
   setNotification(notification) {
@@ -27,6 +27,7 @@ class DeveloperActions extends Component {
 
   toggleFavourite(event) {
     event.preventDefault();
+    this.setState({ saving: true });
 
     const onFailure = (transaction) => {
       const error = transaction.getError() || new Error('Mutation failed.');
@@ -36,15 +37,20 @@ class DeveloperActions extends Component {
         errorMessage = error.source.errors[0].message;
       } else {
         errorMessage = error.message;
-
-        this.setNotification(errorMessage);
       }
+
+      this.setNotification(errorMessage);
+      this.setState({ saving: false });
+    };
+
+    const onSuccess = () => {
+      this.setState({ saving: false });
     };
 
     Relay.Store.commitUpdate(new ToggleFavourite({
       id: this.props.developer.id,
       login: this.props.developer.login,
-    }), { onFailure });
+    }), { onFailure, onSuccess });
 
     event.stopPropagation();
   }
@@ -66,6 +72,7 @@ class DeveloperActions extends Component {
             label="Saved"
             primary
             type="submit"
+            disabled={this.state.saving}
             style={{
               height: 25,
               lineHeight: '25px',
@@ -80,6 +87,7 @@ class DeveloperActions extends Component {
               icon={<FontIcon className="material-icons">playlist_add</FontIcon>}
               label="Save"
               primary
+              disabled={this.state.saving}
               style={{ height: 25, lineHeight: '25px', maxWidth: 95 }}
               type="submit"
               labelStyle={{ fontSize: 10 }}

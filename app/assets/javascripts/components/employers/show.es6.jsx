@@ -26,6 +26,7 @@ class EmployerShow extends Component {
     super(props);
     this.openFileDialog = this.openFileDialog.bind(this);
     this.uploadAvatar = this.uploadAvatar.bind(this);
+    this.state = { uploading: false };
   }
 
   componentDidMount() {
@@ -105,6 +106,7 @@ class EmployerShow extends Component {
                     className="avatar"
                     style={{
                       width: 100,
+                      position: 'relative',
                       margin: '0 auto',
                     }}
                   >
@@ -117,11 +119,13 @@ class EmployerShow extends Component {
                         size={100}
                       >{userBadge()}</Avatar>
                     }
-                    <IconButton
-                      onClick={this.openFileDialog}
-                    >
-                      <ActionCamera />
-                    </IconButton>
+
+                    {this.state.uploading ?
+                      'Uploading...' :
+                        <IconButton onClick={this.openFileDialog}>
+                          <ActionCamera />
+                        </IconButton>
+                    }
                     <input
                       type="file"
                       ref={node => (this.fileNode = node)}
