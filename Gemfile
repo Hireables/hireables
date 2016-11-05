@@ -20,6 +20,7 @@ gem 'typhoeus'
 gem 'sidekiq'
 gem 'connection_pool'
 gem 'redis-namespace'
+gem 'redis-objects'
 
 # Setup caching and Marshalling
 gem 'dalli'
