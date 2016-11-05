@@ -4,5 +4,6 @@ MutationType = GraphQL::ObjectType.define do
   description 'The mutation root of this schema for creating or changing data.'
   field :UpdateDeveloper, field: UpdateDeveloper.field
   field :UpdateEmployer, field: Employers::UpdateEmployer.field
+  field :ToggleFavourite, field: Developers::ToggleFavourite.field
   field :EmployerFileUpload, field: Employers::FileUpload.field
 end
