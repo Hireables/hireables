@@ -13,7 +13,7 @@ class Employer < ApplicationRecord
   after_commit :notify_admin!, on: :create
 
   has_many :favorites
-  set :favorited_logins
+  set :favorited_developers
 
   mount_uploader :avatar, ImageUploader
 
@@ -27,6 +27,10 @@ class Employer < ApplicationRecord
     else
       super
     end
+  end
+
+  def favorited?(developer)
+    favorited_developers.member?(developer.login)
   end
 
   private

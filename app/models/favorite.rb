@@ -5,6 +5,6 @@ class Favorite < ApplicationRecord
   private
 
   def cache_favorited_login
-    employer.favorited_logins << login
+    employer.favorited_developers << login
   end
 end
