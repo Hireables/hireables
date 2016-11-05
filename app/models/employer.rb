@@ -10,6 +10,8 @@ class Employer < ApplicationRecord
   before_validation :add_login, unless: :login_present?
   after_commit :notify_admin!, on: :create
 
+  has_many :favorites
+
   mount_uploader :avatar, ImageUploader
 
   def active_for_authentication?
