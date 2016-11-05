@@ -4,6 +4,6 @@ Redis::Objects.redis = ConnectionPool.new(
 ) {
   Redis.new(
     url: ENV.fetch('DATABASE_REDIS_URL'),
-    namespace: "data_#{Rails.env.downcase}")
+    namespace: "data_#{Rails.env.downcase}"
   )
 }
