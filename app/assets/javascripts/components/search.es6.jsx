@@ -18,18 +18,20 @@ import {
 
 // Local components
 import muiTheme from './theme.es6';
-import currentUser from '../helpers/currentUser.es6';
-import environment from '../helpers/environment.es6';
+import CurrentUser from '../helpers/currentUser.es6';
+import Environment from '../helpers/environment.es6';
 
 // Stylesheets
 import chipStyles from './styles/chips.es6';
+
+const environment = new Environment();
+const currentUser = new CurrentUser();
 
 const cardTitleStyle = {
   padding: '8px 16px 8px',
   backgroundColor: '#f5f5f5',
   borderBottom: '1px solid #d8d8d8',
 };
-
 
 class Search extends Component {
   static onKeyPress(event) {

@@ -6,9 +6,10 @@
 
 import Relay from 'react-relay';
 import { mountComponents, unmountComponents } from './utils/componentMounter';
-import authentication from './helpers/authentication.es6';
+import Authentication from './helpers/authentication.es6';
 
 const setupNetworkLayer = () => {
+  const authentication = new Authentication();
   Relay.injectNetworkLayer(
     new Relay.DefaultNetworkLayer('/graphql', {
       credentials: 'same-origin',

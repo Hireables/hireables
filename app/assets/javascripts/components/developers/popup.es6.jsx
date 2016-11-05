@@ -11,13 +11,16 @@ import 'dialog-polyfill/dialog-polyfill.css';
 
 // Util
 import muiTheme from '../theme.es6';
-import currentUser from '../../helpers/currentUser.es6';
+import CurrentUser from '../../helpers/currentUser.es6';
 import DeveloperShow from './show.es6';
 import Dialog from '../../utils/dialog.es6';
-import environment from '../../helpers/environment.es6';
+import Environment from '../../helpers/environment.es6';
 
 // Stylesheet
 import '../styles/popup.sass';
+
+const environment = new Environment();
+const currentUser = new CurrentUser();
 
 class Popup extends Component {
   componentDidMount() {
