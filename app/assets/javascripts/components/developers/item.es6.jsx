@@ -90,7 +90,7 @@ class Developer extends Component {
                 > H </div> : ''
               }
               <Avatar src={developer.avatar_url} size={80} />
-              {currentUser.employer ? <Actions developer={developer} /> : ''}
+              {currentUser.isEmployer ? <Actions developer={developer} /> : ''}
             </div>
           }
           disabled
