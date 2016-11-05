@@ -43,7 +43,7 @@ class Employer < ApplicationRecord
   end
 
   def remove_from_favourites(login)
-    favourites.find_by(login: login).destroy
+    favourites.find_by!(login: login).destroy
   end
 
   private
