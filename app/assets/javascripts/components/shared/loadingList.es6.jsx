@@ -24,7 +24,9 @@ const LoadingList = () => {
     >
       <ListItem
         leftAvatar={
-          <Avatar src={'https://placeholdit.imgix.net/~text?w=80&h=80'} size={80} />
+          <div style={{ textAlign: 'center' }}>
+            <Avatar src={'https://placeholdit.imgix.net/~text?w=80&h=80'} size={80} />
+          </div>
         }
         secondaryText={
           <div className="animated-background secondary" />

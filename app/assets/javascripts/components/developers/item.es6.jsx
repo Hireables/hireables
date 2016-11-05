@@ -78,7 +78,7 @@ class Developer extends Component {
           innerDivStyle={{ padding: '30px 10px 16px 125px' }}
           onClick={this.openPopup}
           leftAvatar={
-            <div className="avatar" style={{ top: 20 }}>
+            <div className="avatar" style={{ top: 20, textAlign: 'center' }}>
               {developer.hireable ?
                 <div
                   className={
