@@ -19,7 +19,7 @@ class ToggleFavouriteResolver
     raise StandardError, 'Not found' unless @developer.present?
 
     if current_employer.favourited?(@developer)
-      current_employer.remove_from_favourites(login)
+      current_employer.remove_from_favourites(@developer.login)
     else
       current_employer.add_to_favourites!(@developer)
     end
