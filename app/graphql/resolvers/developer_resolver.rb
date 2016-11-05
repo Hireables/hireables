@@ -9,8 +9,8 @@ class DeveloperResolver
     raise StandardError,
           'You are not logged in' unless ctx[:current_user].present?
     @current_user = ctx[:current_user]
-    safe_original_values = args.instance_variable_get(:@original_values).to_h
-    @params = HashWithIndifferentAccess.new(safe_original_values)
+    safe_params = args.instance_variable_get(:@original_values).to_h
+    @params = HashWithIndifferentAccess.new(safe_params)
     fetch_orgs
     fetch_languages
   end

@@ -9,9 +9,8 @@ class ToggleFavouriteResolver
     raise StandardError,
           'You are not logged in' unless ctx[:current_employer].present?
     @current_employer = ctx[:current_employer]
-    @params = HashWithIndifferentAccess.new(
-      inputs.instance_variable_get(:@original_values).to_h
-    )
+    safe_params = inputs.instance_variable_get(:@original_values).to_h
+    @params = HashWithIndifferentAccess.new(safe_params)
   end
 
   def call

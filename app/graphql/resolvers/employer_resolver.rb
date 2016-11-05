@@ -8,9 +8,8 @@ class EmployerResolver
   def initialize(_developer, args, ctx)
     raise StandardError,
           'You are not logged in' unless ctx[:current_user].present?
-    @params = HashWithIndifferentAccess.new(
-      args.instance_variable_get(:@original_values).to_h
-    )
+    safe_params = args.instance_variable_get(:@original_values).to_h
+    @params = HashWithIndifferentAccess.new(safe_params)
   end
 
   def call
