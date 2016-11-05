@@ -22,6 +22,9 @@ import ErrorComponent from '../shared/errorComponent';
 // Route
 import developerRoute from '../../routes/developerRoute.es6';
 
+// Mutation
+import ToggleFavourite from '../../mutations/employer/toggleFavourite.es6';
+
 // StyleSheets
 import badgeStyles from '../styles/badges.es6';
 
