@@ -13,7 +13,8 @@ module Github
 
     def search(params)
       Rails.cache.fetch([params[:query], params[:page], 'search']) do
-        client.search_users(params[:query], page: params[:page])
+        search = client.search_users(params[:query], page: params[:page])
+        search.items.lazy.map(&:login).to_a
       end
     end
 
@@ -21,23 +22,26 @@ module Github
     # rubocop:disable Metrics/MethodLength
     # rubocop:disable Metrics/AbcSize
     def fetch_developers(params)
-      logins = {}
-      items = search(params).items
-      return [] unless items.any?
+      logins = search(params)
+      return [] unless logins.any?
+      find_developers_by_login(logins)
+    end
 
-      items.each do |item|
-        logins["developer/#{item.login}"] = item.login
+    def find_developers_by_login(logins)
+      logins_hash = {}
+      logins.each do |login|
+        logins_hash["developer/#{login}"] = login
       end
 
-      result = Rails.cache.fetch_multi(logins.keys) do |_key|
-        local = Developer.where(login: logins.values)
-        remaining = logins.values - local.map(&:login)
+      result = Rails.cache.fetch_multi(logins_hash.keys) do |_key|
+        local = Developer.where(login: logins_hash.values)
+        remaining = logins_hash.values - local.map(&:login)
         github = remaining.map do |login|
           fetch_developer(login)
         end
 
         [local + github]
-      end[logins.keys].flatten
+      end[logins_hash.keys].flatten
 
       # Sort developers based on given criterias
       result.sort_by do |item|
