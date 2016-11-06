@@ -13,7 +13,7 @@ class Employer < ApplicationRecord
   before_validation :add_login, unless: :login_present?
   after_commit :notify_admin!, on: :create
 
-  has_many :favourites
+  has_many :favourites, dependent: :destroy
   set :favourited_developers
 
   mount_uploader :avatar, ImageUploader
