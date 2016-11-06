@@ -25,6 +25,10 @@ class Developer < ApplicationRecord
     end && !premium?
   end
 
+  def github_access_token
+    connections.where(provider: 'github').first.try(:access_token)
+  end
+
   private
 
   def notify_admin!
