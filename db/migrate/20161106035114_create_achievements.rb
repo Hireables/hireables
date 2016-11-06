@@ -12,7 +12,8 @@ class CreateAchievements < ActiveRecord::Migration[5.0]
       t.timestamps
     end
 
-    add_index :achievements, :type
+    add_index :achievements,
+      [:source, :category, :title, :developer_id], name: 'unique_achievement', unique: true
     add_index :achievements, :meta, using: :gin
   end
 end

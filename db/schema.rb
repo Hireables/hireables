@@ -10,11 +10,35 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161105044438) do
+ActiveRecord::Schema.define(version: 20161106035429) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "citext"
+
+  create_table "achievements", force: :cascade do |t|
+    t.string   "title"
+    t.text     "description"
+    t.datetime "date"
+    t.jsonb    "meta"
+    t.string   "source"
+    t.string   "category"
+    t.integer  "developer_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.index ["developer_id"], name: "index_achievements_on_developer_id", using: :btree
+    t.index ["meta"], name: "index_achievements_on_meta", using: :gin
+    t.index ["source", "category", "title", "developer_id"], name: "unique_achievement", unique: true, using: :btree
+  end
+
+  create_table "connections", force: :cascade do |t|
+    t.bigint   "uid"
+    t.string   "provider"
+    t.string   "access_token"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.index ["uid", "provider"], name: "index_connections_on_uid_and_provider", unique: true, using: :btree
+  end
 
   create_table "developers", force: :cascade do |t|
     t.string   "login",              default: "",    null: false
@@ -116,6 +140,7 @@ ActiveRecord::Schema.define(version: 20161105044438) do
     t.index ["login"], name: "index_favourites_on_login", using: :btree
   end
 
+  add_foreign_key "achievements", "developers"
   add_foreign_key "favourites", "developers"
   add_foreign_key "favourites", "employers"
 end
