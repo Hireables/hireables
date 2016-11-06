@@ -12,13 +12,15 @@ class Authenticator
   end
 
   def find_or_create_from_omniauth
-    if developer.nil?
-      new_developer = create_from_omniauth
-      connection.update!(developer: new_developer)
-      new_developer
-    else
-      connection.update!(access_token: auth.credentials.token)
-      developer
+    ActiveRecord::Base.transaction do
+      if developer.nil?
+        new_developer = create_from_omniauth
+        connection.update!(developer: new_developer)
+        new_developer
+      else
+        connection.update!(access_token: auth.credentials.token)
+        developer
+      end
     end
   end
 
@@ -32,13 +34,10 @@ class Authenticator
       bio: auth.extra.raw_info.bio,
       password: Devise.friendly_token[0, 20],
       name: auth.info.name,
-      uid: auth.uid,
       login: auth.info.nickname,
       remote_avatar_url: auth.extra.raw_info.avatar_url,
       location: auth.extra.raw_info.location,
-      provider: auth.provider,
       hireable: (auth.extra.raw_info.hireable.nil? ? false : true),
-      access_token: auth.credentials.token,
       data: auth.extra.raw_info
     )
   end
