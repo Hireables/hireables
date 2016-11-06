@@ -4,7 +4,7 @@ class Developer < ApplicationRecord
   store_accessor :data, :html_url, :company, :blog, :followers,
                  :public_gists, :public_repos
 
-  validates_presence_of :name, :login, :provider, :uid
+  validates_presence_of :name, :login
   validates_uniqueness_of :login
 
   has_many :connections, dependent: :destroy
@@ -26,7 +26,9 @@ class Developer < ApplicationRecord
   end
 
   def github_access_token
-    connections.where(provider: 'github').first.try(:access_token)
+    @github_access_token ||= connections.where(
+      provider: 'github'
+    ).first.try(:access_token)
   end
 
   private
@@ -50,11 +52,11 @@ class Developer < ApplicationRecord
   end
 
   def fetch_languages!
-    FetchDeveloperLanguagesWorker.perform_async(login, access_token)
+    FetchDeveloperLanguagesWorker.perform_async(login, github_access_token)
   end
 
   def cache_orgs!
-    FetchDeveloperOrgsWorker.perform_async(login, access_token)
+    FetchDeveloperOrgsWorker.perform_async(login, github_access_token)
   end
 
   def set_premium!
