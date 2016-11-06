@@ -7,6 +7,9 @@ class Developer < ApplicationRecord
   validates_presence_of :name, :login, :provider, :uid
   validates_uniqueness_of :login
 
+  has_many :connections, dependent: :destroy
+  has_many :achievements, dependent: :destroy
+
   before_save :format_platforms, unless: :empty_platforms?
   after_commit :set_premium!, on: :update, if: :profile_completed?
   after_commit :fetch_languages!, on: :create
