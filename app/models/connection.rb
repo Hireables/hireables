@@ -4,8 +4,10 @@ class Connection < ApplicationRecord
   validates_uniqueness_of :uid, scope: :provider
 
   def self.find_or_create_for_oauth(auth)
-    @connection ||= find_for_oauth(auth)
-    @connection.nil? ? create_from_oauth(auth) : @connection
+    ActiveRecord::Base.transaction do
+      @connection ||= find_for_oauth(auth)
+      @connection.nil? ? create_from_oauth(auth) : @connection
+    end
   end
 
   def self.find_for_oauth(auth)
