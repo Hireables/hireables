@@ -4,6 +4,7 @@ class CreateConnections < ActiveRecord::Migration[5.0]
       t.bigint :uid
       t.string :provider
       t.string :access_token
+      t.references :developer, foreign_key: true
 
       t.timestamps
     end

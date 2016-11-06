@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161106035429) do
+ActiveRecord::Schema.define(version: 20161106044415) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,15 +35,15 @@ ActiveRecord::Schema.define(version: 20161106035429) do
     t.bigint   "uid"
     t.string   "provider"
     t.string   "access_token"
+    t.integer  "developer_id"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
+    t.index ["developer_id"], name: "index_connections_on_developer_id", using: :btree
     t.index ["uid", "provider"], name: "index_connections_on_uid_and_provider", unique: true, using: :btree
   end
 
   create_table "developers", force: :cascade do |t|
     t.string   "login",              default: "",    null: false
-    t.string   "provider",           default: "",    null: false
-    t.bigint   "uid",                default: 0,     null: false
     t.string   "avatar",             default: ""
     t.string   "name",               default: "",    null: false
     t.string   "email",              default: "",    null: false
@@ -67,7 +67,6 @@ ActiveRecord::Schema.define(version: 20161106035429) do
     t.boolean  "mid",                default: false
     t.boolean  "junior",             default: false
     t.boolean  "student",            default: false
-    t.string   "access_token",       default: "",    null: false
     t.string   "encrypted_password", default: "",    null: false
     t.jsonb    "data",               default: "{}",  null: false
     t.integer  "sign_in_count",      default: 0,     null: false
@@ -98,7 +97,6 @@ ActiveRecord::Schema.define(version: 20161106035429) do
     t.index ["senior"], name: "index_developers_on_senior", using: :btree
     t.index ["startup"], name: "index_developers_on_startup", using: :btree
     t.index ["student"], name: "index_developers_on_student", using: :btree
-    t.index ["uid"], name: "index_developers_on_uid", unique: true, using: :btree
   end
 
   create_table "employers", force: :cascade do |t|
@@ -141,6 +139,7 @@ ActiveRecord::Schema.define(version: 20161106035429) do
   end
 
   add_foreign_key "achievements", "developers"
+  add_foreign_key "connections", "developers"
   add_foreign_key "favourites", "developers"
   add_foreign_key "favourites", "employers"
 end
