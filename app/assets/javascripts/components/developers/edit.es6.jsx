@@ -191,7 +191,6 @@ class DeveloperEdit extends Component {
     });
   }
 
-
   handleRequestDelete(key) {
     this.platforms = this.state.platforms;
     const platformToDelete = this.platforms

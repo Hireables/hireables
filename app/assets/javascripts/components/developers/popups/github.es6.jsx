@@ -6,10 +6,12 @@ import Relay from 'react-relay';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { List, ListItem } from 'material-ui/List';
 import FontIcon from 'material-ui/FontIcon';
+import RaisedButton from 'material-ui/RaisedButton';
 import Avatar from 'material-ui/Avatar';
 import 'dialog-polyfill/dialog-polyfill.css';
 import Checkbox from 'material-ui/Checkbox';
 import update from 'immutability-helper';
+import Snackbar from 'material-ui/Snackbar';
 
 // Util
 import muiTheme from '../../theme.es6';
@@ -17,6 +19,7 @@ import Dialog from '../../../utils/dialog.es6';
 
 // Stylesheet
 import '../../styles/popup.sass';
+import '../../styles/pins.sass';
 
 class Github extends Component {
   constructor(props) {
@@ -24,8 +27,9 @@ class Github extends Component {
     this.enableButton = this.enableButton.bind(this);
     this.disableButton = this.disableButton.bind(this);
     this.selectRepo = this.selectRepo.bind(this);
-    this.submitForm = this.submitForm.bind(this);
-    this.selections = [];
+    this.handleRequestClose = this.handleRequestClose.bind(this);
+    this.savePinnedRepos = this.savePinnedRepos.bind(this);
+    this.state = { selections: [], open: false };
   }
 
   componentDidMount() {
@@ -42,17 +46,30 @@ class Github extends Component {
   }
 
   selectRepo(event, repo) {
-    $(event.target).closest('.source-item').toggleClass('pinned');
-    if (this.selections.indexOf(repo.id) === -1) {
-      update(this.selections, { $push: [repo.id] });
-    } else {
-      update(this.selections, { $splice: [repo.id] });
-    }
+    const uncheckedBoxes = $('.popup input:checkbox:not(:checked)');
+    const index = this.state.selections.indexOf(repo.id);
+    $(event.target).closest('.list-item').toggleClass('pinned');
 
-    console.log(this.selections);
+    if (index === -1) {
+      this.setState({
+        selections: update(this.state.selections, { $push: [repo.id] }),
+      }, () => {
+        if (this.state.selections.length >= 6) {
+          uncheckedBoxes.attr({ disabled: true });
+          uncheckedBoxes.closest('.list-item').addClass('disabled');
+        }
+      });
+    } else {
+      this.setState({
+        selections: update(this.state.selections, { $splice: [[index, 1]] }),
+      }, () => {
+        uncheckedBoxes.attr({ disabled: false });
+        uncheckedBoxes.closest('.list-item').removeClass('disabled');
+      });
+    }
   }
 
-  submitForm(event) {
+  savePinnedRepos(event) {
     event.preventDefault();
     // const platforms = this.state.platforms.map(elem => (
     //   elem.label
@@ -64,8 +81,8 @@ class Github extends Component {
     //   const error = transaction.getError() || new Error('Mutation failed.');
     //   let errorMessage;
 
-    //   if (error.source.errors && Array.isArray(error.source.errors)) {
-    //     errorMessage = error.source.errors[0].message;
+    //   if (error.list.errors && Array.isArray(error.list.errors)) {
+    //     errorMessage = error.list.errors[0].message;
     //   } else {
     //     errorMessage = error.message;
     //   }
@@ -87,6 +104,12 @@ class Github extends Component {
     // }), { onFailure, onSuccess });
   }
 
+  handleRequestClose() {
+    this.setState({
+      open: false,
+    });
+  }
+
   enableButton() {
     this.setState({
       canSubmit: true,
@@ -105,64 +128,88 @@ class Github extends Component {
       <MuiThemeProvider muiTheme={muiTheme}>
         <dialog
           id={`developer-profile-${developer.id}`}
-          className="popup import"
+          className="popup"
           ref={node => (this.popupNode = node)}
         >
-          <div className="header-top">
-            <h3 className="header-top-title">Pin Top Github Repos </h3>
-            Connect to import and pin your top github repos.
-          </div>
-          <Avatar
-            size={24}
-            className="close"
-            onClick={() => this.dialog.close()}
-            icon={<FontIcon className="material-icons">close</FontIcon>}
-          />
-          <div className="content">
-            <List style={{ paddingBottom: 0, paddingTop: 0 }}>
-              {developer.repos.edges.map(({ node }) => (
-                <ListItem
-                  key={node.id}
-                  className={`source-item ${node.pinned ? 'pinned' : ''}`}
-                  leftCheckbox={
-                    <Checkbox
-                      style={{ top: 'calc(100% / 3)' }}
-                      onCheck={event => this.selectRepo(event, node)}
-                    />
-                  }
-                  rightIcon={
-                    <div
-                      style={{
-                        right: 20,
-                        top: 20,
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        color: '#777',
-                      }}
-                    >
-                      {node.stargazers_count}
-                      <FontIcon
-                        color="#777"
-                        className="material-icons"
+          <div className="import-container">
+            <div className="list-header">
+              <h3 className="list-header-title">Pin Top Github Repos </h3>
+              Connect to import and pin your top github repos.
+            </div>
+            <Avatar
+              size={50}
+              className="close"
+              onClick={() => this.dialog.close()}
+              icon={<FontIcon className="material-icons">close</FontIcon>}
+            />
+            <div className="content">
+              <List style={{ paddingBottom: 0, paddingTop: 0 }}>
+                {developer.repos.edges.map(({ node }) => (
+                  <ListItem
+                    key={node.id}
+                    className={`list-item ${node.pinned ? 'pinned' : ''}`}
+                    leftCheckbox={
+                      <Checkbox
+                        disabled={this.state.disabled}
+                        style={{ top: 'calc(100% / 3)' }}
+                        onCheck={event => this.selectRepo(event, node)}
+                      />
+                    }
+                    rightIcon={
+                      <div
+                        style={{
+                          right: 20,
+                          top: 20,
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          color: '#777',
+                        }}
                       >
-                        star
-                      </FontIcon>
-                    </div>
-                  }
+                        {node.stargazers_count}
+                        <FontIcon
+                          color="#777"
+                          className="material-icons"
+                        >
+                          star
+                        </FontIcon>
+                      </div>
+                    }
 
-                  primaryText={node.name}
-                  secondaryText={
-                    <span
-                      className="description"
-                      style={{ maxWidth: '70%' }}
-                    >
-                      {node.description}
-                    </span>
-                  }
-                  secondaryTextLines={2}
-                />
-              ))}
-            </List>
+                    primaryText={node.name}
+                    secondaryText={
+                      <span
+                        className="description"
+                        style={{ maxWidth: '70%' }}
+                      >
+                        {node.description}
+                      </span>
+                    }
+                    secondaryTextLines={2}
+                  />
+                ))}
+              </List>
+            </div>
+            <div className="actions">
+              <span className="notification">
+                {6 - this.state.selections.length} remaining
+              </span>
+              <RaisedButton
+                label="Save pinned repos"
+                primary
+                className="pull-right"
+                type="submit"
+                onClick={this.savePinnedRepos}
+              />
+            </div>
+
+            <div className="notifications">
+              <Snackbar
+                open={this.state.open}
+                message="Maximum 6 selections allowed"
+                autoHideDuration={5000}
+                onRequestClose={this.handleRequestClose}
+              />
+            </div>
           </div>
         </dialog>
       </MuiThemeProvider>
@@ -177,7 +224,7 @@ Github.propTypes = {
 const GithubContainer = Relay.createContainer(
   Github, {
     initialVariables: {
-      first: 50,
+      first: 20,
     },
 
     fragments: {

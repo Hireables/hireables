@@ -78,10 +78,10 @@ class Connection extends Component {
     const { connection } = this.props;
     const Icon = iconsMap.get(connection.provider);
     return (
-      <div className="source-item">
+      <div className="list-item">
         <ListItem
           disabled
-          style={{ lineHeight: '24px' }}
+          innerDivStyle={{ padding: '20px 56px 20px 72px' }}
           leftIcon={<div className={connection.provider}><Icon /></div>}
           rightIconButton={
             <RaisedButton

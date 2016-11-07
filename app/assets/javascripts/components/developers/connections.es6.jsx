@@ -11,10 +11,12 @@ const Connections = (props) => {
   const { developer } = props;
   return (
     <MuiThemeProvider muiTheme={muiTheme}>
-      <div className="source-list">
-        <div className="source-list-top">
-          <h3 className="source-list-title">Pin Achievements </h3>
-          Connect to import and pin your achievements.
+      <div className="list bordered">
+        <div className="list-header">
+          <h3 className="list-header-title">
+            Pin Achievements
+          </h3>
+          Connect your accounts to import and pin your achievements.
         </div>
         <List style={{ paddingBottom: 0, paddingTop: 0 }}>
           {developer.connections.map(connection => (
