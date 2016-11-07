@@ -22,6 +22,7 @@ import Bio from './bio.es6';
 import Orgs from './orgs.es6';
 import Company from './company.es6';
 import Actions from './actions.es6';
+import Connections from './connections.es6';
 
 // StyleSheets
 import badgeStyles from '../styles/badges.es6';
@@ -61,6 +62,13 @@ const DeveloperShow = (props) => {
                 />
                 <br />
 
+                <div className="basic">
+                  <Name developer={developer} />
+                  <Location developer={developer} />
+                  <Company developer={developer} />
+                  <Bio developer={developer} />
+                </div>
+
                 <Meta developer={developer} />
                 {currentUser.isEmployer ? <Actions developer={developer} /> : ''}
 
@@ -76,12 +84,6 @@ const DeveloperShow = (props) => {
               </div>
 
               <div className="profile">
-                <div className="basic">
-                  <Name developer={developer} />
-                  <Location developer={developer} />
-                  <Company developer={developer} />
-                  <Bio developer={developer} />
-                </div>
                 <Links developer={developer} />
                 <div className="clearfix" />
                 <Orgs developer={developer} />
@@ -90,6 +92,7 @@ const DeveloperShow = (props) => {
                 <Levels developer={developer} />
               </div>
             </div>
+            <Connections developer={developer} />
           </div>
         </header>
       </div>
@@ -122,6 +125,7 @@ const DeveloperShowContainer = Relay.createContainer(DeveloperShow, {
         ${Links.getFragment('developer')},
         ${Bio.getFragment('developer')},
         ${Actions.getFragment('developer')}
+        ${Connections.getFragment('developer')}
       }
     `,
   },
