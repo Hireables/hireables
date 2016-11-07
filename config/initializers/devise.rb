@@ -240,7 +240,7 @@ Devise.setup do |config|
 
   config.omniauth :github, ENV['GITHUB_KEY'], ENV['GITHUB_SECRET'], scope: 'user, public_repo, read:org'
   config.omniauth :google_oauth2, ENV['GOOGLE_CLIENT_ID'], ENV['GOOGLE_CLIENT_SECRET'], scope: 'userinfo.profile, youtube'
-  config.omniauth :linkedin, ENV['LINKEDIN_CLIENT_ID'], ENV['LINKEDIN_CLIENT_SECRET'], :scope => 'r_fullprofile'
+  config.omniauth :linkedin, ENV['LINKEDIN_CLIENT_ID'], ENV['LINKEDIN_CLIENT_SECRET']
   config.omniauth :stackexchange, ENV.fetch('STACKOVERFLOW_CLIENT_ID'), ENV.fetch('STACKOVERFLOW_CLIENT_SECRET'), public_key: ENV.fetch('STACKOVERFLOW_CLIENT_KEY'), site: 'stackoverflow'
 
   # ==> Warden configuration
