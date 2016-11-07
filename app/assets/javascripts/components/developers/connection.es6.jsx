@@ -1,4 +1,4 @@
-/* global document Routes */
+/* global document Routes SE $ */
 
 // Modules
 import React, { Component } from 'react';
@@ -38,13 +38,37 @@ popupsMap.set('stackoverflow', StackOverflowPopup);
 popupsMap.set('linkedin', LinkedinPopup);
 popupsMap.set('youtube', YoutubePopup);
 
+$.getScript('https://api.stackexchange.com/js/2.0/all.js', () => {
+  SE.init({
+    clientId: 8323,
+    key: 'mUf0h5oYP)21lsCPOt5OGw((',
+    channelUrl: 'http://hireables.dev/blank',
+    complete: (data) => {
+      console.log(data);
+    },
+  });
+});
+
+$.getScript('//platform.linkedin.com/in.js', () => {
+  console.log('loaded');
+});
+
+const loginStackoverflow = () => {
+  SE.authenticate({
+    success: (data) => { console.log(data); },
+    error: (data) => { console.log(data); },
+    scope: ['read_inbox'],
+    networkUsers: true,
+  });
+};
+
 class Connection extends Component {
   constructor(props) {
     super(props);
     this.connectOrImport = this.connectOrImport.bind(this);
     const routesMap = new Map();
     routesMap.set('youtube', Routes.developer_google_oauth2_omniauth_authorize_path());
-    routesMap.set('stackoverflow', Routes.developer_stackexchange_omniauth_authorize_path());
+    routesMap.set('stackoverflow', '#');
     routesMap.set('linkedin', Routes.developer_linkedin_omniauth_authorize_path());
     this.routesMap = routesMap;
   }
@@ -101,6 +125,7 @@ class Connection extends Component {
                 <RaisedButton
                   style={{ top: 10, right: 20 }}
                   primary
+                  onClick={() => loginStackoverflow()}
                   href={routePath}
                   label="Connect"
                 />
