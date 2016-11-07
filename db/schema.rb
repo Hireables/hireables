@@ -33,7 +33,7 @@ ActiveRecord::Schema.define(version: 20161106044415) do
   end
 
   create_table "connections", force: :cascade do |t|
-    t.bigint   "uid"
+    t.string   "uid"
     t.string   "provider"
     t.string   "access_token"
     t.integer  "developer_id"
