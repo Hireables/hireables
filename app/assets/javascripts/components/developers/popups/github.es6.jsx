@@ -1,4 +1,4 @@
-/* global Routes */
+/* global Routes $ */
 
 // Modules
 import React, { Component } from 'react';
@@ -6,9 +6,10 @@ import Relay from 'react-relay';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { List, ListItem } from 'material-ui/List';
 import FontIcon from 'material-ui/FontIcon';
-import RaisedButton from 'material-ui/RaisedButton';
 import Avatar from 'material-ui/Avatar';
 import 'dialog-polyfill/dialog-polyfill.css';
+import Checkbox from 'material-ui/Checkbox';
+import update from 'immutability-helper';
 
 // Util
 import muiTheme from '../../theme.es6';
@@ -22,7 +23,9 @@ class Github extends Component {
     super(props);
     this.enableButton = this.enableButton.bind(this);
     this.disableButton = this.disableButton.bind(this);
+    this.selectRepo = this.selectRepo.bind(this);
     this.submitForm = this.submitForm.bind(this);
+    this.selections = [];
   }
 
   componentDidMount() {
@@ -36,6 +39,17 @@ class Github extends Component {
     setTimeout(() => {
       this.dialog.get().classList.remove('pulse');
     }, 300);
+  }
+
+  selectRepo(event, repo) {
+    $(event.target).closest('.source-item').toggleClass('pinned');
+    if (this.selections.indexOf(repo.id) === -1) {
+      update(this.selections, { $push: [repo.id] });
+    } else {
+      update(this.selections, { $splice: [repo.id] });
+    }
+
+    console.log(this.selections);
   }
 
   submitForm(event) {
@@ -95,8 +109,8 @@ class Github extends Component {
           ref={node => (this.popupNode = node)}
         >
           <div className="header-top">
-            <h3 className="header-top-title">Pin Achievements </h3>
-            Connect to import and pin your achievements.
+            <h3 className="header-top-title">Pin Top Github Repos </h3>
+            Connect to import and pin your top github repos.
           </div>
           <Avatar
             size={24}
@@ -107,35 +121,46 @@ class Github extends Component {
           <div className="content">
             <List style={{ paddingBottom: 0, paddingTop: 0 }}>
               {developer.repos.edges.map(({ node }) => (
-                <div className="source-item" key={node.id}>
-                  <ListItem
-                    disabled
-                    style={{ lineHeight: '24px' }}
-                    leftAvatar={
-                      <Avatar
-                        icon={<FontIcon className="material-icons">code</FontIcon>}
-                      />
-                    }
-                    rightIconButton={
-                      <RaisedButton
-                        style={{ top: 30, right: 20 }}
-                        primary
-                        onClick={this.connectOrImport}
-                        label={node.added ? 'Remove' : 'Add'}
-                      />
-                    }
-                    primaryText={node.name}
-                    secondaryText={
-                      <span
-                        className="description"
-                        style={{ maxWidth: '70%' }}
+                <ListItem
+                  key={node.id}
+                  className={`source-item ${node.pinned ? 'pinned' : ''}`}
+                  leftCheckbox={
+                    <Checkbox
+                      style={{ top: 'calc(100% / 3)' }}
+                      onCheck={event => this.selectRepo(event, node)}
+                    />
+                  }
+                  rightIcon={
+                    <div
+                      style={{
+                        right: 20,
+                        top: 20,
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        color: '#777',
+                      }}
+                    >
+                      {node.stargazers_count}
+                      <FontIcon
+                        color="#777"
+                        className="material-icons"
                       >
-                        {node.description}
-                      </span>
-                    }
-                    secondaryTextLines={2}
-                  />
-                </div>
+                        star
+                      </FontIcon>
+                    </div>
+                  }
+
+                  primaryText={node.name}
+                  secondaryText={
+                    <span
+                      className="description"
+                      style={{ maxWidth: '70%' }}
+                    >
+                      {node.description}
+                    </span>
+                  }
+                  secondaryTextLines={2}
+                />
               ))}
             </List>
           </div>
@@ -152,7 +177,7 @@ Github.propTypes = {
 const GithubContainer = Relay.createContainer(
   Github, {
     initialVariables: {
-      first: 10,
+      first: 50,
     },
 
     fragments: {
@@ -166,6 +191,7 @@ const GithubContainer = Relay.createContainer(
                 name,
                 full_name,
                 description,
+                pinned,
                 stargazers_count,
                 html_url,
                 forks_count,
