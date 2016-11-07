@@ -33,7 +33,7 @@ gem 'turbolinks', '~> 5.0.x'
 
 # Omniauth login
 gem 'omniauth-github'
-gem 'omniauth-linkedin-oauth2'
+gem 'omniauth-linkedin-oauth2', github: 'decioferreira/omniauth-linkedin-oauth2'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-stackexchange'
 gem 'devise'
