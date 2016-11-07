@@ -77,6 +77,6 @@ class Developer < ApplicationRecord
   end
 
   def allowed_connections
-    %w(github stackoverflow linkedin youtube)
+    %w(stackoverflow linkedin youtube)
   end
 end
