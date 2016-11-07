@@ -148,7 +148,12 @@ def favourited?(obj, ctx)
 end
 
 def resolve_repos(obj, ctx)
-  github_api(ctx).fetch_developer_repos(obj.login)
+  github_api(ctx)
+    .fetch_developer_repos(obj.login)
+    .lazy
+    .sort_by(&:stargazers_count)
+    .reverse!
+    .to_a
 end
 
 def resolve_orgs(obj, ctx)

@@ -12,4 +12,9 @@ RepoType = GraphQL::ObjectType.define do
   field :stargazers_count, types.Int, 'Stars count of this repo'
   field :forks_count, types.Int, 'Stars count of this repo'
   field :language, types.String, 'Repo language'
+  field :pinned, types.Boolean, 'Is repo pinned?' do
+    resolve -> (obj, _args, ctx) {
+      ctx[:current_developer].pinned_repos.member?(obj.name)
+    }
+  end
 end
