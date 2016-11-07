@@ -11,6 +11,7 @@ class Developer < ApplicationRecord
   has_many :achievements, dependent: :destroy
 
   before_save :format_platforms, unless: :empty_platforms?
+  after_create :seed_available_connections
   after_commit :set_premium!, on: :update, if: :profile_completed?
   after_commit :fetch_languages!, on: :create
   after_commit :cache_orgs!, on: :create
@@ -32,6 +33,12 @@ class Developer < ApplicationRecord
   end
 
   private
+
+  def seed_available_connections
+    allowed_connections.each do |connection|
+      connections.create!(provider: connection)
+    end
+  end
 
   def notify_admin!
     AdminMailerWorker.perform_async(
@@ -61,5 +68,9 @@ class Developer < ApplicationRecord
 
   def set_premium!
     update!(premium: profile_completed?)
+  end
+
+  def allowed_connections
+    %w(github stackoverflow linkedin youtube)
   end
 end

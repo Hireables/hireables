@@ -1,7 +1,7 @@
 class Connection < ApplicationRecord
   belongs_to :developer, touch: true
-  validates_presence_of :uid, :provider, :access_token
-  validates_uniqueness_of :uid, scope: :provider
+  validates_presence_of :provider
+  validates_uniqueness_of :provider
 
   def self.find_or_create_for_oauth(auth)
     ActiveRecord::Base.transaction do
