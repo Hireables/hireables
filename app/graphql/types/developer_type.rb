@@ -28,6 +28,16 @@ DeveloperType = GraphQL::ObjectType.define do
     resolve -> (obj, _args, ctx) { favourited?(obj, ctx) }
   end
 
+  connection :achievements, AchievementType.connection_type do
+    description 'Achievement connection to fetch paginated achievements.'
+    resolve -> (obj, _args, ctx) { obj.achievements.nil? ? [] :  obj.achievements }
+  end
+
+  field :connections, types[ConnectionType] do
+    description 'Developer current connections'
+    resolve -> (obj, _args, ctx) { obj.connections.nil? ? [] : obj.connections }
+  end
+
   field :premium, types.Boolean do
     description 'Is it premium profile?'
     resolve(DeveloperCustomFieldResolver.new(:premium, :boolean))
@@ -126,19 +136,40 @@ DeveloperType = GraphQL::ObjectType.define do
     description 'Repo connection to fetch developer orgs.'
     resolve -> (obj, _args, ctx) { resolve_orgs(obj, ctx) }
   end
+
+  connection :repos, RepoType.connection_type do
+    description 'Repo connection to fetch developer orgs.'
+    resolve -> (obj, _args, ctx) { resolve_repos(obj, ctx) }
+  end
 end
 
 def favourited?(obj, ctx)
   ctx[:current_employer] ? ctx[:current_employer].favourited?(obj) : false
 end
 
+def resolve_repos(obj, ctx)
+  github_api(ctx).fetch_developer_repos(obj.login)
+end
+
 def resolve_orgs(obj, ctx)
-  api = Github::Api.new(ctx[:current_user].try(:access_token))
-  api.fetch_developer_orgs(obj.login)
+  github_api(ctx).fetch_developer_orgs(obj.login)
 end
 
 def resolve_platforms(obj, ctx)
   return obj.platforms unless obj.platforms.nil?
-  api = Github::Api.new(ctx[:current_user].try(:access_token))
-  api.fetch_developer_languages(obj.login)
+  github_api(ctx).fetch_developer_languages(obj.login)
+end
+
+def github_api(ctx)
+  @github_api ||= Github::Api.new(github_access_token(ctx))
+end
+
+def github_access_token(ctx)
+  if ctx[:current_recruiter].present?
+    ctx[:current_recruiter].try(:access_token)
+  elsif ctx[:current_developer].present?
+    ctx[:current_developer].try(:github_access_token)
+  else
+    nil
+  end
 end

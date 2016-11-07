@@ -8,5 +8,5 @@ OrgType = GraphQL::ObjectType.define do
   field :login, types.String, 'Name of this org'
   field :description, types.String, 'Description of this org'
   field :avatar_url, types.String, 'Avatar url of this org'
-  field :url, types.Int, 'Github url of this org'
+  field :url, types.String, 'Github url of this org'
 end
