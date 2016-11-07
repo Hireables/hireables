@@ -1,7 +1,7 @@
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
 Devise.setup do |config|
-  config.mailer_sender = 'noreply@hireables.co'
+  config.mailer_sender = 'signups@hireables.co'
 
   # Configure the class responsible to send e-mails.
   # config.mailer = 'Devise::Mailer'
