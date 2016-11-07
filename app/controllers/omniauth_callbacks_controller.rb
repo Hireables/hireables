@@ -1,9 +1,26 @@
 class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   before_action :failure, if: :malformed_auth?
 
+  def self.provides_callback_for(provider)
+    class_eval %Q{
+      def #{provider}
+        if developer_signed_in?
+          @connection = current_developer.connections.where(provider: auth_hash.provider).first
+          @connection.update!(uid: auth_hash.uid, access_token: auth_hash.credentials.token)
+          redirect_to developer_path(current_developer)
+        else
+          redirect_to request.referrer, status: 401
+        end
+      end
+    }
+  end
+
+  [:google_oauth2, :linkedin, :stackexchange].each do |provider|
+    provides_callback_for provider
+  end
+
   def github
     @developer = Authenticator.call(auth_hash)
-
     if @developer.persisted?
       sign_in @developer, event: :authentication
       redirect_to root_path
