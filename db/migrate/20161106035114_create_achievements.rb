@@ -3,6 +3,7 @@ class CreateAchievements < ActiveRecord::Migration[5.0]
     create_table :achievements do |t|
       t.string :title
       t.text :description
+      t.string :link
       t.datetime :date
       t.jsonb :meta
       t.string :source
