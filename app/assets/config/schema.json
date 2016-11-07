@@ -1705,6 +1705,20 @@
               "deprecationReason": null
             },
             {
+              "name": "pinned",
+              "description": "Is repo pinned?",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "stargazers_count",
               "description": "Stars count of this repo",
               "args": [
