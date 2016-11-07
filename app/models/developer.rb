@@ -1,4 +1,5 @@
 class Developer < ApplicationRecord
+  include Redis::Objects
   devise :database_authenticatable, :trackable, :validatable, :omniauthable
 
   store_accessor :data, :html_url, :company, :blog, :followers,
@@ -9,6 +10,11 @@ class Developer < ApplicationRecord
 
   has_many :connections, dependent: :destroy
   has_many :achievements, dependent: :destroy
+  set :pinned_repos
+  set :pinner_jobs
+  set :pinned_education
+  set :pinned_answers
+  set :pinned_talks
 
   before_save :format_platforms, unless: :empty_platforms?
   after_create :seed_available_connections
