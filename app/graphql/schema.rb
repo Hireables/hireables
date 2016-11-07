@@ -19,7 +19,7 @@ end
 def encode_object(object, type)
   GraphQL::Schema::UniqueWithinType.encode(
     type.name,
-    object.login,
+    object.id,
     separator: '---'
   )
 end
