@@ -9,8 +9,12 @@ module Github
 
     def search(params)
       Rails.cache.fetch([params[:query], params[:page], 'search']) do
-        search = client.search_users(params[:query], page: params[:page])
-        search.items.lazy.map(&:login).to_a
+        begin
+          search = client.search_users(params[:query], page: params[:page])
+          search.items.lazy.map(&:login).to_a
+        rescue Octokit::UnprocessableEntity
+          []
+        end
       end
     end
 
