@@ -1,4 +1,4 @@
-/* global document */
+/* global document Routes */
 
 // Modules
 import React, { Component } from 'react';
@@ -42,6 +42,11 @@ class Connection extends Component {
   constructor(props) {
     super(props);
     this.connectOrImport = this.connectOrImport.bind(this);
+    const routesMap = new Map();
+    routesMap.set('youtube', Routes.developer_google_oauth2_omniauth_authorize_path());
+    routesMap.set('stackoverflow', Routes.developer_stackexchange_omniauth_authorize_path());
+    routesMap.set('linkedin', Routes.developer_linkedin_omniauth_authorize_path());
+    this.routesMap = routesMap;
   }
 
   connectOrImport() {
@@ -77,6 +82,8 @@ class Connection extends Component {
   render() {
     const { connection } = this.props;
     const Icon = iconsMap.get(connection.provider);
+    const routePath = this.routesMap.get(connection.provider);
+
     return (
       <div className="list-item">
         <ListItem
@@ -84,12 +91,19 @@ class Connection extends Component {
           innerDivStyle={{ padding: '20px 56px 20px 72px' }}
           leftIcon={<div className={connection.provider}><Icon /></div>}
           rightIconButton={
-            <RaisedButton
-              style={{ top: 10, right: 20 }}
-              primary
-              onClick={this.connectOrImport}
-              label={connection.connected ? 'Import' : 'Connect'}
-            />
+            connection.connected ?
+              <RaisedButton
+                style={{ top: 10, right: 20 }}
+                primary
+                onClick={this.connectOrImport}
+                label="Import"
+              /> :
+                <RaisedButton
+                  style={{ top: 10, right: 20 }}
+                  primary
+                  href={routePath}
+                  label="Connect"
+                />
           }
           primaryText={connection.provider}
         />
