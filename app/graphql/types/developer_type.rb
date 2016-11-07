@@ -30,12 +30,12 @@ DeveloperType = GraphQL::ObjectType.define do
 
   connection :achievements, AchievementType.connection_type do
     description 'Achievement connection to fetch paginated achievements.'
-    resolve -> (obj, _args, ctx) { obj.achievements.nil? ? [] :  obj.achievements }
+    resolve -> (obj, _args, ctx) { obj.achievements.nil? ? [] :  obj.achievements.order(id: :asc) }
   end
 
   field :connections, types[ConnectionType] do
     description 'Developer current connections'
-    resolve -> (obj, _args, ctx) { obj.connections.nil? ? [] : obj.connections }
+    resolve -> (obj, _args, ctx) { obj.connections.nil? ? [] : obj.connections.order(id: :asc) }
   end
 
   field :premium, types.Boolean do

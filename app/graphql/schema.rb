@@ -29,7 +29,7 @@ def decode_object(id)
     id,
     separator: '---'
   )
-  Object.const_get(type_name).find_by_login(object_id)
+  Object.const_get(type_name).find(object_id)
 end
 
 # Responsible for dumping Schema.json
