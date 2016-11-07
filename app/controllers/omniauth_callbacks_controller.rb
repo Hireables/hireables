@@ -5,9 +5,10 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     class_eval %Q{
       def #{provider}
         if developer_signed_in?
-          @connection = current_developer.connections.where(provider: auth_hash.provider).first
+          provider = auth_hash.provider == 'google_oauth2' ? 'youtube' : auth_hash.provider
+          @connection = current_developer.connections.where(provider: provider).first
           @connection.update!(uid: auth_hash.uid, access_token: auth_hash.credentials.token)
-          redirect_to developer_path(current_developer)
+          redirect_to developer_path(current_developer.login)
         else
           redirect_to request.referrer, status: 401
         end
