@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(version: 20161106044415) do
   create_table "achievements", force: :cascade do |t|
     t.string   "title"
     t.text     "description"
+    t.string   "link"
     t.datetime "date"
     t.jsonb    "meta"
     t.string   "source"
