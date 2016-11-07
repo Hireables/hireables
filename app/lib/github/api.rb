@@ -101,6 +101,18 @@ module Github
       end
     end
 
+    def fetch_developer_gists(login)
+      Rails.cache.fetch(['developer', login, 'gists']) do
+        begin
+          gists = client.gists(login)
+          return [] if gists.nil?
+          gists
+        rescue Octokit::NotFound
+          []
+        end
+      end
+    end
+
     def client
       client = Octokit::Client.new(access_token: access_token)
       client.configure do |c|
