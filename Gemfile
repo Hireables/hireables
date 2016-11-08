@@ -14,6 +14,8 @@ gem 'uglifier', '>= 1.3.0'
 
 # HTTP requests and caching
 gem 'octokit'
+gem 'faraday'
+gem 'sawyer'
 gem 'typhoeus'
 
 # Background workers
@@ -35,8 +37,6 @@ gem 'turbolinks', '~> 5.0.x'
 gem 'omniauth-github'
 gem 'linkedin'
 gem 'omniauth-linkedin-oauth2', github: 'decioferreira/omniauth-linkedin-oauth2'
-gem 'omniauth-google-oauth2'
-gem 'omniauth-stackexchange'
 gem 'devise'
 
 # CORS
