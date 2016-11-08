@@ -5,5 +5,6 @@ MutationType = GraphQL::ObjectType.define do
   field :UpdateDeveloper, field: UpdateDeveloper.field
   field :UpdateEmployer, field: Employers::UpdateEmployer.field
   field :ToggleFavourite, field: Developers::ToggleFavourite.field
+  field :ConnectOauth, field: Developers::ConnectOauth.field
   field :EmployerFileUpload, field: Employers::FileUpload.field
 end
