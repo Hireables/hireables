@@ -33,6 +33,7 @@ gem 'turbolinks', '~> 5.0.x'
 
 # Omniauth login
 gem 'omniauth-github'
+gem 'linkedin'
 gem 'omniauth-linkedin-oauth2', github: 'decioferreira/omniauth-linkedin-oauth2'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-stackexchange'
@@ -45,7 +46,7 @@ gem 'rack-cors', :require => 'rack/cors'
 gem 'js-routes'
 
 # Graphql
-gem 'graphql'
+gem 'graphql', '1.0.0'
 
 # Auth token
 gem 'jwt'
