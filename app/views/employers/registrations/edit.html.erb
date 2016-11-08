@@ -1,5 +1,5 @@
 <script type="text/javascript">
   /* global window */
-  window.MAPS_API_KEY = "<%= ENV['GOOGLE_MAPS_API_KEY'] %>";
+  window.MAPS_API_KEY = "<%= ENV['GOOGLE_API_KEY'] %>";
 </script>
 <%= react_component 'EmployerEdit', 'EmployerRoute', { id: @employer.login }.to_json%>
