@@ -24,6 +24,11 @@ import StackOverflowPopup from './popups/stackoverflow.es6';
 import LinkedinPopup from './popups/linkedin.es6';
 import YoutubePopup from './popups/youtube.es6';
 
+// Provider connection
+import GoogleLogin from '../../connectors/google.es6';
+import StackOverflowLogin from '../../connectors/stackexchange.es6';
+import LinkedinLogin from '../../connectors/linkedin.es6';
+
 // Map icon component to string names
 const iconsMap = new Map();
 iconsMap.set('github', Github);
@@ -38,42 +43,25 @@ popupsMap.set('stackoverflow', StackOverflowPopup);
 popupsMap.set('linkedin', LinkedinPopup);
 popupsMap.set('youtube', YoutubePopup);
 
-$.getScript('https://api.stackexchange.com/js/2.0/all.js', () => {
-  SE.init({
-    clientId: 8323,
-    key: 'mUf0h5oYP)21lsCPOt5OGw((',
-    channelUrl: 'http://hireables.dev/blank',
-    complete: (data) => {
-      console.log(data);
-    },
-  });
-});
-
-$.getScript('//platform.linkedin.com/in.js', () => {
-  console.log('loaded');
-});
-
-const loginStackoverflow = () => {
-  SE.authenticate({
-    success: (data) => { console.log(data); },
-    error: (data) => { console.log(data); },
-    scope: ['read_inbox'],
-    networkUsers: true,
-  });
-};
+// Map connection js adapters
+const adapterMap = new Map();
+adapterMap.set('youtube', GoogleLogin);
+adapterMap.set('stackoverflow', StackOverflowLogin);
+adapterMap.set('linkedin', LinkedinLogin);
 
 class Connection extends Component {
   constructor(props) {
     super(props);
-    this.connectOrImport = this.connectOrImport.bind(this);
-    const routesMap = new Map();
-    routesMap.set('youtube', Routes.developer_google_oauth2_omniauth_authorize_path());
-    routesMap.set('stackoverflow', '#');
-    routesMap.set('linkedin', Routes.developer_linkedin_omniauth_authorize_path());
-    this.routesMap = routesMap;
+    this.import = this.import.bind(this);
   }
 
-  connectOrImport() {
+  componentDidMount() {
+    const { provider } = this.props.connection;
+    const Adapter = adapterMap.get(provider);
+    this.connectionAdapter = new Adapter();
+  }
+
+  import() {
     const { connection, developer } = this.props;
     if (connection.connected) {
       developerRoute.params = {};
@@ -103,10 +91,13 @@ class Connection extends Component {
     }
   }
 
+  connect() {
+    this.connectionAdapter.authorize();
+  }
+
   render() {
     const { connection } = this.props;
     const Icon = iconsMap.get(connection.provider);
-    const routePath = this.routesMap.get(connection.provider);
 
     return (
       <div className="list-item">
@@ -119,14 +110,13 @@ class Connection extends Component {
               <RaisedButton
                 style={{ top: 10, right: 20 }}
                 primary
-                onClick={this.connectOrImport}
+                onClick={this.import}
                 label="Import"
               /> :
                 <RaisedButton
                   style={{ top: 10, right: 20 }}
                   primary
-                  onClick={() => loginStackoverflow()}
-                  href={routePath}
+                  onClick={this.connect}
                   label="Connect"
                 />
           }
