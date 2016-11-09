@@ -184,17 +184,17 @@
             },
             {
               "kind": "OBJECT",
+              "name": "ConnectionData",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
               "name": "Developer",
               "ofType": null
             },
             {
               "kind": "OBJECT",
               "name": "Employer",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "ImportPreview",
               "ofType": null
             },
             {
@@ -1326,7 +1326,7 @@
         {
           "kind": "OBJECT",
           "name": "Connection",
-          "description": "Fetch Connection associated fields",
+          "description": "Fetch Connection associated fields and external api data",
           "fields": [
             {
               "name": "connected",
@@ -1385,21 +1385,11 @@
                     "ofType": null
                   },
                   "defaultValue": null
-                },
-                {
-                  "name": "category",
-                  "description": null,
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  },
-                  "defaultValue": null
                 }
               ],
               "type": {
                 "kind": "OBJECT",
-                "name": "ImportPreviewConnection",
+                "name": "ConnectionDataConnection",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -1451,7 +1441,7 @@
         },
         {
           "kind": "OBJECT",
-          "name": "ImportPreviewConnection",
+          "name": "ConnectionDataConnection",
           "description": null,
           "fields": [
             {
@@ -1465,7 +1455,7 @@
                 "name": "List",
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "ImportPreviewEdge",
+                  "name": "ConnectionDataEdge",
                   "ofType": null
                 }
               },
@@ -1500,7 +1490,7 @@
         },
         {
           "kind": "OBJECT",
-          "name": "ImportPreviewEdge",
+          "name": "ConnectionDataEdge",
           "description": "An edge in a connection.",
           "fields": [
             {
@@ -1529,7 +1519,7 @@
               ],
               "type": {
                 "kind": "OBJECT",
-                "name": "ImportPreview",
+                "name": "ConnectionData",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -1545,7 +1535,7 @@
         },
         {
           "kind": "OBJECT",
-          "name": "ImportPreview",
+          "name": "ConnectionData",
           "description": "Common type to fetch fields for various connections",
           "fields": [
             {
@@ -1620,7 +1610,7 @@
               ],
               "type": {
                 "kind": "SCALAR",
-                "name": "String",
+                "name": "Int",
                 "ofType": null
               },
               "isDeprecated": false,
