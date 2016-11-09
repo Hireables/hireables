@@ -2,11 +2,7 @@ ConnectionDataType = GraphQL::ObjectType.define do
   name 'ConnectionData'
   description 'Common type to fetch fields for various connections'
   interfaces [GraphQL::Relay::Node.interface]
-  global_id_field :answer_id
-
-  field :id, !types.ID, 'id of this import' do
-    resolve ->(obj, _args, _ctx) { pick_field(obj, id_fields) }
-  end
+  global_id_field :id
 
   field :title, types.String, 'title of this import' do
     resolve ->(obj, _args, _ctx) { pick_field(obj, title_fields) }
@@ -45,8 +41,4 @@ end
 
 def title_fields
   %w(title name)
-end
-
-def id_fields
-  %w(Id id answer_id)
 end
