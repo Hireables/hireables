@@ -7,9 +7,11 @@ module Linkedin
   end
 
   def fetch_positions
-    agent = initialize_agent("#{LINKEDIN_PEOPLE_URI}?&#{linkedin_query_params}")
-    root = agent.start
-    root.data.positions.values
+    Rails.cache.fetch(self) do
+      agent = initialize_agent("#{LINKEDIN_PEOPLE_URI}?&#{linkedin_query_params}")
+      root = agent.start
+      root.data.positions.values
+    end
   end
 
   private

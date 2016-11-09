@@ -8,11 +8,13 @@ module Youtube
   end
 
   def fetch_talks
-    videos, agent = fetch_videos
-    videos.map do |video|
-      video_hash = video.to_attrs.except(:snippet, :statistics)
-      video_hash.merge!(video[:snippet]).merge!(video[:statistics])
-      Sawyer::Resource.new(agent, video_hash)
+    Rails.cache.fetch(self) do
+      videos, agent = fetch_videos
+      videos.map do |video|
+        video_hash = video.to_attrs.except(:snippet, :statistics)
+        video_hash.merge!(video[:snippet]).merge!(video[:statistics])
+        Sawyer::Resource.new(agent, video_hash)
+      end
     end
   end
 
