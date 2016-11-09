@@ -3,8 +3,8 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
   def linkedin
     if developer_signed_in?
-      @connection = current_developer.connections.where(provider: auth_hash.provider).first
-      @connection.update!(uid: auth_hash.uid, access_token: auth_hash.credentials.token)
+      @connection = current_developer.connection_by_provider(auth_hash.provider)
+      @connection.update_from_oauth(auth_hash)
       redirect_to developer_path(current_developer.login)
     else
       redirect_to root_path, status: :unauthorised

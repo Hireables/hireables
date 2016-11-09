@@ -8,7 +8,7 @@ module Graphql
       result = Schema.execute(
         params[:query],
         variables: ensure_hash(params[:variables]),
-        context: context_hash,
+        context: context_hash
       )
       render json: result
     end
