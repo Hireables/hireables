@@ -12,15 +12,28 @@
   font-weight: 400
   color: #777
 
-  .list-header-title,
-    margin: 0
-    font-size: 18px
-    margin-bottom: 5px
-    color: #333
+  &.stackoverflow
+    background-image: asset-url('icons/stackoverflow.png')
+    background-repeat: no-repeat
+    background-size: contain
+
+  &.github
+    background-image: asset-url('icons/github.png')
+    background-repeat: no-repeat
+    background-size: contain
+
+  .list-header-content
+    padding-left: 50px
+
+    .list-header-title,
+      margin: 0
+      font-size: 18px
+      margin-bottom: 5px
+      color: #333
 
 .list-item
   border-bottom: 1px solid #ededed!important
-  line-height: 24px!important
+  line-height: 30px!important
 
   &:hover
     background-color: #f2f2f2!important
