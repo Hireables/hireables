@@ -5,7 +5,7 @@ EmployerType = GraphQL::ObjectType.define do
   global_id_field :id
 
   field :database_id, types.Int, 'The database id of this employer' do
-    resolve -> (obj, _args, _ctx) { obj.id }
+    resolve ->(obj, _args, _ctx) { obj.id }
   end
 
   field :login, types.String, 'The slug of this employer'
@@ -17,7 +17,7 @@ EmployerType = GraphQL::ObjectType.define do
   field :company, types.String, 'The company of this employer'
   field :location, types.String, 'The location of this employer'
   field :avatar_url, types.String, 'The avatar of this employer' do
-    resolve -> (obj, _args, _ctx) { obj.avatar_url(:thumb) }
+    resolve ->(obj, _args, _ctx) { obj.avatar_url(:thumb) }
   end
 
   connection :favourites, DeveloperType.connection_type do

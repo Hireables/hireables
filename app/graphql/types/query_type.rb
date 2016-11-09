@@ -5,7 +5,7 @@ QueryType = GraphQL::ObjectType.define do
 
   field :root, ViewerType do
     description 'Root field to query related collections/objects'
-    resolve -> (_obj, _args, _ctx) { Viewer::STATIC }
+    resolve ->(_obj, _args, _ctx) { Viewer::STATIC }
   end
 
   field :developer do
@@ -20,5 +20,12 @@ QueryType = GraphQL::ObjectType.define do
     type EmployerType
     description 'Returns a employer profile by id'
     resolve(EmployerResolver)
+  end
+
+  field :connection do
+    argument :id, !types.ID
+    type ConnectionType
+    description 'Returns a connection by id'
+    resolve(ConnectionResolver)
   end
 end

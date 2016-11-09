@@ -6,8 +6,10 @@ class ConnectOauthResolver
   end
 
   def initialize(_developer, args, ctx)
-    raise StandardError,
-          'You are not logged in' unless ctx[:current_developer].present?
+    unless ctx[:current_developer].present?
+      raise StandardError,
+            'You are not logged in'
+    end
     @current_developer = ctx[:current_developer]
     safe_params = args.instance_variable_get(:@original_values).to_h
     @params = HashWithIndifferentAccess.new(safe_params)

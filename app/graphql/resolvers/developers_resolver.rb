@@ -6,8 +6,10 @@ class DevelopersResolver
   end
 
   def initialize(_obj, _args, ctx)
-    raise StandardError,
-          'You are not logged in' unless ctx[:current_user].present?
+    unless ctx[:current_user].present?
+      raise StandardError,
+            'You are not logged in'
+    end
     @current_user = ctx[:current_user]
   end
 

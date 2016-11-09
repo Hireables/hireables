@@ -6,7 +6,7 @@ DeveloperType = GraphQL::ObjectType.define do
   global_id_field :id
 
   field :database_id, types.Int, 'The database id of this developer' do
-    resolve -> (obj, _args, _ctx) { obj.id }
+    resolve ->(obj, _args, _ctx) { obj.id }
   end
 
   # About
@@ -25,17 +25,17 @@ DeveloperType = GraphQL::ObjectType.define do
 
   field :favourited, types.Boolean do
     description 'Is developer favourited by current employer?'
-    resolve -> (obj, _args, ctx) { favourited?(obj, ctx) }
+    resolve ->(obj, _args, ctx) { favourited?(obj, ctx) }
   end
 
   connection :achievements, AchievementType.connection_type do
     description 'Achievement connection to fetch paginated achievements.'
-    resolve -> (obj, _args, ctx) { obj.achievements.nil? ? [] :  obj.achievements.order(id: :asc) }
+    resolve ->(obj, _args, _ctx) { resolve_achievements(obj) }
   end
 
   field :connections, types[ConnectionType] do
     description 'Developer current connections'
-    resolve -> (obj, _args, ctx) { obj.connections.nil? ? [] : obj.connections.order(id: :asc) }
+    resolve ->(obj, _args, _ctx) { resolve_connections(obj) }
   end
 
   field :premium, types.Boolean do
@@ -45,7 +45,7 @@ DeveloperType = GraphQL::ObjectType.define do
 
   field :platforms, types[types.String] do
     description 'Languages or platforms interested in'
-    resolve -> (obj, _args, ctx) { resolve_platforms(obj, ctx) }
+    resolve ->(obj, _args, ctx) { resolve_platforms(obj, ctx) }
   end
 
   field :linkedin, types.String do
@@ -56,7 +56,7 @@ DeveloperType = GraphQL::ObjectType.define do
   # Availability
   field :hireable, types.Boolean do
     description 'Is developer hireable?'
-    resolve -> (obj, _args, _ctx) { obj.hireable.nil? ? false : obj.hireable }
+    resolve ->(obj, _args, _ctx) { obj.hireable.nil? ? false : obj.hireable }
   end
 
   # Preferences
@@ -134,8 +134,16 @@ DeveloperType = GraphQL::ObjectType.define do
 
   field :orgs, types[OrgType] do
     description 'Repo connection to fetch developer orgs.'
-    resolve -> (obj, _args, ctx) { resolve_orgs(obj, ctx) }
+    resolve ->(obj, _args, ctx) { resolve_orgs(obj, ctx) }
   end
+end
+
+def resolve_achievements(obj)
+  obj.achievements.nil? ? [] : obj.achievements.order(id: :asc)
+end
+
+def resolve_connections(obj)
+  obj.connections.nil? ? [] : obj.connections.order(id: :asc)
 end
 
 def favourited?(obj, ctx)

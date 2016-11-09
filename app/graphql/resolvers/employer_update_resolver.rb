@@ -25,14 +25,11 @@ class EmployerUpdateResolver
   private
 
   def authenticate_employer!
-    raise StandardError,
-          'You are not logged in' unless ctx[:current_employer].present?
-    raise StandardError,
-          'Unauthorised' unless employer == ctx[:current_employer]
-    raise StandardError,
-          'Wrong password' unless employer.valid_password?(
-            params['current_password']
-          )
+    raise StandardError, 'Unauthorised' if ctx[:current_employer].nil?
+    raise StandardError, 'Unauthorised' if employer != ctx[:current_employer]
+    raise StandardError, 'Wrong password' unless employer.valid_password?(
+      params['current_password']
+    )
   end
 
   def valid_params

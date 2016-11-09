@@ -6,8 +6,7 @@ class DeveloperResolver
   end
 
   def initialize(_developer, args, ctx)
-    raise StandardError,
-          'You are not logged in' unless ctx[:current_user].present?
+    raise StandardError, 'Unauthorised' unless ctx[:current_user].present?
     @current_user = ctx[:current_user]
     safe_params = args.instance_variable_get(:@original_values).to_h
     @params = HashWithIndifferentAccess.new(safe_params)
@@ -23,14 +22,16 @@ class DeveloperResolver
   end
 
   def fetch_orgs
+    return if Rails.cache.exist?(['developer', params[:id], 'organizations'])
     FetchDeveloperOrgsWorker.new.perform(
       params[:id], current_user.try(:access_token)
-    ) unless Rails.cache.exist?(['developer', params[:id], 'organizations'])
+    )
   end
 
   def fetch_languages
+    return if Rails.cache.exist?(['developer', params[:id], 'languages'])
     FetchDeveloperLanguagesWorker.new.perform(
       params[:id], current_user.try(:access_token)
-    ) unless Rails.cache.exist?(['developer', params[:id], 'languages'])
+    )
   end
 end

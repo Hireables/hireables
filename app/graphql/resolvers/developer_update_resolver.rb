@@ -6,12 +6,10 @@ class DeveloperUpdateResolver
   end
 
   def initialize(_obj, inputs, ctx)
-    raise StandardError,
-          'You are not logged in' unless ctx[:current_developer].present?
+    raise StandardError, 'Unauthorised' if ctx[:current_developer].nil?
     @params = inputs
     @developer = Schema.object_from_id(params['id'], ctx)
-    raise StandardError,
-          'Unauthorised' unless developer == ctx[:current_developer]
+    raise StandardError, 'Unauthorised' if developer != ctx[:current_developer]
   end
 
   def call

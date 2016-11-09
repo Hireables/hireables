@@ -6,8 +6,10 @@ class FavouritesResolver
   end
 
   def initialize(_obj, _args, ctx)
-    raise StandardError,
-          'You are not logged in' unless ctx[:current_employer].present?
+    unless ctx[:current_employer].present?
+      raise StandardError,
+            'You are not logged in'
+    end
     @current_employer = ctx[:current_employer]
   end
 

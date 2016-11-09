@@ -6,8 +6,10 @@ class ToggleFavouriteResolver
   end
 
   def initialize(_obj, inputs, ctx)
-    raise StandardError,
-          'You are not logged in' unless ctx[:current_employer].present?
+    unless ctx[:current_employer].present?
+      raise StandardError,
+            'You are not logged in'
+    end
     @current_employer = ctx[:current_employer]
     safe_params = inputs.instance_variable_get(:@original_values).to_h
     @params = HashWithIndifferentAccess.new(safe_params)
