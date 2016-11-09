@@ -8,14 +8,12 @@ import { List, ListItem } from 'material-ui/List';
 import FontIcon from 'material-ui/FontIcon';
 import RaisedButton from 'material-ui/RaisedButton';
 import Avatar from 'material-ui/Avatar';
-import 'dialog-polyfill/dialog-polyfill.css';
 import Checkbox from 'material-ui/Checkbox';
 import update from 'immutability-helper';
 import Snackbar from 'material-ui/Snackbar';
 
 // Util
 import muiTheme from '../../theme.es6';
-import Dialog from '../../../utils/dialog.es6';
 
 // Stylesheet
 import '../../styles/popup.sass';
@@ -24,25 +22,10 @@ import '../../styles/pins.sass';
 class Github extends Component {
   constructor(props) {
     super(props);
-    this.enableButton = this.enableButton.bind(this);
-    this.disableButton = this.disableButton.bind(this);
     this.selectRepo = this.selectRepo.bind(this);
     this.handleRequestClose = this.handleRequestClose.bind(this);
     this.savePinnedRepos = this.savePinnedRepos.bind(this);
     this.state = { selections: [], open: false };
-  }
-
-  componentDidMount() {
-    this.dialog = new Dialog({
-      reactNodeId: 'popups-container',
-      dialogId: this.popupNode.id,
-    });
-
-    this.dialog.toggle();
-    this.dialog.get().classList.add('pulse');
-    setTimeout(() => {
-      this.dialog.get().classList.remove('pulse');
-    }, 300);
   }
 
   selectRepo(event, repo) {
@@ -91,7 +74,7 @@ class Github extends Component {
     // };
 
     // const onSuccess = () => {
-    //   window.location.href = Routes.developer_path(this.props.developer.login);
+    //   window.location.href = Routes.connection_path(this.props.connection.login);
     // };
 
     // const newModel = Object.assign(this.formNode.getModel(), {
@@ -99,7 +82,7 @@ class Github extends Component {
     // });
 
     // Relay.Store.commitUpdate(new UpdateDeveloper({
-    //   id: this.props.developer.id,
+    //   id: this.props.connection.id,
     //   ...newModel,
     // }), { onFailure, onSuccess });
   }
@@ -110,128 +93,98 @@ class Github extends Component {
     });
   }
 
-  enableButton() {
-    this.setState({
-      canSubmit: true,
-    });
-  }
-
-  disableButton() {
-    this.setState({
-      canSubmit: false,
-    });
-  }
-
   render() {
-    const { developer } = this.props;
+    const { connection } = this.props;
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
-        <dialog
-          id={`developer-profile-${developer.id}`}
-          className="popup"
-          ref={node => (this.popupNode = node)}
-        >
-          <div className="import-container">
-            <div className="list-header github">
-              <div className="list-header-content">
-                <h3 className="list-header-title">Pin Top Github Repos </h3>
-                <span>Connect to import and pin your top github repos.</span>
-              </div>
-            </div>
-            <Avatar
-              size={50}
-              className="close"
-              onClick={() => this.dialog.close()}
-              icon={<FontIcon className="material-icons">close</FontIcon>}
-            />
-            <div className="content">
-              <List style={{ paddingBottom: 0, paddingTop: 0 }}>
-                {developer.repos.edges.map(({ node }) => (
-                  <ListItem
-                    key={node.id}
-                    className={`list-item ${node.pinned ? 'pinned' : ''}`}
-                    leftCheckbox={
-                      <Checkbox
-                        disabled={this.state.disabled}
-                        style={{ top: 'calc(100% / 3)' }}
-                        onCheck={event => this.selectRepo(event, node)}
-                      />
-                    }
-                    rightIcon={
-                      <div
-                        style={{
-                          right: 20,
-                          top: 20,
-                          display: 'flex',
-                          justifyContent: 'space-between',
-                          color: '#777',
-                        }}
+        <div className="import-container">
+          <div className="content">
+            <List style={{ paddingBottom: 0, paddingTop: 0 }}>
+              {connection.repos.edges.map(({ node }) => (
+                <ListItem
+                  key={node.id}
+                  className={`list-item ${node.pinned ? 'pinned' : ''}`}
+                  leftCheckbox={
+                    <Checkbox
+                      disabled={this.state.disabled}
+                      style={{ top: 'calc(100% / 3)' }}
+                      onCheck={event => this.selectRepo(event, node)}
+                    />
+                  }
+                  rightIcon={
+                    <div
+                      style={{
+                        right: 20,
+                        top: 20,
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        color: '#777',
+                      }}
+                    >
+                      {node.stargazers_count}
+                      <FontIcon
+                        color="#777"
+                        className="material-icons"
                       >
-                        {node.stargazers_count}
-                        <FontIcon
-                          color="#777"
-                          className="material-icons"
-                        >
-                          star
-                        </FontIcon>
-                      </div>
-                    }
+                        star
+                      </FontIcon>
+                    </div>
+                  }
 
-                    primaryText={node.name}
-                    secondaryText={
-                      <span
-                        className="description"
-                        style={{ maxWidth: '70%' }}
-                      >
-                        {node.description}
-                      </span>
-                    }
-                    secondaryTextLines={2}
-                  />
-                ))}
-              </List>
-            </div>
-            <div className="actions">
-              <span className="notification">
-                {6 - this.state.selections.length} remaining
-              </span>
-              <RaisedButton
-                label="Save pinned repos"
-                primary
-                className="pull-right"
-                type="submit"
-                onClick={this.savePinnedRepos}
-              />
-            </div>
-
-            <div className="notifications">
-              <Snackbar
-                open={this.state.open}
-                message="Maximum 6 selections allowed"
-                autoHideDuration={5000}
-                onRequestClose={this.handleRequestClose}
-              />
-            </div>
+                  primaryText={node.name}
+                  secondaryText={
+                    <span
+                      className="description"
+                      style={{ maxWidth: '70%' }}
+                    >
+                      {node.description}
+                    </span>
+                  }
+                  secondaryTextLines={2}
+                />
+              ))}
+            </List>
           </div>
-        </dialog>
+          <div className="actions">
+            <span className="notification">
+              {6 - this.state.selections.length} remaining
+            </span>
+            <RaisedButton
+              label="Save pinned repos"
+              primary
+              className="pull-right"
+              type="submit"
+              onClick={this.savePinnedRepos}
+            />
+          </div>
+
+          <div className="notifications">
+            <Snackbar
+              open={this.state.open}
+              message="Maximum 6 selections allowed"
+              autoHideDuration={5000}
+              onRequestClose={this.handleRequestClose}
+            />
+          </div>
+        </div>
       </MuiThemeProvider>
     );
   }
 }
 
 Github.propTypes = {
-  developer: React.PropTypes.object,
+  connection: React.PropTypes.object,
 };
 
 const GithubContainer = Relay.createContainer(
   Github, {
     initialVariables: {
-      first: 20,
+      first: 10,
     },
 
     fragments: {
-      developer: () => Relay.QL`
-        fragment on Developer {
+      connection: () => Relay.QL`
+        fragment on Connection {
           id,
           repos(first: $first) {
             edges {

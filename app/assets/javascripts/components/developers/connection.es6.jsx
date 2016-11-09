@@ -89,7 +89,7 @@ class Connection extends Component {
             return <LoadingComponent />;
           }}
         />,
-        document.getElementById('popups-container')
+        document.getElementById(`imports-container-${connection.provider}`)
       );
     }
   }
@@ -128,6 +128,7 @@ class Connection extends Component {
           }
           primaryText={connection.provider}
         />
+        <div id={`imports-container-${connection.provider}`} />
       </div>
     );
   }

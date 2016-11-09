@@ -49,11 +49,26 @@ Linkedin.propTypes = {
 
 const LinkedinContainer = Relay.createContainer(
   Linkedin, {
+    initialVariables: {
+      first: 10,
+    },
     fragments: {
-      developer: () => Relay.QL`
-        fragment on Developer {
+      connection: () => Relay.QL`
+        fragment on Connection {
           id,
-          repos,
+          positions(first: $first) {
+            edges {
+              node {
+                title,
+                summary,
+                start_date,
+                end_date,
+                is_current,
+                company,
+                pinned,
+              }
+            }
+          }
         }
       `,
     },

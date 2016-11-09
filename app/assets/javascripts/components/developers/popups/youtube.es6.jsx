@@ -49,11 +49,26 @@ Youtube.propTypes = {
 
 const YoutubeContainer = Relay.createContainer(
   Youtube, {
+    initialVariables: {
+      first: 10,
+    },
     fragments: {
-      developer: () => Relay.QL`
-        fragment on Developer {
+      connection: () => Relay.QL`
+        fragment on Connection {
           id,
-          repos,
+          talks(first: $first) {
+            edges {
+              node {
+                title,
+                description,
+                published_at,
+                thumbnail,
+                view_count,
+                like_count,
+                pinned,
+              }
+            }
+          }
         }
       `,
     },

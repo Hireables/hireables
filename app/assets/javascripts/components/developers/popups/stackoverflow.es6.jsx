@@ -133,7 +133,7 @@ class StackOverflow extends Component {
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
         <dialog
-          id={`developer-profile-${developer.id}`}
+          id={`developer-profile-${connection.id}`}
           className="popup"
           ref={node => (this.popupNode = node)}
         >
@@ -152,7 +152,7 @@ class StackOverflow extends Component {
             />
             <div className="content">
               <List style={{ paddingBottom: 0, paddingTop: 0 }}>
-                {developer.answers.edges.map(({ node }) => (
+                {connection.answers.edges.map(({ node }) => (
                   <ListItem
                     key={node.id}
                     className={`list-item ${node.pinned ? 'pinned' : ''}`}
@@ -238,8 +238,8 @@ const StackOverflowContainer = Relay.createContainer(
       first: 10,
     },
     fragments: {
-      developer: () => Relay.QL`
-        fragment on Developer {
+      connection: () => Relay.QL`
+        fragment on Connection {
           id,
           answers(first: $first) {
             edges {
