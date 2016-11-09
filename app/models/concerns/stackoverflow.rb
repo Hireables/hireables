@@ -9,7 +9,8 @@ module Stackoverflow
     agent = initialize_agent("#{STACKOVERFLOW_ANSWERS_URI}?#{sw_query_params}")
     Rails.cache.fetch(self) do
       root = agent.start
-      root.data.items
+      answers = root.data.items
+      answers.map{ |answer| answer.tap{ |obj| obj.id = obj.answer_id } }
     end
   end
 
