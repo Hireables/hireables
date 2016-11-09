@@ -26,25 +26,19 @@ class Linkedin extends Component {
   }
 
   render() {
-    const { developer } = this.props;
+    const { connection } = this.props;
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
-        <dialog
-          id={`developer-profile-${developer.id}`}
-          className="popup"
-          ref={node => (this.popupNode = node)}
-        >
-          <div className="repos">
-            {developer.repos.map(repo => (repo.name))}
-          </div>
-        </dialog>
+        <div className="positions">
+          {connection.repos.map(({ node }) => (node.title))}
+        </div>
       </MuiThemeProvider>
     );
   }
 }
 
 Linkedin.propTypes = {
-  developer: React.PropTypes.object,
+  connection: React.PropTypes.object,
 };
 
 const LinkedinContainer = Relay.createContainer(
@@ -56,14 +50,12 @@ const LinkedinContainer = Relay.createContainer(
       connection: () => Relay.QL`
         fragment on Connection {
           id,
+          provider,
           positions(first: $first) {
             edges {
               node {
                 title,
                 summary,
-                start_date,
-                end_date,
-                is_current,
                 company,
                 pinned,
               }

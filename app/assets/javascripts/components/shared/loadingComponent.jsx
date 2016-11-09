@@ -1,11 +1,14 @@
 import React from 'react';
 import Loader from 'react-loader';
 
-// Loading component //TODO
-const LoadingComponent = () => (
-  <div className='overlay'>
+const LoadingComponent = props => (
+  <div className={`overlay ${props.cssClass}`}>
     <Loader loaded={false} />
   </div>
 );
+
+LoadingComponent.propTypes = {
+  cssClass: React.PropTypes.string,
+};
 
 export default LoadingComponent;

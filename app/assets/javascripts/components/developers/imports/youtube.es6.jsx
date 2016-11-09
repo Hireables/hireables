@@ -12,39 +12,20 @@ import Dialog from '../../../utils/dialog.es6';
 import '../../styles/popup.sass';
 
 class Youtube extends Component {
-  componentDidMount() {
-    this.dialog = new Dialog({
-      reactNodeId: 'popups-container',
-      dialogId: this.popupNode.id,
-    });
-
-    this.dialog.toggle();
-    this.dialog.get().classList.add('pulse');
-    setTimeout(() => {
-      this.dialog.get().classList.remove('pulse');
-    }, 300);
-  }
-
   render() {
-    const { developer } = this.props;
+    const { connection } = this.props;
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
-        <dialog
-          id={`developer-profile-${developer.id}`}
-          className="popup"
-          ref={node => (this.popupNode = node)}
-        >
-          <div className="repos">
-            {developer.repos.map(repo => (repo.name))}
-          </div>
-        </dialog>
+        <div className="talks">
+          {connection.talks.edges.map(({ node }) => (node.title))}
+        </div>
       </MuiThemeProvider>
     );
   }
 }
 
 Youtube.propTypes = {
-  developer: React.PropTypes.object,
+  connection: React.PropTypes.object,
 };
 
 const YoutubeContainer = Relay.createContainer(
@@ -56,14 +37,13 @@ const YoutubeContainer = Relay.createContainer(
       connection: () => Relay.QL`
         fragment on Connection {
           id,
+          provider,
           talks(first: $first) {
             edges {
               node {
                 title,
                 description,
-                published_at,
                 thumbnail,
-                view_count,
                 like_count,
                 pinned,
               }

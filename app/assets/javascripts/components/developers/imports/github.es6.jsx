@@ -7,7 +7,6 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { List, ListItem } from 'material-ui/List';
 import FontIcon from 'material-ui/FontIcon';
 import RaisedButton from 'material-ui/RaisedButton';
-import Avatar from 'material-ui/Avatar';
 import Checkbox from 'material-ui/Checkbox';
 import update from 'immutability-helper';
 import Snackbar from 'material-ui/Snackbar';
@@ -16,7 +15,6 @@ import Snackbar from 'material-ui/Snackbar';
 import muiTheme from '../../theme.es6';
 
 // Stylesheet
-import '../../styles/popup.sass';
 import '../../styles/pins.sass';
 
 class Github extends Component {
@@ -29,7 +27,9 @@ class Github extends Component {
   }
 
   selectRepo(event, repo) {
-    const uncheckedBoxes = $('.popup input:checkbox:not(:checked)');
+    const { connection } = this.props;
+    const importContainer = $(`#import-container-${connection.provider}`);
+    const uncheckedBoxes = importContainer.find('input:checkbox:not(:checked)');
     const index = this.state.selections.indexOf(repo.id);
     $(event.target).closest('.list-item').toggleClass('pinned');
 
@@ -125,6 +125,9 @@ class Github extends Component {
                       <FontIcon
                         color="#777"
                         className="material-icons"
+                        style={{
+                          marginLeft: 5,
+                        }}
                       >
                         star
                       </FontIcon>
@@ -150,7 +153,7 @@ class Github extends Component {
               {6 - this.state.selections.length} remaining
             </span>
             <RaisedButton
-              label="Save pinned repos"
+              label="Add to achievements"
               primary
               className="pull-right"
               type="submit"
@@ -186,18 +189,15 @@ const GithubContainer = Relay.createContainer(
       connection: () => Relay.QL`
         fragment on Connection {
           id,
+          provider,
           repos(first: $first) {
             edges {
               node {
                 id,
                 name,
-                full_name,
                 description,
                 pinned,
                 stargazers_count,
-                html_url,
-                forks_count,
-                language,
               }
             }
           }
