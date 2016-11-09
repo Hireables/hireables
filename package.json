@@ -32,7 +32,6 @@
     "css-loader": "^0.23.1",
     "dialog-polyfill": "^0.4.4",
     "dompurify": "^0.8.3",
-    "es6-shim": "^0.35.1",
     "expose-loader": "^0.7.1",
     "extract-text-webpack-plugin": "^1.0.1",
     "formsy-material-ui": "^0.5.2",
