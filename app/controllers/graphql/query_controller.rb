@@ -20,7 +20,6 @@ module Graphql
         current_developer: find_current_developer,
         current_employer: find_current_employer,
         current_user: find_current_user,
-        cookies: cookies,
         file: params[:file]
       }
     end
