@@ -2,18 +2,14 @@ module Linkedin
   extend ActiveSupport::Concern
 
   included do
-    LINKEDIN_BASE_URI = "https://api.linkedin.com/v1".freeze
+    LINKEDIN_API_URI = 'https://api.linkedin.com/v1'.freeze
+    LINKEDIN_PEOPLE_URI = "#{LINKEDIN_API_URI}/people/~:(id,positions)".freeze
   end
 
   def fetch_positions
-    agent = Sawyer::Agent.new(
-      "#{LINKEDIN_BASE_URI}/people/~:(id,positions)?&#{linkedin_query_params}",
-      faraday: client
-    ) do |http|
-      http.headers['content-type'] = 'application/json'
-    end
+    agent = initialize_agent("#{LINKEDIN_PEOPLE_URI}?&#{linkedin_query_params}")
     root = agent.start
-    root.data
+    root.data.positions.values
   end
 
   private

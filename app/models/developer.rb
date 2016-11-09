@@ -10,11 +10,7 @@ class Developer < ApplicationRecord
 
   has_many :connections, dependent: :destroy
   has_many :achievements, dependent: :destroy
-  set :pinned_repos
-  set :pinner_jobs
-  set :pinned_education
-  set :pinned_answers
-  set :pinned_talks
+  set :pinned_achievements
 
   before_save :format_platforms, unless: :empty_platforms?
   after_create :seed_available_connections
@@ -36,6 +32,10 @@ class Developer < ApplicationRecord
     connections.where(provider: provider).first.try(:access_token)
   end
 
+  def connection_by_provider(provider)
+    connections.where(provider: provider).first
+  end
+
   def github_access_token
     @github_access_token ||= access_token_by_provider('github')
   end
@@ -49,9 +49,8 @@ class Developer < ApplicationRecord
   end
 
   def notify_admin!
-    AdminMailerWorker.perform_async(
-      self.class.name, id
-    ) if Rails.env.production?
+    return unless Rails.env.production?
+    AdminMailerWorker.perform_async(self.class.name, id)
   end
 
   def empty_platforms?

@@ -21,10 +21,31 @@ class Connection < ApplicationRecord
   end
 
   def self.create_from_oauth(auth)
-   create!(
+    create!(
       uid: auth.uid,
       provider: auth.provider,
-      access_token: auth.credentials.token,
+      access_token: auth.credentials.token
     )
+  end
+
+  def update_from_oauth(auth)
+    update!(uid: auth.uid, access_token: auth.credentials.token)
+  end
+
+  def owner?(user)
+    user == developer
+  end
+
+  def data
+    send(provider_methods.fetch(provider))
+  end
+
+  def provider_methods
+    {
+      'github' => 'fetch_repos',
+      'stackoverflow' => 'fetch_answers',
+      'linkedin' => 'fetch_positions',
+      'youtube' => 'fetch_talks'
+    }.freeze
   end
 end

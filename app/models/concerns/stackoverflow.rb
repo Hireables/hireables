@@ -2,23 +2,20 @@ module Stackoverflow
   extend ActiveSupport::Concern
 
   included do
-    STACKOVERFLOW_BASE_URI = "https://api.stackexchange.com/2.2".freeze
+    STACKOVERFLOW_ANSWERS_URI = 'https://api.stackexchange.com/2.2/me/answers'.freeze
   end
 
   def fetch_answers
-    agent = Sawyer::Agent.new(
-      "#{STACKOVERFLOW_BASE_URI}/me/answers?#{stackoverflow_query_params}",
-      faraday: client
-    ) do |http|
-      http.headers['content-type'] = 'application/json'
+    agent = initialize_agent("#{STACKOVERFLOW_ANSWERS_URI}?#{sw_query_params}")
+    Rails.cache.fetch(self) do
+      root = agent.start
+      root.data.items
     end
-    root = agent.start
-    root.data.items
   end
 
   private
 
-  def stackoverflow_query_params
+  def sw_query_params
     {
       filter: '!2-1PreTBA.iShwUKwLsJz',
       order: 'desc',
