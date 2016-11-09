@@ -8,7 +8,6 @@ VideoType = GraphQL::ObjectType.define do
   field :title, types.String, 'Title of this video'
   field :description, types.String, 'Description of this video'
   field :published_at, types.String, 'Video published date'
-  field :channel_id, types.String, 'Video channel id'
   field :thumbnail, types.Boolean, 'Video thumbnail'
   field :view_count, types.Int, 'View count for the video'
   field :like_count, types.Int, 'Like count for the video'
