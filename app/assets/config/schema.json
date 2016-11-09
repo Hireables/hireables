@@ -2413,20 +2413,6 @@
           "description": "Fetch video associated fields",
           "fields": [
             {
-              "name": "channel_id",
-              "description": "Video channel id",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "description",
               "description": "Description of this video",
               "args": [
