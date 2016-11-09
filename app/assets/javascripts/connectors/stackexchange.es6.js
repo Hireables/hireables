@@ -2,23 +2,33 @@
 
 import $ from 'jquery';
 
-export default {
-  initialize() {
-    $.getScript('//api.stackexchange.com/js/2.0/all.js', () => {
-      SE.init({
-        clientId: window.STACKOVERFLOW_CLIENT_ID,
-        key: window.STACKOVERFLOW_CLIENT_KEY,
-        channelUrl: `${window.location.hostname}/blank`,
-      });
+export default class StackExchange {
+  constructor() {
+    $.getScript(window.STACKOVERFLOW_JS_SDK_URL, (data, textStatus) => {
+      if (textStatus === 'success') {
+        SE.init({
+          clientId: `${window.STACKOVERFLOW_CLIENT_ID}`,
+          key: `${window.STACKOVERFLOW_CLIENT_KEY}`,
+          channelUrl: `${window.location.protocol}//${window.location.hostname}/blank`,
+          complete: () => {
+            this.SE = SE;
+          },
+        });
+      }
     });
-  },
-
+  }
 
   authenticate() {
-    SE.authenticate({
-      success: data => (data),
-      error: error => (error),
-      scope: ['no_expiry'],
+    return new Promise((resolve, reject) => {
+      this.SE.authenticate({
+        success: (data) => {
+          const uid = data.networkUsers[0].account_id;
+          resolve({ access_token: data.accessToken, uid });
+        },
+        error: error => reject(error),
+        scope: ['no_expiry', 'private_info'],
+        networkUsers: true,
+      });
     });
-  },
-};
+  }
+}

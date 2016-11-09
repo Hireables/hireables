@@ -2,24 +2,35 @@
 
 import $ from 'jquery';
 
-export default {
-  initialize() {
-    $.getScript(window.GOOGLE_JS_SDK_URL, () => {
-      gapi.load('client:auth2', this.initClient);
+export default class Google {
+  constructor() {
+    $.getScript(window.GOOGLE_JS_SDK_URL, (data, textStatus) => {
+      if (textStatus === 'success' && gapi !== undefined) {
+        gapi.load('client:auth2', this.initClient);
+      }
     });
-  },
+  }
 
   initClient() {
     gapi.client.init({
       apiKey: window.GOOGLE_API_KEY,
       clientId: window.GOOGLE_CLIENT_ID,
-      scope: 'profile, youtube',
-    }).then(() => {
-      gapi.auth2.getAuthInstance().isSignedIn.listen(this.authenticate);
+      scope: 'https://www.googleapis.com/auth/youtube',
     });
-  },
+  }
 
   authenticate() {
-    console.log(gapi.auth2.AuthResponse);
-  },
-};
+    return new Promise((resolve, reject) => {
+      gapi
+      .auth2
+      .getAuthInstance()
+      .signIn()
+      .then((data) => {
+        console.log(data);
+        resolve(Object.assign(data.Zi, { uid: data.El }));
+      }, (error) => {
+        reject(error);
+      });
+    });
+  }
+}
