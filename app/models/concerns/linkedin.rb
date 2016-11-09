@@ -8,7 +8,7 @@ module Linkedin
 
   def fetch_positions
     Rails.cache.fetch(self) do
-      agent = initialize_agent("#{LINKEDIN_PEOPLE_URI}?&#{linkedin_query_params}")
+      agent = initialize_agent("#{LINKEDIN_PEOPLE_URI}?&#{in_query_params}")
       root = agent.start
       root.data.positions.values
     end
@@ -16,7 +16,7 @@ module Linkedin
 
   private
 
-  def linkedin_query_params
+  def in_query_params
     {
       oauth2_access_token: access_token,
       format: 'json'

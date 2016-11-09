@@ -10,7 +10,7 @@ module Stackoverflow
     Rails.cache.fetch(self) do
       root = agent.start
       answers = root.data.items
-      answers.map{ |answer| answer.tap{ |obj| obj.id = obj.answer_id } }
+      answers.map { |answer| answer.tap { |obj| obj.id = obj.answer_id } }
     end
   end
 

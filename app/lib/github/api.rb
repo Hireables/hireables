@@ -29,9 +29,7 @@ module Github
     def find_developers_by_login(logins)
       return [] unless logins.any?
       logins_hash = {}
-      logins.each do |login|
-        logins_hash["developer/#{login}"] = login
-      end
+      logins.each { |login| logins_hash["developer/#{login}"] = login }
 
       result = Rails.cache.fetch_multi(logins_hash.keys) do |_key|
         local = Developer.where(login: logins)

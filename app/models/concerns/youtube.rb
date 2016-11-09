@@ -26,6 +26,8 @@ module Youtube
     agent = initialize_agent("#{YOUTUBE_VIDEO_URI}?#{query_params}")
     root = agent.start
     videos = root.data.items
+
+    return [] if videos.nil?
     [videos, agent]
   end
 
@@ -33,9 +35,10 @@ module Youtube
     query_params = youtube_query_params << "&playlistId=#{upload_playlist}"
     agent = initialize_agent("#{YOUTUBE_PLAYLIST_URI}?#{query_params}")
     root = agent.start
+    playlists = root.data.items
 
-    return [] if root.data.items.nil?
-    root.data.items.map do |item|
+    return [] if playlists.nil?
+    playlists.map do |item|
       item.contentDetails.videoId
     end.join(',')
   end
@@ -44,8 +47,10 @@ module Youtube
     query_params = youtube_query_params << '&mine=true'
     agent = initialize_agent("#{YOUTUBE_CHANNEL_URI}?#{query_params}")
     root = agent.start
+    channels = root.data.items
 
-    root.data.items.first.contentDetails.relatedPlaylists.uploads
+    return nil if channels.nil?
+    channels.first.contentDetails.relatedPlaylists.uploads
   end
 
   def youtube_query_params
