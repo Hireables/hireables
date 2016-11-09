@@ -1,4 +1,10 @@
 class Connection < ApplicationRecord
+  include HttpClient
+  include Stackoverflow
+  include Linkedin
+  include Github
+  include Youtube
+
   belongs_to :developer, touch: true
   validates_presence_of :provider
   validates_uniqueness_of :provider

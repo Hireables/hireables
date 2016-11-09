@@ -32,10 +32,12 @@ class Developer < ApplicationRecord
     end && !premium?
   end
 
+  def access_token_by_provider(provider)
+    connections.where(provider: provider).first.try(:access_token)
+  end
+
   def github_access_token
-    @github_access_token ||= connections.where(
-      provider: 'github'
-    ).first.try(:access_token)
+    @github_access_token ||= access_token_by_provider('github')
   end
 
   private
