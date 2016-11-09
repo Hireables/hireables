@@ -29,6 +29,9 @@ import GoogleLogin from '../../connectors/google.es6';
 import StackOverflowLogin from '../../connectors/stackexchange.es6';
 import LinkedinLogin from '../../connectors/linkedin.es6';
 
+// Mutations
+import ConnectOAuth from '../../mutations/developer/connectOauth.es6';
+
 // Map icon component to string names
 const iconsMap = new Map();
 iconsMap.set('github', Github);
@@ -46,22 +49,22 @@ popupsMap.set('youtube', YoutubePopup);
 // Map connection js adapters
 const adapterMap = new Map();
 adapterMap.set('youtube', GoogleLogin);
-adapterMap.set('stackoverflow', StackOverflowLogin);
 adapterMap.set('linkedin', LinkedinLogin);
+adapterMap.set('stackoverflow', StackOverflowLogin);
 
 class Connection extends Component {
   constructor(props) {
     super(props);
     this.import = this.import.bind(this);
-  }
-
-  componentDidMount() {
-    const { provider } = this.props.connection;
-    const Adapter = adapterMap.get(provider);
-    this.connectionAdapter = new Adapter();
+    this.connect = this.connect.bind(this);
+    const Adapter = adapterMap.get(props.connection.provider);
+    if (Adapter) {
+      this.connectionAdapter = new Adapter();
+    }
   }
 
   import() {
+    this.connect();
     const { connection, developer } = this.props;
     if (connection.connected) {
       developerRoute.params = {};
@@ -92,7 +95,17 @@ class Connection extends Component {
   }
 
   connect() {
-    this.connectionAdapter.authorize();
+    this.connectionAdapter.authenticate().then((data) => {
+      const onFailure = () => false;
+      const onSuccess = () => true;
+
+      Relay.Store.commitUpdate(new ConnectOAuth({
+        id: this.props.developer.id,
+        provider: this.props.connection.provider,
+        access_token: data.access_token,
+        uid: data.uid.toString(),
+      }), { onFailure, onSuccess });
+    });
   }
 
   render() {
@@ -106,19 +119,12 @@ class Connection extends Component {
           innerDivStyle={{ padding: '20px 56px 20px 72px' }}
           leftIcon={<div className={connection.provider}><Icon /></div>}
           rightIconButton={
-            connection.connected ?
-              <RaisedButton
-                style={{ top: 10, right: 20 }}
-                primary
-                onClick={this.import}
-                label="Import"
-              /> :
-                <RaisedButton
-                  style={{ top: 10, right: 20 }}
-                  primary
-                  onClick={this.connect}
-                  label="Connect"
-                />
+            <RaisedButton
+              style={{ top: 10, right: 20 }}
+              primary
+              onClick={connection.connected ? this.import : this.connect}
+              label={connection.connected ? 'Import' : 'Connect'}
+            />
           }
           primaryText={connection.provider}
         />

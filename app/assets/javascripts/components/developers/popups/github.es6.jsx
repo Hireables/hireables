@@ -132,9 +132,11 @@ class Github extends Component {
           ref={node => (this.popupNode = node)}
         >
           <div className="import-container">
-            <div className="list-header">
-              <h3 className="list-header-title">Pin Top Github Repos </h3>
-              Connect to import and pin your top github repos.
+            <div className="list-header github">
+              <div className="list-header-content">
+                <h3 className="list-header-title">Pin Top Github Repos </h3>
+                <span>Connect to import and pin your top github repos.</span>
+              </div>
             </div>
             <Avatar
               size={50}
