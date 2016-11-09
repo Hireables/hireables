@@ -1,5 +1,5 @@
 ConnectionDataType = GraphQL::ObjectType.define do
-  name 'ImportPreview'
+  name 'ConnectionData'
   description 'Common type to fetch fields for various connections'
   interfaces [GraphQL::Relay::Node.interface]
   global_id_field :answer_id

@@ -38,6 +38,8 @@ class Connection < ApplicationRecord
 
   def data
     send(provider_methods.fetch(provider))
+  rescue KeyError
+    'Unknown connection'
   end
 
   def provider_methods
