@@ -1,5 +1,5 @@
-RepoType = GraphQL::ObjectType.define do
-  name 'Repo'
+RepositoryType = GraphQL::ObjectType.define do
+  name 'Repository'
   description 'Fetch repo associated fields'
   interfaces [GraphQL::Relay::Node.interface]
   global_id_field :id

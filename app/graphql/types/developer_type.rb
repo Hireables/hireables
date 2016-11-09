@@ -136,24 +136,10 @@ DeveloperType = GraphQL::ObjectType.define do
     description 'Repo connection to fetch developer orgs.'
     resolve -> (obj, _args, ctx) { resolve_orgs(obj, ctx) }
   end
-
-  connection :repos, RepoType.connection_type do
-    description 'Repo connection to fetch developer orgs.'
-    resolve -> (obj, _args, ctx) { resolve_repos(obj, ctx) }
-  end
 end
 
 def favourited?(obj, ctx)
   ctx[:current_employer] ? ctx[:current_employer].favourited?(obj) : false
-end
-
-def resolve_repos(obj, ctx)
-  github_api(ctx)
-    .fetch_developer_repos(obj.login)
-    .lazy
-    .sort_by(&:stargazers_count)
-    .reverse!
-    .to_a
 end
 
 def resolve_orgs(obj, ctx)
@@ -166,15 +152,6 @@ def resolve_platforms(obj, ctx)
 end
 
 def github_api(ctx)
-  @github_api ||= Github::Api.new(github_access_token(ctx))
-end
-
-def github_access_token(ctx)
-  if ctx[:current_recruiter].present?
-    ctx[:current_recruiter].try(:access_token)
-  elsif ctx[:current_developer].present?
-    ctx[:current_developer].try(:github_access_token)
-  else
-    nil
-  end
+  @token ||= ctx[:current_developer].access_token_by_provider('github')
+  @github_api ||= Github::Api.new(@token)
 end

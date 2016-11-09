@@ -1,5 +1,5 @@
 class ConnectOauthResolver
-  attr_reader :provider, :params
+  attr_reader :provider, :params, :current_developer
 
   def self.call(*args)
     new(*args).call
@@ -15,31 +15,8 @@ class ConnectOauthResolver
   end
 
   def call
-    send(provider)
-  end
-
-  def linkedin
-    linkedin_auth = JSON.parse(ctx[:cookies]["linkedin_oauth_#{ENV['LINKEDIN_CLIENT_ID']}"])
-    consumer = linkedin_client.consumer
-    token = consumer.get_access_token(nil, {}, {
-      'xoauth_oauth2_access_token' => linkedin_auth['access_token']
-    });
-
-    linkedin_client.authorize_from_access(token.token, token.secret)
-    user = linkedin_client.profile({
-      fields: ['id', 'positions']
-    })
-
     @connection = current_developer.connections.where(provider: provider).first
-    @connection.update!(uid: user.id, access_token: token)
-  end
-
-  private
-
-  def linkedin_client
-    LinkedIn::Client.new(
-      ENV.fetch('LINKEDIN_CLIENT_ID'),
-      ENV.fetch('LINKEDIN_CLIENT_SECRET')
-    )
+    @connection.update!(uid: params[:uid], access_token: params[:access_token])
+    { developer: current_developer.reload }
   end
 end
