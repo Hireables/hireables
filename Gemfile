@@ -6,7 +6,7 @@ gem 'rails', '>= 5.0.x'
 gem 'pg'
 
 # Web Server
-gem 'passenger'
+gem 'puma'
 
 # SASS
 gem 'sass-rails', '~> 5.0'
