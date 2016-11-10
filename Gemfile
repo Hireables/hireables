@@ -35,8 +35,6 @@ gem 'turbolinks', '~> 5.0.x'
 
 # Omniauth login
 gem 'omniauth-github'
-gem 'linkedin'
-gem 'omniauth-linkedin-oauth2', github: 'decioferreira/omniauth-linkedin-oauth2'
 gem 'devise'
 
 # CORS

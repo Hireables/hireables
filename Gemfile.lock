@@ -1,12 +1,4 @@
 GIT
-  remote: git://github.com/decioferreira/omniauth-linkedin-oauth2.git
-  revision: c7422a87ce5ab441c33ecd6bf52594857667b074
-  specs:
-    omniauth-linkedin-oauth2 (0.1.5)
-      omniauth (~> 1.0)
-      omniauth-oauth2
-
-GIT
   remote: https://github.com/carrierwaveuploader/carrierwave.git
   revision: 1d2f26428fe944977a91fe5fdf2fb033d5a13239
   specs:
@@ -117,10 +109,6 @@ GEM
       sprockets-rails
     json (2.0.2)
     jwt (1.5.6)
-    linkedin (1.1.0)
-      hashie (~> 3.0)
-      multi_json (~> 1.0)
-      oauth (~> 0.4)
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
     mail (2.6.4)
@@ -144,7 +132,6 @@ GEM
     nio4r (1.2.1)
     nokogiri (1.6.8.1)
       mini_portile2 (~> 2.1.0)
-    oauth (0.5.1)
     oauth2 (1.2.0)
       faraday (>= 0.8, < 0.10)
       jwt (~> 1.0)
@@ -290,13 +277,11 @@ DEPENDENCIES
   heroku-deflater
   js-routes
   jwt
-  linkedin
   mailgun_rails
   mini_magick
   newrelic_rpm
   octokit
   omniauth-github
-  omniauth-linkedin-oauth2!
   pg
   puma
   rack-attack
