@@ -23,7 +23,7 @@ const Data = (props) => {
         <Checkbox
           defaultChecked={connectionData.pinned}
           style={{ top: 'calc(100% / 3)' }}
-          onCheck={event => toggleItem(event, connectionData.database_id)}
+          onCheck={event => toggleItem(event, connectionData)}
         />
       }
       rightIcon={

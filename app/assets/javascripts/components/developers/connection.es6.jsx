@@ -7,9 +7,8 @@ import { List, ListItem } from 'material-ui/List';
 import RaisedButton from 'material-ui/RaisedButton';
 import Snackbar from 'material-ui/Snackbar';
 import Loader from 'react-loader';
-import update from 'immutability-helper';
 
-// Child Components
+// Child Components icons
 import Github from '../shared/icons/github.es6';
 import StackOverflow from '../shared/icons/stackoverflow.es6';
 import Linkedin from '../shared/icons/linkedin.es6';
@@ -24,6 +23,7 @@ import LinkedinLogin from '../../connectors/linkedin.es6';
 // Mutations
 import ConnectOAuth from '../../mutations/developer/connectOauth.es6';
 import AchievementCreate from '../../mutations/achievement/create.es6';
+import AchievementDelete from '../../mutations/achievement/delete.es6';
 
 // Map icon component to string names
 const iconsMap = new Map();
@@ -47,7 +47,7 @@ class Connection extends Component {
     this.toggleItem = this.toggleItem.bind(this);
     this.setNotification = this.setNotification.bind(this);
     this.handleRequestClose = this.handleRequestClose.bind(this);
-    this.saveSelectedItems = this.saveSelectedItems.bind(this);
+    this.updateList = this.updateList.bind(this);
     this.state = {
       toggled: false,
       selections: [],
@@ -62,16 +62,17 @@ class Connection extends Component {
     }
   }
 
-  componentWillUpdate(nextProps, nextState) {
+  componentWillUpdate(nextProps) {
     if (nextProps.connection.data &&
         nextProps.connection.data.edges.length > 0 &&
         nextProps !== this.props) {
       const selections = nextProps.connection.data.edges.filter(({ node }) => {
-        if (node.pinned) {
-          return node.database_id;
-        }
+        return node.pinned;
+      }).map(({ node }) => (node.database_id));
+
+      this.setState({ selections }, () => {
+        this.updateList();
       });
-      this.setState({ selections });
     }
   }
 
@@ -83,35 +84,20 @@ class Connection extends Component {
     });
   }
 
-  toggleItem(event, dataId) {
-    const { connection } = this.props;
-    const importContainer = $(`#import-container-${connection.provider}`);
+  updateList() {
+    const importContainer = $(`#import-container-${this.props.connection.provider}`);
     const uncheckedBoxes = importContainer.find('input:checkbox:not(:checked)');
-    const index = this.state.selections.indexOf(dataId);
-    $(event.target).closest('.list-item').toggleClass('pinned');
-
-    if (index === -1) {
-      this.setState({
-        selections: update(this.state.selections, { $push: [dataId] }),
-      }, () => {
-        if (this.state.selections.length >= 6) {
-          uncheckedBoxes.attr({ disabled: true });
-          uncheckedBoxes.closest('.list-item').addClass('disabled');
-        }
-      });
+    if (this.state.selections.length >= 6) {
+      uncheckedBoxes.attr({ disabled: true });
+      uncheckedBoxes.closest('.list-item').addClass('disabled');
     } else {
-      this.setState({
-        selections: update(this.state.selections, { $splice: [[index, 1]] }),
-      }, () => {
-        uncheckedBoxes.attr({ disabled: false });
-        uncheckedBoxes.closest('.list-item').removeClass('disabled');
-      });
+      uncheckedBoxes.attr({ disabled: false });
+      uncheckedBoxes.closest('.list-item').removeClass('disabled');
     }
   }
 
-  saveSelectedItems(event) {
+  toggleItem(event, item) {
     event.preventDefault();
-    console.log(this.state.selections);
     this.setNotification('Saving...');
     const onFailure = (transaction) => {
       const error = transaction.getError() || new Error('Mutation failed.');
@@ -130,13 +116,18 @@ class Connection extends Component {
       console.log(response);
     };
 
-    this.state.selections.forEach((selection) => {
+    if (item.pinned) {
+      Relay.Store.commitUpdate(new AchievementDelete({
+        id: item.id,
+        developerId: this.props.developer.id,
+      }), { onFailure, onSuccess });
+    } else {
       Relay.Store.commitUpdate(new AchievementCreate({
         id: this.props.connection.id,
         developerId: this.props.developer.id,
-        selection: selection.toString(),
+        selection: item.database_id.toString(),
       }), { onFailure, onSuccess });
-    });
+    }
   }
 
   handleRequestClose() {
@@ -255,13 +246,6 @@ class Connection extends Component {
               <span className="notification">
                 {6 - this.state.selections.length} remaining
               </span>
-              <RaisedButton
-                label="Add to achievements"
-                primary
-                className="pull-right"
-                type="submit"
-                onClick={this.saveSelectedItems}
-              />
             </div>
 
             <div className="notifications">
