@@ -1,16 +1,6 @@
 class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   before_action :failure, if: :malformed_auth?
 
-  def linkedin
-    if developer_signed_in?
-      @connection = current_developer.connection_by_provider(auth_hash.provider)
-      @connection.update_from_oauth(auth_hash.uid, auth_hash.credentials.token)
-      redirect_to developer_path(current_developer.login)
-    else
-      redirect_to root_path, status: :unauthorised
-    end
-  end
-
   def github
     @developer = Authenticator.call(auth_hash)
     if @developer.persisted?
