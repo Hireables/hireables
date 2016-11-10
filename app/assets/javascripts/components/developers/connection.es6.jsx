@@ -1,30 +1,23 @@
-/* global document Routes SE $ */
+/* global document Routes $ */
 
 // Modules
 import React, { Component } from 'react';
 import Relay from 'react-relay';
 import ReactDOM from 'react-dom';
-import { ListItem } from 'material-ui/List';
+import { List, ListItem } from 'material-ui/List';
 import RaisedButton from 'material-ui/RaisedButton';
-import LoadingComponent from '../../components/shared/loadingComponent';
-import ErrorComponent from '../../components/shared/errorComponent';
-
-// Route
-import connectionRoute from '../../routes/connectionRoute.es6';
+import Snackbar from 'material-ui/Snackbar';
+import update from 'immutability-helper';
+import Loader from 'react-loader';
 
 // Child Components
 import Github from '../shared/icons/github.es6';
 import StackOverflow from '../shared/icons/stackoverflow.es6';
 import Linkedin from '../shared/icons/linkedin.es6';
 import Youtube from '../shared/icons/youtube.es6';
+import Data from './imports/data.es6';
 
-// Child Components
-import GithubImport from './imports/github.es6';
-import StackOverflowImport from './imports/stackoverflow.es6';
-import LinkedinImport from './imports/linkedin.es6';
-import YoutubeImport from './imports/youtube.es6';
-
-// Provider connection
+// Provider authentication
 import GoogleLogin from '../../connectors/google.es6';
 import StackOverflowLogin from '../../connectors/stackexchange.es6';
 import LinkedinLogin from '../../connectors/linkedin.es6';
@@ -39,13 +32,6 @@ iconsMap.set('stackoverflow', StackOverflow);
 iconsMap.set('linkedin', Linkedin);
 iconsMap.set('youtube', Youtube);
 
-// Map Imports
-const importsMap = new Map();
-importsMap.set('github', GithubImport);
-importsMap.set('stackoverflow', StackOverflowImport);
-importsMap.set('linkedin', LinkedinImport);
-importsMap.set('youtube', YoutubeImport);
-
 // Map connection js adapters
 const adapterMap = new Map();
 adapterMap.set('youtube', GoogleLogin);
@@ -55,10 +41,18 @@ adapterMap.set('stackoverflow', StackOverflowLogin);
 class Connection extends Component {
   constructor(props) {
     super(props);
-    this.import = this.import.bind(this);
+    this.open = this.open.bind(this);
     this.connect = this.connect.bind(this);
     this.close = this.close.bind(this);
-    this.state = { toggled: false };
+    this.selectItem = this.selectItem.bind(this);
+    this.handleRequestClose = this.handleRequestClose.bind(this);
+    this.saveSelectedItems = this.saveSelectedItems.bind(this);
+    this.state = {
+      toggled: false,
+      selections: [],
+      open: false,
+      loaded: true,
+    };
 
     const Adapter = adapterMap.get(props.connection.provider);
     if (Adapter) {
@@ -66,41 +60,94 @@ class Connection extends Component {
     }
   }
 
-  import() {
-    this.connect();
+  selectItem(event, data) {
     const { connection } = this.props;
-    if (connection.connected) {
-      connectionRoute.params = {};
-      connectionRoute.params.id = connection.id;
-      const ImportComponent = importsMap.get(connection.provider);
-      this.setState({ toggled: true });
-      ReactDOM.render(
-        <Relay.Renderer
-          Container={ImportComponent}
-          queryConfig={connectionRoute}
-          environment={Relay.Store}
-          render={({ props, error, retry }) => {
-            if (props) {
-              return (
-                <ImportComponent {...props} />
-              );
-            } else if (error) {
-              return <ErrorComponent retry={retry} />;
-            }
-            return <LoadingComponent cssClass="relative" />;
-          }}
-        />,
-        document.getElementById(`import-container-${connection.provider}`)
-      );
+    const importContainer = $(`#import-container-${connection.provider}`);
+    const uncheckedBoxes = importContainer.find('input:checkbox:not(:checked)');
+    const index = this.state.selections.indexOf(data.id);
+    $(event.target).closest('.list-item').toggleClass('pinned');
+
+    if (index === -1) {
+      this.setState({
+        selections: update(this.state.selections, { $push: [data.id] }),
+      }, () => {
+        if (this.state.selections.length >= 6) {
+          uncheckedBoxes.attr({ disabled: true });
+          uncheckedBoxes.closest('.list-item').addClass('disabled');
+        }
+      });
+    } else {
+      this.setState({
+        selections: update(this.state.selections, { $splice: [[index, 1]] }),
+      }, () => {
+        uncheckedBoxes.attr({ disabled: false });
+        uncheckedBoxes.closest('.list-item').removeClass('disabled');
+      });
     }
   }
 
-  close() {
-    const { connection } = this.props;
-    ReactDOM.unmountComponentAtNode(
-      document.getElementById(`import-container-${connection.provider}`)
-    );
-    this.setState({ toggled: false });
+  saveSelectedItems(event) {
+    event.preventDefault();
+    // const platforms = this.state.platforms.map(elem => (
+    //   elem.label
+    // ));
+
+    // this.setNotification('Saving...');
+
+    // const onFailure = (transaction) => {
+    //   const error = transaction.getError() || new Error('Mutation failed.');
+    //   let errorMessage;
+
+    //   if (error.list.errors && Array.isArray(error.list.errors)) {
+    //     errorMessage = error.list.errors[0].message;
+    //   } else {
+    //     errorMessage = error.message;
+    //   }
+
+    //   this.setNotification(errorMessage);
+    // };
+
+    // const onSuccess = () => {
+    //   window.location.href = Routes.connection_path(this.props.connection.login);
+    // };
+
+    // const newModel = Object.assign(this.formNode.getModel(), {
+    //   platforms: platforms.toString(),
+    // });
+
+    // Relay.Store.commitUpdate(new UpdateDeveloper({
+    //   id: this.props.connection.id,
+    //   ...newModel,
+    // }), { onFailure, onSuccess });
+  }
+
+  handleRequestClose() {
+    this.setState({ open: false });
+  }
+
+  open(event) {
+    event.preventDefault();
+    const { relay } = this.props;
+    this.setState({ loaded: false });
+    relay.setVariables({
+      showData: true,
+    }, (readyState) => {
+      if (readyState.done) {
+        this.setState({ loaded: true, toggled: true });
+      }
+    });
+  }
+
+  close(event) {
+    event.preventDefault();
+    const { relay } = this.props;
+    relay.setVariables({
+      showData: false,
+    }, (readyState) => {
+      if (readyState.done) {
+        this.setState({ toggled: false });
+      }
+    });
   }
 
   connect() {
@@ -126,8 +173,8 @@ class Connection extends Component {
     if (this.state.toggled) {
       onClickAction = this.close;
       text = 'Close';
-    } else if (connection.connected) {
-      onClickAction = this.import;
+    } else if (connection.connected && !connection.expired) {
+      onClickAction = this.open;
       text = 'Import';
     } else {
       onClickAction = this.connect;
@@ -141,24 +188,66 @@ class Connection extends Component {
           innerDivStyle={{ padding: '20px 56px 20px 72px' }}
           leftIcon={<div className={connection.provider}><Icon /></div>}
           rightIconButton={
-            connection.provider == 'linkedin' ?
-              <RaisedButton
-                style={{ top: 10, right: 20 }}
-                primary
-                href={Routes.developer_linkedin_omniauth_authorize_path()}
-                label={text}
-              /> :
-              <RaisedButton
-                style={{ top: 10, right: 20 }}
-                primary
-                onClick={onClickAction}
-                label={text}
-              />
+            connection.provider === 'linkedin' &&
+              !connection.connected && connection.expired ?
+                <RaisedButton
+                  style={{ top: 10, right: 20 }}
+                  primary
+                  href={Routes.developer_linkedin_omniauth_authorize_path()}
+                  label={text}
+                /> :
+                <RaisedButton
+                  style={{ top: 10, right: 20 }}
+                  primary
+                  onClick={onClickAction}
+                  label={text}
+                />
 
           }
           primaryText={connection.provider}
         />
-        <div id={`import-container-${connection.provider}`} />
+
+        <Loader loaded={this.state.loaded} />
+
+        {connection.data && connection.data.edges.length > 0 ?
+          <div
+            className="import-container"
+            id={`import-container-${connection.provider}`}
+          >
+            <div className="content">
+              <List style={{ paddingBottom: 0, paddingTop: 0 }}>
+                {connection.data.edges.map(({ node }) => (
+                  <Data
+                    connectionData={node}
+                    key={node.id}
+                    selectItem={this.selectItem}
+                  />
+                ))}
+              </List>
+            </div>
+            <div className="actions">
+              <span className="notification">
+                {6 - this.state.selections.length} remaining
+              </span>
+              <RaisedButton
+                label="Add to achievements"
+                primary
+                className="pull-right"
+                type="submit"
+                onClick={this.savePinnedRepos}
+              />
+            </div>
+
+            <div className="notifications">
+              <Snackbar
+                open={this.state.open}
+                message="Maximum 6 selections allowed"
+                autoHideDuration={5000}
+                onRequestClose={this.handleRequestClose}
+              />
+            </div>
+          </div> : ''
+        }
       </div>
     );
   }
@@ -167,15 +256,29 @@ class Connection extends Component {
 Connection.propTypes = {
   connection: React.PropTypes.object,
   developer: React.PropTypes.object,
+  relay: React.PropTypes.object,
 };
 
 const ConnectionContainer = Relay.createContainer(Connection, {
+  initialVariables: {
+    first: 10,
+    showData: false,
+  },
   fragments: {
     connection: () => Relay.QL`
       fragment on Connection {
         id,
         provider,
         connected,
+        expired,
+        data(first: $first) @include(if: $showData) {
+          edges {
+            node {
+              id,
+              ${Data.getFragment('connectionData')}
+            }
+          }
+        }
       }
     `,
   },

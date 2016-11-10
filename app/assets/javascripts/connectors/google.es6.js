@@ -26,7 +26,6 @@ export default class Google {
       .getAuthInstance()
       .signIn()
       .then((data) => {
-        console.log(data);
         resolve(Object.assign(data.Zi, { uid: data.El }));
       }, (error) => {
         reject(error);
