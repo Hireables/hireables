@@ -4,6 +4,10 @@ ConnectionDataType = GraphQL::ObjectType.define do
   interfaces [GraphQL::Relay::Node.interface]
   global_id_field :id
 
+  field :database_id, types.String, 'Database id for this data' do
+    resolve ->(obj, _args, _ctx) { obj.id }
+  end
+
   field :title, types.String, 'title of this import' do
     resolve ->(obj, _args, _ctx) { pick_field(obj, title_fields) }
   end
@@ -22,7 +26,7 @@ ConnectionDataType = GraphQL::ObjectType.define do
 end
 
 def pinned?(obj, ctx)
-  ctx[:current_developer].pinned_achievements.member?(obj.id)
+  ctx[:current_developer].pinned_achievements.member?(pick_field(obj, title_fields))
 end
 
 def pick_field(obj, fields)

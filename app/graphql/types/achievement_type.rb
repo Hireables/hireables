@@ -9,4 +9,5 @@ AchievementType = GraphQL::ObjectType.define do
   field :source, types.String, 'Source of this achievement'
   field :category, types.String, 'Category of this achievement'
   field :date, types.String, 'Date of this achievement'
+  field :link, types.String, 'Source link of this achievement'
 end
