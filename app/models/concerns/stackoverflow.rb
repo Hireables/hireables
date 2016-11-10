@@ -10,7 +10,12 @@ module Stackoverflow
     Rails.cache.fetch(self) do
       root = agent.start
       answers = root.data.items
-      answers.map { |answer| answer.tap { |obj| obj.id = obj.answer_id } }
+      answers
+      .map { |answer| answer.tap { |obj| obj.id = obj.answer_id } }
+      .lazy
+      .sort_by{|item| [item.comment_count, item.up_vote_count]}
+      .reverse!
+      .to_a
     end
   end
 
@@ -21,7 +26,7 @@ module Stackoverflow
       filter: ENV.fetch('STACKOVERFLOW_ANSWERS_FILTER'),
       order: 'desc',
       sort: 'activity',
-      pagesize: 11,
+      pagesize: 10,
       site: 'stackoverflow',
       access_token: access_token,
       key: ENV.fetch('STACKOVERFLOW_CLIENT_KEY')

@@ -14,7 +14,10 @@ module Youtube
         video_hash = video.to_attrs.except(:snippet, :statistics)
         video_hash.merge!(video[:snippet]).merge!(video[:statistics])
         Sawyer::Resource.new(agent, video_hash)
-      end
+      end.lazy
+         .sort_by{|item| [item.likeCount, item.description, item.viewCount]}
+         .reverse!
+         .to_a
     end
   end
 
