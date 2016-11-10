@@ -28,12 +28,20 @@ class Connection < ApplicationRecord
     )
   end
 
-  def update_from_oauth(auth)
-    update!(uid: auth.uid, access_token: auth.credentials.token)
+  def update_from_oauth(uid, token)
+    update!(
+      uid: uid,
+      access_token: token,
+      expires_at: Time.now + 30.minutes
+    )
   end
 
   def owner?(user)
     user == developer
+  end
+
+  def expired?
+    expiring.include?(provider) && Time.now.to_i > expires_at.to_i
   end
 
   def data
@@ -49,5 +57,9 @@ class Connection < ApplicationRecord
       'linkedin' => 'fetch_positions',
       'youtube' => 'fetch_talks'
     }.freeze
+  end
+
+  def expiring
+    %w(linkedin youtube)
   end
 end
