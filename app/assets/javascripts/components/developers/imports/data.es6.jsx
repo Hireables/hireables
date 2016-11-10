@@ -9,14 +9,14 @@ import Checkbox from 'material-ui/Checkbox';
 import '../../styles/pins.sass';
 
 const Data = (props) => {
-  const { connectionData, selectItem } = props;
+  const { connectionData, toggleItem } = props;
   return (
     <ListItem
       className={`list-item ${connectionData.pinned ? 'pinned' : ''}`}
       leftCheckbox={
         <Checkbox
           style={{ top: 'calc(100% / 3)' }}
-          onCheck={event => selectItem(event, connectionData)}
+          onCheck={event => toggleItem(event, connectionData)}
         />
       }
       rightIcon={
@@ -59,7 +59,7 @@ const Data = (props) => {
 
 Data.propTypes = {
   connectionData: React.PropTypes.object,
-  selectItem: React.PropTypes.func,
+  toggleItem: React.PropTypes.func,
 };
 
 const DataContainer = Relay.createContainer(Data, {

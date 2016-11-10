@@ -6,7 +6,6 @@ import Relay from 'react-relay';
 import { List, ListItem } from 'material-ui/List';
 import RaisedButton from 'material-ui/RaisedButton';
 import Snackbar from 'material-ui/Snackbar';
-import update from 'immutability-helper';
 import Loader from 'react-loader';
 
 // Child Components
@@ -43,7 +42,7 @@ class Connection extends Component {
     this.open = this.open.bind(this);
     this.connect = this.connect.bind(this);
     this.close = this.close.bind(this);
-    this.selectItem = this.selectItem.bind(this);
+    this.toggleItem = this.toggleItem.bind(this);
     this.setNotification = this.setNotification.bind(this);
     this.handleRequestClose = this.handleRequestClose.bind(this);
     this.saveSelectedItems = this.saveSelectedItems.bind(this);
@@ -69,28 +68,38 @@ class Connection extends Component {
     });
   }
 
-  selectItem(event, data) {
+  toggleItem(event, data) {
     const { connection } = this.props;
     const importContainer = $(`#import-container-${connection.provider}`);
     const uncheckedBoxes = importContainer.find('input:checkbox:not(:checked)');
-    const index = this.state.selections.indexOf(data.id);
+
+    const currentSelection = this.state.selections.filter(selection => (
+      selection.id === data.id
+    ));
+
+    const selected = currentSelection.length > 0;
+
     $(event.target).closest('.list-item').toggleClass('pinned');
 
-    if (index === -1) {
+    if (selected) {
+      const selectionsExceptCurrent = this.state.selections.filter(selection => (
+        selection.id !== data.id
+      ));
       this.setState({
-        selections: update(this.state.selections, { $push: [data.id] }),
+        selections: selectionsExceptCurrent,
+      }, () => {
+        uncheckedBoxes.attr({ disabled: false });
+        uncheckedBoxes.closest('.list-item').removeClass('disabled');
+      });
+    } else {
+      const newSelections = this.state.selections.concat([data]);
+      this.setState({
+        selections: newSelections,
       }, () => {
         if (this.state.selections.length >= 6) {
           uncheckedBoxes.attr({ disabled: true });
           uncheckedBoxes.closest('.list-item').addClass('disabled');
         }
-      });
-    } else {
-      this.setState({
-        selections: update(this.state.selections, { $splice: [[index, 1]] }),
-      }, () => {
-        uncheckedBoxes.attr({ disabled: false });
-        uncheckedBoxes.closest('.list-item').removeClass('disabled');
       });
     }
   }
@@ -217,7 +226,11 @@ class Connection extends Component {
               label={text}
             />
           }
-          primaryText={connection.provider}
+          primaryText={
+            <div style={{ textTransform: 'capitalize' }}>
+              {connection.provider}
+            </div>
+          }
         />
 
         <Loader loaded={this.state.loaded} />
@@ -233,7 +246,7 @@ class Connection extends Component {
                   <Data
                     connectionData={node}
                     key={node.id}
-                    selectItem={this.selectItem}
+                    toggleItem={this.toggleItem}
                   />
                 ))}
               </List>
