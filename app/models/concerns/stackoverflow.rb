@@ -18,9 +18,10 @@ module Stackoverflow
 
   def sw_query_params
     {
-      filter: '!2-1PreTBA.iShwUKwLsJz',
+      filter: ENV.fetch('STACKOVERFLOW_ANSWERS_FILTER'),
       order: 'desc',
       sort: 'activity',
+      pagesize: 11,
       site: 'stackoverflow',
       access_token: access_token,
       key: ENV.fetch('STACKOVERFLOW_CLIENT_KEY')
