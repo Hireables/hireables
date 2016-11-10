@@ -28,14 +28,6 @@ class Connection < ApplicationRecord
     )
   end
 
-  def update_from_oauth(uid, token)
-    update!(
-      uid: uid,
-      access_token: token,
-      expires_at: Time.now + 30.minutes
-    )
-  end
-
   def owner?(user)
     user == developer
   end
