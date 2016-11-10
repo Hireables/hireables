@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(version: 20161106044415) do
 
   create_table "achievements", force: :cascade do |t|
     t.string   "source_id"
+    t.string   "source_name"
     t.jsonb    "data"
     t.integer  "developer_id"
     t.datetime "created_at",   null: false
@@ -31,7 +32,7 @@ ActiveRecord::Schema.define(version: 20161106044415) do
     t.string   "uid"
     t.string   "provider"
     t.string   "access_token"
-    t.datetime "expires_at",   default: '2016-12-10 15:45:31'
+    t.datetime "expires_at",   default: '2016-12-10 16:04:41'
     t.integer  "developer_id"
     t.datetime "created_at",                                   null: false
     t.datetime "updated_at",                                   null: false
