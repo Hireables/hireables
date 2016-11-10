@@ -16,18 +16,19 @@ module Achievements
 
     def call
       raise StandardError, 'Unauthorised' unless connection.owner?(current_developer)
-      data = connection.data_for(params[:selection])
-      achievement = current_developer.achievements.create!(data)
+
+      selection = connection.data.detect do |item|
+        item.id.to_s == params[:selection]
+      end
+
+      achievement = Achievement.create(data: selection, source_id: selection.id)
       achievements_connection = GraphQL::Relay::RelationConnection.new(
         current_developer.achievements,
         {}
       )
 
       edge = GraphQL::Relay::Edge.new(achievement, achievements_connection)
-
-      {
-        achievementEdge: edge
-      }
+      { achievementEdge: edge }
     end
   end
 end

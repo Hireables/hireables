@@ -4,45 +4,20 @@ ConnectionDataType = GraphQL::ObjectType.define do
   interfaces [GraphQL::Relay::Node.interface]
   global_id_field :id
 
-  field :database_id, types.String, 'Database id for this data' do
-    resolve ->(obj, _args, _ctx) { obj.id }
-  end
-
-  field :title, types.String, 'title of this import' do
-    resolve ->(obj, _args, _ctx) { pick_field(obj, title_fields) }
-  end
-
-  field :description, types.String, 'Description of this import' do
-    resolve ->(obj, _args, _ctx) { pick_field(obj, description_fields) }
-  end
-
-  field :stars, types.Int, 'Total stars for this import' do
-    resolve ->(obj, _args, _ctx) { pick_field(obj, star_fields) }
-  end
-
+  field :source_id, types.String, 'Source id for this data'
+  field :title, types.String, 'title of this import'
+  field :name, types.String, 'Name of this import'
+  field :description, types.String, 'Description of this import'
+  field :body, types.String, 'Body of this import'
+  field :summary, types.String, 'Summary of this import'
+  field :stargazers_count, types.Int, 'Total stars for this import'
+  field :likeCount, types.Int, 'Total likes for this import'
+  field :up_vote_count, types.Int, 'Total up votes for this import'
   field :pinned, types.Boolean, 'Is answer pinned?' do
-    resolve ->(obj, _args, ctx) { pinned?(obj, ctx) }
+    resolve ->(obj, _args, _ctx) { pinned?(obj, ctx) }
   end
 end
 
 def pinned?(obj, ctx)
-  ctx[:current_developer].pinned_achievements.member?(pick_field(obj, title_fields))
-end
-
-def pick_field(obj, fields)
-  obj.send(fields.detect { |field| obj.key?(field.to_sym) })
-rescue TypeError
-  'Field not found'
-end
-
-def star_fields
-  %w(up_vote_count stargazers_count likeCount)
-end
-
-def description_fields
-  %w(body summary description)
-end
-
-def title_fields
-  %w(title name)
+  ctx[:current_developer].pinned_achievements.member?(obj.source_id)
 end
