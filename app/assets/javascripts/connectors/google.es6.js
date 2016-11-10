@@ -27,8 +27,8 @@ export default class Google {
       .signIn()
       .then((data) => {
         resolve(Object.assign(data.Zi, { uid: data.El }));
-      }, (error) => {
-        reject(error);
+      }, () => {
+        reject('Can not login. Please try again!');
       });
     });
   }

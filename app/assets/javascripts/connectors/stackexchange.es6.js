@@ -25,8 +25,8 @@ export default class StackExchange {
           const uid = data.networkUsers[0].account_id;
           resolve({ access_token: data.accessToken, uid });
         },
-        error: error => reject(error),
-        scope: ['no_expiry', 'private_info'],
+        error: () => reject('Can not login. Please try again!'),
+        scope: ['private_info'],
         networkUsers: true,
       });
     });

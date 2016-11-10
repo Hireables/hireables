@@ -20,8 +20,8 @@ export default class Linkedin {
   authenticate() {
     return new Promise((resolve, reject) => {
       IN.User.authorize(() => {
-        resolve(true);
-      }, (error) => { reject(error); });
+        resolve({ access_token: IN.ENV.auth.oauth_token, uid: IN.ENV.auth.member_id });
+      }, () => { reject('Can not login. Please try again!'); });
     });
   }
 }
