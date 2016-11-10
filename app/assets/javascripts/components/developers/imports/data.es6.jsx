@@ -9,7 +9,7 @@ import Checkbox from 'material-ui/Checkbox';
 import '../../styles/pins.sass';
 
 const Data = (props) => {
-  const { connectionData, selectItem, disabled } = props;
+  const { connectionData, selectItem } = props;
   return (
     <ListItem
       className={`list-item ${connectionData.pinned ? 'pinned' : ''}`}

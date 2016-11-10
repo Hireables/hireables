@@ -3,7 +3,6 @@
 // Modules
 import React, { Component } from 'react';
 import Relay from 'react-relay';
-import ReactDOM from 'react-dom';
 import { List, ListItem } from 'material-ui/List';
 import RaisedButton from 'material-ui/RaisedButton';
 import Snackbar from 'material-ui/Snackbar';
@@ -45,6 +44,7 @@ class Connection extends Component {
     this.connect = this.connect.bind(this);
     this.close = this.close.bind(this);
     this.selectItem = this.selectItem.bind(this);
+    this.setNotification = this.setNotification.bind(this);
     this.handleRequestClose = this.handleRequestClose.bind(this);
     this.saveSelectedItems = this.saveSelectedItems.bind(this);
     this.state = {
@@ -52,12 +52,21 @@ class Connection extends Component {
       selections: [],
       open: false,
       loaded: true,
+      notification: '',
     };
 
     const Adapter = adapterMap.get(props.connection.provider);
     if (Adapter) {
       this.connectionAdapter = new Adapter();
     }
+  }
+
+  setNotification(notification) {
+    this.setState({
+      notification,
+    }, () => {
+      this.setState({ open: true });
+    });
   }
 
   selectItem(event, data) {
@@ -152,15 +161,28 @@ class Connection extends Component {
 
   connect() {
     this.connectionAdapter.authenticate().then((data) => {
-      const onFailure = () => false;
-      const onSuccess = () => true;
+      const onFailure = (transaction) => {
+        const error = transaction.getError() || new Error('Mutation failed.');
+        let errorMessage;
+
+        if (error.source.errors && Array.isArray(error.source.errors)) {
+          errorMessage = error.source.errors[0].message;
+        } else {
+          errorMessage = error.message;
+        }
+
+        this.setNotification(errorMessage);
+      };
 
       Relay.Store.commitUpdate(new ConnectOAuth({
         id: this.props.developer.id,
         provider: this.props.connection.provider,
         access_token: data.access_token,
+        expires_at: data.expires_at,
         uid: data.uid.toString(),
-      }), { onFailure, onSuccess });
+      }), { onFailure });
+    }, (error) => {
+      this.setNotification(error);
     });
   }
 
@@ -188,21 +210,12 @@ class Connection extends Component {
           innerDivStyle={{ padding: '20px 56px 20px 72px' }}
           leftIcon={<div className={connection.provider}><Icon /></div>}
           rightIconButton={
-            connection.provider === 'linkedin' &&
-              !connection.connected && connection.expired ?
-                <RaisedButton
-                  style={{ top: 10, right: 20 }}
-                  primary
-                  href={Routes.developer_linkedin_omniauth_authorize_path()}
-                  label={text}
-                /> :
-                <RaisedButton
-                  style={{ top: 10, right: 20 }}
-                  primary
-                  onClick={onClickAction}
-                  label={text}
-                />
-
+            <RaisedButton
+              style={{ top: 10, right: 20 }}
+              primary
+              onClick={onClickAction}
+              label={text}
+            />
           }
           primaryText={connection.provider}
         />
@@ -241,7 +254,7 @@ class Connection extends Component {
             <div className="notifications">
               <Snackbar
                 open={this.state.open}
-                message="Maximum 6 selections allowed"
+                message={this.state.notification}
                 autoHideDuration={5000}
                 onRequestClose={this.handleRequestClose}
               />

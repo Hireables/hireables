@@ -23,7 +23,11 @@ export default class StackExchange {
       this.SE.authenticate({
         success: (data) => {
           const uid = data.networkUsers[0].account_id;
-          resolve({ access_token: data.accessToken, uid });
+          resolve({
+            access_token: data.accessToken,
+            uid,
+            expires_at: data.expirationDate,
+          });
         },
         error: () => reject('Can not login. Please try again!'),
         scope: ['private_info'],

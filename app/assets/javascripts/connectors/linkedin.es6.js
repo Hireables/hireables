@@ -10,7 +10,6 @@ export default class Linkedin {
           api_key: window.LINKEDIN_CLIENT_ID,
           scope: 'r_basicprofile r_emailaddress',
           lang: 'en_US',
-          authorize: true,
           credentials_cookie: true,
         });
       }
@@ -20,7 +19,14 @@ export default class Linkedin {
   authenticate() {
     return new Promise((resolve, reject) => {
       IN.User.authorize(() => {
-        resolve({ access_token: IN.ENV.auth.oauth_token, uid: IN.ENV.auth.member_id });
+        const auth = IN.ENV.auth;
+        const expirationTime = new Date();
+        expirationTime.setSeconds(expirationTime.getSeconds() + 3600);
+        resolve({
+          access_token: auth.oauth_token,
+          uid: auth.member_id,
+          expires_at: expirationTime,
+        });
       }, () => { reject('Can not login. Please try again!'); });
     });
   }

@@ -26,7 +26,13 @@ export default class Google {
       .getAuthInstance()
       .signIn()
       .then((data) => {
-        resolve(Object.assign(data.Zi, { uid: data.El }));
+        const expirationTime = new Date();
+        expirationTime.setSeconds(data.Zi.expires_in);
+        resolve({
+          access_token: data.Zi.access_token,
+          uid: data.El,
+          expires_at: expirationTime,
+        });
       }, () => {
         reject('Can not login. Please try again!');
       });
