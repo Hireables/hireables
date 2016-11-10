@@ -36,9 +36,10 @@ ActiveRecord::Schema.define(version: 20161106044415) do
     t.string   "uid"
     t.string   "provider"
     t.string   "access_token"
+    t.datetime "expires_at",   default: '2016-11-10 03:58:22'
     t.integer  "developer_id"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at",                                   null: false
+    t.datetime "updated_at",                                   null: false
     t.index ["developer_id"], name: "index_connections_on_developer_id", using: :btree
     t.index ["uid", "provider"], name: "index_connections_on_uid_and_provider", unique: true, using: :btree
   end
