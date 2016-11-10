@@ -5,6 +5,11 @@ ConnectionType = GraphQL::ObjectType.define do
   global_id_field :id
 
   field :provider, types.String, 'title of this achievement'
+
+  field :expired, types.Boolean, 'Is connection token expired?' do
+    resolve ->(obj, _args, _ctx) { obj.expired? }
+  end
+
   field :connected, types.Boolean, 'Is this account connected?' do
     resolve ->(obj, _args, _ctx) { obj.access_token.present? }
   end
