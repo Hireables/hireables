@@ -36,7 +36,7 @@ ActiveRecord::Schema.define(version: 20161106044415) do
     t.string   "uid"
     t.string   "provider"
     t.string   "access_token"
-    t.datetime "expires_at",   default: '2016-11-10 03:58:22'
+    t.datetime "expires_at",   default: '2016-12-10 05:21:42'
     t.integer  "developer_id"
     t.datetime "created_at",                                   null: false
     t.datetime "updated_at",                                   null: false
