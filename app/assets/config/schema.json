@@ -2713,6 +2713,16 @@
               "defaultValue": null
             },
             {
+              "name": "expires_at",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
               "name": "uid",
               "description": null,
               "type": {
