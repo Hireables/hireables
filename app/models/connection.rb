@@ -60,6 +60,6 @@ class Connection < ApplicationRecord
   end
 
   def expiring
-    %w(linkedin youtube)
+    %w(stackoverflow linkedin youtube)
   end
 end
