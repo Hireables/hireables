@@ -7,6 +7,7 @@ module Developers
     input_field :id, !types.ID
     input_field :provider, !types.String
     input_field :access_token, types.String
+    input_field :expires_at, types.String
     input_field :uid, types.String
     return_field :developer, DeveloperType
 
