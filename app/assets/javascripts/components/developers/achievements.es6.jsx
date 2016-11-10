@@ -3,22 +3,7 @@ import React, { Component } from 'react';
 import Relay from 'react-relay';
 
 // Child Components
-import Code from './achievements/code.es6';
-import Repo from './achievements/repo.es6';
-import Education from './achievements/education.es6';
-import Job from './achievements/job.es6';
-import Answer from './achievements/answer.es6';
-import Talk from './achievements/talk.es6';
-import Presentation from './achievements/presentation.es6';
-
-const achievementsMap = new Map();
-achievementsMap.set('Code', Code);
-achievementsMap.set('Repo', Repo);
-achievementsMap.set('Education', Education);
-achievementsMap.set('Job', Job);
-achievementsMap.set('Answer', Answer);
-achievementsMap.set('Talk', Talk);
-achievementsMap.set('Presentation', Presentation);
+import Achievement from './achievement.es6';
 
 class DeveloperAchievements extends Component {
   constructor(props) {
@@ -34,15 +19,12 @@ class DeveloperAchievements extends Component {
 
   render() {
     const { developer } = this.props;
-
-    const renderAchievement = (node) => {
-      const Achievement = achievementsMap[node.type];
-      return <Achievement achievement={node} key={node.id} />;
-    };
-
     return (
       <div className="achievements">
-        {developer.achievements.map(({ node }) => (renderAchievement(node)))}
+        <h1>Achievements</h1>
+        {developer.achievements.edges.map(({ node }) => (
+          <Achievement achievement={node} key={node.id} />
+        ))}
       </div>
     );
   }
@@ -65,13 +47,8 @@ const DeveloperAchievementsContainer = Relay.createContainer(DeveloperAchievemen
           edges {
             node {
               id,
-              ${Code.getFragment('achievement')},
-              ${Repo.getFragment('achievement')},
-              ${Education.getFragment('achievement')},
-              ${Job.getFragment('achievement')},
-              ${Answer.getFragment('achievement')},
-              ${Talk.getFragment('achievement')},
-              ${Presentation.getFragment('achievement')},
+              category,
+              ${Achievement.getFragment('achievement')},
             }
           }
         }

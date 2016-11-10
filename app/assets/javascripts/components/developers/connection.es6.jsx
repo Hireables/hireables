@@ -7,6 +7,7 @@ import { List, ListItem } from 'material-ui/List';
 import RaisedButton from 'material-ui/RaisedButton';
 import Snackbar from 'material-ui/Snackbar';
 import Loader from 'react-loader';
+import update from 'immutability-helper';
 
 // Child Components
 import Github from '../shared/icons/github.es6';
@@ -22,6 +23,7 @@ import LinkedinLogin from '../../connectors/linkedin.es6';
 
 // Mutations
 import ConnectOAuth from '../../mutations/developer/connectOauth.es6';
+import AchievementCreate from '../../mutations/achievement/create.es6';
 
 // Map icon component to string names
 const iconsMap = new Map();
@@ -60,6 +62,19 @@ class Connection extends Component {
     }
   }
 
+  componentWillUpdate(nextProps, nextState) {
+    if (nextProps.connection.data &&
+        nextProps.connection.data.edges.length > 0 &&
+        nextProps !== this.props) {
+      const selections = nextProps.connection.data.edges.filter(({ node }) => {
+        if (node.pinned) {
+          return node.database_id;
+        }
+      });
+      this.setState({ selections });
+    }
+  }
+
   setNotification(notification) {
     this.setState({
       notification,
@@ -68,75 +83,60 @@ class Connection extends Component {
     });
   }
 
-  toggleItem(event, data) {
+  toggleItem(event, dataId) {
     const { connection } = this.props;
     const importContainer = $(`#import-container-${connection.provider}`);
     const uncheckedBoxes = importContainer.find('input:checkbox:not(:checked)');
-
-    const currentSelection = this.state.selections.filter(selection => (
-      selection.id === data.id
-    ));
-
-    const selected = currentSelection.length > 0;
-
+    const index = this.state.selections.indexOf(dataId);
     $(event.target).closest('.list-item').toggleClass('pinned');
 
-    if (selected) {
-      const selectionsExceptCurrent = this.state.selections.filter(selection => (
-        selection.id !== data.id
-      ));
+    if (index === -1) {
       this.setState({
-        selections: selectionsExceptCurrent,
-      }, () => {
-        uncheckedBoxes.attr({ disabled: false });
-        uncheckedBoxes.closest('.list-item').removeClass('disabled');
-      });
-    } else {
-      const newSelections = this.state.selections.concat([data]);
-      this.setState({
-        selections: newSelections,
+        selections: update(this.state.selections, { $push: [dataId] }),
       }, () => {
         if (this.state.selections.length >= 6) {
           uncheckedBoxes.attr({ disabled: true });
           uncheckedBoxes.closest('.list-item').addClass('disabled');
         }
       });
+    } else {
+      this.setState({
+        selections: update(this.state.selections, { $splice: [[index, 1]] }),
+      }, () => {
+        uncheckedBoxes.attr({ disabled: false });
+        uncheckedBoxes.closest('.list-item').removeClass('disabled');
+      });
     }
   }
 
   saveSelectedItems(event) {
     event.preventDefault();
-    // const platforms = this.state.platforms.map(elem => (
-    //   elem.label
-    // ));
+    console.log(this.state.selections);
+    this.setNotification('Saving...');
+    const onFailure = (transaction) => {
+      const error = transaction.getError() || new Error('Mutation failed.');
+      let errorMessage;
 
-    // this.setNotification('Saving...');
+      if (error.list.errors && Array.isArray(error.list.errors)) {
+        errorMessage = error.list.errors[0].message;
+      } else {
+        errorMessage = error.message;
+      }
 
-    // const onFailure = (transaction) => {
-    //   const error = transaction.getError() || new Error('Mutation failed.');
-    //   let errorMessage;
+      this.setNotification(errorMessage);
+    };
 
-    //   if (error.list.errors && Array.isArray(error.list.errors)) {
-    //     errorMessage = error.list.errors[0].message;
-    //   } else {
-    //     errorMessage = error.message;
-    //   }
+    const onSuccess = (response) => {
+      console.log(response);
+    };
 
-    //   this.setNotification(errorMessage);
-    // };
-
-    // const onSuccess = () => {
-    //   window.location.href = Routes.connection_path(this.props.connection.login);
-    // };
-
-    // const newModel = Object.assign(this.formNode.getModel(), {
-    //   platforms: platforms.toString(),
-    // });
-
-    // Relay.Store.commitUpdate(new UpdateDeveloper({
-    //   id: this.props.connection.id,
-    //   ...newModel,
-    // }), { onFailure, onSuccess });
+    this.state.selections.forEach((selection) => {
+      Relay.Store.commitUpdate(new AchievementCreate({
+        id: this.props.connection.id,
+        developerId: this.props.developer.id,
+        selection: selection.toString(),
+      }), { onFailure, onSuccess });
+    });
   }
 
   handleRequestClose() {
@@ -260,7 +260,7 @@ class Connection extends Component {
                 primary
                 className="pull-right"
                 type="submit"
-                onClick={this.savePinnedRepos}
+                onClick={this.saveSelectedItems}
               />
             </div>
 
@@ -301,6 +301,8 @@ const ConnectionContainer = Relay.createContainer(Connection, {
           edges {
             node {
               id,
+              database_id,
+              pinned,
               ${Data.getFragment('connectionData')}
             }
           }

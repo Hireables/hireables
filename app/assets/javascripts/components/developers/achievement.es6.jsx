@@ -1,14 +1,14 @@
 // Modules
 import React, { Component } from 'react';
 import Relay from 'react-relay';
+import createDOMPurify from 'dompurify';
 import {
   Card,
-  CardHeader,
   CardTitle,
   CardText,
 } from 'material-ui/Card';
 
-class AnswerAchievement extends Component {
+class Achievement extends Component {
   constructor(props) {
     super(props);
     this.edit = this.edit.bind(this);
@@ -27,35 +27,34 @@ class AnswerAchievement extends Component {
 
   render() {
     const { achievement } = this.props;
+    const description = createDOMPurify.sanitize(
+      achievement.description,
+      { ALLOWED_TAGS: ['b', 'i', 'code'] }
+    );
     return (
-      <div className="achievement">
+      <div className={`achievement ${achievement.source} ${achievement.category}`}>
         <Card>
-          <CardHeader
-            title="URL Avatar"
-            subtitle="Subtitle"
-            avatar="images/jsa-128.jpg"
-          />
           <CardTitle title={achievement.title} subtitle={achievement.date} />
-          <CardText>
-            {achievement.description}
-          </CardText>
+          <CardText dangerouslySetInnerHTML={{ __html: description }} />
         </Card>
       </div>
     );
   }
 }
 
-AnswerAchievement.propTypes = {
+Achievement.propTypes = {
   relay: React.PropTypes.object,
   achievement: React.PropTypes.object,
 };
 
-const AnswerAchievementContainer = Relay.createContainer(AnswerAchievement, {
+const AchievementContainer = Relay.createContainer(Achievement, {
   fragments: {
     achievement: () => Relay.QL`
       fragment on Achievement {
         id,
         title,
+        source,
+        category,
         description,
         link,
         date,
@@ -64,4 +63,4 @@ const AnswerAchievementContainer = Relay.createContainer(AnswerAchievement, {
   },
 });
 
-export default AnswerAchievementContainer;
+export default AchievementContainer;

@@ -4,19 +4,26 @@ import Relay from 'react-relay';
 import { ListItem } from 'material-ui/List';
 import FontIcon from 'material-ui/FontIcon';
 import Checkbox from 'material-ui/Checkbox';
+import createDOMPurify from 'dompurify';
 
 // Stylesheet
 import '../../styles/pins.sass';
 
 const Data = (props) => {
   const { connectionData, toggleItem } = props;
+  const description = createDOMPurify.sanitize(
+    connectionData.description,
+    { ALLOWED_TAGS: ['b', 'i'] }
+  );
+
   return (
     <ListItem
       className={`list-item ${connectionData.pinned ? 'pinned' : ''}`}
       leftCheckbox={
         <Checkbox
+          defaultChecked={connectionData.pinned}
           style={{ top: 'calc(100% / 3)' }}
-          onCheck={event => toggleItem(event, connectionData)}
+          onCheck={event => toggleItem(event, connectionData.database_id)}
         />
       }
       rightIcon={
@@ -48,9 +55,8 @@ const Data = (props) => {
         <span
           className="description"
           style={{ maxWidth: '70%' }}
-        >
-          {connectionData.description}
-        </span>
+          dangerouslySetInnerHTML={{ __html: description }}
+        />
       }
       secondaryTextLines={2}
     />
@@ -66,11 +72,12 @@ const DataContainer = Relay.createContainer(Data, {
   fragments: {
     connectionData: () => Relay.QL`
       fragment on ConnectionData {
-        id
-        title
-        description
-        stars
-        pinned
+        id,
+        title,
+        description,
+        stars,
+        pinned,
+        database_id,
       }
     `,
   },

@@ -23,6 +23,7 @@ import Orgs from './orgs.es6';
 import Company from './company.es6';
 import Actions from './actions.es6';
 import Connections from './connections.es6';
+import Achievements from './achievements.es6';
 
 // StyleSheets
 import badgeStyles from '../styles/badges.es6';
@@ -92,6 +93,7 @@ const DeveloperShow = (props) => {
                 <Levels developer={developer} />
               </div>
             </div>
+            <Achievements developer={developer} />
             <Connections developer={developer} />
           </div>
         </header>
@@ -114,6 +116,7 @@ const DeveloperShowContainer = Relay.createContainer(DeveloperShow, {
         login,
         hireable,
         premium,
+        ${Achievements.getFragment('developer')},
         ${Name.getFragment('developer')},
         ${Company.getFragment('developer')},
         ${Orgs.getFragment('developer')},
