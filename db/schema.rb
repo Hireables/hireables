@@ -17,26 +17,21 @@ ActiveRecord::Schema.define(version: 20161106044415) do
   enable_extension "citext"
 
   create_table "achievements", force: :cascade do |t|
-    t.string   "title"
-    t.text     "description"
-    t.string   "link"
-    t.datetime "date"
-    t.jsonb    "meta"
-    t.string   "source"
-    t.string   "category"
+    t.string   "source_id"
+    t.jsonb    "data"
     t.integer  "developer_id"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
+    t.index ["data"], name: "index_achievements_on_data", using: :gin
     t.index ["developer_id"], name: "index_achievements_on_developer_id", using: :btree
-    t.index ["meta"], name: "index_achievements_on_meta", using: :gin
-    t.index ["source", "category", "title", "developer_id"], name: "unique_achievement", unique: true, using: :btree
+    t.index ["source_id", "developer_id"], name: "index_achievements_on_source_id_and_developer_id", unique: true, using: :btree
   end
 
   create_table "connections", force: :cascade do |t|
     t.string   "uid"
     t.string   "provider"
     t.string   "access_token"
-    t.datetime "expires_at",   default: '2016-12-10 05:21:42'
+    t.datetime "expires_at",   default: '2016-12-10 15:45:31'
     t.integer  "developer_id"
     t.datetime "created_at",                                   null: false
     t.datetime "updated_at",                                   null: false
