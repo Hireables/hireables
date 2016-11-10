@@ -36,18 +36,81 @@ class Connection < ApplicationRecord
     expiring.include?(provider) && Time.now.to_i > expires_at.to_i
   end
 
+  def data_for(selection)
+    provider_content.fetch(provider)
+    content = data.detect { |item| item.id.to_s == selection.to_s  }
+    send(provider_content.fetch(provider), content)
+  end
+
+  def repo(repo)
+    {
+      title: repo.name,
+      description: repo.description,
+      source: provider,
+      category: provider_content.fetch(provider),
+      date: repo.pushed_at,
+      link: repo.html_url,
+      meta: repo.to_attrs,
+    }
+  end
+
+  def answer(answer)
+    {
+      title: answer.title,
+      description: answer.body,
+      source: provider,
+      category: provider_content.fetch(provider),
+      date: answer.creation_date,
+      link: answer.link,
+      meta: answer.to_attrs,
+    }
+  end
+
+  def job(job)
+    {
+      title: job.title,
+      description: job.summary,
+      source: provider,
+      category: provider_content.fetch(provider),
+      date: Time.new(job.startDate.year.to_i, job.startDate.month.to_i),
+      link: nil,
+      meta: job.to_attrs,
+    }
+  end
+
+  def talk(talk)
+    {
+      title: talk.title,
+      description: talk.description,
+      source: provider,
+      category: provider_content.fetch(provider),
+      date: talk.publishedAt,
+      link: nil,
+      meta: talk.to_attrs,
+    }
+  end
+
   def data
-    send(provider_methods.fetch(provider))
+    send(provider_data_methods.fetch(provider))
   rescue KeyError
     'Unknown connection'
   end
 
-  def provider_methods
+  def provider_data_methods
     {
       'github' => 'fetch_repos',
       'stackoverflow' => 'fetch_answers',
       'linkedin' => 'fetch_positions',
       'youtube' => 'fetch_talks'
+    }.freeze
+  end
+
+  def provider_content
+    {
+      'github' => 'repo',
+      'stackoverflow' => 'answer',
+      'linkedin' => 'job',
+      'youtube' => 'talk'
     }.freeze
   end
 
