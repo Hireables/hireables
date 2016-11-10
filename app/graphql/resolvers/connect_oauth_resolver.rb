@@ -18,7 +18,7 @@ class ConnectOauthResolver
 
   def call
     @connection = current_developer.connections.where(provider: provider).first
-    @connection.update!(uid: params[:uid], access_token: params[:access_token])
+    @connection.update_from_oauth(params[:uid], params[:access_token])
     { developer: current_developer.reload }
   end
 end
