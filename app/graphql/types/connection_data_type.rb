@@ -4,7 +4,8 @@ ConnectionDataType = GraphQL::ObjectType.define do
   interfaces [GraphQL::Relay::Node.interface]
   global_id_field :id
 
-  field :source_id, types.String, 'Source id for this data'
+  field :source_id, types.String, 'Data source id'
+  field :source_name, types.String, 'Data source name'
   field :title, types.String, 'title of this import'
   field :name, types.String, 'Name of this import'
   field :description, types.String, 'Description of this import'
