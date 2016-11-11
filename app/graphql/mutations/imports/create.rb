@@ -1,6 +1,6 @@
-module Achievements
+module Imports
   Create = GraphQL::Relay::Mutation.define do
-    name 'AchievementCreate'
+    name 'ImportCreate'
     description 'Create an achievement based on connection id'
 
     # Define input and return field
@@ -8,10 +8,10 @@ module Achievements
     input_field :selection, !types.String
 
     # Return field
-    return_field :achievementEdge, AchievementType.edge_type
+    return_field :achievementEdge, ImportType.edge_type
     return_field :developer, DeveloperType
 
     # Resolve block to update a model
-    resolve(Achievements::CreateResolver)
+    resolve(Imports::CreateResolver)
   end
 end

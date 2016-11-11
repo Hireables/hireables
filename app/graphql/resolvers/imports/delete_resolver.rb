@@ -1,6 +1,6 @@
-module Achievements
+module Imports
   class DeleteResolver
-    attr_reader :params, :current_developer
+    attr_reader :params, :current_developer, :ctx
 
     def self.call(*args)
       new(*args).call
@@ -9,14 +9,15 @@ module Achievements
     def initialize(_obj, inputs, ctx)
       raise StandardError, 'Unauthorised' unless ctx[:current_developer].present?
       @params = inputs
+      @ctx = ctx
       @current_developer = ctx[:current_developer]
     end
 
     def call
-      @achievement = Schema.object_from_id(inputs['id'], ctx)
-      raise StandardError, 'Unauthorised' unless @achievement.developer == current_developer
-      @achievement.destroy
-      {  deletedId: params['id'] }
+      @import = Schema.object_from_id(params['id'], ctx)
+      raise StandardError, 'Unauthorised' unless @import.developer == current_developer
+      @import.destroy
+      {  deletedId: params['id'], developer: current_developer }
     end
   end
 end

@@ -4,7 +4,7 @@ ConnectionType = GraphQL::ObjectType.define do
   interfaces [GraphQL::Relay::Node.interface]
   global_id_field :id
 
-  field :provider, types.String, 'title of this achievement'
+  field :provider, types.String, 'Connection provider name'
 
   field :expired, types.Boolean, 'Is connection token expired?' do
     resolve ->(obj, _args, _ctx) { obj.expired? }
@@ -14,8 +14,8 @@ ConnectionType = GraphQL::ObjectType.define do
     resolve ->(obj, _args, _ctx) { obj.access_token.present? }
   end
 
-  connection :data, ConnectionDataType.connection_type do
-    description 'Returns data for a connection based on provider.'
-    resolve ->(obj, _args, _ctx) { obj.data }
+  connection :imports, ImportType.connection_type do
+    description 'Returns imports available for a connection based on provider.'
+    resolve ->(obj, _args, _ctx) { obj.imports } }
   end
 end

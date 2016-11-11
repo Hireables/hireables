@@ -28,7 +28,7 @@ DeveloperType = GraphQL::ObjectType.define do
     resolve ->(obj, _args, ctx) { favourited?(obj, ctx) }
   end
 
-  connection :achievements, AchievementType.connection_type do
+  connection :achievements, ImportType.connection_type do
     description 'Achievement connection to fetch paginated achievements.'
     resolve ->(obj, _args, _ctx) { resolve_achievements(obj) }
   end

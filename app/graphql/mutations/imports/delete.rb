@@ -1,6 +1,6 @@
-module Achievements
+module Imports
   Delete = GraphQL::Relay::Mutation.define do
-    name 'AchievementDelete'
+    name 'ImportDelete'
     description 'Delete an achievement based on data source id'
 
     # Define input and return field
@@ -8,9 +8,9 @@ module Achievements
 
     # Return field
     return_field :deletedId, !types.ID
-    return_field :developer, DeveloperType
+    return_field :developer, !DeveloperType
 
     # Resolve block to update a model
-    resolve(Achievements::CreateResolver)
+    resolve(Imports::DeleteResolver)
   end
 end

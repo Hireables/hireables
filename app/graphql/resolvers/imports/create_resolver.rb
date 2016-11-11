@@ -1,4 +1,4 @@
-module Achievements
+module Imports
   class CreateResolver
     attr_reader :connection, :params, :current_developer
 
@@ -21,14 +21,20 @@ module Achievements
         item.id.to_s == params[:selection]
       end
 
-      achievement = Achievement.create(data: selection, source_id: selection.id)
-      achievements_connection = GraphQL::Relay::RelationConnection.new(
-        current_developer.achievements,
+      selection = Connection.where('data @> ?', '[{"id":  45273714}]').first
+      import = current_developer.imports.create(
+        data: selection,
+        source_id: selection.id.to_s,
+        source_name: connection.provider,
+      )
+
+      imports_connection = GraphQL::Relay::RelationConnection.new(
+        current_developer.imports,
         {}
       )
 
-      edge = GraphQL::Relay::Edge.new(achievement, achievements_connection)
-      { achievementEdge: edge }
+      edge = GraphQL::Relay::Edge.new(import, imports_connection)
+      { importEdge: edge }
     end
   end
 end
