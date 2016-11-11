@@ -20,12 +20,10 @@ ActiveRecord::Schema.define(version: 20161106044415) do
     t.string   "uid"
     t.string   "provider"
     t.string   "access_token"
-    t.jsonb    "data"
-    t.datetime "expires_at",   default: '2016-12-11 06:22:05'
+    t.datetime "expires_at",   default: '2016-12-11 06:35:02'
     t.integer  "developer_id"
     t.datetime "created_at",                                   null: false
     t.datetime "updated_at",                                   null: false
-    t.index ["data"], name: "index_connections_on_data", using: :gin
     t.index ["developer_id"], name: "index_connections_on_developer_id", using: :btree
     t.index ["uid", "provider"], name: "index_connections_on_uid_and_provider", unique: true, using: :btree
   end
@@ -128,16 +126,17 @@ ActiveRecord::Schema.define(version: 20161106044415) do
 
   create_table "imports", force: :cascade do |t|
     t.string   "source_id"
+    t.string   "source_name"
     t.jsonb    "data"
-    t.boolean  "pinned"
+    t.boolean  "pinned",        default: false
     t.integer  "connection_id"
     t.integer  "developer_id"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
     t.index ["connection_id"], name: "index_imports_on_connection_id", using: :btree
     t.index ["data"], name: "index_imports_on_data", using: :gin
     t.index ["developer_id"], name: "index_imports_on_developer_id", using: :btree
-    t.index ["source_id", "connection_id"], name: "index_imports_on_source_id_and_connection_id", unique: true, using: :btree
+    t.index ["source_name", "source_id", "connection_id"], name: "index_imports_on_source_name_and_source_id_and_connection_id", unique: true, using: :btree
   end
 
   add_foreign_key "connections", "developers"
