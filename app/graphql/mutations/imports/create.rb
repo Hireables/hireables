@@ -8,7 +8,7 @@ module Imports
     input_field :selection, !types.String
 
     # Return field
-    return_field :achievementEdge, ImportType.edge_type
+    return_field :importEdge, ImportType.edge_type
     return_field :developer, DeveloperType
 
     # Resolve block to update a model

@@ -43,7 +43,7 @@ const DeveloperAchievementsContainer = Relay.createContainer(DeveloperAchievemen
     developer: () => Relay.QL`
       fragment on Developer {
         id,
-        imports(first: $first) {
+        achievements(first: $first) {
           edges {
             node {
               id,

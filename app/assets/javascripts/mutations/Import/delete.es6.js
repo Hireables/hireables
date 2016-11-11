@@ -11,7 +11,7 @@ export default class extends Relay.Mutation {
         deletedId
         developer {
           id,
-          imports,
+          achievements,
           connections {
             data,
           }

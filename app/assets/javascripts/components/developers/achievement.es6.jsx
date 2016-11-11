@@ -53,7 +53,7 @@ Achievement.propTypes = {
 const AchievementContainer = Relay.createContainer(Achievement, {
   fragments: {
     achievement: () => Relay.QL`
-      fragment on Achievement {
+      fragment on Import {
         id,
         title,
         name,
