@@ -9,8 +9,7 @@ class Connection < ApplicationRecord
   has_many :imports, dependent: :destroy
   validates_presence_of :provider
   validates_uniqueness_of :provider
-
-  after_commit :create_import, unless: [:inactive?, :import_exists?]
+  after_commit :create_import, if: :active?
 
   def self.find_or_create_for_oauth(auth)
     @connection ||= find_for_oauth(auth)
@@ -29,12 +28,8 @@ class Connection < ApplicationRecord
     )
   end
 
-  def import_exists?
-    imports.where(provider: provider)
-  end
-
-  def inactive?
-    expired? || access_token.nil? || developer_id.nil?
+  def active?
+    !expired? && access_token.present? && developer_id.present?
   end
 
   def owner?(user)
