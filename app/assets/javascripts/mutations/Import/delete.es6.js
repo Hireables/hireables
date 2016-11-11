@@ -2,15 +2,19 @@ import Relay from 'react-relay';
 
 export default class extends Relay.Mutation {
   getMutation() {
-    return Relay.QL`mutation{ AchievementDelete }`;
+    return Relay.QL`mutation{ ImportDelete }`;
   }
 
   getFatQuery() {
     return Relay.QL`
-      fragment on AchievementDeletePayload {
+      fragment on ImportDeletePayload {
         deletedId
         developer {
           id,
+          imports,
+          connections {
+            data,
+          }
         }
       }
     `;

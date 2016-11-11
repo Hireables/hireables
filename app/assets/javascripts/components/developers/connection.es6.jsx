@@ -7,13 +7,14 @@ import { List, ListItem } from 'material-ui/List';
 import RaisedButton from 'material-ui/RaisedButton';
 import Snackbar from 'material-ui/Snackbar';
 import Loader from 'react-loader';
+import update from 'immutability-helper';
 
 // Child Components icons
 import Github from '../shared/icons/github.es6';
 import StackOverflow from '../shared/icons/stackoverflow.es6';
 import Linkedin from '../shared/icons/linkedin.es6';
 import Youtube from '../shared/icons/youtube.es6';
-import Data from './imports/data.es6';
+import Item from './imports/item.es6';
 
 // Provider authentication
 import GoogleLogin from '../../connectors/google.es6';
@@ -22,8 +23,8 @@ import LinkedinLogin from '../../connectors/linkedin.es6';
 
 // Mutations
 import ConnectOAuth from '../../mutations/developer/connectOauth.es6';
-import AchievementCreate from '../../mutations/achievement/create.es6';
-import AchievementDelete from '../../mutations/achievement/delete.es6';
+import ImportCreate from '../../mutations/import/create.es6';
+import ImportDelete from '../../mutations/import/delete.es6';
 
 // Map icon component to string names
 const iconsMap = new Map();
@@ -68,7 +69,7 @@ class Connection extends Component {
         nextProps !== this.props) {
       const selections = nextProps.connection.data.edges.filter(({ node }) => {
         return node.pinned;
-      }).map(({ node }) => (node.database_id));
+      }).map(({ node }) => (node.source_id));
 
       this.setState({ selections }, () => {
         this.updateList();
@@ -98,6 +99,29 @@ class Connection extends Component {
 
   toggleItem(event, item) {
     event.preventDefault();
+    const importContainer = $(`#import-container-${this.props.connection.provider}`);
+    const uncheckedBoxes = importContainer.find('input:checkbox:not(:checked)');
+    const index = this.state.selections.indexOf(item.source_id);
+    $(event.target).closest('.list-item').toggleClass('pinned');
+
+    if (index === -1) {
+      this.setState({
+        selections: update(this.state.selections, { $push: [item.source_id] }),
+      }, () => {
+        if (this.state.selections.length >= 6) {
+          uncheckedBoxes.attr({ disabled: true });
+          uncheckedBoxes.closest('.list-item').addClass('disabled');
+        }
+      });
+    } else {
+      this.setState({
+        selections: update(this.state.selections, { $splice: [[index, 1]] }),
+      }, () => {
+        uncheckedBoxes.attr({ disabled: false });
+        uncheckedBoxes.closest('.list-item').removeClass('disabled');
+      });
+    }
+
     this.setNotification('Saving...');
     const onFailure = (transaction) => {
       const error = transaction.getError() || new Error('Mutation failed.');
@@ -110,6 +134,7 @@ class Connection extends Component {
       }
 
       this.setNotification(errorMessage);
+      $(event.target).closest('.list-item').toggleClass('pinned');
     };
 
     const onSuccess = (response) => {
@@ -117,15 +142,15 @@ class Connection extends Component {
     };
 
     if (item.pinned) {
-      Relay.Store.commitUpdate(new AchievementDelete({
+      Relay.Store.commitUpdate(new ImportCreate({
         id: item.id,
         developerId: this.props.developer.id,
       }), { onFailure, onSuccess });
     } else {
-      Relay.Store.commitUpdate(new AchievementCreate({
+      Relay.Store.commitUpdate(new ImportDelete({
         id: this.props.connection.id,
         developerId: this.props.developer.id,
-        selection: item.database_id.toString(),
+        selection: item.source_id.toString(),
       }), { onFailure, onSuccess });
     }
   }
@@ -233,9 +258,9 @@ class Connection extends Component {
           >
             <div className="content">
               <List style={{ paddingBottom: 0, paddingTop: 0 }}>
-                {connection.data.edges.map(({ node }) => (
-                  <Data
-                    connectionData={node}
+                {connection.imports.edges.map(({ node }) => (
+                  <Item
+                    data={node}
                     key={node.id}
                     toggleItem={this.toggleItem}
                   />
@@ -281,13 +306,13 @@ const ConnectionContainer = Relay.createContainer(Connection, {
         provider,
         connected,
         expired,
-        data(first: $first) @include(if: $showData) {
+        imports(first: $first) @include(if: $showData) {
           edges {
             node {
               id,
-              database_id,
+              source_id,
               pinned,
-              ${Data.getFragment('connectionData')}
+              ${Item.getFragment('import')}
             }
           }
         }

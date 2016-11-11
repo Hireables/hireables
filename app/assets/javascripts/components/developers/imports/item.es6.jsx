@@ -10,20 +10,20 @@ import createDOMPurify from 'dompurify';
 import '../../styles/pins.sass';
 
 const Data = (props) => {
-  const { connectionData, toggleItem } = props;
+  const { data, toggleItem } = props;
   const description = createDOMPurify.sanitize(
-    connectionData.description,
+    data.description || data.summary || data.body,
     { ALLOWED_TAGS: ['b', 'i'] }
   );
 
   return (
     <ListItem
-      className={`list-item ${connectionData.pinned ? 'pinned' : ''}`}
+      className={`list-item ${data.pinned ? 'pinned' : ''}`}
       leftCheckbox={
         <Checkbox
-          defaultChecked={connectionData.pinned}
+          defaultChecked={data.pinned}
           style={{ top: 'calc(100% / 3)' }}
-          onCheck={event => toggleItem(event, connectionData)}
+          onCheck={event => toggleItem(event, data)}
         />
       }
       rightIcon={
@@ -37,7 +37,11 @@ const Data = (props) => {
             color: '#777',
           }}
         >
-          {connectionData.stars}
+          {
+            data.stargazers_count ||
+            data.likeCount ||
+            data.up_vote_count
+          }
           <FontIcon
             color="#777"
             className="material-icons"
@@ -50,7 +54,7 @@ const Data = (props) => {
         </div>
       }
 
-      primaryText={connectionData.title}
+      primaryText={data.title || data.name}
       secondaryText={
         <span
           className="description"
@@ -64,20 +68,25 @@ const Data = (props) => {
 };
 
 Data.propTypes = {
-  connectionData: React.PropTypes.object,
+  data: React.PropTypes.object,
   toggleItem: React.PropTypes.func,
 };
 
 const DataContainer = Relay.createContainer(Data, {
   fragments: {
-    connectionData: () => Relay.QL`
-      fragment on ConnectionData {
+    import: () => Relay.QL`
+      fragment on Import {
         id,
         title,
+        name,
+        summary,
+        body,
         description,
-        stars,
+        stargazers_count,
+        likeCount,
+        up_vote_count,
+        source_id,
         pinned,
-        database_id,
       }
     `,
   },

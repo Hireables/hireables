@@ -1147,8 +1147,8 @@
           "description": "Fetch Achievement associated fields",
           "fields": [
             {
-              "name": "category",
-              "description": "Category of this achievement",
+              "name": "body",
+              "description": "Body of this data source",
               "args": [
 
               ],
@@ -1161,8 +1161,8 @@
               "deprecationReason": null
             },
             {
-              "name": "date",
-              "description": "Date of this achievement",
+              "name": "creation_date",
+              "description": "Date of this source(so)",
               "args": [
 
               ],
@@ -1176,7 +1176,21 @@
             },
             {
               "name": "description",
-              "description": "Description of this achievement",
+              "description": "Description of this data source",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "html_url",
+              "description": "Url of this source(github)",
               "args": [
 
               ],
@@ -1207,8 +1221,22 @@
               "deprecationReason": null
             },
             {
+              "name": "likeCount",
+              "description": "Total likes for this data source",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "link",
-              "description": "Source link of this achievement",
+              "description": "Link of this source(so)",
               "args": [
 
               ],
@@ -1221,8 +1249,120 @@
               "deprecationReason": null
             },
             {
-              "name": "source",
-              "description": "Source of this achievement",
+              "name": "name",
+              "description": "Name of this data source",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "pinned",
+              "description": "Is answer pinned?",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "publishedAt",
+              "description": "Date of this source(youtube)",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "pushed_at",
+              "description": "Date of this source(github)",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "source_id",
+              "description": "Data source id",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "source_name",
+              "description": "Data source name",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "stargazers_count",
+              "description": "Total stars for this data source",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "startDate",
+              "description": "Date of this source(linkedin)",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "summary",
+              "description": "Summary of this data source",
               "args": [
 
               ],
@@ -1236,13 +1376,27 @@
             },
             {
               "name": "title",
-              "description": "title of this achievement",
+              "description": "title of this data source",
               "args": [
 
               ],
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "up_vote_count",
+              "description": "Total up votes for this data source",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -1656,7 +1810,7 @@
             },
             {
               "name": "source_id",
-              "description": "Source id for this data",
+              "description": "Database id for this data source",
               "args": [
 
               ],
@@ -3113,9 +3267,13 @@
 
               ],
               "type": {
-                "kind": "OBJECT",
-                "name": "Developer",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "Developer",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null

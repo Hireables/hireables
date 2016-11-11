@@ -2,15 +2,18 @@ import Relay from 'react-relay';
 
 export default class extends Relay.Mutation {
   getMutation() {
-    return Relay.QL`mutation{ AchievementCreate }`;
+    return Relay.QL`mutation{ ImportCreate }`;
   }
 
   getFatQuery() {
     return Relay.QL`
-      fragment on AchievementCreatePayload {
-        achievementEdge
+      fragment on ImportCreatePayload {
+        importEdge
         developer {
           id,
+          connections {
+            data,
+          }
         }
       }
     `;

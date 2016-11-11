@@ -22,7 +22,7 @@ class DeveloperAchievements extends Component {
     return (
       <div className="achievements">
         <h1>Achievements</h1>
-        {developer.achievements.edges.map(({ node }) => (
+        {developer.imports.edges.map(({ node }) => (
           <Achievement achievement={node} key={node.id} />
         ))}
       </div>
@@ -43,11 +43,10 @@ const DeveloperAchievementsContainer = Relay.createContainer(DeveloperAchievemen
     developer: () => Relay.QL`
       fragment on Developer {
         id,
-        achievements(first: $first) {
+        imports(first: $first) {
           edges {
             node {
               id,
-              category,
               ${Achievement.getFragment('achievement')},
             }
           }

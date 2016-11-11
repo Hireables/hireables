@@ -28,13 +28,16 @@ class Achievement extends Component {
   render() {
     const { achievement } = this.props;
     const description = createDOMPurify.sanitize(
-      achievement.description,
+      achievement.description || achievement.body || achievement.summary,
       { ALLOWED_TAGS: ['b', 'i', 'code'] }
     );
     return (
-      <div className={`achievement ${achievement.source} ${achievement.category}`}>
+      <div className={`achievement ${achievement.source}`}>
         <Card>
-          <CardTitle title={achievement.title} subtitle={achievement.date} />
+          <CardTitle
+            title={achievement.title || achievement.name}
+            subtitle={achievement.creation_date || achievement.pushed_at || achievement.publishedAt || achievement.startDate && achievement.startDate.year}
+          />
           <CardText dangerouslySetInnerHTML={{ __html: description }} />
         </Card>
       </div>
@@ -53,11 +56,19 @@ const AchievementContainer = Relay.createContainer(Achievement, {
       fragment on Achievement {
         id,
         title,
-        source,
-        category,
+        name,
+        summary,
+        body,
+        source_name,
         description,
-        link,
-        date,
+        stargazers_count,
+        likeCount,
+        up_vote_count,
+        pinned,
+        creation_date,
+        startDate,
+        publishedAt,
+        pushed_at,
       }
     `,
   },
