@@ -10,7 +10,7 @@ class Connection < ApplicationRecord
   validates_presence_of :provider
   validates_uniqueness_of :provider
 
-  after_commit :store_data, unless: [:inactive?, :data_exists?]
+  after_commit :create_import, unless: [:inactive?, :import_exists?]
 
   def self.find_or_create_for_oauth(auth)
     ActiveRecord::Base.transaction do
@@ -31,8 +31,8 @@ class Connection < ApplicationRecord
     )
   end
 
-  def data_exists?
-    !data.nil? && !data.empty?
+  def import_exists?
+    imports.where(provider: provider)
   end
 
   def inactive?
@@ -47,22 +47,19 @@ class Connection < ApplicationRecord
     expiring.include?(provider) && Time.now.to_i > expires_at.to_i
   end
 
-  def store_data
-    provider_data_collection = send(provider_data_methods.fetch(provider))
-    provider_data_hash = provider_data_collection.map do |item|
-      imports.create(
+  def create_import
+    send(provider_import_methods.fetch(provider)).map do |item|
+      imports.first_or_create(
         developer: connection.developer,
         source_id: item.id,
         source_name: provider,
-        data: item.to_attrs
-      )
-      item.to_attrs
+      ).update(data: item.to_attrs)
     end
   rescue KeyError
     'Unknown connection'
   end
 
-  def provider_data_methods
+  def provider_import_methods
     {
       'github' => 'fetch_repos',
       'stackoverflow' => 'fetch_answers',
