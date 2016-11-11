@@ -13,6 +13,6 @@ module Github
       .to_a
 
     rescue NoMethodError
-      [].to_json
+      []
   end
 end
