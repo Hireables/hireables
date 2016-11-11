@@ -13,10 +13,8 @@ class Connection < ApplicationRecord
   after_commit :create_import, unless: [:inactive?, :import_exists?]
 
   def self.find_or_create_for_oauth(auth)
-    ActiveRecord::Base.transaction do
-      @connection ||= find_for_oauth(auth)
-      @connection.nil? ? create_from_oauth(auth) : @connection
-    end
+    @connection ||= find_for_oauth(auth)
+    @connection.nil? ? create_from_oauth(auth) : @connection
   end
 
   def self.find_for_oauth(auth)
