@@ -49,8 +49,15 @@ class Connection < ApplicationRecord
 
   def store_data
     provider_data_collection = send(provider_data_methods.fetch(provider))
-    provider_data_hash = provider_data_collection.map { |item| item.to_attrs  }
-    update!(data: provider_data_hash)
+    provider_data_hash = provider_data_collection.map do |item|
+      imports.create(
+        developer: connection.developer,
+        source_id: item.id,
+        source_name: provider,
+        data: item.to_attrs
+      )
+      item.to_attrs
+    end
   rescue KeyError
     'Unknown connection'
   end
