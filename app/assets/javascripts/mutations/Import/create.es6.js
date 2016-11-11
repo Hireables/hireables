@@ -11,9 +11,7 @@ export default class extends Relay.Mutation {
         importEdge
         developer {
           id,
-          connections {
-            data,
-          }
+          connections
         }
       }
     `;

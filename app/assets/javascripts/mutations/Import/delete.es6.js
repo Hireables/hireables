@@ -12,9 +12,7 @@ export default class extends Relay.Mutation {
         developer {
           id,
           achievements,
-          connections {
-            data,
-          }
+          connections
         }
       }
     `;
