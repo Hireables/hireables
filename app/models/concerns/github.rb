@@ -11,5 +11,8 @@ module Github
       .sort_by(&:stargazers_count)
       .reverse!
       .to_a
+
+    rescue NoMethodError
+      [].to_json
   end
 end

@@ -19,6 +19,9 @@ module Youtube
          .reverse!
          .to_a
     end
+
+  rescue NoMethodError
+    [].to_json
   end
 
   private
