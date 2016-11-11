@@ -1,5 +1,5 @@
 class Authenticator
-  attr_reader :auth, :developer, :connection
+  attr_reader :auth
 
   def self.call(*args)
     new(*args).find_or_create_from_omniauth
@@ -7,20 +7,21 @@ class Authenticator
 
   def initialize(auth)
     @auth = auth
-    @connection = Connection.find_or_create_for_oauth(auth)
-    @developer = @connection.developer
   end
 
   def find_or_create_from_omniauth
     ActiveRecord::Base.transaction do
-      if developer.nil?
+      @connection = Connection.find_or_create_for_oauth(auth)
+      @developer = @connection.developer
+
+      if @developer.nil?
         new_developer = create_from_omniauth
-        connection.update!(developer: new_developer)
-        new_developer
+        @connection.update!(developer: new_developer)
       else
-        connection.update!(access_token: auth.credentials.token)
-        developer
+        @connection.update!(access_token: auth.credentials.token)
       end
+
+      @connection.developer
     end
   end
 
