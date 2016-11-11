@@ -2,17 +2,16 @@ import Relay from 'react-relay';
 
 export default class extends Relay.Mutation {
   getMutation() {
-    return Relay.QL`mutation{ ImportDelete }`;
+    return Relay.QL`mutation{ ToggleAchievement }`;
   }
 
   getFatQuery() {
     return Relay.QL`
-      fragment on ImportDeletePayload {
-        deletedId
+      fragment on ToggleAchievementPayload {
         developer {
           id,
+          connections,
           achievements,
-          connections
         }
       }
     `;
@@ -21,11 +20,15 @@ export default class extends Relay.Mutation {
   getConfigs() {
     return [
       {
-        type: 'NODE_DELETE',
+        type: 'RANGE_ADD',
         parentName: 'developer',
         parentID: this.props.developerId,
         connectionName: 'achievements',
-        deletedIDFieldName: 'deletedId',
+        edgeName: 'achievementEdge',
+        rangeBehaviors: {
+          '': 'append',
+          'order(-id)': 'prepend',
+        },
       },
     ];
   }
@@ -33,6 +36,7 @@ export default class extends Relay.Mutation {
   getVariables() {
     return {
       id: this.props.id,
+      selection: this.props.selection,
     };
   }
 }

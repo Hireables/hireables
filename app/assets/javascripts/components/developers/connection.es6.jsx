@@ -23,8 +23,7 @@ import LinkedinLogin from '../../connectors/linkedin.es6';
 
 // Mutations
 import ConnectOAuth from '../../mutations/developer/connectOauth.es6';
-import ImportCreate from '../../mutations/import/create.es6';
-import ImportDelete from '../../mutations/import/delete.es6';
+import ToggleAchievement from '../../mutations/import/toggle.es6';
 
 // Map icon component to string names
 const iconsMap = new Map();
@@ -141,18 +140,11 @@ class Connection extends Component {
       console.log(response);
     };
 
-    if (item.pinned) {
-      Relay.Store.commitUpdate(new ImportCreate({
-        id: item.id,
-        developerId: this.props.developer.id,
-      }), { onFailure, onSuccess });
-    } else {
-      Relay.Store.commitUpdate(new ImportDelete({
-        id: this.props.connection.id,
-        developerId: this.props.developer.id,
-        selection: item.source_id.toString(),
-      }), { onFailure, onSuccess });
-    }
+    Relay.Store.commitUpdate(new ToggleAchievement({
+      id: this.props.connection.id,
+      developerId: this.props.developer.id,
+      selection: item.source_id.toString(),
+    }), { onFailure, onSuccess });
   }
 
   handleRequestClose() {
@@ -251,7 +243,7 @@ class Connection extends Component {
 
         <Loader loaded={this.state.loaded} />
 
-        {connection.data && connection.data.edges.length > 0 ?
+        {connection.imports && connection.imports.edges.length > 0 ?
           <div
             className="import-container"
             id={`import-container-${connection.provider}`}
@@ -260,7 +252,7 @@ class Connection extends Component {
               <List style={{ paddingBottom: 0, paddingTop: 0 }}>
                 {connection.imports.edges.map(({ node }) => (
                   <Item
-                    data={node}
+                    item={node}
                     key={node.id}
                     toggleItem={this.toggleItem}
                   />
@@ -312,7 +304,7 @@ const ConnectionContainer = Relay.createContainer(Connection, {
               id,
               source_id,
               pinned,
-              ${Item.getFragment('import')}
+              ${Item.getFragment('item')}
             }
           }
         }

@@ -10,20 +10,20 @@ import createDOMPurify from 'dompurify';
 import '../../styles/pins.sass';
 
 const Data = (props) => {
-  const { data, toggleItem } = props;
+  const { item, toggleItem } = props;
   const description = createDOMPurify.sanitize(
-    data.description || data.summary || data.body,
+    item.description || item.summary || item.body,
     { ALLOWED_TAGS: ['b', 'i'] }
   );
 
   return (
     <ListItem
-      className={`list-item ${data.pinned ? 'pinned' : ''}`}
+      className={`list-item ${item.pinned ? 'pinned' : ''}`}
       leftCheckbox={
         <Checkbox
-          defaultChecked={data.pinned}
+          defaultChecked={item.pinned}
           style={{ top: 'calc(100% / 3)' }}
-          onCheck={event => toggleItem(event, data)}
+          onCheck={event => toggleItem(event, item)}
         />
       }
       rightIcon={
@@ -38,9 +38,9 @@ const Data = (props) => {
           }}
         >
           {
-            data.stargazers_count ||
-            data.likeCount ||
-            data.up_vote_count
+            item.stargazers_count ||
+            item.likeCount ||
+            item.up_vote_count
           }
           <FontIcon
             color="#777"
@@ -54,7 +54,7 @@ const Data = (props) => {
         </div>
       }
 
-      primaryText={data.title || data.name}
+      primaryText={item.title || item.name}
       secondaryText={
         <span
           className="description"
@@ -68,13 +68,13 @@ const Data = (props) => {
 };
 
 Data.propTypes = {
-  data: React.PropTypes.object,
+  item: React.PropTypes.object,
   toggleItem: React.PropTypes.func,
 };
 
 const DataContainer = Relay.createContainer(Data, {
   fragments: {
-    import: () => Relay.QL`
+    item: () => Relay.QL`
       fragment on Import {
         id,
         title,
@@ -86,6 +86,7 @@ const DataContainer = Relay.createContainer(Data, {
         likeCount,
         up_vote_count,
         source_id,
+        source_name,
         pinned,
       }
     `,

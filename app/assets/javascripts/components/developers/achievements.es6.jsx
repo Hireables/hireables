@@ -22,7 +22,7 @@ class DeveloperAchievements extends Component {
     return (
       <div className="achievements">
         <h1>Achievements</h1>
-        {developer.imports.edges.map(({ node }) => (
+        {developer.achievements.edges.map(({ node }) => (
           <Achievement achievement={node} key={node.id} />
         ))}
       </div>
