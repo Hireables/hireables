@@ -6,8 +6,11 @@ class Connection < ApplicationRecord
   include Youtube
 
   belongs_to :developer, touch: true
+  has_many :imports, dependent: :destroy
   validates_presence_of :provider
   validates_uniqueness_of :provider
+
+  after_commit :store_data, unless: [:inactive?, :data_exists?]
 
   def self.find_or_create_for_oauth(auth)
     ActiveRecord::Base.transaction do
@@ -28,6 +31,14 @@ class Connection < ApplicationRecord
     )
   end
 
+  def data_exists?
+    !data.nil? && !data.empty?
+  end
+
+  def inactive?
+    expired? || access_token.nil? || developer_id.nil?
+  end
+
   def owner?(user)
     user == developer
   end
@@ -36,8 +47,10 @@ class Connection < ApplicationRecord
     expiring.include?(provider) && Time.now.to_i > expires_at.to_i
   end
 
-  def data
-    send(provider_data_methods.fetch(provider))
+  def store_data
+    provider_data_collection = send(provider_data_methods.fetch(provider))
+    provider_data_hash = provider_data_collection.map { |item| item.to_attrs  }
+    update!(data: provider_data_hash)
   rescue KeyError
     'Unknown connection'
   end

@@ -9,8 +9,7 @@ class Developer < ApplicationRecord
   validates_uniqueness_of :login
 
   has_many :connections, dependent: :destroy
-  has_many :achievements, dependent: :destroy
-  set :pinned_achievements
+  has_many :achievements, through: :imports
 
   before_save :format_platforms, unless: :empty_platforms?
   after_create :seed_available_connections
@@ -29,7 +28,7 @@ class Developer < ApplicationRecord
   end
 
   def access_token_by_provider(provider)
-    connections.where(provider: provider).first.try(:access_token)
+    connection_by_provider(provider).try(:access_token)
   end
 
   def connection_by_provider(provider)
