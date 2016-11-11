@@ -4,6 +4,7 @@ class CreateConnections < ActiveRecord::Migration[5.0]
       t.string :uid
       t.string :provider
       t.string :access_token
+      t.jsonb :data
       t.datetime :expires_at, default: Time.now + 30.days
       t.references :developer, foreign_key: true
 
@@ -11,5 +12,6 @@ class CreateConnections < ActiveRecord::Migration[5.0]
     end
 
     add_index :connections, [:uid, :provider], unique: true
+    add_index :connections, :data, using: :gin
   end
 end

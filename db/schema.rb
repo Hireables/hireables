@@ -16,26 +16,16 @@ ActiveRecord::Schema.define(version: 20161106044415) do
   enable_extension "plpgsql"
   enable_extension "citext"
 
-  create_table "achievements", force: :cascade do |t|
-    t.string   "source_id"
-    t.string   "source_name"
-    t.jsonb    "data"
-    t.integer  "developer_id"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-    t.index ["data"], name: "index_achievements_on_data", using: :gin
-    t.index ["developer_id"], name: "index_achievements_on_developer_id", using: :btree
-    t.index ["source_id", "developer_id"], name: "index_achievements_on_source_id_and_developer_id", unique: true, using: :btree
-  end
-
   create_table "connections", force: :cascade do |t|
     t.string   "uid"
     t.string   "provider"
     t.string   "access_token"
-    t.datetime "expires_at",   default: '2016-12-10 16:04:41'
+    t.jsonb    "data"
+    t.datetime "expires_at",   default: '2016-12-11 06:22:05'
     t.integer  "developer_id"
     t.datetime "created_at",                                   null: false
     t.datetime "updated_at",                                   null: false
+    t.index ["data"], name: "index_connections_on_data", using: :gin
     t.index ["developer_id"], name: "index_connections_on_developer_id", using: :btree
     t.index ["uid", "provider"], name: "index_connections_on_uid_and_provider", unique: true, using: :btree
   end
@@ -136,8 +126,23 @@ ActiveRecord::Schema.define(version: 20161106044415) do
     t.index ["login"], name: "index_favourites_on_login", using: :btree
   end
 
-  add_foreign_key "achievements", "developers"
+  create_table "imports", force: :cascade do |t|
+    t.string   "source_id"
+    t.jsonb    "data"
+    t.boolean  "pinned"
+    t.integer  "connection_id"
+    t.integer  "developer_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["connection_id"], name: "index_imports_on_connection_id", using: :btree
+    t.index ["data"], name: "index_imports_on_data", using: :gin
+    t.index ["developer_id"], name: "index_imports_on_developer_id", using: :btree
+    t.index ["source_id", "connection_id"], name: "index_imports_on_source_id_and_connection_id", unique: true, using: :btree
+  end
+
   add_foreign_key "connections", "developers"
   add_foreign_key "favourites", "developers"
   add_foreign_key "favourites", "employers"
+  add_foreign_key "imports", "connections"
+  add_foreign_key "imports", "developers"
 end
