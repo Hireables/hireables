@@ -1,5 +1,5 @@
 class Import < ApplicationRecord
-  belongs_to :connection, touch: true
+  belongs_to :connection
   belongs_to :developer, touch: true
 
   validates_presence_of :source_id, :data

@@ -1,5 +1,6 @@
 class Developer < ApplicationRecord
   include Redis::Objects
+  alias_attribute :achievements, :imports
   devise :database_authenticatable, :trackable, :validatable, :omniauthable
 
   store_accessor :data, :html_url, :company, :blog, :followers,
@@ -9,7 +10,7 @@ class Developer < ApplicationRecord
   validates_uniqueness_of :login
 
   has_many :connections, dependent: :destroy
-  has_many :achievements, through: :imports
+  has_many :imports, -> { where(pinned: true) }
 
   before_save :format_platforms, unless: :empty_platforms?
   after_create :seed_available_connections

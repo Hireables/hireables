@@ -9,31 +9,18 @@ class Connection < ApplicationRecord
   has_many :imports, dependent: :destroy
   validates_presence_of :provider
   validates_uniqueness_of :provider
-  after_commit :create_import, if: :active?
-
-  def self.find_or_create_for_oauth(auth)
-    @connection ||= find_for_oauth(auth)
-    @connection.nil? ? create_from_oauth(auth) : @connection
-  end
-
-  def self.find_for_oauth(auth)
-    where(uid: auth.uid, provider: auth.provider).first
-  end
-
-  def self.create_from_oauth(auth)
-    create!(
-      uid: auth.uid,
-      provider: auth.provider,
-      access_token: auth.credentials.token
-    )
-  end
+  after_commit :create_import, if: [:active?, :unimported?]
 
   def active?
-    !expired? && access_token.present? && developer_id.present?
+    !expired? && access_token.present?
   end
 
   def owner?(user)
     user == developer
+  end
+
+  def unimported?
+    imports.where(source_name: provider).blank?
   end
 
   def expired?
@@ -41,15 +28,17 @@ class Connection < ApplicationRecord
   end
 
   def create_import
-    send(provider_import_methods.fetch(provider)).map do |item|
-      imports.first_or_create(
-        developer: connection.developer,
+    send(provider_import_methods.fetch(provider)).each do |item|
+      sawyer = Sawyer::Serializer.new('json')
+      imports.create(
+        developer: developer,
         source_id: item.id,
         source_name: provider,
-      ).update(data: item.to_attrs)
+        data: sawyer.decode_hash(item.to_attrs),
+      )
     end
   rescue KeyError
-    'Unknown connection'
+    'Unknown import type'
   end
 
   def provider_import_methods
