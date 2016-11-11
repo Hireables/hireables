@@ -20,11 +20,5 @@ ImportType = GraphQL::ObjectType.define do
   field :startDate, types.String, 'Date of this source(linkedin)'
   field :publishedAt, types.String, 'Date of this source(youtube)'
   field :pushed_at, types.String, 'Date of this source(github)'
-  field :pinned, types.Boolean, 'Is answer pinned?' do
-    resolve ->(obj, _args, ctx) { pinned?(obj, ctx) }
-  end
-end
-
-def pinned?(obj, ctx)
-  ctx[:current_developer].pinned_achievements.member?(obj.source_id)
+  field :pinned, types.Boolean, 'Is answer pinned?'
 end

@@ -139,7 +139,7 @@ DeveloperType = GraphQL::ObjectType.define do
 end
 
 def resolve_achievements(obj)
-  obj.achievements.nil? ? [] : obj.achievements.order(id: :asc)
+  obj.achievements.order(id: :asc)
 end
 
 def resolve_connections(obj)
