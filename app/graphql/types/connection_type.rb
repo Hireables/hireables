@@ -16,6 +16,6 @@ ConnectionType = GraphQL::ObjectType.define do
 
   connection :imports, ImportType.connection_type do
     description 'Returns imports available for a connection based on provider.'
-    resolve ->(obj, _args, _ctx) { obj.imports } }
+    resolve ->(obj, _args, _ctx) { obj.imports }
   end
 end
