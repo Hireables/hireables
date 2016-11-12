@@ -292,7 +292,6 @@ DEPENDENCIES
   redis-objects
   rubocop
   sass-rails (~> 5.0)
-  sawyer
   sentry-raven
   sidekiq
   spring
