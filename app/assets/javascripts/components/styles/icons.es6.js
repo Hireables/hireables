@@ -12,7 +12,7 @@ const iconStyles = StyleSheet.create({
   linkIcon: {
     color: '#555',
     padding: 0,
-    marginRight: 10,
+    margin: 0,
     marginBottom: 5,
     backgroundColor: 'transparent',
   },
