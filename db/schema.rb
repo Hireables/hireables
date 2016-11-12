@@ -20,7 +20,7 @@ ActiveRecord::Schema.define(version: 20161106044415) do
     t.string   "uid"
     t.string   "provider"
     t.string   "access_token"
-    t.datetime "expires_at",   default: '2016-12-11 08:45:25'
+    t.datetime "expires_at",   default: '2016-12-12 04:18:47'
     t.integer  "developer_id"
     t.datetime "created_at",                                   null: false
     t.datetime "updated_at",                                   null: false
@@ -136,6 +136,7 @@ ActiveRecord::Schema.define(version: 20161106044415) do
     t.index ["connection_id"], name: "index_imports_on_connection_id", using: :btree
     t.index ["data"], name: "index_imports_on_data", using: :gin
     t.index ["developer_id"], name: "index_imports_on_developer_id", using: :btree
+    t.index ["source_id"], name: "index_imports_on_source_id", using: :btree
     t.index ["source_name", "source_id", "connection_id"], name: "index_imports_on_source_name_and_source_id_and_connection_id", unique: true, using: :btree
   end
 
