@@ -5,9 +5,7 @@ import React from 'react';
 import Relay from 'react-relay';
 import Avatar from 'material-ui/Avatar';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import RaisedButton from 'material-ui/RaisedButton';
 import { css } from 'aphrodite';
-import ActionEdit from 'material-ui/svg-icons/image/edit';
 
 // Child components
 import Languages from './languages.es6';
@@ -62,6 +60,7 @@ const DeveloperShow = (props) => {
                 />
 
                 <br />
+                {currentUser.isEmployer ? <Actions developer={developer} /> : ''}
                 <Orgs developer={developer} />
               </div>
               <div className="basic">
@@ -83,16 +82,6 @@ const DeveloperShow = (props) => {
                 <Languages developer={developer} />
                 <JobTypes developer={developer} />
                 <Levels developer={developer} />
-                {/* {currentUser.isEmployer ? <Actions developer={developer} /> : ''}
-                {props.can_edit ?
-                  <RaisedButton
-                    primary
-                    label="Edit"
-                    icon={<ActionEdit />}
-                    className="edit-link"
-                    href={Routes.edit_developer_path(developer.login)}
-                  /> : ''
-                } */}
               </div>
             </div>
             <Connections developer={developer} />

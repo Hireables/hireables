@@ -38,8 +38,8 @@ class Links extends Component {
         <div className={css(iconStyles.links)}>
           {this.props.developer.email && this.props.developer.hireable ?
             <Chip
-              labelStyle={{ fontSize: 15 }}
-              className={css(iconStyles.linkIcon)}
+              labelStyle={{ fontSize: 15, paddingLeft: 5 }}
+              className={css(iconStyles.linkIcon, iconStyles.hover)}
               onClick={this.openMail}
               style={{ cursor: 'pointer' }}
             >
@@ -58,8 +58,8 @@ class Links extends Component {
 
           {this.props.developer.blog ?
             <Chip
-              labelStyle={{ fontSize: 15 }}
-              className={css(iconStyles.linkIcon)}
+              labelStyle={{ fontSize: 15, paddingLeft: 5 }}
+              className={css(iconStyles.linkIcon, iconStyles.hover)}
               style={{ cursor: 'pointer' }}
               onClick={event => Links.openUrl(event, this.props.developer.blog)}
             >
@@ -76,8 +76,8 @@ class Links extends Component {
           }
 
           <Chip
-            labelStyle={{ fontSize: 15 }}
-            className={css(iconStyles.linkIcon)}
+            labelStyle={{ fontSize: 15, paddingLeft: 5 }}
+            className={css(iconStyles.linkIcon, iconStyles.hover)}
             style={{ cursor: 'pointer' }}
             onClick={event => Links.openUrl(event, this.props.developer.html_url)}
           >
@@ -94,8 +94,8 @@ class Links extends Component {
 
           {this.props.developer.linkedin ?
             <Chip
-              labelStyle={{ fontSize: 15 }}
-              className={css(iconStyles.linkIcon)}
+              labelStyle={{ fontSize: 15, paddingLeft: 5 }}
+              className={css(iconStyles.linkIcon, iconStyles.hover)}
               style={{ cursor: 'pointer' }}
               onClick={event => Links.openUrl(event, this.props.developer.linkedin)}
             >
@@ -129,7 +129,7 @@ class Links extends Component {
 
           {this.props.developer.remote ?
             <Chip
-              labelStyle={{ fontSize: 15 }}
+              labelStyle={{ fontSize: 15, paddingLeft: 5 }}
               className={css(iconStyles.linkIcon)}
             >
               <Avatar
@@ -146,7 +146,7 @@ class Links extends Component {
 
           {this.props.developer.relocate ?
             <Chip
-              labelStyle={{ fontSize: 15 }}
+              labelStyle={{ fontSize: 15, paddingLeft: 5 }}
               className={css(iconStyles.linkIcon)}
             >
               <Avatar

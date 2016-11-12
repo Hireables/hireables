@@ -65,7 +65,7 @@ class DeveloperActions extends Component {
     const { developer } = this.props;
 
     return (
-      <div className="actions" style={{ marginTop: 10 }}>
+      <div className="actions" style={{ marginTop: 10, textAlign: 'center' }}>
         {developer.favourited ?
           <FlatButton
             icon={<FontIcon className="material-icons">playlist_add_check</FontIcon>}

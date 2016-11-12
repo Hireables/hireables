@@ -9,13 +9,15 @@ const badges = StyleSheet.create({
   },
 
   big: {
-    left: 115,
+    top: 20,
+    left: 130,
   },
 
   tag: {
     border: '1px solid #777',
     display: 'inline-block',
     padding: '5px 10px',
+    cursor: 'pointer',
     marginRight: 10,
     marginBottom: 10,
     textDecoration: 'none',
@@ -23,6 +25,12 @@ const badges = StyleSheet.create({
     minWidth: 50,
     fontSize: 12,
     letterSpacing: '0.02em',
+  },
+
+  hover: {
+    ':hover': {
+      backgroundColor: '#f2f2f2',
+    },
   },
 
   hireable: {

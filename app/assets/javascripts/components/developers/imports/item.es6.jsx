@@ -16,8 +16,6 @@ const Data = (props) => {
     { ALLOWED_TAGS: ['b', 'i'] }
   );
 
-  console.log(item);
-
   return (
     <ListItem
       className={`list-item ${item.pinned ? 'pinned' : ''}`}

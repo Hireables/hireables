@@ -14,6 +14,7 @@ const Chips = StyleSheet.create({
 
   badge: {
     margin: 4,
+    cursor: 'pointer',
   },
 
   label: {

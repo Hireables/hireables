@@ -35,7 +35,7 @@ const Languages = (props) => {
           {developer.platforms.map(platform => (
             <div
               key={Math.random()}
-              className={css(badgeStyles.badge, badgeStyles.tag)}
+              className={css(badgeStyles.badge, badgeStyles.tag, badgeStyles.hover)}
               onClick={() => Turbolinks.visit(`/search?${query(platform)}`)}
             >
               {platform}

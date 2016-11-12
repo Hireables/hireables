@@ -24,7 +24,7 @@ const Levels = (props) => {
             <div className="header-separator">Levels</div>
             {developer.cto ?
               <Chip
-                labelStyle={{ fontSize: 15 }}
+                labelStyle={{ fontSize: 15, paddingLeft: 5 }}
                 key={Math.random()}
                 className={css(chipStyles.chip)}
               >
@@ -42,7 +42,7 @@ const Levels = (props) => {
 
             {developer.lead ?
               <Chip
-                labelStyle={{ fontSize: 15 }}
+                labelStyle={{ fontSize: 15, paddingLeft: 5 }}
                 key={Math.random()}
                 className={css(chipStyles.chip)}
               >
@@ -60,7 +60,7 @@ const Levels = (props) => {
 
             {developer.senior ?
               <Chip
-                labelStyle={{ fontSize: 15 }}
+                labelStyle={{ fontSize: 15, paddingLeft: 5 }}
                 key={Math.random()}
                 className={css(chipStyles.chip)}
               >
@@ -79,7 +79,7 @@ const Levels = (props) => {
 
             {developer.mid ?
               <Chip
-                labelStyle={{ fontSize: 15 }}
+                labelStyle={{ fontSize: 15, paddingLeft: 5 }}
                 key={Math.random()}
                 className={css(chipStyles.chip)}
               >
@@ -97,7 +97,7 @@ const Levels = (props) => {
 
             {developer.junior ?
               <Chip
-                labelStyle={{ fontSize: 15 }}
+                labelStyle={{ fontSize: 15, paddingLeft: 5 }}
                 key={Math.random()}
                 className={css(chipStyles.chip)}
               >
@@ -115,7 +115,7 @@ const Levels = (props) => {
 
             {developer.student ?
               <Chip
-                labelStyle={{ fontSize: 15 }}
+                labelStyle={{ fontSize: 15, paddingLeft: 5 }}
                 key={Math.random()}
                 className={css(chipStyles.chip)}
               >

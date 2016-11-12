@@ -24,7 +24,7 @@ const JobTypes = (props) => {
             <div className="header-separator">Job Types</div>
             {developer.full_time ?
               <Chip
-                labelStyle={{ fontSize: 15 }}
+                labelStyle={{ fontSize: 15, paddingLeft: 5 }}
                 key={Math.random()}
                 className={css(chipStyles.chip)}
               >
@@ -41,7 +41,7 @@ const JobTypes = (props) => {
 
             {developer.part_time ?
               <Chip
-                labelStyle={{ fontSize: 15 }}
+                labelStyle={{ fontSize: 15, paddingLeft: 5 }}
                 key={Math.random()}
                 className={css(chipStyles.chip)}
               >
@@ -58,7 +58,7 @@ const JobTypes = (props) => {
 
             {developer.contract ?
               <Chip
-                labelStyle={{ fontSize: 15 }}
+                labelStyle={{ fontSize: 15, paddingLeft: 5 }}
                 key={Math.random()}
                 className={css(chipStyles.chip)}
               >
@@ -76,7 +76,7 @@ const JobTypes = (props) => {
 
             {developer.freelance ?
               <Chip
-                labelStyle={{ fontSize: 15 }}
+                labelStyle={{ fontSize: 15, paddingLeft: 5 }}
                 key={Math.random()}
                 className={css(chipStyles.chip)}
               >
@@ -93,7 +93,7 @@ const JobTypes = (props) => {
 
             {developer.startup ?
               <Chip
-                labelStyle={{ fontSize: 15 }}
+                labelStyle={{ fontSize: 15, paddingLeft: 5 }}
                 key={Math.random()}
                 className={css(chipStyles.chip)}
               >
@@ -110,7 +110,7 @@ const JobTypes = (props) => {
 
             {developer.internship ?
               <Chip
-                labelStyle={{ fontSize: 15 }}
+                labelStyle={{ fontSize: 15, paddingLeft: 5 }}
                 key={Math.random()}
                 className={css(chipStyles.chip)}
               >
