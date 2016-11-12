@@ -5,7 +5,11 @@ class Import < ApplicationRecord
   validates_presence_of :source_id, :data
   validates_uniqueness_of :source_id, scope: :connection_id
   store_accessor :data, :html_url, :up_vote_count, :stargazers_count,
-                        :likeCount, :body, :summary, :description,
-                        :title, :name, :full_name, :link, :creation_date,
-                        :startDate, :publishedAt, :pushed_at
+                 :likeCount, :body, :summary, :description,
+                 :title, :name, :full_name, :link, :creation_date,
+                 :startDate, :publishedAt, :pushed_at
+
+  def self.default_scope
+    order(id: :asc)
+  end
 end

@@ -7,8 +7,10 @@ class Connection < ApplicationRecord
 
   belongs_to :developer, touch: true
   has_many :imports, dependent: :destroy
+
   validates_presence_of :provider
   validates_uniqueness_of :provider
+
   after_commit :create_import, if: [:active?, :unimported?]
 
   def active?
@@ -29,12 +31,11 @@ class Connection < ApplicationRecord
 
   def create_import
     send(provider_import_methods.fetch(provider)).each do |item|
-      sawyer = Sawyer::Serializer.new('json')
       imports.create(
         developer: developer,
         source_id: item.id,
         source_name: provider,
-        data: sawyer.decode_hash(item.to_attrs),
+        data: serializer.decode_hash(item.to_attrs)
       )
     end
   rescue KeyError
@@ -48,6 +49,10 @@ class Connection < ApplicationRecord
       'linkedin' => 'fetch_positions',
       'youtube' => 'fetch_talks'
     }.freeze
+  end
+
+  def serializer
+    Sawyer::Serializer.new('json')
   end
 
   def expiring
