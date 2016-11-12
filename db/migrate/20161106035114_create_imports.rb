@@ -11,6 +11,7 @@ class CreateImports < ActiveRecord::Migration[5.0]
     end
 
     add_index :imports, [:source_name, :source_id, :connection_id], unique: true
+    add_index :imports, :source_id
     add_index :imports, :data, using: :gin
   end
 end
