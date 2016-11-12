@@ -13,6 +13,7 @@ EmployerType = GraphQL::ObjectType.define do
   field :email, types.String, 'The email of this employer'
   field :bio, types.String, 'The bio of this employer'
   field :website, types.String, 'The bio of this employer'
+  field :type, types.String, 'The type of the employer'
 
   field :company, types.String, 'The company of this employer'
   field :location, types.String, 'The location of this employer'

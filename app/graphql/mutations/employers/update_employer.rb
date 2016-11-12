@@ -9,6 +9,7 @@ module Employers
     input_field :bio, types.String
     input_field :email, types.String
     input_field :location, types.String
+    input_field :type, types.String
     input_field :company, types.String
     input_field :website, types.String
     input_field :password, types.String

@@ -1896,6 +1896,20 @@
               "deprecationReason": null
             },
             {
+              "name": "type",
+              "description": "The type of the employer",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "website",
               "description": "The bio of this employer",
               "args": [
@@ -2479,6 +2493,16 @@
             },
             {
               "name": "location",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "type",
               "description": null,
               "type": {
                 "kind": "SCALAR",
