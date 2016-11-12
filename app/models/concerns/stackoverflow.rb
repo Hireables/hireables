@@ -6,30 +6,25 @@ module Stackoverflow
   end
 
   def fetch_answers
-    agent = initialize_agent("#{STACKOVERFLOW_ANSWERS_URI}?#{sw_query_params}")
     Rails.cache.fetch(self) do
+      agent = initialize_agent("#{STACKOVERFLOW_ANSWERS_URI}?#{so_params}")
       root = agent.start
       answers = root.data.items
-      answers
-      .map { |answer| answer.tap { |obj| obj.id = obj.answer_id } }
-      .lazy
-      .sort_by{|item| [item.comment_count, item.up_vote_count]}
-      .reverse!
-      .to_a
+      answers.map { |answer| answer.tap { |obj| obj.id = obj.answer_id } }
     end
 
   rescue NoMethodError
-    [].to_json
+    []
   end
 
   private
 
-  def sw_query_params
+  def so_params
     {
       filter: ENV.fetch('STACKOVERFLOW_ANSWERS_FILTER'),
       order: 'desc',
-      sort: 'activity',
-      pagesize: 10,
+      sort: 'votes',
+      pagesize: 20,
       site: 'stackoverflow',
       access_token: access_token,
       key: ENV.fetch('STACKOVERFLOW_CLIENT_KEY')
