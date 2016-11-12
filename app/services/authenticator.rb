@@ -15,9 +15,7 @@ class Authenticator
       return @connection.developer unless @connection.developer.nil?
       @connection.developer = create_from_oauth
 
-      if @connection.save
-        @connection.developer
-      end
+      @connection.developer if @connection.save
     end
   end
 
