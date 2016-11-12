@@ -5,10 +5,10 @@ module Developers
 
     # Define input and return field
     input_field :id, !types.ID
-    input_field :selection, !types.String
 
     # Return field
     return_field :developer, DeveloperType
+    return_field :connection, ConnectionType
 
     # Resolve block to update a model
     resolve(Developers::ToggleAchievementResolver)

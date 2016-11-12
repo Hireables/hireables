@@ -139,11 +139,13 @@ DeveloperType = GraphQL::ObjectType.define do
 end
 
 def resolve_achievements(obj)
+  return [] if obj.connections.nil?
   obj.achievements.order(id: :asc)
 end
 
 def resolve_connections(obj)
-  obj.connections.nil? ? [] : obj.connections.order(id: :asc)
+  return [] if obj.connections.nil?
+  obj.connections.order(id: :desc)
 end
 
 def favourited?(obj, ctx)

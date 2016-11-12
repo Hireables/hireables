@@ -1,23 +1,28 @@
 module Developers
   class ToggleAchievementResolver
-    attr_reader :params, :current_developer
+    attr_reader :current_developer, :achievement
 
     def self.call(*args)
       new(*args).call
     end
 
     def initialize(_obj, inputs, ctx)
-      raise StandardError, 'Unauthorised' unless ctx[:current_developer].present?
       @current_developer = ctx[:current_developer]
-      safe_params = inputs.instance_variable_get(:@original_values).to_h
-      @params = HashWithIndifferentAccess.new(safe_params)
+      raise StandardError, 'Unauthorised' unless @current_developer.present?
+      @achievement = Schema.object_from_id(inputs['id'], ctx)
+      raise StandardError, 'Unauthorised' unless owner?
     end
 
     def call
-      raise StandardError, 'Unauthorised' unless connection.owner?(current_developer)
-      @import = current_developer.imports.where(source_id: params[:selection]).first
-      @import.update!(pinned: !@import.pinned?)
-      { developer: current_developer.reload }
+      achievement.update!(pinned: !@achievement.pinned?)
+      {
+        developer: current_developer.reload,
+        connection: achievement.connection
+      }
+    end
+
+    def owner?
+      achievement.developer == current_developer
     end
   end
 end
