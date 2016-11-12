@@ -4,6 +4,7 @@ source 'https://rubygems.org'
 # Setup Rails and API
 gem 'rails', '>= 5.0.x'
 gem 'pg'
+gem 'upsert'
 
 # Web Server
 gem 'puma'
