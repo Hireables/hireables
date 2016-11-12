@@ -26,8 +26,8 @@ class Connection < ApplicationRecord
   end
 
   def create_import
+    imports.delete_all
     send(provider_import_methods.fetch(provider)).each do |item|
-      imports.delete_all
       imports.create(
         developer: developer,
         source_id: item.id,
