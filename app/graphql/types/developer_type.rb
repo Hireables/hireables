@@ -162,6 +162,15 @@ def resolve_platforms(obj, ctx)
 end
 
 def github_api(ctx)
-  @token ||= ctx[:current_developer].access_token_by_provider('github')
-  @github_api ||= Github::Api.new(@token)
+  @github_api ||= Github::Api.new(token(ctx))
+end
+
+def token(ctx)
+  @token ||= if ctx[:current_developer].present?
+    ctx[:current_developer].access_token_by_provider('github')
+  elsif ctx[:current_employer].present?
+    ctx[:current_employer].try(:access_token)
+  else
+    nil
+  end
 end
