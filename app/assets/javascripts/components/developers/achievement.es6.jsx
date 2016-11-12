@@ -70,11 +70,7 @@ class Achievement extends Component {
                 }
                 subtitle={
                   <div className="subtitle">
-                    {achievement.creation_date ||
-                      achievement.pushed_at ||
-                      achievement.publishedAt ||
-                      achievement.startDate && achievement.startDate.year
-                    }
+                    {achievement.created_at}
                   </div>
                 }
               />
@@ -110,10 +106,7 @@ const AchievementContainer = Relay.createContainer(Achievement, {
         likeCount,
         up_vote_count,
         pinned,
-        creation_date,
-        startDate,
-        publishedAt,
-        pushed_at,
+        created_at,
       }
     `,
   },

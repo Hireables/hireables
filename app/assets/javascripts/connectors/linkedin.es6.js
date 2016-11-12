@@ -21,7 +21,7 @@ export default class Linkedin {
       IN.User.authorize(() => {
         const auth = IN.ENV.auth;
         const expirationTime = new Date();
-        expirationTime.setSeconds(expirationTime.getSeconds() + 3600);
+        expirationTime.setSeconds(expirationTime.getSeconds() + 1800);
         resolve({
           access_token: auth.oauth_token,
           uid: auth.member_id,
