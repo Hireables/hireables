@@ -9,7 +9,7 @@ class Import < ApplicationRecord
                  :title, :name, :full_name, :link, :creation_date,
                  :startDate, :publishedAt, :pushed_at
 
-  def self.default_scope
-    order(id: :asc)
+  def self.by_source(source)
+    where(source_name: source)
   end
 end
