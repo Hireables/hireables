@@ -9,7 +9,7 @@ class FetchDeveloperLanguagesWorker
 
     Developer.connection_pool.with_connection do
       developer = Developer.find_by_login(login)
-      developer.update!(platforms: languages)
+      developer.update!(platforms: languages) unless developer.nil?
     end
 
   rescue ActiveRecord::RecordNotFound
