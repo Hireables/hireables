@@ -139,8 +139,8 @@ DeveloperType = GraphQL::ObjectType.define do
 end
 
 def resolve_achievements(obj)
-  return [] if obj.connections.nil?
-  obj.achievements.order(id: :asc)
+  return [] if obj.achievements.nil?
+  obj.achievements.order(created_at: :desc)
 end
 
 def resolve_connections(obj)
@@ -167,10 +167,8 @@ end
 
 def token(ctx)
   @token ||= if ctx[:current_developer].present?
-    ctx[:current_developer].access_token_by_provider('github')
-  elsif ctx[:current_employer].present?
-    ctx[:current_employer].try(:access_token)
-  else
-    nil
-  end
+               ctx[:current_developer].access_token_by_provider('github')
+             elsif ctx[:current_employer].present?
+               ctx[:current_employer].try(:access_token)
+             end
 end
