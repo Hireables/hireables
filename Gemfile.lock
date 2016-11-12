@@ -254,7 +254,6 @@ GEM
       unf_ext
     unf_ext (0.0.7.2)
     unicode-display_width (1.1.1)
-    upsert (2.1.2)
     warden (1.2.6)
       rack (>= 1.0)
     websocket-driver (0.6.4)
@@ -300,7 +299,6 @@ DEPENDENCIES
   turbolinks (~> 5.0.x)
   typhoeus
   uglifier (>= 1.3.0)
-  upsert
 
 RUBY VERSION
    ruby 2.2.5p319
