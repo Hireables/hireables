@@ -1,0 +1,90 @@
+.achievements
+  position: relative
+  margin: 100px auto
+  width: 650px
+
+  &::before
+    content: ''
+    position: absolute
+    top: 0
+    left: 0
+    height: 100%
+    width: 2px
+    background: #fff
+
+  .achievement
+    position: relative
+    margin: 100px 0
+    margin-left: 60px
+
+    &:after
+      right: 100%
+      top: 50%
+      border: solid transparent
+      content: ""
+      height: 0
+      width: 0
+      position: absolute
+      pointer-events: none
+      border-color: rgba(242, 242, 242, 0)
+      border-right-color: #fff
+      border-width: 30px
+      margin-top: -30px
+
+.achievement-block
+  position: relative
+  margin: 2em 0
+  background-color: #fff
+
+  &:after
+    content: ""
+    display: table
+    clear: both
+
+  &:first-child
+    margin-top: 0
+
+  &:last-child
+    margin-bottom: 0
+
+.achievement-point
+  position: absolute
+  top: calc(50% - 15px)
+  left: -75px
+  width: 40px
+
+.achievement-content
+  position: relative
+  margin-left: 40px
+  padding: 20px 0
+
+  &:after
+    content: ""
+    display: table
+    clear: both
+
+  .achievement-card
+    background: transparent!important
+    box-shadow: none!important
+
+    .achievement-card-header
+      padding: 0px 16px!important
+      border-bottom: 1px solid #fff
+
+      .title
+        font-size: 24px!important
+        line-height: 1.2!important
+
+      .title, .subtitle
+        margin-bottom: 10px
+
+    .achievement-card-description
+      padding: 0px 16px!important
+      line-height: 1.2!important
+      font-size: 14px!important
+      white-space: initial
+      word-wrap: break-word
+      margin: 0
+
+      p, code
+        margin: 10px 0
