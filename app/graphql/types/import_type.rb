@@ -20,5 +20,6 @@ ImportType = GraphQL::ObjectType.define do
   field :startDate, types.String, 'Date of this source(linkedin)'
   field :publishedAt, types.String, 'Date of this source(youtube)'
   field :pushed_at, types.String, 'Date of this source(github)'
+  field :created_at, types.String, 'When this item was created'
   field :pinned, types.Boolean, 'Is answer pinned?'
 end
