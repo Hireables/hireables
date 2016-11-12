@@ -4,7 +4,8 @@ import React, { Component } from 'react';
 import Formsy from 'formsy-react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
-import { FormsyText } from 'formsy-material-ui/lib';
+import { FormsyText, FormsySelect } from 'formsy-material-ui/lib';
+import MenuItem from 'material-ui/MenuItem';
 import Snackbar from 'material-ui/Snackbar';
 import { css } from 'aphrodite';
 import {
@@ -231,11 +232,24 @@ class EmployerRegistration extends Component {
                   </div>
 
                   <div className="field">
+                    <FormsySelect
+                      id="text-field-default"
+                      name="employer[preferences][type]"
+                      floatingLabelText="Employer type *"
+                      required
+                    >
+                      <MenuItem value={'Recruiter'} primaryText="Recruiter" />
+                      <MenuItem value={'Company'} primaryText="Company" />
+                      <MenuItem value={'Startup'} primaryText="Startup" />
+                    </FormsySelect>
+                  </div>
+
+                  <div className="field">
                     <FormsyText
                       id="text-field-default"
                       type="text"
                       value={this.state.selectedLocation}
-                      name="employer[location]"
+                      name="employer[preferences][location]"
                       floatingLabelText="Location * (ex: london)"
                       onChange={this.handleInputChange}
                       required
@@ -266,6 +280,7 @@ class EmployerRegistration extends Component {
                       floatingLabelText="Email *"
                       updateImmediately
                       required
+                      hintText="Company email preferred"
                       validations={{
                         isEmail: true,
                       }}

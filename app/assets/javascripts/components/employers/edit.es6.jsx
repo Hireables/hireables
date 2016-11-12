@@ -5,7 +5,8 @@ import Relay from 'react-relay';
 import Formsy from 'formsy-react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
-import { FormsyText } from 'formsy-material-ui/lib';
+import { FormsyText, FormsySelect } from 'formsy-material-ui/lib';
+import MenuItem from 'material-ui/MenuItem';
 import ActionDelete from 'material-ui/svg-icons/action/delete';
 import {
   Card,
@@ -50,6 +51,7 @@ class EmployerEdit extends Component {
       canSubmit: false,
       suggesting: false,
       notification: '',
+      selectedType: this.props.employer.type,
       selectedLocation: this.props.employer.location,
     };
   }
@@ -237,6 +239,20 @@ class EmployerEdit extends Component {
                   </div>
 
                   <div className="field">
+                    <FormsySelect
+                      id="text-field-default"
+                      name="type"
+                      floatingLabelText="Employer type *"
+                      value={this.state.selectedType}
+                      required
+                    >
+                      <MenuItem value={'Recruiter'} primaryText="Recruiter" />
+                      <MenuItem value={'Company'} primaryText="Company" />
+                      <MenuItem value={'Startup'} primaryText="Startup" />
+                    </FormsySelect>
+                  </div>
+
+                  <div className="field">
                     <FormsyText
                       id="text-field-default"
                       type="text"
@@ -371,6 +387,7 @@ const EmployerEditContainer = Relay.createContainer(EmployerEdit, {
         company,
         website,
         location,
+        type,
         email,
       }
     `,
