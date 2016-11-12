@@ -10,9 +10,12 @@ export default class extends Relay.Mutation {
       fragment on ToggleAchievementPayload {
         developer {
           id,
-          connections,
           achievements,
-        }
+        },
+        connection {
+          id,
+          imports,
+        },
       }
     `;
   }
@@ -20,14 +23,15 @@ export default class extends Relay.Mutation {
   getConfigs() {
     return [
       {
-        type: 'RANGE_ADD',
-        parentName: 'developer',
-        parentID: this.props.developerId,
-        connectionName: 'achievements',
-        edgeName: 'achievementEdge',
-        rangeBehaviors: {
-          '': 'append',
-          'order(-id)': 'prepend',
+        type: 'FIELDS_CHANGE',
+        fieldIDs: {
+          developer: this.props.developerId,
+        },
+      },
+      {
+        type: 'FIELDS_CHANGE',
+        fieldIDs: {
+          connection: this.props.connectionId,
         },
       },
     ];
@@ -36,7 +40,6 @@ export default class extends Relay.Mutation {
   getVariables() {
     return {
       id: this.props.id,
-      selection: this.props.selection,
     };
   }
 }
