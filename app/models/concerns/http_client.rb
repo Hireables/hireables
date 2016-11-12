@@ -3,6 +3,10 @@ module HttpClient
 
   private
 
+  def headers
+    { headers: { 'Content-Type' => 'application/json' } }
+  end
+
   def initialize_agent(uri)
     Sawyer::Agent.new(uri, faraday: client) do |http|
       http.headers['content-type'] = 'application/json'

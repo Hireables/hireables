@@ -2,15 +2,20 @@ module Stackoverflow
   extend ActiveSupport::Concern
 
   included do
-    STACKOVERFLOW_ANSWERS_URI = 'https://api.stackexchange.com/2.2/me/answers'.freeze
+    SO_ANSWERS_URI = 'https://api.stackexchange.com/2.2/me/answers'.freeze
   end
 
   def fetch_answers
     Rails.cache.fetch(self) do
-      agent = initialize_agent("#{STACKOVERFLOW_ANSWERS_URI}?#{so_params}")
-      root = agent.start
-      answers = root.data.items
-      answers.map { |answer| answer.tap { |obj| obj.id = obj.answer_id } }
+      response = client.get("#{SO_ANSWERS_URI}?&#{so_params}", headers)
+      answers = JSON.parse(response.body)['items']
+      return [] if answers.nil?
+      answers.map do |answer|
+        answer.tap do |obj|
+          obj['id'] = obj['answer_id']
+          obj['creation_date'] = Time.at(obj['creation_date']).utc
+        end
+      end
     end
 
   rescue NoMethodError

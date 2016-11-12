@@ -8,11 +8,10 @@ module Linkedin
 
   def fetch_positions
     Rails.cache.fetch(self) do
-      agent = initialize_agent("#{LINKEDIN_PEOPLE_URI}?&#{in_params}")
-      root = agent.start
-      positions = root.data.positions
+      response = client.get("#{LINKEDIN_PEOPLE_URI}?&#{in_params}", headers)
+      positions = JSON.parse(response.body)['positions']['values']
       return [] if positions.nil?
-      positions.values.take(20)
+      add_start_date(positions).take(20).to_a
     end
 
   rescue NoMethodError
@@ -21,10 +20,17 @@ module Linkedin
 
   private
 
+  def add_start_date(positions)
+    positions.lazy.map do |position|
+      position.tap do |obj|
+        year = obj['startDate']['year']
+        month = obj['startDate']['month']
+        obj['startDate'] = Time.new(year, month).to_s
+      end
+    end
+  end
+
   def in_params
-    {
-      oauth_token: access_token,
-      format: 'json'
-    }.to_query
+    { oauth_token: access_token, format: 'json' }.to_query
   end
 end

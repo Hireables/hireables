@@ -9,12 +9,11 @@ module Youtube
 
   def fetch_talks
     Rails.cache.fetch(self) do
-      videos, agent = fetch_videos
+      videos = fetch_videos
       return [] if videos.nil?
       videos.map do |video|
-        video_hash = video.to_attrs.except(:snippet, :statistics)
-        video_hash.merge!(video[:snippet]).merge!(video[:statistics])
-        Sawyer::Resource.new(agent, video_hash)
+        new_video_hash = video.except('snippet', 'statistics')
+        new_video_hash.merge!(video['snippet']).merge!(video['statistics'])
       end
     end
   end
@@ -23,17 +22,15 @@ module Youtube
 
   def fetch_videos
     return [] if video_ids.nil?
-    agent = initialize_agent("#{YOUTUBE_VIDEO_URI}?#{video_params}")
-    root = agent.start
-    videos = root.data.items
-    [videos, agent]
+    response = client.get("#{YOUTUBE_VIDEO_URI}?&#{video_params}", headers)
+    JSON.parse(response.body)['items']
   end
 
   def video_ids
-    agent = initialize_agent("#{YOUTUBE_SEARCH_URI}?#{search_params}")
-    root = agent.start
-    videos = root.data.items
-    videos.map { |video| video.id.videoId }.join(',')
+    response = client.get("#{YOUTUBE_SEARCH_URI}?&#{search_params}", headers)
+    items = JSON.parse(response.body)['items']
+    return [] if items.nil?
+    items.map { |item| item['id']['videoId'] }.join(',')
   end
 
   def search_params
