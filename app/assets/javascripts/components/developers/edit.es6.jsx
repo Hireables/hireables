@@ -205,7 +205,7 @@ class DeveloperEdit extends Component {
       <Chip
         key={data.key}
         onRequestDelete={() => this.handleRequestDelete(data.key)}
-        className={css(chipStyles.chip)}
+        className={css(chipStyles.badge)}
       >
         {data.label}
       </Chip>

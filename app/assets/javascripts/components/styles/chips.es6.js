@@ -12,6 +12,10 @@ const Chips = StyleSheet.create({
     textTransform: 'capitalize',
   },
 
+  badge: {
+    margin: 4,
+  },
+
   label: {
     fontSize: 16,
   },
