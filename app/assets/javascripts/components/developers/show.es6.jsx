@@ -43,9 +43,7 @@ const DeveloperShow = (props) => {
         <header className="header header--bg">
           <div className="container">
             <div className="wrapper">
-              <div
-                className="image"
-              >
+              <div className="image">
                 {developer.hireable ?
                   <div
                     className={
@@ -60,19 +58,32 @@ const DeveloperShow = (props) => {
                 <Avatar
                   src={developer.avatar_url}
                   size={150}
+                  className="avatar"
                 />
+
                 <br />
-
-                <div className="basic">
-                  <Name developer={developer} />
-                  <Location developer={developer} />
-                  <Company developer={developer} />
-                  <Bio developer={developer} />
+                <Orgs developer={developer} />
+              </div>
+              <div className="basic">
+                <Name developer={developer} />
+                <Location developer={developer} />
+                <Company developer={developer} />
+                <Bio developer={developer} />
+                <div
+                  style={{
+                    padding: 0,
+                    position: 'absolute',
+                    right: 0,
+                    top: 20,
+                  }}
+                >
+                  <Meta developer={developer} />
                 </div>
-
-                <Meta developer={developer} />
-                {currentUser.isEmployer ? <Actions developer={developer} /> : ''}
-
+                <Links developer={developer} />
+                <Languages developer={developer} />
+                <JobTypes developer={developer} />
+                <Levels developer={developer} />
+                {/* {currentUser.isEmployer ? <Actions developer={developer} /> : ''}
                 {props.can_edit ?
                   <RaisedButton
                     primary
@@ -81,20 +92,11 @@ const DeveloperShow = (props) => {
                     className="edit-link"
                     href={Routes.edit_developer_path(developer.login)}
                   /> : ''
-                }
-              </div>
-
-              <div className="profile">
-                <Links developer={developer} />
-                <div className="clearfix" />
-                <Orgs developer={developer} />
-                <Languages developer={developer} />
-                <JobTypes developer={developer} />
-                <Levels developer={developer} />
+                } */}
               </div>
             </div>
-            <Achievements developer={developer} />
             <Connections developer={developer} />
+            <Achievements developer={developer} />
           </div>
         </header>
       </div>

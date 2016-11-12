@@ -20,12 +20,11 @@ class DeveloperAchievements extends Component {
   render() {
     const { developer } = this.props;
     return (
-      <div className="achievements">
-        <h1>Achievements</h1>
+      <section className="achievements">
         {developer.achievements.edges.map(({ node }) => (
           <Achievement achievement={node} key={node.id} />
         ))}
-      </div>
+      </section>
     );
   }
 }

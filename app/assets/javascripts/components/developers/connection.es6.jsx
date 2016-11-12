@@ -63,10 +63,10 @@ class Connection extends Component {
   }
 
   componentWillUpdate(nextProps) {
-    if (nextProps.connection.data &&
-        nextProps.connection.data.edges.length > 0 &&
+    if (nextProps.connection.imports &&
+        nextProps.connection.imports.edges.length > 0 &&
         nextProps !== this.props) {
-      const selections = nextProps.connection.data.edges.filter(({ node }) => {
+      const selections = nextProps.connection.imports.edges.filter(({ node }) => {
         return node.pinned;
       }).map(({ node }) => (node.source_id));
 
@@ -121,7 +121,6 @@ class Connection extends Component {
       });
     }
 
-    this.setNotification('Saving...');
     const onFailure = (transaction) => {
       const error = transaction.getError() || new Error('Mutation failed.');
       let errorMessage;
@@ -141,9 +140,9 @@ class Connection extends Component {
     };
 
     Relay.Store.commitUpdate(new ToggleAchievement({
-      id: this.props.connection.id,
+      id: item.id,
       developerId: this.props.developer.id,
-      selection: item.source_id.toString(),
+      connectionId: this.props.connection.id,
     }), { onFailure, onSuccess });
   }
 

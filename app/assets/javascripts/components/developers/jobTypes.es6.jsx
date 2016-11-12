@@ -24,11 +24,16 @@ const JobTypes = (props) => {
             <div className="header-separator">Job Types</div>
             {developer.full_time ?
               <Chip
+                labelStyle={{ fontSize: 15 }}
                 key={Math.random()}
                 className={css(chipStyles.chip)}
               >
                 <Avatar
-                  icon={<FontIcon className="material-icons">work</FontIcon>}
+                  className={css(chipStyles.iconAvatar)}
+                  icon={
+                    <FontIcon
+                      className={`material-icons ${css(chipStyles.chipIcon)}`}
+                    >work</FontIcon>}
                 />
                 Full-Time
               </Chip> : ''
@@ -36,11 +41,16 @@ const JobTypes = (props) => {
 
             {developer.part_time ?
               <Chip
+                labelStyle={{ fontSize: 15 }}
                 key={Math.random()}
                 className={css(chipStyles.chip)}
               >
                 <Avatar
-                  icon={<FontIcon className="material-icons">work</FontIcon>}
+                  className={css(chipStyles.iconAvatar)}
+                  icon={
+                    <FontIcon
+                      className={`material-icons ${css(chipStyles.chipIcon)}`}
+                    >work</FontIcon>}
                 />
                 Part-Time
               </Chip> : ''
@@ -48,11 +58,16 @@ const JobTypes = (props) => {
 
             {developer.contract ?
               <Chip
+                labelStyle={{ fontSize: 15 }}
                 key={Math.random()}
                 className={css(chipStyles.chip)}
               >
                 <Avatar
-                  icon={<FontIcon className="material-icons">work</FontIcon>}
+                  className={css(chipStyles.iconAvatar)}
+                  icon={
+                    <FontIcon
+                      className={`material-icons ${css(chipStyles.chipIcon)}`}
+                    >work</FontIcon>}
                 />
                 Contract
               </Chip> : ''
@@ -61,11 +76,16 @@ const JobTypes = (props) => {
 
             {developer.freelance ?
               <Chip
+                labelStyle={{ fontSize: 15 }}
                 key={Math.random()}
                 className={css(chipStyles.chip)}
               >
                 <Avatar
-                  icon={<FontIcon className="material-icons">work</FontIcon>}
+                  className={css(chipStyles.iconAvatar)}
+                  icon={
+                    <FontIcon
+                      className={`material-icons ${css(chipStyles.chipIcon)}`}
+                    >work</FontIcon>}
                 />
                 Freelance
               </Chip> : ''
@@ -73,11 +93,16 @@ const JobTypes = (props) => {
 
             {developer.startup ?
               <Chip
+                labelStyle={{ fontSize: 15 }}
                 key={Math.random()}
                 className={css(chipStyles.chip)}
               >
                 <Avatar
-                  icon={<FontIcon className="material-icons">work</FontIcon>}
+                  className={css(chipStyles.iconAvatar)}
+                  icon={
+                    <FontIcon
+                      className={`material-icons ${css(chipStyles.chipIcon)}`}
+                    >work</FontIcon>}
                 />
                 Startup
               </Chip> : ''
@@ -85,11 +110,16 @@ const JobTypes = (props) => {
 
             {developer.internship ?
               <Chip
+                labelStyle={{ fontSize: 15 }}
                 key={Math.random()}
                 className={css(chipStyles.chip)}
               >
                 <Avatar
-                  icon={<FontIcon className="material-icons">work</FontIcon>}
+                  className={css(chipStyles.iconAvatar)}
+                  icon={
+                    <FontIcon
+                      className={`material-icons ${css(chipStyles.chipIcon)}`}
+                    >work</FontIcon>}
                 />
                 Internship
               </Chip> : ''

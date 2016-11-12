@@ -9,7 +9,7 @@ const badges = StyleSheet.create({
   },
 
   big: {
-    left: 160,
+    left: 115,
   },
 
   tag: {
@@ -21,8 +21,8 @@ const badges = StyleSheet.create({
     textDecoration: 'none',
     color: '#333',
     minWidth: 50,
-    letterSpacing: '0.02em',
     fontSize: 12,
+    letterSpacing: '0.02em',
   },
 
   hireable: {

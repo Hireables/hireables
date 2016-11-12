@@ -13,6 +13,7 @@ import _ from 'underscore';
 
 // StyleSheets
 import chipStyles from '../styles/chips.es6';
+import badgeStyles from '../styles/badges.es6';
 
 const Languages = (props) => {
   const { developer } = props;
@@ -32,16 +33,13 @@ const Languages = (props) => {
         <div className={css(chipStyles.wrapper)}>
           <div className="header-separator">Languages and Frameworks</div>
           {developer.platforms.map(platform => (
-            <Chip
+            <div
               key={Math.random()}
-              className={css(chipStyles.chip)}
-              onTouchTap={() => Turbolinks.visit(`/search?${query(platform)}`)}
+              className={css(badgeStyles.badge, badgeStyles.tag)}
+              onClick={() => Turbolinks.visit(`/search?${query(platform)}`)}
             >
-              <Avatar
-                icon={<FontIcon className="material-icons">code</FontIcon>}
-              />
               {platform}
-            </Chip>
+            </div>
           ))}
         </div> : ''
       }

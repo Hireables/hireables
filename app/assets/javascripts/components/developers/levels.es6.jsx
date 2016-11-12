@@ -24,11 +24,17 @@ const Levels = (props) => {
             <div className="header-separator">Levels</div>
             {developer.cto ?
               <Chip
+                labelStyle={{ fontSize: 15 }}
                 key={Math.random()}
                 className={css(chipStyles.chip)}
               >
                 <Avatar
-                  icon={<FontIcon className="material-icons">label</FontIcon>}
+                  className={css(chipStyles.iconAvatar)}
+                  icon={
+                    <FontIcon
+                      className={`material-icons ${css(chipStyles.chipIcon)}`}
+                    >label</FontIcon>
+                  }
                 />
                 CTO
               </Chip> : ''
@@ -36,11 +42,17 @@ const Levels = (props) => {
 
             {developer.lead ?
               <Chip
+                labelStyle={{ fontSize: 15 }}
                 key={Math.random()}
                 className={css(chipStyles.chip)}
               >
                 <Avatar
-                  icon={<FontIcon className="material-icons">label</FontIcon>}
+                  className={css(chipStyles.iconAvatar)}
+                  icon={
+                    <FontIcon
+                      className={`material-icons ${css(chipStyles.chipIcon)}`}
+                    >label</FontIcon>
+                  }
                 />
                 Lead
               </Chip> : ''
@@ -48,11 +60,17 @@ const Levels = (props) => {
 
             {developer.senior ?
               <Chip
+                labelStyle={{ fontSize: 15 }}
                 key={Math.random()}
                 className={css(chipStyles.chip)}
               >
                 <Avatar
-                  icon={<FontIcon className="material-icons">label</FontIcon>}
+                  className={css(chipStyles.iconAvatar)}
+                  icon={
+                    <FontIcon
+                      className={`material-icons ${css(chipStyles.chipIcon)}`}
+                    >label</FontIcon>
+                  }
                 />
                 Senior
               </Chip> : ''
@@ -61,11 +79,17 @@ const Levels = (props) => {
 
             {developer.mid ?
               <Chip
+                labelStyle={{ fontSize: 15 }}
                 key={Math.random()}
                 className={css(chipStyles.chip)}
               >
                 <Avatar
-                  icon={<FontIcon className="material-icons">label</FontIcon>}
+                  className={css(chipStyles.iconAvatar)}
+                  icon={
+                    <FontIcon
+                      className={`material-icons ${css(chipStyles.chipIcon)}`}
+                    >label</FontIcon>
+                  }
                 />
                 Mid-Level
               </Chip> : ''
@@ -73,11 +97,17 @@ const Levels = (props) => {
 
             {developer.junior ?
               <Chip
+                labelStyle={{ fontSize: 15 }}
                 key={Math.random()}
                 className={css(chipStyles.chip)}
               >
                 <Avatar
-                  icon={<FontIcon className="material-icons">label</FontIcon>}
+                  className={css(chipStyles.iconAvatar)}
+                  icon={
+                    <FontIcon
+                      className={`material-icons ${css(chipStyles.chipIcon)}`}
+                    >label</FontIcon>
+                  }
                 />
                 Junior
               </Chip> : ''
@@ -85,11 +115,17 @@ const Levels = (props) => {
 
             {developer.student ?
               <Chip
+                labelStyle={{ fontSize: 15 }}
                 key={Math.random()}
                 className={css(chipStyles.chip)}
               >
                 <Avatar
-                  icon={<FontIcon className="material-icons">label</FontIcon>}
+                  className={css(chipStyles.iconAvatar)}
+                  icon={
+                    <FontIcon
+                      className={`material-icons ${css(chipStyles.chipIcon)}`}
+                    >label</FontIcon>
+                  }
                 />
                 Student
               </Chip> : ''
