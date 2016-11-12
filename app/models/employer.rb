@@ -4,9 +4,9 @@ class Employer < ApplicationRecord
   devise :database_authenticatable, :registerable, :recoverable,
          :rememberable, :trackable, :validatable
 
-  store :preferences, accessors: [:language, :location], coder: JSON
+  store_accessor :preferences, :language, :location, :type
 
-  validates_presence_of :name, :company, :website, :login, :location
+  validates_presence_of :name, :company, :website, :login, :preferences
   validates_uniqueness_of :login
   validate :website_url_format, unless: :url_valid?
 
