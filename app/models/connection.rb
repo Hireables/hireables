@@ -11,7 +11,7 @@ class Connection < ApplicationRecord
   validates_presence_of :provider
   validates_uniqueness_of :provider
 
-  after_commit :create_import, if: [:active?, :unimported?]
+  after_commit :create_import, if: :active?
 
   def active?
     !expired? && access_token.present?
@@ -21,16 +21,13 @@ class Connection < ApplicationRecord
     user == developer
   end
 
-  def unimported?
-    imports.where(source_name: provider).blank?
-  end
-
   def expired?
     expiring.include?(provider) && Time.now.to_i > expires_at.to_i
   end
 
   def create_import
     send(provider_import_methods.fetch(provider)).each do |item|
+      imports.delete_all
       imports.create(
         developer: developer,
         source_id: item.id,
