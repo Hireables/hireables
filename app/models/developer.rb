@@ -1,5 +1,4 @@
 class Developer < ApplicationRecord
-  include Redis::Objects
   devise :database_authenticatable, :trackable, :validatable, :omniauthable
 
   store_accessor :data, :html_url, :company, :blog, :followers,
