@@ -4,7 +4,7 @@ class CreateConnections < ActiveRecord::Migration[5.0]
       t.string :uid
       t.string :provider
       t.string :access_token
-      t.datetime :expires_at, default: Time.now + 30.days
+      t.datetime :expires_at
       t.references :developer, foreign_key: true
 
       t.timestamps
