@@ -9,8 +9,11 @@ class FetchDeveloperLanguagesWorker
     # Update languages in a transaction block
     Developer.connection_pool.with_connection do
       developer = Developer.find_by_login(login)
-      developer.update!(platforms: languages) unless developer.nil?
+      developer.update!(platforms: languages)
     end
+
+  rescue ActiveRecord::RecordNotFound
+    'No connection found'
 
   ensure
     ActiveRecord::Base.clear_active_connections!
