@@ -55,7 +55,7 @@ class StackOverflow extends Component {
             <Card className="achievement-card full-width">
               <div className="achievement-card-content">
                 <h2 className="intro">
-                  <span>Posted answer on </span>
+                  <span>Answered on </span>
                   <a
                     href={achievement.link}
                     target="_blank"
