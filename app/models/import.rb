@@ -7,7 +7,7 @@ class Import < ApplicationRecord
 
   store_accessor :data, :location, :company, :thumbnails, :html_url,
     :up_vote_count, :stargazers_count, :likeCount, :link, :isCurrent,
-    :homepage, :forks_count, :is_accepted, :comment_count, :score,
+    :homepage, :forks_count, :is_accepted, :viewCount, :comment_count, :score,
     :body, :summary, :description, :title, :name, :full_name, :language
 
   def self.by_source(source)
