@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161106044415) do
+ActiveRecord::Schema.define(version: 20161113000421) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,39 +29,40 @@ ActiveRecord::Schema.define(version: 20161106044415) do
   end
 
   create_table "developers", force: :cascade do |t|
-    t.string   "login",              default: "",    null: false
-    t.string   "avatar",             default: ""
-    t.string   "name",               default: "",    null: false
-    t.string   "email",              default: "",    null: false
+    t.string   "login",               default: "",    null: false
+    t.string   "avatar",              default: ""
+    t.string   "name",                default: "",    null: false
+    t.string   "email",               default: "",    null: false
     t.text     "bio"
-    t.string   "linkedin",           default: ""
-    t.string   "location",           default: ""
-    t.string   "platforms",          default: [],                 array: true
-    t.boolean  "remote",             default: false
-    t.boolean  "relocate",           default: false
-    t.boolean  "hireable",           default: false
-    t.boolean  "premium",            default: false
-    t.boolean  "part_time",          default: false
-    t.boolean  "full_time",          default: false
-    t.boolean  "contract",           default: false
-    t.boolean  "freelance",          default: false
-    t.boolean  "internship",         default: false
-    t.boolean  "startup",            default: false
-    t.boolean  "cto",                default: false
-    t.boolean  "lead",               default: false
-    t.boolean  "senior",             default: false
-    t.boolean  "mid",                default: false
-    t.boolean  "junior",             default: false
-    t.boolean  "student",            default: false
-    t.string   "encrypted_password", default: "",    null: false
-    t.jsonb    "data",               default: "{}",  null: false
-    t.integer  "sign_in_count",      default: 0,     null: false
+    t.string   "linkedin",            default: ""
+    t.string   "location",            default: ""
+    t.string   "platforms",           default: [],                 array: true
+    t.boolean  "remote",              default: false
+    t.boolean  "relocate",            default: false
+    t.boolean  "hireable",            default: false
+    t.boolean  "premium",             default: false
+    t.boolean  "part_time",           default: false
+    t.boolean  "full_time",           default: false
+    t.boolean  "contract",            default: false
+    t.boolean  "freelance",           default: false
+    t.boolean  "internship",          default: false
+    t.boolean  "startup",             default: false
+    t.boolean  "cto",                 default: false
+    t.boolean  "lead",                default: false
+    t.boolean  "senior",              default: false
+    t.boolean  "mid",                 default: false
+    t.boolean  "junior",              default: false
+    t.boolean  "student",             default: false
+    t.string   "encrypted_password",  default: "",    null: false
+    t.jsonb    "data",                default: "{}",  null: false
+    t.integer  "sign_in_count",       default: 0,     null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.inet     "current_sign_in_ip"
     t.inet     "last_sign_in_ip"
-    t.datetime "created_at",                         null: false
-    t.datetime "updated_at",                         null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.datetime "remember_created_at"
     t.index ["contract"], name: "index_developers_on_contract", using: :btree
     t.index ["cto"], name: "index_developers_on_cto", using: :btree
     t.index ["data"], name: "index_developers_on_data", using: :gin
