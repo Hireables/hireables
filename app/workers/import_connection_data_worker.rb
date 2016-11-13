@@ -6,19 +6,19 @@ class ImportConnectionDataWorker
   # rubocop:disable Metrics/AbcSize
   def perform(connection_id)
     connection = Connection.find(connection_id)
-    connection.imports.delete_all
-
     Import.connection_pool.with_connection do
       connection.fetch_data.each do |item|
         date_field = date_fields.detect { |field| item.key?(field) }
         ActiveRecord::Base.transaction do
-          connection.imports.create(
+          import = connection.imports.where(
             developer: connection.developer,
             source_id: item['id'],
-            created_at: item[date_field],
             source_name: connection.provider,
-            data: item
-          )
+          ).first_or_initialize do |import|
+            import.data = item
+            import.created_at = item[date_field]
+          end
+          import.save!
         end
       end
     end
