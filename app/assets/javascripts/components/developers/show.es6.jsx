@@ -84,7 +84,7 @@ const DeveloperShow = (props) => {
                 <Levels developer={developer} />
               </div>
             </div>
-            <Connections developer={developer} />
+            {props.can_edit ? <Connections developer={developer} /> : ''}
             <Achievements developer={developer} />
           </div>
         </header>

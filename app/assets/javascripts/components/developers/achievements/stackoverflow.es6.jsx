@@ -5,7 +5,8 @@ import React, { Component } from 'react';
 import Relay from 'react-relay';
 import createDOMPurify from 'dompurify';
 import hljs from 'highlight.js';
-import { Card, CardTitle, CardText } from 'material-ui/Card';
+import FontIcon from 'material-ui/FontIcon';
+import { Card, CardTitle, CardActions, CardText } from 'material-ui/Card';
 import 'highlight.js/styles/tomorrow-night-eighties.css';
 import moment from 'moment';
 
@@ -52,23 +53,74 @@ class StackOverflow extends Component {
           </div>
           <div className="achievement-content">
             <Card className="achievement-card full-width">
-              <CardTitle
-                className="achievement-card-header"
-                title={
-                  <div className="title">
-                    {achievement.title}
-                  </div>
-                }
-                subtitle={
-                  <time className="subtitle date">
-                    {moment.utc(new Date(achievement.created_at)).local().format('DD.MM.YYYY')}
-                  </time>
-                }
-              />
-              <CardText
-                className="achievement-card-description"
-                dangerouslySetInnerHTML={{ __html: description }}
-              />
+              <div className="achievement-card-content">
+                <h2 className="intro">
+                  <span>Posted answer on </span>
+                  <a
+                    href={achievement.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Stackoverflow
+                  </a>
+                </h2>
+
+                <time className="date">
+                  on {moment.utc(new Date(achievement.created_at)).local().format('MMMM Do YYYY')}
+                </time>
+
+                <CardTitle
+                  className="achievement-card-header"
+                  title={
+                    <div className="title">
+                      {achievement.title}
+                    </div>
+                  }
+                />
+
+                <CardText
+                  className="achievement-card-description"
+                  dangerouslySetInnerHTML={{ __html: description }}
+                />
+
+                <CardActions className="meta">
+                  <span className="badge">Answer</span>
+                  {achievement.is_accepted ?
+                    <span className="badge">
+                      Accepted
+                    </span> : ''
+                  }
+                  <span className="badge">
+                    {`${achievement.up_vote_count}`}
+                    <FontIcon
+                      color="#fff"
+                      className="material-icons"
+                      style={{
+                        fontSize: 20,
+                        verticalAlign: 'top',
+                        marginLeft: 5,
+                      }}
+                    >
+                      star
+                    </FontIcon>
+                  </span>
+
+                  <span className="badge">
+                    {`${achievement.comment_count}`}
+                    <FontIcon
+                      color="#fff"
+                      className="material-icons"
+                      style={{
+                        fontSize: 20,
+                        verticalAlign: 'middle',
+                        marginLeft: 5,
+                      }}
+                    >
+                      comment
+                    </FontIcon>
+                  </span>
+                </CardActions>
+              </div>
             </Card>
           </div>
         </div>
@@ -90,6 +142,9 @@ const StackOverflowContainer = Relay.createContainer(StackOverflow, {
         title,
         body,
         source_name,
+        is_accepted,
+        comment_count,
+        link,
         up_vote_count,
         pinned,
         created_at,

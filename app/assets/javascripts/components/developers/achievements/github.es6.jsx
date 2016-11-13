@@ -7,6 +7,7 @@ import createDOMPurify from 'dompurify';
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card';
 import moment from 'moment';
 import FontIcon from 'material-ui/FontIcon';
+import Colors from '../../../utils/colors.json';
 
 // Child Components icons
 import GithubIcon from '../../shared/icons/github.es6';
@@ -43,42 +44,62 @@ class Github extends Component {
           </div>
           <div className="achievement-content">
             <Card className="achievement-card full-width">
-              <CardTitle
-                className="achievement-card-header"
-                title={
-                  <div className="title">
-                    {achievement.name.replace(/[_-]/g, ' ')}
-                  </div>
-                }
-                subtitle={
-                  <time className="subtitle date">
-                    {moment.utc(new Date(achievement.created_at)).local().format('DD.MM.YYYY')}
-                  </time>
-                }
-              />
-              <CardText
-                className="achievement-card-description"
-                dangerouslySetInnerHTML={{ __html: description }}
-              />
+              <div className="achievement-card-content">
+                <h2 className="intro">
+                  <span>Open Sourced on </span>
+                  <a
+                    href={achievement.html_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Github
+                  </a>
+                </h2>
 
-              <CardActions className="meta">
-                <div className="item">
-                  {achievement.language}
-                </div>
+                <time className="date">
+                  on {moment.utc(new Date(achievement.created_at)).local().format('MMMM Do YYYY')}
+                </time>
 
-                <div className="item">
-                  {`${achievement.stargazers_count}`}
-                  <FontIcon
-                    color="#777"
-                    className="material-icons"
+                <CardTitle
+                  className="achievement-card-header"
+                  title={
+                    <div className="title">
+                      {achievement.name.replace(/[_-]/g, ' ')}
+                    </div>
+                  }
+                />
+
+                <CardText
+                  className="achievement-card-description"
+                  dangerouslySetInnerHTML={{ __html: description }}
+                />
+
+                <CardActions className="meta">
+                  <span
+                    className="badge"
                     style={{
-                      marginLeft: 5,
+                      backgroundColor: Colors[achievement.language].color,
                     }}
                   >
-                    star
-                  </FontIcon>
-                </div>
-              </CardActions>
+                    {achievement.language}
+                  </span>
+
+                  <span className="badge">
+                    {`${achievement.stargazers_count}`}
+                    <FontIcon
+                      color="#fff"
+                      className="material-icons"
+                      style={{
+                        fontSize: 20,
+                        verticalAlign: 'top',
+                        marginLeft: 5,
+                      }}
+                    >
+                      star
+                    </FontIcon>
+                  </span>
+                </CardActions>
+              </div>
             </Card>
           </div>
         </div>
@@ -101,6 +122,7 @@ const GithubContainer = Relay.createContainer(Github, {
         source_name,
         description,
         language,
+        html_url,
         stargazers_count,
         pinned,
         created_at,

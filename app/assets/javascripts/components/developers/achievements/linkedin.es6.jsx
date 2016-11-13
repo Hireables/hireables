@@ -4,8 +4,9 @@
 import React, { Component } from 'react';
 import Relay from 'react-relay';
 import createDOMPurify from 'dompurify';
-import { Card, CardTitle, CardText } from 'material-ui/Card';
+import { Card, CardTitle, CardActions, CardText } from 'material-ui/Card';
 import moment from 'moment';
+import FontIcon from 'material-ui/FontIcon';
 
 // Child Components icons
 import LinkedinIcon from '../../shared/icons/linkedin.es6';
@@ -41,24 +42,36 @@ class Linkedin extends Component {
           </div>
           <div className="achievement-content">
             <Card className="achievement-card full-width">
-              <CardTitle
-                className="achievement-card-header"
-                title={
-                  <div className="title">
-                    {achievement.title}
-                  </div>
-                }
-                subtitle={
-                  <time className="subtitle date">
-                    {moment.utc(new Date(achievement.created_at)).local().format('DD.MM.YYYY')}
-                  </time>
-                }
-              />
+              <div className="achievement-card-content">
+                <h2 className="intro">
+                  <span>Joined </span>
+                  {achievement.company}
+                </h2>
 
-              <CardText
-                className="achievement-card-description"
-                dangerouslySetInnerHTML={{ __html: description }}
-              />
+                <time className="date">
+                  on {moment.utc(new Date(achievement.created_at)).local().format('MMMM Do YYYY')}
+                </time>
+
+                <CardTitle
+                  className="achievement-card-header"
+                  title={
+                    <div className="title">
+                      {achievement.title}
+                    </div>
+                  }
+                />
+                <CardText
+                  className="achievement-card-description"
+                  dangerouslySetInnerHTML={{ __html: description }}
+                />
+                <CardActions className="meta">
+                  {achievement.isCurrent ?
+                    <span className="badge">
+                      Current Position
+                    </span> : 'Position'
+                  }
+                </CardActions>
+              </div>
             </Card>
           </div>
         </div>
@@ -80,7 +93,9 @@ const LinkedinContainer = Relay.createContainer(Linkedin, {
         title,
         summary,
         source_name,
+        company,
         pinned,
+        isCurrent,
         created_at,
       }
     `,
