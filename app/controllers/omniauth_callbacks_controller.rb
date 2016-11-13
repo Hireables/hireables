@@ -1,5 +1,6 @@
 class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   before_action :failure, if: :malformed_auth?
+  include Devise::Controllers::Rememberable
 
   def github
     @developer = Authenticator.call(auth_hash)
