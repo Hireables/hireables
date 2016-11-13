@@ -1,5 +1,6 @@
 class Developer < ApplicationRecord
-  devise :database_authenticatable, :trackable, :validatable, :omniauthable
+  devise :database_authenticatable, :trackable,
+    :validatable, :omniauthable, :rememberable
 
   store_accessor :data, :html_url, :company, :blog, :followers,
                  :public_gists, :public_repos
