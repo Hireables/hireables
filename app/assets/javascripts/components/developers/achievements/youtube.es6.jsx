@@ -1,4 +1,4 @@
-/* global $ */
+/* global $ window document */
 
 // Modules
 import React, { Component } from 'react';
@@ -16,6 +16,12 @@ class Youtube extends Component {
     super(props);
     this.edit = this.edit.bind(this);
     this.delete = this.edit.bind(this);
+  }
+
+  componentDidMount() {
+    setTimeout(() => {
+      this.iframe.setAttribute('src', this.iframe.getAttribute('data-src'));
+    }, 1000);
   }
 
   edit() {
@@ -51,19 +57,24 @@ class Youtube extends Component {
             <Card className="achievement-card full-width">
               <div className="achievement-card-content">
                 <h2 className="intro">
-                  <span>Presented on </span>
-                  Youtube
+                  <i className="icon material-icons">video_library</i>
+                  Talk
                 </h2>
 
                 <time className="date">
-                  on {moment.utc(new Date(achievement.created_at)).local().format('MMMM Do YYYY')}
+                  {moment.utc(new Date(achievement.created_at)).local().format('MMMM Do YYYY')}
                 </time>
 
                 <CardMedia
                   className="achievement-card-media"
                 >
                   <div className="video-embed" style={embedVideoStyle}>
-                    <iframe style={embedVideoStyle} frameBorder="0" src={`//youtube.com/embed/${achievement.source_id}`} />
+                    <iframe
+                      ref={node => (this.iframe = node)}
+                      style={embedVideoStyle}
+                      frameBorder="0"
+                      data-src={`//youtube.com/embed/${achievement.source_id}`}
+                    />
                   </div>
                 </CardMedia>
 

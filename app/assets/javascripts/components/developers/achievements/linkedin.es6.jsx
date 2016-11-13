@@ -44,12 +44,12 @@ class Linkedin extends Component {
             <Card className="achievement-card full-width">
               <div className="achievement-card-content">
                 <h2 className="intro">
-                  <span>Joined </span>
-                  {achievement.company}
+                  <i className="icon material-icons">work</i>
+                  Position
                 </h2>
 
                 <time className="date">
-                  on {moment.utc(new Date(achievement.created_at)).local().format('MMMM Do YYYY')}
+                  {moment.utc(new Date(achievement.created_at)).local().format('MMMM Do YYYY')}
                 </time>
 
                 <CardTitle
@@ -59,6 +59,7 @@ class Linkedin extends Component {
                       {achievement.title}
                     </div>
                   }
+                  subtitle={achievement.company}
                 />
                 <CardText
                   className="achievement-card-description"

@@ -46,25 +46,25 @@ class Github extends Component {
             <Card className="achievement-card full-width">
               <div className="achievement-card-content">
                 <h2 className="intro">
-                  <span>Open Sourced on </span>
-                  <a
-                    href={achievement.html_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Github
-                  </a>
+                  <i className="icon material-icons">lock_open</i>
+                  <span>Open Source </span>
                 </h2>
 
                 <time className="date">
-                  on {moment.utc(new Date(achievement.created_at)).local().format('MMMM Do YYYY')}
+                  {moment.utc(new Date(achievement.created_at)).local().format('MMMM Do YYYY')}
                 </time>
 
                 <CardTitle
                   className="achievement-card-header"
                   title={
                     <div className="title">
-                      {achievement.name.replace(/[_-]/g, ' ')}
+                      <a
+                        href={achievement.html_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {achievement.name.replace(/[_-]/g, ' ')}
+                      </a>
                     </div>
                   }
                 />

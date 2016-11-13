@@ -7,6 +7,7 @@ import Github from './achievements/github.es6';
 import StackOverflow from './achievements/stackoverflow.es6';
 import Linkedin from './achievements/linkedin.es6';
 import Youtube from './achievements/youtube.es6';
+import Connections from './connections.es6';
 
 // Register components to a Map()
 const componentsMap = new Map();
@@ -28,7 +29,7 @@ class DeveloperAchievements extends Component {
   }
 
   render() {
-    const { developer } = this.props;
+    const { developer, canEdit } = this.props;
     const renderAchievementComponent = (achievement) => {
       const Achievement = componentsMap.get(achievement.source_name);
       return <Achievement achievement={achievement} key={achievement.id} />;
@@ -36,6 +37,31 @@ class DeveloperAchievements extends Component {
 
     return (
       <section className="achievements">
+        <div className="starting-point" />
+        <div
+          className="achievements-intro"
+          style={{
+            textAlign: 'center',
+            margin: '50px 0 50px 100px',
+          }}
+        >
+          <h2
+            style={{
+              fontSize: 22,
+              fontWeight: 500,
+            }}
+          >
+            Achievements wall
+          </h2>
+
+          <p
+            style={{ color: '#777', maxWidth: '70%', margin: '0 auto' }}
+          >
+            Import and Showcase your achievements from github, linkedin,
+            youtube and stackoverflow.
+          </p>
+        </div>
+        <Connections developer={developer} canEdit={canEdit} />
         {developer.achievements.edges.map(({ node }) => (
           renderAchievementComponent(node)
         ))}
@@ -46,6 +72,7 @@ class DeveloperAchievements extends Component {
 
 DeveloperAchievements.propTypes = {
   relay: React.PropTypes.object,
+  canEdit: React.PropTypes.bool,
   developer: React.PropTypes.object,
 };
 
@@ -57,6 +84,7 @@ const DeveloperAchievementsContainer = Relay.createContainer(DeveloperAchievemen
     developer: () => Relay.QL`
       fragment on Developer {
         id,
+        ${Connections.getFragment('developer')},
         achievements(first: $first) {
           edges {
             node {

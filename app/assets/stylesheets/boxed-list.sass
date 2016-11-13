@@ -4,7 +4,15 @@
   background-color: white
 
   &.bordered
-    border: 1px solid #f2f2f2
+    border: 5px solid #f2f2f2
+
+  .list-content
+
+    &.connections
+      display: none
+
+      &.open
+        display: block
 
 .list-header,
   padding: 10px 20px
@@ -12,6 +20,7 @@
   font-size: 14px
   font-weight: 400
   color: #777
+  position: relative
 
   .list-header-title,
     margin: 0

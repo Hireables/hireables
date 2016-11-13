@@ -1,7 +1,19 @@
 .achievements
   position: relative
   margin: 100px auto
-  width: 650px
+  width: 700px
+
+  .starting-point
+    position: absolute
+    left: 5px
+    background: #483367
+    margin: -15px 0 0 -29px
+    display: inline-block
+    height: 40px
+    width: 40px
+    top: -45px
+    border-radius: 50%
+    border: 10px solid rgba(255, 255, 255, 0.4)
 
   &::before
     content: ''
@@ -9,13 +21,15 @@
     top: 0
     left: 0
     height: 100%
-    width: 2px
-    background: #fff
+    width: 10px
+    background: #f2f2f2
 
   .achievement
     position: relative
     margin: 100px 0
-    margin-left: 60px
+    margin-left: 100px
+    background: #fff
+    border: 5px solid #f2f2f2
 
     &:after
       right: 100%
@@ -30,6 +44,29 @@
       border-right-color: #fff
       border-width: 15px
       margin-top: -15px
+
+    &:after, &:before
+      right: 100%
+      top: 50%
+      border: solid transparent
+      content: " "
+      height: 0
+      width: 0
+      position: absolute
+      pointer-events: none
+
+    &:after
+      border-color: rgba(255, 255, 255, 0)
+      border-right-color: #fff
+      border-width: 20px
+      margin-top: -20px
+
+    &:before
+      border-color: rgba(242, 242, 242, 0)
+      border-right-color: #f2f2f2
+      border-width: 27px
+      margin-top: -27px
+
 
 .achievement-block
   position: relative
@@ -50,7 +87,7 @@
 .achievement-point
   position: absolute
   top: calc(50% - 15px)
-  left: -75px
+  left: -95px
   width: 40px
 
 .achievement-content
@@ -63,6 +100,7 @@
 
   .achievement-card
     padding: 20px
+    box-shadow: none!important
 
     .achievement-card-content
       max-width: 500px
@@ -70,11 +108,18 @@
 
       .intro
         margin: 0
+        font-size: 14px
+        font-weight: 400
+        position: absolute
+        right: 20px
+        top: 20px
+        text-transform: uppercase
+        line-height: 22px
 
-        span
-          font-size: 18px
-          font-weight: 400
-          margin-right: 10px
+        .icon
+          vertical-align: bottom
+          color: #f1c90a
+          margin-right: 5px
 
         a
           color: inherit
@@ -90,9 +135,13 @@
       margin-top: 20px
 
       .title
-        font-size: 24px!important
+        font-size: 20px!important
         line-height: 1.2!important
         max-width: 90%
+
+        a
+          color: inherit
+          text-decoration: none
 
       .subtitle
         position: absolute

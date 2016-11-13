@@ -55,25 +55,25 @@ class StackOverflow extends Component {
             <Card className="achievement-card full-width">
               <div className="achievement-card-content">
                 <h2 className="intro">
-                  <span>Answered on </span>
-                  <a
-                    href={achievement.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Stackoverflow
-                  </a>
+                  <i className="icon material-icons">question_answer</i>
+                  <span>Answer</span>
                 </h2>
 
                 <time className="date">
-                  on {moment.utc(new Date(achievement.created_at)).local().format('MMMM Do YYYY')}
+                  {moment.utc(new Date(achievement.created_at)).local().format('MMMM Do YYYY')}
                 </time>
 
                 <CardTitle
                   className="achievement-card-header"
                   title={
                     <div className="title">
-                      {achievement.title}
+                      <a
+                        href={achievement.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {achievement.title}
+                      </a>
                     </div>
                   }
                 />

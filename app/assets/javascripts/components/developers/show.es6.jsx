@@ -20,7 +20,6 @@ import Bio from './bio.es6';
 import Orgs from './orgs.es6';
 import Company from './company.es6';
 import Actions from './actions.es6';
-import Connections from './connections.es6';
 import Achievements from './achievements.es6';
 
 // StyleSheets
@@ -84,8 +83,10 @@ const DeveloperShow = (props) => {
                 <Levels developer={developer} />
               </div>
             </div>
-            {props.can_edit ? <Connections developer={developer} /> : ''}
-            <Achievements developer={developer} />
+            <Achievements
+              developer={developer}
+              canEdit={props.can_edit}
+            />
           </div>
         </header>
       </div>
@@ -119,7 +120,6 @@ const DeveloperShowContainer = Relay.createContainer(DeveloperShow, {
         ${Links.getFragment('developer')},
         ${Bio.getFragment('developer')},
         ${Actions.getFragment('developer')}
-        ${Connections.getFragment('developer')}
       }
     `,
   },
