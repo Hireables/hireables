@@ -15,11 +15,21 @@ ImportType = GraphQL::ObjectType.define do
   field :likeCount, types.Int, 'Total likes for this data source'
   field :up_vote_count, types.Int, 'Total up votes for this data source'
   field :html_url, types.String, 'Url of this source(github)'
+  field :language, types.String, 'Language of this repo'
   field :link, types.String, 'Link of this source(so)'
-  field :creation_date, types.String, 'Date of this source(so)'
-  field :startDate, types.String, 'Date of this source(linkedin)'
-  field :publishedAt, types.String, 'Date of this source(youtube)'
-  field :pushed_at, types.String, 'Date of this source(github)'
   field :created_at, types.String, 'When this item was created'
   field :pinned, types.Boolean, 'Is answer pinned?'
+
+  # Nested fields
+  field :company, types.String, 'Return linkedin company object' do
+    resolve ->(obj, _args, _ctx) { obj.company.nil? ? nil : obj.company['name'] }
+  end
+
+  field :location, types.String, 'Return linkedin location object' do
+    resolve ->(obj, _args, _ctx) { obj.location.nil? ? nil : obj.location['name'] }
+  end
+
+  field :thumbnail, types.String, 'Name of this location' do
+    resolve ->(obj, _args, _ctx) { obj.thumbnails.nil? ? nil : obj.thumbnails['maxres']['url'] }
+  end
 end
