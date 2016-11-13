@@ -1156,8 +1156,8 @@
               "deprecationReason": null
             },
             {
-              "name": "created_at",
-              "description": "When this item was created",
+              "name": "company",
+              "description": "Return linkedin company object",
               "args": [
 
               ],
@@ -1170,8 +1170,8 @@
               "deprecationReason": null
             },
             {
-              "name": "creation_date",
-              "description": "Date of this source(so)",
+              "name": "created_at",
+              "description": "When this item was created",
               "args": [
 
               ],
@@ -1230,6 +1230,20 @@
               "deprecationReason": null
             },
             {
+              "name": "language",
+              "description": "Language of this repo",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "likeCount",
               "description": "Total likes for this data source",
               "args": [
@@ -1246,6 +1260,20 @@
             {
               "name": "link",
               "description": "Link of this source(so)",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "location",
+              "description": "Return linkedin location object",
               "args": [
 
               ],
@@ -1280,34 +1308,6 @@
               "type": {
                 "kind": "SCALAR",
                 "name": "Boolean",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "publishedAt",
-              "description": "Date of this source(youtube)",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "pushed_at",
-              "description": "Date of this source(github)",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -1356,8 +1356,8 @@
               "deprecationReason": null
             },
             {
-              "name": "startDate",
-              "description": "Date of this source(linkedin)",
+              "name": "summary",
+              "description": "Summary of this data source",
               "args": [
 
               ],
@@ -1370,8 +1370,8 @@
               "deprecationReason": null
             },
             {
-              "name": "summary",
-              "description": "Summary of this data source",
+              "name": "thumbnail",
+              "description": "Name of this location",
               "args": [
 
               ],

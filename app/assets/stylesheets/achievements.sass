@@ -26,10 +26,10 @@
       width: 0
       position: absolute
       pointer-events: none
-      border-color: rgba(242, 242, 242, 0)
+      border-color: rgba(255, 255, 255, 0)
       border-right-color: #fff
-      border-width: 30px
-      margin-top: -30px
+      border-width: 15px
+      margin-top: -15px
 
 .achievement-block
   position: relative
@@ -55,8 +55,6 @@
 
 .achievement-content
   position: relative
-  margin-left: 40px
-  padding: 20px 0
 
   &:after
     content: ""
@@ -64,12 +62,10 @@
     clear: both
 
   .achievement-card
-    background: transparent!important
-    box-shadow: none!important
+    padding: 20px
 
     .achievement-card-header
       padding: 0px 16px!important
-      border-bottom: 1px solid #fff
 
       .title
         font-size: 24px!important
@@ -78,13 +74,26 @@
       .title, .subtitle
         margin-bottom: 10px
 
+    .achievement-card-media
+      padding: 0px 16px!important
+      margin-bottom: 20px
+
     .achievement-card-description
       padding: 0px 16px!important
       line-height: 1.2!important
       font-size: 14px!important
       white-space: initial
       word-wrap: break-word
-      margin: 0
+      margin: 20px 0 0
 
       p, code
         margin: 10px 0
+
+    .meta
+      display: flex
+      padding: 0 16px!important
+      margin: 20px 0 0
+
+      .item
+        margin-right: 10px
+        color: #777

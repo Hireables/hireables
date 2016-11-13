@@ -4,36 +4,18 @@
 import React, { Component } from 'react';
 import Relay from 'react-relay';
 import createDOMPurify from 'dompurify';
-import hljs from 'highlight.js';
-import { Card, CardTitle, CardText } from 'material-ui/Card';
-import 'highlight.js/styles/tomorrow-night-eighties.css';
+import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card';
+import moment from 'moment';
+import FontIcon from 'material-ui/FontIcon';
 
 // Child Components icons
-import Github from '../shared/icons/github.es6';
-import StackOverflow from '../shared/icons/stackoverflow.es6';
-import Linkedin from '../shared/icons/linkedin.es6';
-import Youtube from '../shared/icons/youtube.es6';
+import GithubIcon from '../../shared/icons/github.es6';
 
-// Map icon component to string names
-const iconsMap = new Map();
-iconsMap.set('github', Github);
-iconsMap.set('stackoverflow', StackOverflow);
-iconsMap.set('linkedin', Linkedin);
-iconsMap.set('youtube', Youtube);
-
-class Achievement extends Component {
+class Github extends Component {
   constructor(props) {
     super(props);
     this.edit = this.edit.bind(this);
     this.delete = this.edit.bind(this);
-  }
-
-  componentDidMount() {
-    setTimeout(() => {
-      $('code').each((i, block) => {
-        hljs.highlightBlock(block);
-      });
-    }, 500);
   }
 
   edit() {
@@ -48,16 +30,16 @@ class Achievement extends Component {
 
   render() {
     const { achievement } = this.props;
-    const Icon = iconsMap.get(achievement.source_name);
     const description = createDOMPurify.sanitize(
-      achievement.description || achievement.body || achievement.summary,
+      achievement.description,
       { ALLOWED_TAGS: ['b', 'i', 'code'] }
     );
+
     return (
       <div className={`achievement ${achievement.source_name}`}>
         <div className="achievement-block">
           <div className={`achievement-point ${achievement.source_name}`}>
-            <Icon />
+            <GithubIcon />
           </div>
           <div className="achievement-content">
             <Card className="achievement-card full-width">
@@ -65,19 +47,38 @@ class Achievement extends Component {
                 className="achievement-card-header"
                 title={
                   <div className="title">
-                    {achievement.title || achievement.name}
+                    {achievement.name.replace(/[_-]/g, ' ')}
                   </div>
                 }
                 subtitle={
-                  <div className="subtitle">
-                    {achievement.created_at}
-                  </div>
+                  <time className="subtitle date">
+                    {moment.utc(new Date(achievement.created_at)).local().format('DD.MM.YYYY')}
+                  </time>
                 }
               />
               <CardText
                 className="achievement-card-description"
                 dangerouslySetInnerHTML={{ __html: description }}
               />
+
+              <CardActions className="meta">
+                <div className="item">
+                  {achievement.language}
+                </div>
+
+                <div className="item">
+                  {`${achievement.stargazers_count}`}
+                  <FontIcon
+                    color="#777"
+                    className="material-icons"
+                    style={{
+                      marginLeft: 5,
+                    }}
+                  >
+                    star
+                  </FontIcon>
+                </div>
+              </CardActions>
             </Card>
           </div>
         </div>
@@ -86,25 +87,21 @@ class Achievement extends Component {
   }
 }
 
-Achievement.propTypes = {
+Github.propTypes = {
   relay: React.PropTypes.object,
   achievement: React.PropTypes.object,
 };
 
-const AchievementContainer = Relay.createContainer(Achievement, {
+const GithubContainer = Relay.createContainer(Github, {
   fragments: {
     achievement: () => Relay.QL`
       fragment on Import {
         id,
-        title,
         name,
-        summary,
-        body,
         source_name,
         description,
+        language,
         stargazers_count,
-        likeCount,
-        up_vote_count,
         pinned,
         created_at,
       }
@@ -112,4 +109,4 @@ const AchievementContainer = Relay.createContainer(Achievement, {
   },
 });
 
-export default AchievementContainer;
+export default GithubContainer;

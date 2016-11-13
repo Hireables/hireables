@@ -2,8 +2,18 @@
 import React, { Component } from 'react';
 import Relay from 'react-relay';
 
-// Child Components
-import Achievement from './achievement.es6';
+// Child Components icons
+import Github from './achievements/github.es6';
+import StackOverflow from './achievements/stackoverflow.es6';
+import Linkedin from './achievements/linkedin.es6';
+import Youtube from './achievements/youtube.es6';
+
+// Register components to a Map()
+const componentsMap = new Map();
+componentsMap.set('github', Github);
+componentsMap.set('stackoverflow', StackOverflow);
+componentsMap.set('linkedin', Linkedin);
+componentsMap.set('youtube', Youtube);
 
 class DeveloperAchievements extends Component {
   constructor(props) {
@@ -19,10 +29,15 @@ class DeveloperAchievements extends Component {
 
   render() {
     const { developer } = this.props;
+    const renderAchievementComponent = (achievement) => {
+      const Achievement = componentsMap.get(achievement.source_name);
+      return <Achievement achievement={achievement} key={achievement.id} />;
+    };
+
     return (
       <section className="achievements">
         {developer.achievements.edges.map(({ node }) => (
-          <Achievement achievement={node} key={node.id} />
+          renderAchievementComponent(node)
         ))}
       </section>
     );
@@ -46,7 +61,11 @@ const DeveloperAchievementsContainer = Relay.createContainer(DeveloperAchievemen
           edges {
             node {
               id,
-              ${Achievement.getFragment('achievement')},
+              source_name,
+              ${Github.getFragment('achievement')},
+              ${StackOverflow.getFragment('achievement')},
+              ${Linkedin.getFragment('achievement')},
+              ${Youtube.getFragment('achievement')},
             }
           }
         }
