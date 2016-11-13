@@ -4,6 +4,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def github
     @developer = Authenticator.call(auth_hash)
     if @developer.persisted?
+      remember_me(@developer)
       sign_in @developer, event: :authentication
       redirect_to root_path
     else
