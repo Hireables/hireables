@@ -1156,6 +1156,20 @@
               "deprecationReason": null
             },
             {
+              "name": "comment_count",
+              "description": "Total comments (so)",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "company",
               "description": "Return linkedin company object",
               "args": [
@@ -1230,6 +1244,34 @@
               "deprecationReason": null
             },
             {
+              "name": "isCurrent",
+              "description": "Current job (linkedin)",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "is_accepted",
+              "description": "Is answer accepted?(stackoverflow)",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "language",
               "description": "Language of this repo",
               "args": [
@@ -1260,20 +1302,6 @@
             {
               "name": "link",
               "description": "Link of this source(so)",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "location",
-              "description": "Return linkedin location object",
               "args": [
 
               ],
@@ -1370,20 +1398,6 @@
               "deprecationReason": null
             },
             {
-              "name": "thumbnail",
-              "description": "Name of this location",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "title",
               "description": "title of this data source",
               "args": [
@@ -1400,6 +1414,20 @@
             {
               "name": "up_vote_count",
               "description": "Total up votes for this data source",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "viewCount",
+              "description": "Total views (youtube)",
               "args": [
 
               ],
