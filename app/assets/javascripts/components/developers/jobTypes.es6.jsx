@@ -21,7 +21,7 @@ const JobTypes = (props) => {
         developer.startup ||
         developer.internship ?
           <div className={css(chipStyles.wrapper)}>
-            <div className="header-separator">Job Types</div>
+            <div className="header-separator">Job Preferences</div>
             {developer.full_time ?
               <Chip
                 labelStyle={{ fontSize: 15, paddingLeft: 5 }}

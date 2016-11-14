@@ -32,7 +32,8 @@ const Connections = (props) => {
           <h3 className="list-header-title">
             Pin your achievements
           </h3>
-          Connect your accounts to import and pin your achievements.
+          Click hamburger icon to toggle
+
           <IconButton
             touch
             onTouchTap={event => toggleList(event)}

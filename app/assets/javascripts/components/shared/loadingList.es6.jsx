@@ -42,7 +42,13 @@ const LoadingList = () => {
 
   return (
     <MuiThemeProvider>
-      <Card>
+      <Card
+        style={{
+          boxShadow: 'none',
+          border: 0,
+          borderRadius: 0,
+        }}
+      >
         <CardText style={{ padding: 0, overflow: 'hidden' }}>
           <List style={{ paddingTop: '0px', paddingBottom: '0px' }}>
             {emptyPlaceholders}

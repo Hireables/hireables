@@ -67,7 +67,16 @@ class DevelopersList extends Component {
     const { root } = this.props;
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
-        <Card containerStyle={{ paddingBottom: 0 }}>
+        <Card
+          containerStyle={{
+            paddingBottom: 0,
+          }}
+          style={{
+            boxShadow: 'none',
+            border: 0,
+            borderRadius: 0,
+          }}
+        >
           <CardText style={{ padding: 0, overflow: 'hidden' }}>
             {root.developers.edges && root.developers.edges.length > 0 ?
               <List style={{ paddingTop: 0, paddingBottom: 0 }}>

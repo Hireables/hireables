@@ -51,14 +51,14 @@ class DeveloperAchievements extends Component {
               fontWeight: 500,
             }}
           >
-            Achievements wall
+            Your Contributions and Achievements Wall
           </h2>
 
           <p
-            style={{ color: '#777', maxWidth: '70%', margin: '0 auto' }}
+            style={{ color: '#777', maxWidth: '80%', margin: '0 auto' }}
           >
-            Import and Showcase your achievements from github, linkedin,
-            youtube and stackoverflow.
+            Import and pin your contributions and achievements from Github,
+            StackOverflow, Linkedin and Youtube.
           </p>
         </div>
         <Connections developer={developer} canEdit={canEdit} />

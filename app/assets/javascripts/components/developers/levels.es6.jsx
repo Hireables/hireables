@@ -21,7 +21,6 @@ const Levels = (props) => {
         developer.junior ||
         developer.student ?
           <div className={css(chipStyles.wrapper)}>
-            <div className="header-separator">Levels</div>
             {developer.cto ?
               <Chip
                 labelStyle={{ fontSize: 15, paddingLeft: 5 }}

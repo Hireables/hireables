@@ -23,9 +23,9 @@ import CurrentUser from '../../helpers/currentUser.es6';
 const currentUser = new CurrentUser();
 
 const cardTitleStyle = {
-  padding: '8px 16px 8px',
+  padding: 15,
   backgroundColor: '#f5f5f5',
-  borderBottom: '1px solid #d8d8d8',
+  marginBottom: 20,
 };
 
 class Favourites extends Component {
@@ -85,7 +85,14 @@ class Favourites extends Component {
     const { employer } = this.props;
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
-        <Card containerStyle={{ paddingBottom: 0 }}>
+        <Card
+          containerStyle={{ paddingBottom: 0 }}
+          style={{
+            boxShadow: 'none',
+            border: 0,
+            borderRadius: 0,
+          }}
+        >
           <CardTitle
             className="card-title"
             style={cardTitleStyle}

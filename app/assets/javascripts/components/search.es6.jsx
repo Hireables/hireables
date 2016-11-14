@@ -28,7 +28,7 @@ const environment = new Environment();
 const currentUser = new CurrentUser();
 
 const cardTitleStyle = {
-  padding: '8px 16px 8px',
+  padding: '0px 16px',
   backgroundColor: '#f5f5f5',
   borderBottom: '1px solid #d8d8d8',
 };
@@ -223,7 +223,13 @@ class Search extends Component {
   render() {
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
-        <Card>
+        <Card
+          style={{
+            boxShadow: 'none',
+            border: 0,
+            borderRadius: 0,
+          }}
+        >
           <CardTitle
             title="Search"
             className="search-card-title"

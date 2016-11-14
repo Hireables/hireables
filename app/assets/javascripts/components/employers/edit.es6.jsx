@@ -20,7 +20,7 @@ import muiTheme from '../theme.es6';
 import UpdateEmployer from '../../mutations/employer/updateEmployer.es6';
 
 const cardTitleStyle = {
-  padding: '8px 16px 8px',
+  padding: '8px 16px',
   backgroundColor: '#f5f5f5',
   borderBottom: '1px solid #d8d8d8',
 };
@@ -177,7 +177,7 @@ class EmployerEdit extends Component {
       <MuiThemeProvider muiTheme={muiTheme}>
         <Card
           className="card"
-          style={{ border: '1px solid #d8d8d8' }}
+          style={{ border: '5px solid #f2f2f2' }}
         >
           <CardTitle
             title="Update your profile"

@@ -59,7 +59,6 @@ class Home extends Component {
             <Card
               className="hero-card"
               containerStyle={{ paddingBottom: 10 }}
-              style={{ border: '1px solid #d8d8d8' }}
             >
               <CardTitle
                 title="Developers"
