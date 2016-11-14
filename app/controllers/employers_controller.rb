@@ -9,6 +9,7 @@ class EmployersController < ApplicationController
 
   # GET /employers/:id/edit
   def edit
+    redirect_to root_path && return if @employer != current_employer
   end
 
   private

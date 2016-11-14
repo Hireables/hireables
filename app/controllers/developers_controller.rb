@@ -10,6 +10,7 @@ class DevelopersController < ApplicationController
   end
 
   def edit
+    redirect_to root_path && return if @developer != current_developer
   end
 
   # GET /:id
