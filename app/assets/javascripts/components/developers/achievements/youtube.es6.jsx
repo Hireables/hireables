@@ -3,13 +3,14 @@
 // Modules
 import React, { Component } from 'react';
 import Relay from 'react-relay';
-import createDOMPurify from 'dompurify';
 import { Card, CardMedia, CardActions, CardTitle, CardText } from 'material-ui/Card';
 import moment from 'moment';
+import IconButton from 'material-ui/IconButton';
 import FontIcon from 'material-ui/FontIcon';
 
 // Child Components icons
 import YoutubeIcon from '../../shared/icons/youtube.es6';
+import sanitize from '../../../utils/sanitize.es6';
 
 class Youtube extends Component {
   constructor(props) {
@@ -35,12 +36,7 @@ class Youtube extends Component {
   }
 
   render() {
-    const { achievement } = this.props;
-    const description = createDOMPurify.sanitize(
-      achievement.description,
-      { ALLOWED_TAGS: ['b', 'i', 'code'] }
-    );
-
+    const { achievement, remove, canEdit } = this.props;
     const embedVideoStyle = {
       display: 'block',
       width: '100%',
@@ -60,6 +56,17 @@ class Youtube extends Component {
                   <i className="icon material-icons">video_library</i>
                   Talk
                 </h2>
+
+                {canEdit ?
+                  <IconButton
+                    className="remove"
+                    tooltip="Remove"
+                    tooltipStyles={{ top: 25 }}
+                    onClick={event => remove(event, achievement)}
+                  >
+                    <FontIcon className="material-icons">close</FontIcon>
+                  </IconButton> : ''
+                }
 
                 <time className="date">
                   {moment.utc(new Date(achievement.created_at)).local().format('MMMM Do YYYY')}
@@ -88,7 +95,9 @@ class Youtube extends Component {
                 />
                 <CardText
                   className="achievement-card-description"
-                  dangerouslySetInnerHTML={{ __html: description }}
+                  dangerouslySetInnerHTML={{
+                    __html: sanitize(achievement.description),
+                  }}
                 />
 
                 <CardActions className="meta">
@@ -144,6 +153,8 @@ class Youtube extends Component {
 Youtube.propTypes = {
   relay: React.PropTypes.object,
   achievement: React.PropTypes.object,
+  remove: React.PropTypes.func,
+  canEdit: React.PropTypes.bool,
 };
 
 const YoutubeContainer = Relay.createContainer(Youtube, {
@@ -155,6 +166,8 @@ const YoutubeContainer = Relay.createContainer(Youtube, {
         source_name,
         source_id,
         description,
+        developer_id,
+        connection_id,
         likeCount,
         viewCount,
         pinned,

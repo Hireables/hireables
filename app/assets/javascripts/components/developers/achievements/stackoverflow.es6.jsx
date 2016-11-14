@@ -3,15 +3,16 @@
 // Modules
 import React, { Component } from 'react';
 import Relay from 'react-relay';
-import createDOMPurify from 'dompurify';
 import hljs from 'highlight.js';
 import FontIcon from 'material-ui/FontIcon';
 import { Card, CardTitle, CardActions, CardText } from 'material-ui/Card';
+import IconButton from 'material-ui/IconButton';
 import 'highlight.js/styles/tomorrow-night-eighties.css';
 import moment from 'moment';
 
 // Child Components icons
 import StackOverflowIcon from '../../shared/icons/stackoverflow.es6';
+import sanitize from '../../../utils/sanitize.es6';
 
 class StackOverflow extends Component {
   constructor(props) {
@@ -39,11 +40,7 @@ class StackOverflow extends Component {
   }
 
   render() {
-    const { achievement } = this.props;
-    const description = createDOMPurify.sanitize(
-      achievement.body,
-      { ALLOWED_TAGS: ['b', 'i', 'code'] }
-    );
+    const { achievement, remove, canEdit } = this.props;
 
     return (
       <div className={`achievement ${achievement.source_name}`}>
@@ -58,6 +55,17 @@ class StackOverflow extends Component {
                   <i className="icon material-icons">question_answer</i>
                   <span>Answer</span>
                 </h2>
+
+               {canEdit ?
+                  <IconButton
+                    className="remove"
+                    tooltip="Remove"
+                    tooltipStyles={{ top: 25 }}
+                    onClick={event => remove(event, achievement)}
+                  >
+                    <FontIcon className="material-icons">close</FontIcon>
+                  </IconButton> : ''
+                }
 
                 <time className="date">
                   {moment.utc(new Date(achievement.created_at)).local().format('MMMM Do YYYY')}
@@ -80,7 +88,9 @@ class StackOverflow extends Component {
 
                 <CardText
                   className="achievement-card-description"
-                  dangerouslySetInnerHTML={{ __html: description }}
+                  dangerouslySetInnerHTML={{
+                    __html: sanitize(achievement.body),
+                  }}
                 />
 
                 <CardActions className="meta">
@@ -132,6 +142,8 @@ class StackOverflow extends Component {
 StackOverflow.propTypes = {
   relay: React.PropTypes.object,
   achievement: React.PropTypes.object,
+  remove: React.PropTypes.func,
+  canEdit: React.PropTypes.bool,
 };
 
 const StackOverflowContainer = Relay.createContainer(StackOverflow, {
@@ -144,6 +156,8 @@ const StackOverflowContainer = Relay.createContainer(StackOverflow, {
         source_name,
         is_accepted,
         comment_count,
+        developer_id,
+        connection_id,
         link,
         up_vote_count,
         pinned,

@@ -9,6 +9,9 @@ import Linkedin from './achievements/linkedin.es6';
 import Youtube from './achievements/youtube.es6';
 import Connections from './connections.es6';
 
+// Mutation
+import RemoveAchievement from '../../mutations/developer/removeAchievement.es6';
+
 // Register components to a Map()
 const componentsMap = new Map();
 componentsMap.set('github', Github);
@@ -35,6 +38,29 @@ class DeveloperAchievements extends Component {
   constructor(props) {
     super(props);
     this.loadMore = this.loadMore.bind(this);
+    this.remove = this.remove.bind(this);
+  }
+
+  remove(event, achievement) {
+    event.preventDefault();
+
+    const onFailure = (transaction) => {
+      const error = transaction.getError() || new Error('Mutation failed.');
+      let errorMessage;
+
+      if (error.list.errors && Array.isArray(error.list.errors)) {
+        errorMessage = error.list.errors[0].message;
+      } else {
+        errorMessage = error.message;
+      }
+      this.setNotification(errorMessage);
+    };
+
+    Relay.Store.commitUpdate(new RemoveAchievement({
+      id: achievement.id,
+      developerId: achievement.developer_id,
+      connectionId: achievement.connection_id,
+    }), { onFailure });
   }
 
   loadMore() {
@@ -45,9 +71,16 @@ class DeveloperAchievements extends Component {
 
   render() {
     const { developer, canEdit } = this.props;
-    const renderAchievementComponent = (achievement) => {
+    const renderAchievementComponent = (achievement, isOwner) => {
       const Achievement = componentsMap.get(achievement.source_name);
-      return <Achievement achievement={achievement} key={achievement.id} />;
+      return (
+        <Achievement
+          achievement={achievement}
+          key={achievement.id}
+          canEdit={isOwner}
+          remove={this.remove}
+        />
+      );
     };
 
     return (
@@ -77,7 +110,7 @@ class DeveloperAchievements extends Component {
 
         {developer.achievements.edges.length > 0 ?
           developer.achievements.edges.map(({ node }) => (
-            renderAchievementComponent(node)
+            renderAchievementComponent(node, canEdit)
           )) : canEdit ? '' : renderEmptyPlaceholder()
         }
       </section>

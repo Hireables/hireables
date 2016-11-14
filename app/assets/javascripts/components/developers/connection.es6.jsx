@@ -135,15 +135,11 @@ class Connection extends Component {
       $(event.target).closest('.list-item').toggleClass('pinned');
     };
 
-    const onSuccess = (response) => {
-      console.log(response);
-    };
-
     Relay.Store.commitUpdate(new ToggleAchievement({
       id: item.id,
       developerId: this.props.developer.id,
       connectionId: this.props.connection.id,
-    }), { onFailure, onSuccess });
+    }), { onFailure });
   }
 
   handleRequestClose() {

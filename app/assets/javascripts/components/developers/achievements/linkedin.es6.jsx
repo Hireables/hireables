@@ -3,13 +3,14 @@
 // Modules
 import React, { Component } from 'react';
 import Relay from 'react-relay';
-import createDOMPurify from 'dompurify';
 import { Card, CardTitle, CardActions, CardText } from 'material-ui/Card';
-import moment from 'moment';
+import IconButton from 'material-ui/IconButton';
 import FontIcon from 'material-ui/FontIcon';
+import moment from 'moment';
 
 // Child Components icons
 import LinkedinIcon from '../../shared/icons/linkedin.es6';
+import sanitize from '../../../utils/sanitize.es6';
 
 class Linkedin extends Component {
   constructor(props) {
@@ -29,11 +30,8 @@ class Linkedin extends Component {
   }
 
   render() {
-    const { achievement } = this.props;
-    const description = createDOMPurify.sanitize(
-      achievement.summary,
-      { ALLOWED_TAGS: ['b', 'i', 'code'] }
-    );
+    const { achievement, remove, canEdit } = this.props;
+
     return (
       <div className={`achievement ${achievement.source_name}`}>
         <div className="achievement-block">
@@ -47,6 +45,17 @@ class Linkedin extends Component {
                   <i className="icon material-icons">work</i>
                   Position
                 </h2>
+
+                {canEdit ?
+                  <IconButton
+                    className="remove"
+                    tooltip="Remove"
+                    tooltipStyles={{ top: 25 }}
+                    onClick={event => remove(event, achievement)}
+                  >
+                    <FontIcon className="material-icons">close</FontIcon>
+                  </IconButton> : ''
+                }
 
                 <time className="date">
                   {moment.utc(new Date(achievement.created_at)).local().format('MMMM Do YYYY')}
@@ -63,7 +72,9 @@ class Linkedin extends Component {
                 />
                 <CardText
                   className="achievement-card-description"
-                  dangerouslySetInnerHTML={{ __html: description }}
+                  dangerouslySetInnerHTML={{
+                    __html: sanitize(achievement.summary),
+                  }}
                 />
                 <CardActions className="meta">
                   {achievement.isCurrent ?
@@ -84,6 +95,8 @@ class Linkedin extends Component {
 Linkedin.propTypes = {
   relay: React.PropTypes.object,
   achievement: React.PropTypes.object,
+  remove: React.PropTypes.func,
+  canEdit: React.PropTypes.bool,
 };
 
 const LinkedinContainer = Relay.createContainer(Linkedin, {
@@ -94,6 +107,8 @@ const LinkedinContainer = Relay.createContainer(Linkedin, {
         title,
         summary,
         source_name,
+        developer_id,
+        connection_id,
         company,
         pinned,
         isCurrent,
