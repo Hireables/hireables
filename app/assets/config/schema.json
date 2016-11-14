@@ -714,6 +714,20 @@
               "deprecationReason": null
             },
             {
+              "name": "is_owner",
+              "description": "Is owner?",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "junior",
               "description": "Junior level",
               "args": [
@@ -1273,6 +1287,20 @@
               "deprecationReason": null
             },
             {
+              "name": "is_owner",
+              "description": "Is owner of this import?",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "language",
               "description": "Language of this repo",
               "args": [
@@ -1634,6 +1662,20 @@
               "deprecationReason": null
             },
             {
+              "name": "is_owner",
+              "description": "Is owner of this connection?",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "provider",
               "description": "Connection provider name",
               "args": [
@@ -1892,6 +1934,20 @@
                   "name": "ID",
                   "ofType": null
                 }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "is_owner",
+              "description": "Is developer favourited by current employer?",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
