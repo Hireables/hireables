@@ -12,20 +12,13 @@ QueryType = GraphQL::ObjectType.define do
     argument :id, !types.String
     type DeveloperType
     description 'Returns a developer profile by id'
-    resolve(DeveloperResolver)
+    resolve(Developers::ShowResolver)
   end
 
   field :employer do
     argument :id, !types.String
     type EmployerType
     description 'Returns a employer profile by id'
-    resolve(EmployerResolver)
-  end
-
-  field :connection do
-    argument :id, !types.ID
-    type ConnectionType
-    description 'Returns a connection by id'
-    resolve(ConnectionResolver)
+    resolve(Employers::ShowResolver)
   end
 end

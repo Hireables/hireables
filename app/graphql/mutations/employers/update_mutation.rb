@@ -1,5 +1,5 @@
 module Employers
-  UpdateEmployer = GraphQL::Relay::Mutation.define do
+  UpdateMutation = GraphQL::Relay::Mutation.define do
     name 'UpdateEmployer'
     description 'Update Employer'
 
@@ -19,6 +19,6 @@ module Employers
     return_field :employer, EmployerType
 
     # Resolve block to update a model
-    resolve(EmployerUpdateResolver)
+    resolve(Employers::UpdateResolver)
   end
 end

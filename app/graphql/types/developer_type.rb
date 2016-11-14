@@ -40,7 +40,7 @@ DeveloperType = GraphQL::ObjectType.define do
 
   field :premium, types.Boolean do
     description 'Is it premium profile?'
-    resolve(DeveloperCustomFieldResolver.new(:premium, :boolean))
+    resolve(Developers::CustomFieldResolver.new(:premium, :boolean))
   end
 
   field :platforms, types[types.String] do
@@ -50,7 +50,7 @@ DeveloperType = GraphQL::ObjectType.define do
 
   field :linkedin, types.String do
     description 'Linkedin profile'
-    resolve(DeveloperCustomFieldResolver.new(:linkedin, :string))
+    resolve(Developers::CustomFieldResolver.new(:linkedin, :string))
   end
 
   # Availability
@@ -62,74 +62,74 @@ DeveloperType = GraphQL::ObjectType.define do
   # Preferences
   field :remote, types.Boolean do
     description 'Prefer remote?'
-    resolve(DeveloperCustomFieldResolver.new(:remote, :boolean))
+    resolve(Developers::CustomFieldResolver.new(:remote, :boolean))
   end
 
   field :relocate, types.Boolean do
     description 'Can relocate?'
-    resolve(DeveloperCustomFieldResolver.new(:relocate, :boolean))
+    resolve(Developers::CustomFieldResolver.new(:relocate, :boolean))
   end
 
   # Job types
   field :full_time, types.Boolean do
     description 'Full-Time work'
-    resolve(DeveloperCustomFieldResolver.new(:full_time, :boolean))
+    resolve(Developers::CustomFieldResolver.new(:full_time, :boolean))
   end
 
   field :part_time, types.Boolean do
     description 'Part-Time work'
-    resolve(DeveloperCustomFieldResolver.new(:part_time, :boolean))
+    resolve(Developers::CustomFieldResolver.new(:part_time, :boolean))
   end
 
   field :contract, types.Boolean do
     description 'Contract work'
-    resolve(DeveloperCustomFieldResolver.new(:contract, :boolean))
+    resolve(Developers::CustomFieldResolver.new(:contract, :boolean))
   end
 
   field :freelance, types.Boolean do
     description 'Freelance work'
-    resolve(DeveloperCustomFieldResolver.new(:freelance, :boolean))
+    resolve(Developers::CustomFieldResolver.new(:freelance, :boolean))
   end
 
   field :internship, types.Boolean do
     description 'Internship work'
-    resolve(DeveloperCustomFieldResolver.new(:internship, :boolean))
+    resolve(Developers::CustomFieldResolver.new(:internship, :boolean))
   end
 
   field :startup, types.Boolean do
     description 'Startup work'
-    resolve(DeveloperCustomFieldResolver.new(:startup, :boolean))
+    resolve(Developers::CustomFieldResolver.new(:startup, :boolean))
   end
 
   # Levels
   field :cto, types.Boolean do
     description 'CTO level'
-    resolve(DeveloperCustomFieldResolver.new(:cto, :boolean))
+    resolve(Developers::CustomFieldResolver.new(:cto, :boolean))
   end
 
   field :lead, types.Boolean do
     description 'Lead level'
-    resolve(DeveloperCustomFieldResolver.new(:lead, :boolean))
+    resolve(Developers::CustomFieldResolver.new(:lead, :boolean))
   end
 
   field :senior, types.Boolean do
     description 'Senior level'
-    resolve(DeveloperCustomFieldResolver.new(:senior, :boolean))
+    resolve(Developers::CustomFieldResolver.new(:senior, :boolean))
   end
 
   field :mid, types.Boolean do
     description 'Mid-level level'
-    resolve(DeveloperCustomFieldResolver.new(:mid, :boolean))
+    resolve(Developers::CustomFieldResolver.new(:mid, :boolean))
   end
 
   field :junior, types.Boolean do
     description 'Junior level'
-    resolve(DeveloperCustomFieldResolver.new(:junior, :boolean))
+    resolve(Developers::CustomFieldResolver.new(:junior, :boolean))
   end
 
   field :student, types.Boolean do
     description 'Student level'
-    resolve(DeveloperCustomFieldResolver.new(:student, :boolean))
+    resolve(Developers::CustomFieldResolver.new(:student, :boolean))
   end
 
   field :orgs, types[OrgType] do

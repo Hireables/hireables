@@ -1,5 +1,5 @@
 module Employers
-  FileUpload = GraphQL::Relay::Mutation.define do
+  FileUploadMutation = GraphQL::Relay::Mutation.define do
     name 'EmployerFileUpload'
     description 'Uploads image for the employer'
 

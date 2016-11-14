@@ -10,6 +10,6 @@ ViewerType = GraphQL::ObjectType.define do
     argument :repos, types.String, default_value: nil
     argument :page, types.Int, default_value: 1
     description 'Developer connection to fetch paginated developers collection.'
-    resolve(DevelopersResolver)
+    resolve(Developers::IndexResolver)
   end
 end

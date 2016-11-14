@@ -1,5 +1,5 @@
 module Developers
-  ToggleAchievement = GraphQL::Relay::Mutation.define do
+  ToggleAchievementMutation = GraphQL::Relay::Mutation.define do
     name 'ToggleAchievement'
     description 'Add or remove an achievement from profile based on selection'
 

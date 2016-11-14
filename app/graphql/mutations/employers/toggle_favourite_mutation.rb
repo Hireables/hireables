@@ -1,5 +1,5 @@
-module Developers
-  ToggleFavourite = GraphQL::Relay::Mutation.define do
+module Employers
+  ToggleFavouriteMutation = GraphQL::Relay::Mutation.define do
     name 'ToggleFavourite'
     description 'Toggles a developer profile favourite'
 
@@ -9,6 +9,6 @@ module Developers
     return_field :developer, DeveloperType
 
     # Resolve block to toggle a profile favourite
-    resolve(ToggleFavouriteResolver)
+    resolve(Employers::ToggleFavouriteResolver)
   end
 end

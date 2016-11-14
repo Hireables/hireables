@@ -1,5 +1,5 @@
 module Developers
-  ConnectOauth = GraphQL::Relay::Mutation.define do
+  ConnectOauthMutation = GraphQL::Relay::Mutation.define do
     name 'ConnectOauth'
     description 'Connects an oauth account to developer account'
 
@@ -12,6 +12,6 @@ module Developers
     return_field :developer, DeveloperType
 
     # Resolve block to toggle a profile favourite
-    resolve(ConnectOauthResolver)
+    resolve(Developers::ConnectOauthResolver)
   end
 end

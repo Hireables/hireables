@@ -23,6 +23,6 @@ EmployerType = GraphQL::ObjectType.define do
 
   connection :favourites, DeveloperType.connection_type do
     description 'Favourites connection to fetch paginated saved developers.'
-    resolve(FavouritesResolver)
+    resolve(Employers::FavouritesResolver)
   end
 end
