@@ -122,9 +122,9 @@ class EmployerShow extends Component {
 
                     {this.state.uploading ?
                       'Uploading...' :
-                        <IconButton onClick={this.openFileDialog}>
-                          <ActionCamera />
-                        </IconButton>
+                      <IconButton onClick={this.openFileDialog}>
+                        <ActionCamera />
+                      </IconButton>
                     }
                     <input
                       type="file"

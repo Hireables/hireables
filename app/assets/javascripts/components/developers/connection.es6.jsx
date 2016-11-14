@@ -228,6 +228,7 @@ class Connection extends Component {
           rightIconButton={
             <RaisedButton
               style={{ top: 10, right: 20 }}
+              className={text}
               primary
               onClick={onClickAction}
               label={text}
@@ -287,7 +288,7 @@ Connection.propTypes = {
 
 const ConnectionContainer = Relay.createContainer(Connection, {
   initialVariables: {
-    first: 10,
+    first: 20,
     showData: false,
   },
   fragments: {

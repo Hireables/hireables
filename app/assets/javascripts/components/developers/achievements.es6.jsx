@@ -16,6 +16,21 @@ componentsMap.set('stackoverflow', StackOverflow);
 componentsMap.set('linkedin', Linkedin);
 componentsMap.set('youtube', Youtube);
 
+const renderEmptyPlaceholder = () => (
+  <div
+    className="no_content text-center"
+    style={{
+      marginLeft: 100,
+      border: '5px solid #f2f2f2',
+      color: '#777',
+    }}
+  >
+    <h1 style={{ fontWeight: 500, fontSize: 18 }}>
+      No pinned achievements or contributions
+    </h1>
+  </div>
+);
+
 class DeveloperAchievements extends Component {
   constructor(props) {
     super(props);
@@ -45,26 +60,26 @@ class DeveloperAchievements extends Component {
             margin: '50px 0 50px 100px',
           }}
         >
-          <h2
-            style={{
-              fontSize: 22,
-              fontWeight: 500,
-            }}
-          >
-            Your Contributions and Achievements Wall
+          <h2 style={{ fontSize: 22, fontWeight: 500 }}>
+            Contributions and Achievements
           </h2>
-
-          <p
-            style={{ color: '#777', maxWidth: '80%', margin: '0 auto' }}
-          >
-            Import and pin your contributions and achievements from Github,
-            StackOverflow, Linkedin and Youtube.
+          <p style={{ color: '#777', maxWidth: '90%', margin: '5px auto' }}>
+            {canEdit ?
+              'Import and Pin your contributions and achievements from Github, ' +
+              'StackOverflow, Linkedin and Youtube.' :
+              'Pinned contributions and achievements from Github, ' +
+              'StackOverflow, Linkedin and Youtube'
+            }
           </p>
         </div>
-        <Connections developer={developer} canEdit={canEdit} />
-        {developer.achievements.edges.map(({ node }) => (
-          renderAchievementComponent(node)
-        ))}
+
+        {canEdit ? <Connections developer={developer} canEdit={canEdit} /> : ''}
+
+        {developer.achievements.edges.length > 0 ?
+          developer.achievements.edges.map(({ node }) => (
+            renderAchievementComponent(node)
+          )) : canEdit ? '' : renderEmptyPlaceholder()
+        }
       </section>
     );
   }
