@@ -26,5 +26,7 @@ Rails/Date:
     - 'lib/**/*'
 Style/Documentation:
   Enabled: false
+Style/Lambda:
+  Enabled: false
 Style/IndentArray:
   EnforcedStyle: consistent
