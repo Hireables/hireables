@@ -69,7 +69,12 @@ class Youtube extends Component {
                 }
 
                 <time className="date">
-                  {moment.utc(new Date(achievement.created_at)).local().format('MMMM Do YYYY')}
+                  {
+                    moment
+                    .utc(new Date(achievement.created_at))
+                    .local()
+                    .format('MMMM Do YYYY')
+                  }
                 </time>
 
                 <CardMedia
