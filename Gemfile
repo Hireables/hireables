@@ -37,7 +37,7 @@ gem 'omniauth-github'
 gem 'devise'
 
 # CORS
-gem 'rack-cors', :require => 'rack/cors'
+gem 'rack-cors', require: 'rack/cors'
 
 # Client side routes
 gem 'js-routes'
