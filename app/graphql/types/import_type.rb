@@ -5,6 +5,8 @@ ImportType = GraphQL::ObjectType.define do
   global_id_field :id
 
   field :source_id, types.String, 'Data source id'
+  field :developer_id, types.String, 'Data owner id'
+  field :connection_id, types.String, 'Data source connection id'
   field :source_name, types.String, 'Data source name'
   field :title, types.String, 'title of this data source'
   field :name, types.String, 'Name of this data source'
