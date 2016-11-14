@@ -1,6 +1,6 @@
 pooled_redis = ConnectionPool.new(
   size: ENV.fetch('REDIS_SIZE'),
-  timeout: 5
+  timeout: 20
 ) { Redis.new(url: ENV.fetch('REDIS_URL'), namespace: "sidekiq_#{Rails.env.downcase}") }
 
 
