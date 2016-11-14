@@ -36,7 +36,7 @@
     "extract-text-webpack-plugin": "^1.0.1",
     "formsy-material-ui": "^0.5.2",
     "formsy-react": "^0.18.1",
-    "graphql": "0.8.0-beta3",
+    "graphql": "0.8.1",
     "highlight.js": "^9.8.0",
     "immutability-helper": "^2.0.0",
     "imports-loader": "^0.6.5",
