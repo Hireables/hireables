@@ -1,1 +1,2 @@
-"extends": "airbnb"
+"extends": "airbnb",
+"forbid-prop-types": ["enabled", false]
