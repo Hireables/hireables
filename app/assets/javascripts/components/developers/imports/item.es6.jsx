@@ -39,8 +39,8 @@ const Data = (props) => {
             }}
           >
             {
+              item.viewCount ||
               item.stargazers_count ||
-              item.likeCount ||
               item.up_vote_count
             }
             <FontIcon
@@ -52,8 +52,7 @@ const Data = (props) => {
             >
               star
             </FontIcon>
-          </div> : ''
-
+          </div> : <span />
       }
 
       primaryText={item.title || item.name}
@@ -86,6 +85,7 @@ const DataContainer = Relay.createContainer(Data, {
         description,
         stargazers_count,
         likeCount,
+        viewCount,
         up_vote_count,
         source_id,
         source_name,

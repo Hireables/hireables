@@ -5,9 +5,6 @@
 import React from 'react';
 import Relay from 'react-relay';
 import { css } from 'aphrodite';
-import FontIcon from 'material-ui/FontIcon';
-import Chip from 'material-ui/Chip';
-import Avatar from 'material-ui/Avatar';
 import queryString from 'query-string';
 import _ from 'underscore';
 
@@ -29,7 +26,7 @@ const Languages = (props) => {
 
   return (
     <div className="languages">
-      {developer.platforms.length > 0 ?
+      {developer.platforms && developer.platforms.length > 0 ?
         <div className={css(chipStyles.wrapper)}>
           <div className="header-separator">Languages and Frameworks</div>
           {developer.platforms.map(platform => (

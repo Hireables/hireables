@@ -13,7 +13,7 @@ import GithubIcon from '../../shared/icons/github.es6';
 import sanitize from '../../../utils/sanitize.es6';
 
 const Github = (props) => {
-  const { achievement, remove, canEdit } = props;
+  const { achievement, remove } = props;
 
   return (
     <div className={`achievement ${achievement.source_name}`}>
@@ -30,7 +30,7 @@ const Github = (props) => {
                 <span>Open Source </span>
               </h2>
 
-              {canEdit ?
+              {achievement.is_owner ?
                 <IconButton
                   className="remove"
                   tooltip="Remove"
@@ -104,7 +104,6 @@ Github.propTypes = {
   relay: React.PropTypes.object,
   achievement: React.PropTypes.object,
   remove: React.PropTypes.func,
-  canEdit: React.PropTypes.bool,
 };
 
 const GithubContainer = Relay.createContainer(Github, {
@@ -119,6 +118,7 @@ const GithubContainer = Relay.createContainer(Github, {
         connection_id,
         language,
         html_url,
+        is_owner,
         stargazers_count,
         pinned,
         created_at,

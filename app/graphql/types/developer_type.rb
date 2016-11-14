@@ -1,4 +1,3 @@
-# rubocop:disable Metrics/BlockLength
 DeveloperType = GraphQL::ObjectType.define do
   name 'Developer'
   description 'Fetch developer associated fields'
@@ -26,6 +25,15 @@ DeveloperType = GraphQL::ObjectType.define do
   field :favourited, types.Boolean do
     description 'Is developer favourited by current employer?'
     resolve ->(obj, _args, ctx) { favourited?(obj, ctx) }
+  end
+
+  field :is_owner, types.Boolean do
+    description 'Is current user owner?'
+    resolve ->(obj, _args, ctx) do
+      puts ctx[:current_user].inspect
+      ctx[:current_developer].present? &&
+        ctx[:current_developer].id == obj.id
+    end
   end
 
   connection :achievements, ImportType.connection_type do
@@ -158,7 +166,8 @@ end
 
 def resolve_platforms(obj, ctx)
   return obj.platforms unless obj.platforms.nil?
-  github_api(ctx).fetch_developer_languages(obj.login)
+  languages = github_api(ctx).fetch_developer_languages(obj.login)
+  languages.nil? ? [] : languages
 end
 
 def github_api(ctx)

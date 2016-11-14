@@ -36,7 +36,7 @@ class Youtube extends Component {
   }
 
   render() {
-    const { achievement, remove, canEdit } = this.props;
+    const { achievement, remove } = this.props;
     const embedVideoStyle = {
       display: 'block',
       width: '100%',
@@ -57,7 +57,7 @@ class Youtube extends Component {
                   Talk
                 </h2>
 
-                {canEdit ?
+                {achievement.is_owner ?
                   <IconButton
                     className="remove"
                     tooltip="Remove"
@@ -154,7 +154,6 @@ Youtube.propTypes = {
   relay: React.PropTypes.object,
   achievement: React.PropTypes.object,
   remove: React.PropTypes.func,
-  canEdit: React.PropTypes.bool,
 };
 
 const YoutubeContainer = Relay.createContainer(Youtube, {
@@ -168,6 +167,7 @@ const YoutubeContainer = Relay.createContainer(Youtube, {
         description,
         developer_id,
         connection_id,
+        is_owner,
         likeCount,
         viewCount,
         pinned,

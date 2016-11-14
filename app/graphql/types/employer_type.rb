@@ -8,6 +8,14 @@ EmployerType = GraphQL::ObjectType.define do
     resolve ->(obj, _args, _ctx) { obj.id }
   end
 
+  field :is_owner, types.Boolean do
+    description 'Is current user owner?'
+    resolve ->(obj, _args, ctx) do
+      ctx[:current_employer].present? &&
+        ctx[:current_employer].id == obj.id
+    end
+  end
+
   field :login, types.String, 'The slug of this employer'
   field :name, types.String, 'The name of this employer'
   field :email, types.String, 'The email of this employer'

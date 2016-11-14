@@ -40,7 +40,7 @@ class StackOverflow extends Component {
   }
 
   render() {
-    const { achievement, remove, canEdit } = this.props;
+    const { achievement, remove } = this.props;
 
     return (
       <div className={`achievement ${achievement.source_name}`}>
@@ -56,7 +56,7 @@ class StackOverflow extends Component {
                   <span>Answer</span>
                 </h2>
 
-               {canEdit ?
+                {achievement.is_owner ?
                   <IconButton
                     className="remove"
                     tooltip="Remove"
@@ -143,7 +143,6 @@ StackOverflow.propTypes = {
   relay: React.PropTypes.object,
   achievement: React.PropTypes.object,
   remove: React.PropTypes.func,
-  canEdit: React.PropTypes.bool,
 };
 
 const StackOverflowContainer = Relay.createContainer(StackOverflow, {
@@ -158,6 +157,7 @@ const StackOverflowContainer = Relay.createContainer(StackOverflow, {
         comment_count,
         developer_id,
         connection_id,
+        is_owner,
         link,
         up_vote_count,
         pinned,

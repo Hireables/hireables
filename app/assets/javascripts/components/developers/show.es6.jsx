@@ -83,10 +83,7 @@ const DeveloperShow = (props) => {
                 <Levels developer={developer} />
               </div>
             </div>
-            <Achievements
-              developer={developer}
-              canEdit={props.can_edit}
-            />
+            <Achievements developer={developer} />
           </div>
         </header>
       </div>
@@ -95,7 +92,6 @@ const DeveloperShow = (props) => {
 };
 
 DeveloperShow.propTypes = {
-  can_edit: React.PropTypes.bool,
   developer: React.PropTypes.object,
 };
 

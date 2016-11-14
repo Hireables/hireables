@@ -30,7 +30,7 @@ class Linkedin extends Component {
   }
 
   render() {
-    const { achievement, remove, canEdit } = this.props;
+    const { achievement, remove } = this.props;
 
     return (
       <div className={`achievement ${achievement.source_name}`}>
@@ -46,7 +46,7 @@ class Linkedin extends Component {
                   Position
                 </h2>
 
-                {canEdit ?
+                {achievement.is_owner ?
                   <IconButton
                     className="remove"
                     tooltip="Remove"
@@ -96,7 +96,6 @@ Linkedin.propTypes = {
   relay: React.PropTypes.object,
   achievement: React.PropTypes.object,
   remove: React.PropTypes.func,
-  canEdit: React.PropTypes.bool,
 };
 
 const LinkedinContainer = Relay.createContainer(Linkedin, {
@@ -110,6 +109,7 @@ const LinkedinContainer = Relay.createContainer(Linkedin, {
         developer_id,
         connection_id,
         company,
+        is_owner,
         pinned,
         isCurrent,
         created_at,

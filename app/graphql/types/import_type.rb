@@ -26,8 +26,18 @@ ImportType = GraphQL::ObjectType.define do
   field :created_at, types.String, 'When this item was created'
   field :pinned, types.Boolean, 'Is answer pinned?'
 
+  field :is_owner, types.Boolean do
+    description 'Is owner of this import?'
+    resolve ->(obj, _args, ctx) do
+      ctx[:current_developer].present? &&
+        ctx[:current_developer].id == obj.developer_id
+    end
+  end
+
   # Nested fields
   field :company, types.String, 'Return linkedin company object' do
-    resolve ->(obj, _args, _ctx) { obj.company.nil? ? nil : obj.company['name'] }
+    resolve ->(obj, _args, _ctx) do
+      obj.company.nil? ? nil : obj.company['name']
+    end
   end
 end

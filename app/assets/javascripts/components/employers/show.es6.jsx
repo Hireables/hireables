@@ -7,8 +7,6 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { grey700 } from 'material-ui/styles/colors';
 import createDOMPurify from 'dompurify';
 import IconButton from 'material-ui/IconButton';
-import RaisedButton from 'material-ui/RaisedButton';
-import ActionEdit from 'material-ui/svg-icons/image/edit';
 import ActionCamera from 'material-ui/svg-icons/image/camera-alt';
 
 // Mutations
@@ -121,7 +119,9 @@ class EmployerShow extends Component {
                     }
 
                     {this.state.uploading ?
-                      'Uploading...' :
+                      <span style={{ marginTop: 5 }}>
+                        Uploading...
+                      </span> :
                       <IconButton onClick={this.openFileDialog}>
                         <ActionCamera />
                       </IconButton>
@@ -176,17 +176,6 @@ class EmployerShow extends Component {
                       </a>
                     </div> : ''
                   }
-
-                  {this.props.can_edit ?
-                    <RaisedButton
-                      label="Edit"
-                      primary
-                      icon={<ActionEdit />}
-                      className="edit-link"
-                      style={{ marginTop: 10 }}
-                      href={Routes.edit_employer_registration_path()}
-                    /> : ''
-                  }
                 </div>
               </div>
               <div className="employer-favourites">
@@ -202,7 +191,6 @@ class EmployerShow extends Component {
 
 EmployerShow.propTypes = {
   employer: React.PropTypes.object,
-  can_edit: React.PropTypes.bool,
 };
 
 const EmployerShowContainer = Relay.createContainer(EmployerShow, {

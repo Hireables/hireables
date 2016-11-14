@@ -70,14 +70,13 @@ class DeveloperAchievements extends Component {
   }
 
   render() {
-    const { developer, canEdit } = this.props;
-    const renderAchievementComponent = (achievement, isOwner) => {
+    const { developer } = this.props;
+    const renderAchievementComponent = (achievement) => {
       const Achievement = componentsMap.get(achievement.source_name);
       return (
         <Achievement
           achievement={achievement}
           key={achievement.id}
-          canEdit={isOwner}
           remove={this.remove}
         />
       );
@@ -97,7 +96,7 @@ class DeveloperAchievements extends Component {
             Contributions and Achievements
           </h2>
           <p style={{ color: '#777', maxWidth: '90%', margin: '5px auto' }}>
-            {canEdit ?
+            {developer.is_owner ?
               'Import and Pin your contributions and achievements from Github, ' +
               'StackOverflow, Linkedin and Youtube.' :
               'Pinned contributions and achievements from Github, ' +
@@ -106,12 +105,12 @@ class DeveloperAchievements extends Component {
           </p>
         </div>
 
-        {canEdit ? <Connections developer={developer} canEdit={canEdit} /> : ''}
+        {developer.is_owner ? <Connections developer={developer} /> : ''}
 
         {developer.achievements.edges.length > 0 ?
           developer.achievements.edges.map(({ node }) => (
-            renderAchievementComponent(node, canEdit)
-          )) : canEdit ? '' : renderEmptyPlaceholder()
+            renderAchievementComponent(node)
+          )) : developer.is_owner ? '' : renderEmptyPlaceholder()
         }
       </section>
     );
@@ -120,7 +119,6 @@ class DeveloperAchievements extends Component {
 
 DeveloperAchievements.propTypes = {
   relay: React.PropTypes.object,
-  canEdit: React.PropTypes.bool,
   developer: React.PropTypes.object,
 };
 
@@ -132,6 +130,7 @@ const DeveloperAchievementsContainer = Relay.createContainer(DeveloperAchievemen
     developer: () => Relay.QL`
       fragment on Developer {
         id,
+        is_owner,
         ${Connections.getFragment('developer')},
         achievements(first: $first) {
           edges {

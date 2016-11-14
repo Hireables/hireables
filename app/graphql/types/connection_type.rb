@@ -6,6 +6,14 @@ ConnectionType = GraphQL::ObjectType.define do
 
   field :provider, types.String, 'Connection provider name'
 
+  field :is_owner, types.Boolean do
+    description 'Is owner of this connection?'
+    resolve ->(obj, _args, ctx) do
+      ctx[:current_developer].present? &&
+        ctx[:current_developer].id == obj.developer_id
+    end
+  end
+
   field :expired, types.Boolean, 'Is connection token expired?' do
     resolve ->(obj, _args, _ctx) { obj.expired? }
   end
