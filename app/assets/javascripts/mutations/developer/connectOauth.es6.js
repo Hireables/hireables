@@ -8,8 +8,11 @@ export default class extends Relay.Mutation {
   getFatQuery() {
     return Relay.QL`
       fragment on ConnectOauthPayload {
-        developer {
-          connections
+        connection {
+          id,
+          importing,
+          expired,
+          connected,
         }
       }
     `;
@@ -20,7 +23,7 @@ export default class extends Relay.Mutation {
       {
         type: 'FIELDS_CHANGE',
         fieldIDs: {
-          developer: this.props.id,
+          connection: this.props.id,
         },
       },
     ];
