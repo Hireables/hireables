@@ -3,17 +3,21 @@ module Linkedin
 
   included do
     LINKEDIN_API_URI = 'https://api.linkedin.com/v1'.freeze
-    LINKEDIN_PEOPLE_URI = "#{LINKEDIN_API_URI}/people/~:(id,positions)".freeze
+    FIELDS = 'id,positions,public-profile-url'.freeze
+    LINKEDIN_PEOPLE_URI = "#{LINKEDIN_API_URI}/people/~:(#{FIELDS})".freeze
+  end
+
+  def fetch_profile
+    Rails.cache.fetch(self) do
+      response = client.get("#{LINKEDIN_PEOPLE_URI}?&#{in_params}", headers)
+      JSON.parse(response.body)
+    end
   end
 
   def fetch_positions
-    Rails.cache.fetch(self) do
-      response = client.get("#{LINKEDIN_PEOPLE_URI}?&#{in_params}", headers)
-      positions = JSON.parse(response.body)['positions']['values']
-      return [] if positions.nil?
-      add_start_date(positions).take(20).to_a
-    end
-
+    positions = fetch_profile['positions']['values']
+    return [] if positions.nil?
+    add_start_date(positions).take(20).to_a
   rescue NoMethodError
     []
   end
