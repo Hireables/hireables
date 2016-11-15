@@ -1609,6 +1609,20 @@
               "deprecationReason": null
             },
             {
+              "name": "importing",
+              "description": "Is connection importing data?",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "imports",
               "description": "Returns imports available for a connection based on provider.",
               "args": [
@@ -2792,14 +2806,14 @@
               "deprecationReason": null
             },
             {
-              "name": "developer",
+              "name": "connection",
               "description": null,
               "args": [
 
               ],
               "type": {
                 "kind": "OBJECT",
-                "name": "Developer",
+                "name": "Connection",
                 "ofType": null
               },
               "isDeprecated": false,
