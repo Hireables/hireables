@@ -11,7 +11,7 @@ module Developers
     input_field :uid, types.String
 
     # Return field
-    return_field :developer, DeveloperType
+    return_field :connection, ConnectionType
 
     # Resolve block to toggle a profile favourite
     resolve(Developers::ConnectOauthResolver)

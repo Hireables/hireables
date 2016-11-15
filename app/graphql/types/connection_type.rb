@@ -5,6 +5,7 @@ ConnectionType = GraphQL::ObjectType.define do
   global_id_field :id
 
   field :provider, types.String, 'Connection provider name'
+  field :importing, types.Boolean, 'Is connection importing data?'
 
   field :is_owner, types.Boolean do
     description 'Is owner of this connection?'
