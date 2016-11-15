@@ -9,7 +9,7 @@ module Developers
     input_field :email, types.String
     input_field :location, types.String
     input_field :platforms, types[types.String]
-    input_field :linkedin, types.String
+    input_field :blog, types.String
     input_field :hireable, types.Boolean
 
     # Job types

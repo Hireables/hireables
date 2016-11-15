@@ -1,4 +1,4 @@
-class ImportConnectionDataWorker < Que::Job
+class ImportConnectionDataJob < Que::Job
   # rubocop:disable Metrics/MethodLength
   # rubocop:disable Metrics/AbcSize
   def run(connection_id)

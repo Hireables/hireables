@@ -23,7 +23,7 @@ module Developers
       connection.attributes = valid_params
       connection.importing = true
       if connection.save!
-        ImportConnectionDataWorker.enqueue(connection.id)
+        ImportConnectionDataJob.enqueue(connection.id)
         { connection: connection.reload }
       end
     end

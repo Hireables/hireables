@@ -24,14 +24,14 @@ module Developers
 
     def fetch_orgs
       return if Rails.cache.exist?(['developer', params[:id], 'organizations'])
-      FetchDeveloperOrgsWorker.enqueue(
+      FetchDeveloperOrgsJob.enqueue(
         params[:id], current_user.try(:access_token)
       )
     end
 
     def fetch_languages
       return if Rails.cache.exist?(['developer', params[:id], 'languages'])
-      FetchDeveloperLanguagesWorker.enqueue(
+      FetchDeveloperLanguagesJob.enqueue(
         params[:id], current_user.try(:access_token)
       )
     end
