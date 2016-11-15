@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161113000421) do
+ActiveRecord::Schema.define(version: 20161115070236) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -139,6 +139,17 @@ ActiveRecord::Schema.define(version: 20161113000421) do
     t.index ["developer_id"], name: "index_imports_on_developer_id", using: :btree
     t.index ["source_id"], name: "index_imports_on_source_id", using: :btree
     t.index ["source_name", "source_id", "connection_id"], name: "index_imports_on_source_name_and_source_id_and_connection_id", unique: true, using: :btree
+  end
+
+  create_table "que_jobs", primary_key: ["queue", "priority", "run_at", "job_id"], force: :cascade, comment: "3" do |t|
+    t.integer   "priority",    limit: 2, default: 100,            null: false
+    t.datetime  "run_at",                default: -> { "now()" }, null: false
+    t.bigserial "job_id",                                         null: false
+    t.text      "job_class",                                      null: false
+    t.json      "args",                  default: [],             null: false
+    t.integer   "error_count",           default: 0,              null: false
+    t.text      "last_error"
+    t.text      "queue",                 default: "",             null: false
   end
 
   add_foreign_key "connections", "developers"
