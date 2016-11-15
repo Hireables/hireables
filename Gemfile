@@ -18,7 +18,7 @@ gem 'faraday'
 gem 'typhoeus'
 
 # Background workers
-gem 'sidekiq'
+gem 'que'
 gem 'connection_pool'
 gem 'redis-namespace'
 gem 'redis-objects'
