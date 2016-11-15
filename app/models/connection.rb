@@ -11,16 +11,8 @@ class Connection < ApplicationRecord
   validates_presence_of :provider
   validates_uniqueness_of :provider
 
-  def active?
-    !expired? && access_token.present?
-  end
-
   def owner?(user)
     user == developer
-  end
-
-  def not_imported?
-    imports.blank?
   end
 
   def expired?
