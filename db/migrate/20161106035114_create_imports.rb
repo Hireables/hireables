@@ -3,6 +3,7 @@ class CreateImports < ActiveRecord::Migration[5.0]
     create_table :imports do |t|
       t.string :source_id
       t.string :source_name
+      t.string :category
       t.jsonb :data
       t.boolean :pinned, default: false, index: true
       t.references :connection, foreign_key: true
