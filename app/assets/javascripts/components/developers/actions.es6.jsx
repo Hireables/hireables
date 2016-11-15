@@ -50,6 +50,7 @@ class DeveloperActions extends Component {
     Relay.Store.commitUpdate(new ToggleFavourite({
       id: this.props.developer.id,
       login: this.props.developer.login,
+      favourited: this.props.developer.favourited,
     }), { onFailure, onSuccess });
 
     event.stopPropagation();

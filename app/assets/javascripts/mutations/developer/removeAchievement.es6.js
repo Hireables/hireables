@@ -31,4 +31,10 @@ export default class extends Relay.Mutation {
       id: this.props.id,
     };
   }
+
+  getOptimisticResponse() {
+    return {
+      deletedId: this.props.id,
+    };
+  }
 }
