@@ -62,17 +62,18 @@ class Connection extends Component {
     }
   }
 
-  componentWillUpdate(nextProps) {
+  componentDidUpdate() {
+    this.updateList();
+  }
+
+  componentWillReceiveProps(nextProps) {
     if (nextProps.connection.imports &&
         nextProps.connection.imports.edges.length > 0 &&
         nextProps !== this.props) {
       const selections = nextProps.connection.imports.edges.filter(({ node }) => {
         return node.pinned;
       }).map(({ node }) => (node.source_id));
-
-      this.setState({ selections }, () => {
-        this.updateList();
-      });
+      this.setState({ selections });
     }
   }
 
@@ -99,27 +100,7 @@ class Connection extends Component {
   toggleItem(event, item) {
     event.preventDefault();
     const importContainer = $(`#import-container-${this.props.connection.provider}`);
-    const uncheckedBoxes = importContainer.find('input:checkbox:not(:checked)');
-    const index = this.state.selections.indexOf(item.source_id);
-    $(event.target).closest('.list-item').toggleClass('pinned');
-
-    if (index === -1) {
-      this.setState({
-        selections: update(this.state.selections, { $push: [item.source_id] }),
-      }, () => {
-        if (this.state.selections.length >= 6) {
-          uncheckedBoxes.attr({ disabled: true });
-          uncheckedBoxes.closest('.list-item').addClass('disabled');
-        }
-      });
-    } else {
-      this.setState({
-        selections: update(this.state.selections, { $splice: [[index, 1]] }),
-      }, () => {
-        uncheckedBoxes.attr({ disabled: false });
-        uncheckedBoxes.closest('.list-item').removeClass('disabled');
-      });
-    }
+    importContainer.find('.list-item').addClass('disabled');
 
     const onFailure = (transaction) => {
       const error = transaction.getError() || new Error('Mutation failed.');
@@ -130,16 +111,19 @@ class Connection extends Component {
       } else {
         errorMessage = error.message;
       }
-
+      importContainer.find('.list-item').removeClass('disabled');
       this.setNotification(errorMessage);
-      $(event.target).closest('.list-item').toggleClass('pinned');
+    };
+
+    const onSuccess = () => {
+      importContainer.find('.list-item').removeClass('disabled');
     };
 
     Relay.Store.commitUpdate(new ToggleAchievement({
       id: item.id,
       developerId: this.props.developer.id,
       connectionId: this.props.connection.id,
-    }), { onFailure });
+    }), { onFailure, onSuccess });
   }
 
   handleRequestClose() {

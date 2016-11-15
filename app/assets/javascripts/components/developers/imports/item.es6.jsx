@@ -21,7 +21,7 @@ const Data = (props) => {
       className={`list-item ${item.pinned ? 'pinned' : ''}`}
       leftCheckbox={
         <Checkbox
-          defaultChecked={item.pinned}
+          checked={item.pinned}
           style={{ top: 'calc(100% / 3)' }}
           onCheck={event => toggleItem(event, item)}
         />
