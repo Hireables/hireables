@@ -4,7 +4,7 @@ module Github
   def fetch_repos
     @github_api ||= Github::Api.new(access_token)
     @github_api
-      .fetch_developer_repos(developer.login)
+      .search_developer_repos(developer.login)
       .lazy
       .map do |repo|
         HashWithIndifferentAccess.new(repo.to_hash).except(*excluded_fields)

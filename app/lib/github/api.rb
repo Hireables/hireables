@@ -74,13 +74,26 @@ module Github
       end
     end
 
-    def fetch_developer_repos(login)
+    def search_developer_repos(login)
       Rails.cache.fetch(['developer', login, 'repos']) do
         client.auto_paginate = true
         begin
           search = client.search_repositories("user:#{login}", sort: 'stars')
           return [] if search.items.nil?
           search.items
+        rescue Octokit::UnprocessableEntity
+          []
+        end
+      end
+    end
+
+    def fetch_developer_repos(login)
+      Rails.cache.fetch(['developer', login, 'repos']) do
+        client.auto_paginate = true
+        begin
+          repos = client.repositories(login, sort: 'updated')
+          return [] if repos.nil?
+          repos
         rescue Octokit::NotFound
           []
         end
