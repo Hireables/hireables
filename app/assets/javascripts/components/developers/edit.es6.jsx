@@ -7,7 +7,6 @@ import Formsy from 'formsy-react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
 import ActionDelete from 'material-ui/svg-icons/action/delete';
-import Chip from 'material-ui/Chip';
 import Snackbar from 'material-ui/Snackbar';
 import {
   Card,
@@ -25,7 +24,6 @@ import UpdateDeveloper from '../../mutations/developer/updateDeveloper.es6';
 
 // Stylesheets
 import formStyles from '../styles/forms.es6';
-import chipStyles from '../styles/chips.es6';
 
 const cardTitleStyle = {
   padding: '8px 16px 8px',
@@ -44,19 +42,12 @@ class DeveloperEdit extends Component {
 
   constructor(props) {
     super(props);
-    this.renderChip = this.renderChip.bind(this);
-    this.handleRequestDelete = this.handleRequestDelete.bind(this);
     this.handleRequestClose = this.handleRequestClose.bind(this);
     this.clearValidationErrors = this.clearValidationErrors.bind(this);
     this.submitForm = this.submitForm.bind(this);
-    this.addNewPlatform = this.addNewPlatform.bind(this);
     this.enableButton = this.enableButton.bind(this);
     this.disableButton = this.disableButton.bind(this);
     this.setNotification = this.setNotification.bind(this);
-
-    const platforms = props.developer.platforms.map((elem, index) => (
-      { key: index, label: elem }
-    ));
 
     this.state = {
       open: false,
@@ -64,7 +55,6 @@ class DeveloperEdit extends Component {
       loaded: false,
       canSubmit: false,
       notification: '',
-      platforms,
       validationErrors: {},
     };
   }
@@ -79,10 +69,6 @@ class DeveloperEdit extends Component {
 
   submitForm(event) {
     event.preventDefault();
-    const platforms = this.state.platforms.map(elem => (
-      elem.label
-    ));
-
     this.setNotification('Saving...');
 
     const onFailure = (transaction) => {
@@ -102,13 +88,9 @@ class DeveloperEdit extends Component {
       window.location.href = Routes.developer_path(this.props.developer.login);
     };
 
-    const newModel = Object.assign(this.formNode.getModel(), {
-      platforms: platforms.toString(),
-    });
-
     Relay.Store.commitUpdate(new UpdateDeveloper({
       id: this.props.developer.id,
-      ...newModel,
+      ...this.formNode.getModel(),
     }), { onFailure, onSuccess });
   }
 
@@ -130,86 +112,10 @@ class DeveloperEdit extends Component {
     });
   }
 
-  addNewPlatform(event) {
-    if (event.keyCode === 13) {
-      event.preventDefault();
-    }
-
-    if (event.keyCode === 13 || event.keyCode === 188 || event.keyCode === 32) {
-      const newPlatform = event.target.value.trim();
-      if (newPlatform === '') {
-        this.setState({
-          validationErrors: {
-            platforms: 'Empty language',
-          },
-        });
-
-        setTimeout(() => {
-          this.clearValidationErrors();
-        }, 3000);
-
-        return;
-      }
-
-      const isDuplicate = this.state.platforms.some(platform => (
-        platform.label === newPlatform
-      ));
-
-      if (isDuplicate) {
-        this.platformNode.state.value = '';
-
-        this.setState({
-          validationErrors: {
-            platforms: 'Duplicate platform',
-          },
-        });
-
-        setTimeout(() => {
-          this.clearValidationErrors();
-        }, 3000);
-
-        return;
-      }
-
-      const platforms = this.state.platforms.concat([{
-        key: this.state.platforms.length + 1,
-        label: newPlatform.toLowerCase(),
-      }]);
-
-      this.setState({ platforms }, () => {
-        this.platformNode.state.value = '';
-        this.setState({
-          canSubmit: true,
-        });
-      });
-    }
-  }
-
   handleRequestClose() {
     this.setState({
       open: false,
     });
-  }
-
-  handleRequestDelete(key) {
-    this.platforms = this.state.platforms;
-    const platformToDelete = this.platforms
-    .map(platform => platform.key)
-    .indexOf(key);
-    this.platforms.splice(platformToDelete, 1);
-    this.setState({ platforms: this.platforms });
-  }
-
-  renderChip(data) {
-    return (
-      <Chip
-        key={data.key}
-        onRequestDelete={() => this.handleRequestDelete(data.key)}
-        className={css(chipStyles.badge)}
-      >
-        {data.label}
-      </Chip>
-    );
   }
 
   render() {
@@ -241,7 +147,7 @@ class DeveloperEdit extends Component {
                 onInvalid={this.disableButton}
                 validationErrors={this.state.validationErrors}
               >
-                <div className="search-box bio">
+                <div className="field bio">
                   <FormsyText
                     id="text-field-default"
                     placeholder="(ex: Looking for opportunities in AI)"
@@ -265,7 +171,7 @@ class DeveloperEdit extends Component {
                   />
                 </div>
 
-                <div className="search-box">
+                <div className="field">
                   <FormsyText
                     id="text-field-default"
                     placeholder="(ex: London, Toronto, Oslo)"
@@ -281,12 +187,12 @@ class DeveloperEdit extends Component {
 
                   <FormsyText
                     id="text-field-default"
-                    placeholder="(ex: https://linkedin.com)"
-                    name="linkedin"
+                    placeholder="(ex: https://blog.com)"
+                    name="blog"
                     className={css(formStyles.half)}
                     fullWidth
                     onKeyDown={DeveloperEdit.onKeyPress}
-                    defaultValue={developer.linkedin}
+                    defaultValue={developer.blog}
                     floatingLabelText="Linkedin"
                     floatingLabelFixed
                     updateImmediately
@@ -299,23 +205,7 @@ class DeveloperEdit extends Component {
                   />
                 </div>
 
-                <div className="search-box">
-                  <FormsyText
-                    id="text-field-default"
-                    placeholder="(ex: ruby, python)"
-                    name="platforms"
-                    className="platforms"
-                    onKeyDown={this.addNewPlatform}
-                    ref={node => (this.platformNode = node)}
-                    floatingLabelText="Languages and frameworks you work with *"
-                    floatingLabelFixed
-                    fullWidth
-                  />
-
-                  <div className={css(chipStyles.wrapper)}>
-                    {this.state.platforms.map(this.renderChip, this)}
-                  </div>
-                </div>
+                <div className="clearfix" />
 
                 <div className="header-separator">Availability</div>
                 <div className="hireable">
@@ -333,7 +223,7 @@ class DeveloperEdit extends Component {
 
                 <div className="clearfix" />
                 <div className="header-separator">Preferences</div>
-                <div className="search-box">
+                <div className="field">
                   <div className={css(formStyles.preferences)}>
                     <FormsyCheckbox
                       label="Relocate"
@@ -351,7 +241,7 @@ class DeveloperEdit extends Component {
                   </div>
 
                   <div className="clearfix" />
-                  <div className="search-box job">
+                  <div className="field job">
                     <div className="header-separator">Job Type</div>
                     <FormsyCheckbox
                       label="Part-Time"
@@ -397,7 +287,7 @@ class DeveloperEdit extends Component {
                   </div>
 
                   <div className="clearfix" />
-                  <div className="search-box levels">
+                  <div className="field levels">
                     <div className="header-separator">Experience Level</div>
                     <FormsyCheckbox
                       label="CTO"
@@ -503,10 +393,8 @@ const DeveloperEditContainer = Relay.createContainer(DeveloperEdit, {
         name,
         login,
         bio,
-        linkedin,
+        blog,
         location,
-
-        platforms,
 
         hireable,
 

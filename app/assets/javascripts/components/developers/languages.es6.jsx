@@ -10,7 +10,7 @@ import _ from 'underscore';
 
 // StyleSheets
 import chipStyles from '../styles/chips.es6';
-import badgeStyles from '../styles/badges.es6';
+import Colors from '../../utils/colors.json';
 
 const Languages = (props) => {
   const { developer } = props;
@@ -24,6 +24,11 @@ const Languages = (props) => {
     return queryString.stringify(newQuery);
   };
 
+  const getColor = (language) => {
+    const obj = Colors[language];
+    return obj === undefined ? '#333' : obj;
+  };
+
   return (
     <div className="languages">
       {developer.platforms && developer.platforms.length > 0 ?
@@ -32,9 +37,9 @@ const Languages = (props) => {
           {developer.platforms.map(platform => (
             <div
               key={Math.random()}
-              className={css(badgeStyles.badge, badgeStyles.tag, badgeStyles.hover)}
               onClick={() => Turbolinks.visit(`/search?${query(platform)}`)}
             >
+              <span style={{ backgroundColor: getColor(platform) }} />
               {platform}
             </div>
           ))}
