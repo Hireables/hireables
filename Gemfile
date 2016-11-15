@@ -57,6 +57,9 @@ gem 'mini_magick'
 # Amazone s3
 gem 'fog-aws'
 
+# Event publishing
+gem 'wisper'
+
 # Simple and extremely flexible way to upload files
 gem 'carrierwave', git: 'https://github.com/carrierwaveuploader/carrierwave.git'
 
