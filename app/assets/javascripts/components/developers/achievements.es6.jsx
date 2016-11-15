@@ -97,10 +97,10 @@ class DeveloperAchievements extends Component {
           </h2>
           <p style={{ color: '#777', maxWidth: '90%', margin: '5px auto' }}>
             {developer.is_owner ?
-              'Import and Pin your contributions and achievements from Github, ' +
-              'StackOverflow, Linkedin and Youtube.' :
+              'Pin your contributions and achievements from Github, ' +
+              'Stackoverflow, Linkedin and Youtube.' :
               'Pinned contributions and achievements from Github, ' +
-              'StackOverflow, Linkedin and Youtube'
+              'Stackoverflow, Linkedin and Youtube'
             }
           </p>
         </div>
