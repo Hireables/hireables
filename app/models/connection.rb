@@ -26,7 +26,7 @@ class Connection < ApplicationRecord
   end
 
   def create_or_update_imports
-    ImportConnectionDataWorker.perform_async(id)
+    ImportConnectionDataWorker.enqueue(id)
   end
 
   def fetch_data

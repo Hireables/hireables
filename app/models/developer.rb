@@ -1,6 +1,6 @@
 class Developer < ApplicationRecord
   devise :database_authenticatable, :trackable,
-    :validatable, :omniauthable, :rememberable
+         :validatable, :omniauthable, :rememberable
 
   store_accessor :data, :html_url, :company, :blog, :followers,
                  :public_gists, :public_repos
@@ -49,7 +49,7 @@ class Developer < ApplicationRecord
 
   def notify_admin!
     return unless Rails.env.production?
-    AdminMailerWorker.perform_async(self.class.name, id)
+    AdminMailerWorker.enqueue(self.class.name, id)
   end
 
   def empty_platforms?
@@ -65,11 +65,11 @@ class Developer < ApplicationRecord
   end
 
   def fetch_languages!
-    FetchDeveloperLanguagesWorker.perform_async(login, github_access_token)
+    FetchDeveloperLanguagesWorker.enqueue(login, github_access_token)
   end
 
   def cache_orgs!
-    FetchDeveloperOrgsWorker.perform_async(login, github_access_token)
+    FetchDeveloperOrgsWorker.enqueue(login, github_access_token)
   end
 
   def set_premium!

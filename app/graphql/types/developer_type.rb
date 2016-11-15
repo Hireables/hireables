@@ -30,7 +30,6 @@ DeveloperType = GraphQL::ObjectType.define do
   field :is_owner, types.Boolean do
     description 'Is current user owner?'
     resolve ->(obj, _args, ctx) do
-      puts ctx[:current_user].inspect
       ctx[:current_developer].present? &&
         ctx[:current_developer].id == obj.id
     end
@@ -176,7 +175,7 @@ end
 
 def token(ctx)
   @token ||= if ctx[:current_developer].present?
-               ctx[:current_developer].access_token_by_provider('github')
+               ctx[:current_developer].github_access_token
              elsif ctx[:current_employer].present?
                ctx[:current_employer].try(:access_token)
              end

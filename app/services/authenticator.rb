@@ -11,11 +11,10 @@ class Authenticator
 
   def find_or_create_from_oauth
     ActiveRecord::Base.transaction do
-      @connection = Connection.first_or_initialize(connection_attributes)
-      return @connection.developer unless @connection.developer.nil?
-      @connection.developer = create_from_oauth
-
-      @connection.developer if @connection.save
+      @connection = Connection.where(connection_attrs).first_or_initialize
+      @connection.developer = create_from_oauth if @connection.developer_id.nil?
+      @connection.access_token = auth.credentials.token
+      @connection.developer if @connection.save!
     end
   end
 
@@ -37,11 +36,10 @@ class Authenticator
     )
   end
 
-  def connection_attributes
+  def connection_attrs
     {
       uid: auth.uid,
-      provider: auth.provider,
-      access_token: auth.credentials.token
+      provider: auth.provider
     }
   end
 end
