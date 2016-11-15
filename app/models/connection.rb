@@ -11,8 +11,6 @@ class Connection < ApplicationRecord
   validates_presence_of :provider
   validates_uniqueness_of :provider
 
-  after_commit :create_or_update_imports, if: :active?
-
   def active?
     !expired? && access_token.present?
   end
@@ -21,12 +19,12 @@ class Connection < ApplicationRecord
     user == developer
   end
 
-  def expired?
-    expiring.include?(provider) && Time.now.to_i > expires_at.to_i
+  def not_imported?
+    imports.blank?
   end
 
-  def create_or_update_imports
-    ImportConnectionDataWorker.enqueue(id)
+  def expired?
+    expiring.include?(provider) && Time.now.to_i > expires_at.to_i
   end
 
   def fetch_data
