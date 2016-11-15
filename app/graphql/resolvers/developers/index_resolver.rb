@@ -12,6 +12,7 @@ module Developers
     end
 
     def call
+      return [] unless Rails.cache.exist?(search_cache_key)
       query = Rails.cache.read(search_cache_key)
       api = Github::Api.new(current_user.try(:access_token))
       api.fetch_developers(query)
