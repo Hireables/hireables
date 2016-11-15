@@ -715,7 +715,7 @@
             },
             {
               "name": "is_owner",
-              "description": "Is owner?",
+              "description": "Is current user owner?",
               "args": [
 
               ],
@@ -1940,7 +1940,7 @@
             },
             {
               "name": "is_owner",
-              "description": "Is developer favourited by current employer?",
+              "description": "Is current user owner?",
               "args": [
 
               ],
