@@ -43,7 +43,7 @@ gem 'rack-cors', require: 'rack/cors'
 gem 'js-routes'
 
 # Graphql
-gem 'graphql', '1.0.0'
+gem 'graphql'
 
 # Auth token
 gem 'jwt'
