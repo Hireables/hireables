@@ -1,2 +1,6 @@
-"extends": "airbnb",
-"forbid-prop-types": ["enabled", false]
+{
+  "extends": "airbnb",
+  "rules": {
+    "react/forbid-prop-types": 0,
+  },
+}
