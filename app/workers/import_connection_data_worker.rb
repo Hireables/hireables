@@ -14,8 +14,9 @@ class ImportConnectionDataWorker < Que::Job
         import.data = item
         import.created_at = item[date_field] if import.new_record?
         import.save!
-        destroy
       end
+      connection.update!(importing: false)
+      destroy
     end
 
   rescue ActiveRecord::RecordNotFound
