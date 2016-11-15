@@ -9,6 +9,8 @@ module Developers
     input_field :access_token, types.String
     input_field :expires_at, types.String
     input_field :uid, types.String
+
+    # Return field
     return_field :developer, DeveloperType
 
     # Resolve block to toggle a profile favourite

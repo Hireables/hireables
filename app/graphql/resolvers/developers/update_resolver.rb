@@ -10,7 +10,9 @@ module Developers
       raise StandardError, 'Unauthorised' if ctx[:current_developer].nil?
       @params = inputs
       @developer = Schema.object_from_id(params['id'], ctx)
-      raise StandardError, 'Unauthorised' if developer != ctx[:current_developer]
+      unless developer == ctx[:current_developer]
+        raise StandardError, 'Unauthorised'
+      end
     end
 
     def call

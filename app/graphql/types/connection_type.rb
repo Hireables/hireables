@@ -10,7 +10,7 @@ ConnectionType = GraphQL::ObjectType.define do
     description 'Is owner of this connection?'
     resolve ->(obj, _args, ctx) do
       ctx[:current_developer].present? &&
-        ctx[:current_developer].id == obj.developer_id
+        obj.owner?(ctx[:current_developer])
     end
   end
 

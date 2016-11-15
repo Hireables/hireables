@@ -1,6 +1,6 @@
 module Developers
   class ConnectOauthResolver
-    attr_reader :provider, :params, :current_developer
+    attr_reader :params, :current_developer, :connection
 
     def self.call(*args)
       new(*args).call
@@ -8,23 +8,28 @@ module Developers
 
     def initialize(_developer, args, ctx)
       unless ctx[:current_developer].present?
-        raise StandardError,
-              'You are not logged in'
+        raise StandardError, 'Unauthorised'
       end
       @current_developer = ctx[:current_developer]
       safe_params = args.instance_variable_get(:@original_values).to_h
       @params = HashWithIndifferentAccess.new(safe_params)
-      @provider = params[:provider]
+      @connection = current_developer.connection_by_provider(params[:provider])
     end
 
     def call
-      @connection = current_developer.connections.where(provider: provider).first
-      @connection.update!(
-        uid: params[:uid],
-        access_token: params[:access_token],
-        expires_at: params[:expires_at]
-      )
+      unless @connection.owner?(current_developer)
+        raise StandardError, 'Unauthorised'
+      end
+      @connection.update!(valid_params)
       { developer: current_developer.reload }
+    end
+
+    private
+
+    def valid_params
+      params.select do |k, _|
+        connection.respond_to? "#{k}="
+      end.except(:id, :provider)
     end
   end
 end
