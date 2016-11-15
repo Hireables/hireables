@@ -858,8 +858,8 @@
               "deprecationReason": null
             },
             {
-              "name": "platforms",
-              "description": "Languages or platforms interested in",
+              "name": "languages",
+              "description": "Languages or languages interested in",
               "args": [
 
               ],
@@ -2352,7 +2352,7 @@
               "defaultValue": null
             },
             {
-              "name": "platforms",
+              "name": "languages",
               "description": null,
               "type": {
                 "kind": "LIST",

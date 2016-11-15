@@ -8,7 +8,7 @@ module Developers
     input_field :bio, types.String
     input_field :email, types.String
     input_field :location, types.String
-    input_field :platforms, types[types.String]
+    input_field :languages, types[types.String]
     input_field :blog, types.String
     input_field :hireable, types.Boolean
 

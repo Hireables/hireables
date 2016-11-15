@@ -50,9 +50,9 @@ DeveloperType = GraphQL::ObjectType.define do
     resolve(Developers::CustomFieldResolver.new(:premium, :boolean))
   end
 
-  field :platforms, types[types.String] do
-    description 'Languages or platforms interested in'
-    resolve ->(obj, _args, ctx) { resolve_platforms(obj, ctx) }
+  field :languages, types[types.String] do
+    description 'Languages works with'
+    resolve ->(obj, _args, ctx) { resolve_languages(obj, ctx) }
   end
 
   field :linkedin, types.String do
@@ -163,8 +163,8 @@ def resolve_orgs(obj, ctx)
   github_api(ctx).fetch_developer_orgs(obj.login)
 end
 
-def resolve_platforms(obj, ctx)
-  return obj.platforms unless obj.platforms.nil?
+def resolve_languages(obj, ctx)
+  return obj.languages unless obj.languages.nil?
   languages = github_api(ctx).fetch_developer_languages(obj.login)
   languages.nil? ? [] : languages
 end

@@ -5,7 +5,7 @@ class FetchDeveloperLanguagesJob < Que::Job
 
     ActiveRecord::Base.transaction do
       developer = Developer.find_by_login(login)
-      developer.update!(platforms: languages) unless developer.nil?
+      developer.update!(languages: languages) unless developer.nil?
       destroy
     end
 

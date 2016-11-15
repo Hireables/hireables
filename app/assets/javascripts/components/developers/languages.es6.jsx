@@ -31,10 +31,10 @@ const Languages = (props) => {
 
   return (
     <div className="languages">
-      {developer.platforms && developer.platforms.length > 0 ?
+      {developer.languages && developer.languages.length > 0 ?
         <div className={css(chipStyles.wrapper)}>
           <div className="header-separator">Languages and Frameworks</div>
-          {developer.platforms.map(platform => (
+          {developer.languages.map(platform => (
             <div
               key={Math.random()}
               onClick={() => Turbolinks.visit(`/search?${query(platform)}`)}
@@ -57,7 +57,7 @@ const LanguagesContainer = Relay.createContainer(Languages, {
   fragments: {
     developer: () => Relay.QL`
       fragment on Developer {
-        platforms,
+        languages,
       }
     `,
   },
