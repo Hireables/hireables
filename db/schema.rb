@@ -137,6 +137,8 @@ ActiveRecord::Schema.define(version: 20161115070236) do
     t.index ["connection_id"], name: "index_imports_on_connection_id", using: :btree
     t.index ["data"], name: "index_imports_on_data", using: :gin
     t.index ["developer_id"], name: "index_imports_on_developer_id", using: :btree
+    t.index ["pinned"], name: "achievements", where: "(pinned = true)", using: :btree
+    t.index ["pinned"], name: "index_imports_on_pinned", using: :btree
     t.index ["source_id"], name: "index_imports_on_source_id", using: :btree
     t.index ["source_name", "source_id", "connection_id"], name: "index_imports_on_source_name_and_source_id_and_connection_id", unique: true, using: :btree
   end
