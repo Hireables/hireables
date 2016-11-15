@@ -55,11 +55,6 @@ DeveloperType = GraphQL::ObjectType.define do
     resolve ->(obj, _args, ctx) { resolve_languages(obj, ctx) }
   end
 
-  field :linkedin, types.String do
-    description 'Linkedin profile'
-    resolve(Developers::CustomFieldResolver.new(:linkedin, :string))
-  end
-
   # Availability
   field :hireable, types.Boolean do
     description 'Is developer hireable?'

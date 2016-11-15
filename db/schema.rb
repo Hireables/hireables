@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161115141410) do
+ActiveRecord::Schema.define(version: 20161115144924) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,7 +35,6 @@ ActiveRecord::Schema.define(version: 20161115141410) do
     t.string   "name",                default: "",    null: false
     t.string   "email",               default: "",    null: false
     t.text     "bio"
-    t.string   "linkedin",            default: ""
     t.string   "location",            default: ""
     t.string   "languages",           default: [],                 array: true
     t.boolean  "remote",              default: false
@@ -130,7 +129,6 @@ ActiveRecord::Schema.define(version: 20161115141410) do
   create_table "imports", force: :cascade do |t|
     t.string   "source_id"
     t.string   "source_name"
-    t.string   "category"
     t.jsonb    "data"
     t.boolean  "pinned",        default: false
     t.integer  "connection_id"
