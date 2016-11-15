@@ -64,6 +64,11 @@ class Connection extends Component {
 
   componentDidUpdate() {
     this.updateList();
+    if (this.props.connection.importing) {
+      setTimeout(() => {
+        this.props.relay.forceFetch();
+      }, 2000)
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -131,7 +136,9 @@ class Connection extends Component {
   }
 
   open(event) {
-    event.preventDefault();
+    if(event) {
+      event.preventDefault();
+    }
     const { relay } = this.props;
     this.setState({ loaded: false });
     relay.setVariables({
@@ -170,13 +177,17 @@ class Connection extends Component {
         this.setNotification(errorMessage);
       };
 
+      const onSuccess = () => {
+        this.open();
+      };
+
       Relay.Store.commitUpdate(new ConnectOAuth({
-        id: this.props.developer.id,
+        id: this.props.connection.id,
         provider: this.props.connection.provider,
         access_token: data.access_token,
         expires_at: data.expires_at,
         uid: data.uid.toString(),
-      }), { onFailure });
+      }), { onFailure, onSuccess });
     }, (error) => {
       this.setNotification(error);
     });
@@ -193,7 +204,7 @@ class Connection extends Component {
       text = 'Close';
     } else if (connection.connected && !connection.expired) {
       onClickAction = this.open;
-      text = 'Import';
+      text = 'Open';
     } else {
       onClickAction = this.connect;
       text = 'Connect';
@@ -229,15 +240,18 @@ class Connection extends Component {
             id={`import-container-${connection.provider}`}
           >
             <div className="content">
-              <List style={{ paddingBottom: 0, paddingTop: 0 }}>
-                {connection.imports.edges.map(({ node }) => (
-                  <Item
-                    item={node}
-                    key={node.id}
-                    toggleItem={this.toggleItem}
-                  />
-                ))}
-              </List>
+              {connection.importing ?
+                 <Loader />
+                : <List style={{ paddingBottom: 0, paddingTop: 0 }}>
+                  {connection.imports.edges.map(({ node }) => (
+                    <Item
+                      item={node}
+                      key={node.id}
+                      toggleItem={this.toggleItem}
+                    />
+                  ))}
+                </List>
+              }
             </div>
             <div className="actions">
               <span className="notification">
@@ -278,6 +292,7 @@ const ConnectionContainer = Relay.createContainer(Connection, {
         provider,
         connected,
         expired,
+        importing,
         imports(first: $first) @include(if: $showData) {
           edges {
             node {

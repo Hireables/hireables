@@ -44,7 +44,7 @@ class Connections extends Component {
             <h3 className="list-header-title">
               Pin your achievements
             </h3>
-            Click hamburger icon to toggle
+            Click hamburger icon to toggle list
 
             <IconButton
               touch
