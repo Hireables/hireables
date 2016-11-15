@@ -15,7 +15,7 @@ class Authenticator
       @connection.developer = create_from_oauth if @connection.developer_id.nil?
       @connection.access_token = auth.credentials.token
       @connection.importing = true
-      ImportConnectionDataWorker.enqueue(@connection.id) if @connection.save!
+      ImportConnectionDataJob.enqueue(@connection.id) if @connection.save!
       @connection.developer
     end
   end
@@ -34,6 +34,7 @@ class Authenticator
       remote_avatar_url: auth.extra.raw_info.avatar_url,
       location: auth.extra.raw_info.location,
       hireable: (auth.extra.raw_info.hireable.nil? ? false : true),
+      blog: auth.extra.raw_info.blog,
       data: auth.extra.raw_info
     )
   end

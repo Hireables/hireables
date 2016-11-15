@@ -2,7 +2,7 @@ class Developer < ApplicationRecord
   devise :database_authenticatable, :trackable,
          :validatable, :omniauthable, :rememberable
 
-  store_accessor :data, :html_url, :company, :blog, :followers,
+  store_accessor :data, :html_url, :company, :followers,
                  :public_gists, :public_repos
 
   validates_presence_of :name, :login
@@ -11,7 +11,6 @@ class Developer < ApplicationRecord
   has_many :connections, dependent: :destroy
   has_many :achievements, -> { where(pinned: true) }, class_name: 'Import'
 
-  before_save :format_platforms, unless: :empty_platforms?
   after_create :seed_available_connections
   after_commit :set_premium!, on: :update, if: :profile_completed?
   after_commit :fetch_languages!, on: :create
@@ -49,27 +48,19 @@ class Developer < ApplicationRecord
 
   def notify_admin!
     return unless Rails.env.production?
-    AdminMailerWorker.enqueue(self.class.name, id)
-  end
-
-  def empty_platforms?
-    platforms.nil? || platforms.empty?
-  end
-
-  def format_platforms
-    self.platforms = platforms.join(',').split(',')
+    AdminMailerJob.enqueue(self.class.name, id)
   end
 
   def required_fields
-    %w(bio email platforms location)
+    %w(bio email location hireable)
   end
 
   def fetch_languages!
-    FetchDeveloperLanguagesWorker.enqueue(login, github_access_token)
+    FetchDeveloperLanguagesJob.enqueue(login, github_access_token)
   end
 
   def cache_orgs!
-    FetchDeveloperOrgsWorker.enqueue(login, github_access_token)
+    FetchDeveloperOrgsJob.enqueue(login, github_access_token)
   end
 
   def set_premium!

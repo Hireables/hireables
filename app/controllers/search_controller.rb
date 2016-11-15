@@ -15,7 +15,7 @@ class SearchController < ApplicationController
 
   def enqueue_search_worker
     Rails.cache.fetch([@prepared_params.to_query, 'worker']) do
-      SearchDevelopersWorker.enqueue(search_cache_key)
+      SearchDevelopersJob.enqueue(search_cache_key)
     end
   end
 
