@@ -67,7 +67,7 @@ module Github
         begin
           languages = fetch_developer_repos(login).lazy.map(&:language)
           return [] if languages.nil?
-          languages.to_a.compact.map(&:downcase).uniq!
+          languages.to_a.compact.uniq!
         rescue Octokit::NotFound
           []
         end
