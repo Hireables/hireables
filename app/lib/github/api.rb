@@ -90,6 +90,7 @@ module Github
     def fetch_developer_repos(login)
       Rails.cache.fetch(['developer', login, 'repos']) do
         client.auto_paginate = true
+        client.per_page = 100
         begin
           repos = client.repositories(login, sort: 'updated')
           return [] if repos.nil?
