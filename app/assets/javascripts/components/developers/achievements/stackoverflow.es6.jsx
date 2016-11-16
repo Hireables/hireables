@@ -129,7 +129,6 @@ class StackOverflow extends Component {
 }
 
 StackOverflow.propTypes = {
-  relay: React.PropTypes.object,
   achievement: React.PropTypes.object,
   remove: React.PropTypes.func,
 };

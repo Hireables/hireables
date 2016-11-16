@@ -140,7 +140,6 @@ class Youtube extends Component {
 }
 
 Youtube.propTypes = {
-  relay: React.PropTypes.object,
   achievement: React.PropTypes.object,
   remove: React.PropTypes.func,
 };

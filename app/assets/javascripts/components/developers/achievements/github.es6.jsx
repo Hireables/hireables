@@ -106,7 +106,6 @@ const Github = (props) => {
 };
 
 Github.propTypes = {
-  relay: React.PropTypes.object,
   achievement: React.PropTypes.object,
   remove: React.PropTypes.func,
 };

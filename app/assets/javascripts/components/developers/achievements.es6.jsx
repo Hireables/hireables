@@ -6,6 +6,7 @@ import Relay from 'react-relay';
 import Github from './achievements/github.es6';
 import StackOverflow from './achievements/stackoverflow.es6';
 import Youtube from './achievements/youtube.es6';
+import Linkedin from './achievements/linkedin.es6';
 import Connections from './connections.es6';
 
 // Mutation
@@ -16,6 +17,7 @@ const componentsMap = new Map();
 componentsMap.set('github', Github);
 componentsMap.set('stackoverflow', StackOverflow);
 componentsMap.set('youtube', Youtube);
+componentsMap.set('linkedin', Linkedin);
 
 const renderEmptyPlaceholder = () => (
   <div
