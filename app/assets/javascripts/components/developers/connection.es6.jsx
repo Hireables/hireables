@@ -36,13 +36,16 @@ adapterMap.set('stackoverflow', StackOverflowLogin);
 class Connection extends Component {
   constructor(props) {
     super(props);
-    this.open = this.open.bind(this);
+    this.toggleList = this.toggleList.bind(this);
     this.connect = this.connect.bind(this);
-    this.close = this.close.bind(this);
-    this.toggleItem = this.toggleItem.bind(this);
+    this.toggleItemOnServer = this.toggleItemOnServer.bind(this);
     this.setNotification = this.setNotification.bind(this);
+    this.showErrorNotification = this.showErrorNotification.bind(this);
     this.handleRequestClose = this.handleRequestClose.bind(this);
+    this.toggleDisableOnList = this.toggleDisableOnList.bind(this);
+    this.getContainerNode = this.getContainerNode.bind(this);
     this.updateList = this.updateList.bind(this);
+    this.timer = null;
     this.state = {
       toggled: false,
       selections: [],
@@ -57,24 +60,30 @@ class Connection extends Component {
     }
   }
 
-  componentDidUpdate() {
-    this.updateList();
-    if (this.props.connection.importing) {
-      setTimeout(() => {
-        this.props.relay.forceFetch();
-      }, 2000)
-    }
-  }
-
   componentWillReceiveProps(nextProps) {
     if (nextProps.connection.imports &&
         nextProps.connection.imports.edges.length > 0 &&
-        nextProps !== this.props) {
-      const selections = nextProps.connection.imports.edges.filter(({ node }) => {
-        return node.pinned;
-      }).map(({ node }) => (node.source_id));
+        nextProps !== this.props
+      ) {
+      const selections = nextProps.connection.imports.edges.filter(({ node }) => (
+        node.pinned
+      )).map(({ node }) => (node.source_id));
       this.setState({ selections });
     }
+  }
+
+  componentDidUpdate() {
+    if (this.props.connection.importing && this.timer === null) {
+      this.timer = setTimeout(() => (
+        this.props.relay.forceFetch({ showData: true }, (readyState) => {
+          if (readyState.done) {
+            this.timer = null;
+          }
+        }
+      )), 2000);
+      return;
+    }
+    this.updateList();
   }
 
   setNotification(notification) {
@@ -85,40 +94,50 @@ class Connection extends Component {
     });
   }
 
-  updateList() {
-    const importContainer = $(`#import-container-${this.props.connection.provider}`);
-    const uncheckedBoxes = importContainer.find('input:checkbox:not(:checked)');
-    if (this.state.selections.length >= 6) {
-      uncheckedBoxes.attr({ disabled: true });
-      uncheckedBoxes.closest('.list-item').addClass('disabled');
+  getContainerNode() {
+    return $(`#import-container-${this.props.connection.provider}`);
+  }
+
+  getUncheckedBoxes() {
+    return $(this.getContainerNode()).find('input:checkbox:not(:checked)');
+  }
+
+  toggleDisableOnList() {
+    $(this.getContainerNode()).find('.list-item').toggleClass('disabled');
+  }
+
+  showErrorNotification(transaction) {
+    const error = transaction.getError() || new Error('Mutation failed.');
+    let errorMessage;
+
+    if (error.list.errors && Array.isArray(error.list.errors)) {
+      errorMessage = error.list.errors[0].message;
     } else {
-      uncheckedBoxes.attr({ disabled: false });
-      uncheckedBoxes.closest('.list-item').removeClass('disabled');
+      errorMessage = error.message;
+    }
+    this.setNotification(errorMessage);
+  }
+
+  updateList() {
+    if (this.state.selections.length >= 6) {
+      $(this.getUncheckedBoxes()).attr({ disabled: true });
+      $(this.getUncheckedBoxes()).closest('.list-item').addClass('disabled');
+    } else {
+      $(this.getUncheckedBoxes()).attr({ disabled: false });
+      $(this.getUncheckedBoxes()).closest('.list-item').removeClass('disabled');
     }
   }
 
-  toggleItem(event, item) {
+  toggleItemOnServer(event, item) {
     event.preventDefault();
-    const importContainer = $(`#import-container-${this.props.connection.provider}`);
-    importContainer.find('.list-item').addClass('disabled');
+    this.toggleDisableOnList();
 
     const onFailure = (transaction) => {
-      const error = transaction.getError() || new Error('Mutation failed.');
-      let errorMessage;
-
-      if (error.list.errors && Array.isArray(error.list.errors)) {
-        errorMessage = error.list.errors[0].message;
-      } else {
-        errorMessage = error.message;
-      }
-      importContainer.find('.list-item').removeClass('disabled');
-      this.setNotification(errorMessage);
+      this.showErrorNotification(transaction);
+      this.toggleDisableOnList();
     };
 
-    const onSuccess = () => {
-      importContainer.find('.list-item').removeClass('disabled');
-    };
-
+    const onSuccess = () => (this.toggleDisableOnList());
     Relay.Store.commitUpdate(new ToggleAchievement({
       id: item.id,
       developerId: this.props.developer.id,
@@ -130,52 +149,22 @@ class Connection extends Component {
     this.setState({ open: false });
   }
 
-  open(event) {
-    if(event) {
-      event.preventDefault();
-    }
-    const { relay } = this.props;
-    this.setState({ loaded: false });
-    relay.setVariables({
-      showData: true,
-    }, (readyState) => {
-      if (readyState.done) {
-        this.setState({ loaded: true, toggled: true });
-      }
-    });
-  }
-
-  close(event) {
-    event.preventDefault();
+  toggleList(event) {
+    if (event) { event.preventDefault(); }
     const { relay } = this.props;
     relay.setVariables({
-      showData: false,
+      showData: !this.props.relay.variables.showData,
     }, (readyState) => {
       if (readyState.done) {
-        this.setState({ toggled: false });
+        this.setState({ toggled: !this.state.toggled });
       }
     });
   }
 
   connect() {
+    const onSuccess = () => (this.toggleList());
+    const onFailure = transaction => (this.showErrorNotification(transaction));
     this.connectionAdapter.authenticate().then((data) => {
-      const onFailure = (transaction) => {
-        const error = transaction.getError() || new Error('Mutation failed.');
-        let errorMessage;
-
-        if (error.source.errors && Array.isArray(error.source.errors)) {
-          errorMessage = error.source.errors[0].message;
-        } else {
-          errorMessage = error.message;
-        }
-
-        this.setNotification(errorMessage);
-      };
-
-      const onSuccess = () => {
-        this.open();
-      };
-
       Relay.Store.commitUpdate(new ConnectOAuth({
         id: this.props.connection.id,
         provider: this.props.connection.provider,
@@ -184,7 +173,7 @@ class Connection extends Component {
         uid: data.uid.toString(),
       }), { onFailure, onSuccess });
     }, (error) => {
-      this.setNotification(error);
+      this.setNotification(error.toString());
     });
   }
 
@@ -195,10 +184,10 @@ class Connection extends Component {
     let text;
 
     if (this.state.toggled) {
-      onClickAction = this.close;
       text = 'Close';
+      onClickAction = this.toggleList;
     } else if (connection.connected && !connection.expired) {
-      onClickAction = this.open;
+      onClickAction = this.toggleList;
       text = 'Open';
     } else {
       onClickAction = this.connect;
@@ -226,44 +215,37 @@ class Connection extends Component {
             </div>
           }
         />
-
-        <Loader loaded={this.state.loaded} />
-
-        {connection.imports && connection.imports.edges.length > 0 ?
-          <div
-            className="import-container"
-            id={`import-container-${connection.provider}`}
-          >
-            <div className="content">
-              {connection.importing ?
-                 <Loader />
-                : <List style={{ paddingBottom: 0, paddingTop: 0 }}>
-                  {connection.imports.edges.map(({ node }) => (
-                    <Item
-                      item={node}
-                      key={node.id}
-                      toggleItem={this.toggleItem}
-                    />
-                  ))}
-                </List>
-              }
-            </div>
-            <div className="actions">
-              <span className="notification">
-                {6 - this.state.selections.length} remaining
-              </span>
-            </div>
-
-            <div className="notifications">
-              <Snackbar
-                open={this.state.open}
-                message={this.state.notification}
-                autoHideDuration={5000}
-                onRequestClose={this.handleRequestClose}
-              />
-            </div>
-          </div> : ''
-        }
+        <div
+          className="import-container"
+          id={`import-container-${connection.provider}`}
+        >
+          <div className={`content ${this.state.toggled ? 'open' : ''}`}>
+            {connection.imports && connection.imports.edges.length > 0 ?
+              <List style={{ paddingBottom: 0, paddingTop: 0 }}>
+                {connection.imports.edges.map(({ node }) => (
+                  <Item
+                    item={node}
+                    key={node.id}
+                    toggleItemOnServer={this.toggleItemOnServer}
+                  />
+                ))}
+                <div className="actions">
+                  <span className="notification">
+                    {6 - this.state.selections.length} remaining
+                  </span>
+                </div>
+              </List> : <Loader />
+            }
+          </div>
+          <div className="notifications">
+            <Snackbar
+              open={this.state.open}
+              message={this.state.notification}
+              autoHideDuration={5000}
+              onRequestClose={this.handleRequestClose}
+            />
+          </div>
+        </div>
       </div>
     );
   }

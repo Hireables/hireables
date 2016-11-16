@@ -76,7 +76,7 @@ const Github = (props) => {
                 <span
                   className="badge"
                   style={{
-                    backgroundColor: Colors[achievement.language].color,
+                    backgroundColor: Colors[achievement.language],
                   }}
                 >
                   {achievement.language}

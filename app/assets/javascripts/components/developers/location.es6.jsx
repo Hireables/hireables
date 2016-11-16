@@ -20,7 +20,7 @@ const Location = (props) => {
   return (
     <div
       className="location"
-      style={{ color: 'rgba(0, 0, 0, 0.7)', fontWeight: 400, marginTop: 5 }}
+      style={{ color: 'rgba(0, 0, 0, 0.7)', fontWeight: 400, marginRight: 10 }}
     >
       <a
         target="_blank"

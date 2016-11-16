@@ -10,11 +10,16 @@ import createDOMPurify from 'dompurify';
 import '../../styles/pins.sass';
 
 const Data = (props) => {
-  const { item, toggleItem } = props;
+  const { item, toggleItemOnServer } = props;
   const description = createDOMPurify.sanitize(
     item.description || item.body,
     { ALLOWED_TAGS: ['b', 'i'] }
   );
+
+  const starFields = new Map();
+  starFields.set('github', 'stargazers_count');
+  starFields.set('stackoverflow', 'up_vote_count');
+  starFields.set('youtube', 'likeCount');
 
   return (
     <ListItem
@@ -23,7 +28,7 @@ const Data = (props) => {
         <Checkbox
           checked={item.pinned}
           style={{ top: 'calc(100% / 3)' }}
-          onCheck={event => toggleItem(event, item)}
+          onCheck={event => toggleItemOnServer(event, item)}
         />
       }
       rightIcon={
@@ -37,11 +42,7 @@ const Data = (props) => {
             color: '#777',
           }}
         >
-          {
-            item.viewCount ||
-            item.stargazers_count ||
-            item.up_vote_count
-          }
+          {item[starFields.get(item.source_name)]}
           <FontIcon
             color="#777"
             className="material-icons"
@@ -69,7 +70,7 @@ const Data = (props) => {
 
 Data.propTypes = {
   item: React.PropTypes.object,
-  toggleItem: React.PropTypes.func,
+  toggleItemOnServer: React.PropTypes.func,
 };
 
 const DataContainer = Relay.createContainer(Data, {

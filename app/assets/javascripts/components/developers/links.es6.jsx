@@ -90,39 +90,6 @@ class Links extends Component {
             />
             Github
           </Chip>
-
-          {this.props.developer.remote ?
-            <Chip
-              labelStyle={{ fontSize: 14 }}
-              className={css(iconStyles.linkIcon)}
-            >
-              <Avatar
-                className={css(iconStyles.iconAvatar)}
-                icon={
-                  <FontIcon
-                    className={`material-icons ${css(iconStyles.chipIcon)}`}
-                  >settings_remote</FontIcon>
-                }
-              />
-              Remote
-            </Chip> : ''
-          }
-
-          {this.props.developer.relocate ?
-            <Chip
-              labelStyle={{ fontSize: 14 }}
-              className={css(iconStyles.linkIcon)}
-            >
-              <Avatar
-                className={css(iconStyles.iconAvatar)}
-                icon={
-                  <FontIcon
-                    className={`material-icons ${css(iconStyles.chipIcon)}`}
-                  >location_on</FontIcon>}
-              />
-              Relocate
-            </Chip> : ''
-          }
         </div>
       </div>
     );
@@ -142,8 +109,6 @@ const LinksContainer = Relay.createContainer(
           login,
           html_url,
           email,
-          remote,
-          relocate,
           html_url,
           hireable,
         }

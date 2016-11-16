@@ -12,7 +12,7 @@ const Orgs = props => (
           display: 'flex',
           flexWrap: 'wrap',
           justifyContent: 'center',
-          marginTop: 20,
+          marginTop: 70,
         }}
       >
         {props.developer.orgs.map(org => (

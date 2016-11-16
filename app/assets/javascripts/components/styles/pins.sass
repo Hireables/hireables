@@ -11,6 +11,10 @@
     max-height: 400px
     min-height: 350px
     margin-bottom: 5px
+    display: none
+
+    &.open
+      display: block
 
     .selection-item
       display: table
@@ -35,6 +39,9 @@
     padding: 10px 15px
     background-color: #f2f2f2
     overflow: hidden
+    position: absolute
+    width: calc(100% - 30px)
+    bottom: 0
 
     .notification
       line-height: 36px

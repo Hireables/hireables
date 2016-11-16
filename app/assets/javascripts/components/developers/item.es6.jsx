@@ -97,8 +97,10 @@ class Developer extends Component {
           secondaryTextLines={1}
         >
           <Name developer={developer} />
-          <Location developer={developer} />
-          <Company developer={developer} />
+          <div style={{ display: 'flex', marginTop: 5 }}>
+            <Location developer={developer} />
+            <Company developer={developer} />
+          </div>
           <div style={{ position: 'absolute', right: 0, top: '10px' }}>
             <Meta developer={developer} />
           </div>

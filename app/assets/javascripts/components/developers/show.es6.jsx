@@ -21,6 +21,7 @@ import Orgs from './orgs.es6';
 import Company from './company.es6';
 import Actions from './actions.es6';
 import Achievements from './achievements.es6';
+import Preferences from './preferences.es6';
 
 // StyleSheets
 import badgeStyles from '../styles/badges.es6';
@@ -60,28 +61,37 @@ const DeveloperShow = (props) => {
 
                 <br />
                 {currentUser.isEmployer ? <Actions developer={developer} /> : ''}
-                <Orgs developer={developer} />
-              </div>
-              <div className="basic">
-                <Name developer={developer} />
-                <Location developer={developer} />
-                <Company developer={developer} />
-                <Bio developer={developer} />
                 <div
                   style={{
                     padding: 0,
                     position: 'absolute',
-                    right: 0,
-                    top: 20,
+                    left: 20,
+                    top: 175,
                   }}
                 >
                   <Meta developer={developer} />
                 </div>
+                <Orgs developer={developer} />
+              </div>
+              <div className="basic">
+                <Name developer={developer} />
+                <div style={{ display: 'flex' }}>
+                  <Location developer={developer} />
+                  <Company developer={developer} />
+                </div>
+                <Bio developer={developer} />
                 <Links developer={developer} />
                 <Languages developer={developer} />
                 <JobTypes developer={developer} />
+                <Preferences developer={developer} />
                 <Levels developer={developer} />
               </div>
+
+              {developer.premium ?
+                <div className="premium-badge">
+                  Premium
+                </div> : ''
+              }
             </div>
             <Achievements developer={developer} />
           </div>
@@ -104,6 +114,7 @@ const DeveloperShowContainer = Relay.createContainer(DeveloperShow, {
         login,
         hireable,
         premium,
+        ${Preferences.getFragment('developer')}
         ${Achievements.getFragment('developer')},
         ${Name.getFragment('developer')},
         ${Company.getFragment('developer')},

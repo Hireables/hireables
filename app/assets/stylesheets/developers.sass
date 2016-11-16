@@ -1,3 +1,21 @@
+.premium-badge
+  position: absolute
+  right: 20px
+  top: 20px
+  text-transform: uppercase
+  font-weight: 400
+  color: #777
+  font-size: 13px
+
+  &:before
+    width: 6px
+    height: 6px
+    content: ''
+    background-color: #f1c90a
+    position: absolute
+    left: -15px
+    top: 4px
+
 .profile--item
   border: 5px solid #f2f2f2
   font-weight: 500
@@ -8,27 +26,13 @@
   margin-bottom: 20px
   padding-bottom: 20px
 
+  .premium-badge
+    bottom: 10px
+    top: auto
+
   &.premium
     background-color: #eaf4fb
     border-color: rgba(91, 152, 224, 0.1)
-
-  .premium-badge
-    position: absolute
-    right: 20px
-    bottom: -10px
-    text-transform: uppercase
-    font-weight: 400
-    color: #777
-    font-size: 13px
-
-    &:before
-      width: 6px
-      height: 6px
-      content: ''
-      background-color: #f1c90a
-      position: absolute
-      left: -15px
-      top: 4px
 
 .profile--show
   max-width: 980px
