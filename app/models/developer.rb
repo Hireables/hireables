@@ -52,7 +52,7 @@ class Developer < ApplicationRecord
   end
 
   def required_fields
-    %w(bio email location hireable)
+    %w(bio email location blog)
   end
 
   def fetch_languages!
