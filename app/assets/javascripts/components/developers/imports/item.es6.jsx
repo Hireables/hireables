@@ -12,7 +12,7 @@ import '../../styles/pins.sass';
 const Data = (props) => {
   const { item, toggleItem } = props;
   const description = createDOMPurify.sanitize(
-    item.description || item.summary || item.body,
+    item.description || item.body,
     { ALLOWED_TAGS: ['b', 'i'] }
   );
 
@@ -27,32 +27,31 @@ const Data = (props) => {
         />
       }
       rightIcon={
-        item.source_name !== 'linkedin' ?
-          <div
+        <div
+          style={{
+            right: 20,
+            top: 20,
+            display: 'flex',
+            lineHeight: '30px',
+            justifyContent: 'space-between',
+            color: '#777',
+          }}
+        >
+          {
+            item.viewCount ||
+            item.stargazers_count ||
+            item.up_vote_count
+          }
+          <FontIcon
+            color="#777"
+            className="material-icons"
             style={{
-              right: 20,
-              top: 20,
-              display: 'flex',
-              lineHeight: '30px',
-              justifyContent: 'space-between',
-              color: '#777',
+              marginLeft: 5,
             }}
           >
-            {
-              item.viewCount ||
-              item.stargazers_count ||
-              item.up_vote_count
-            }
-            <FontIcon
-              color="#777"
-              className="material-icons"
-              style={{
-                marginLeft: 5,
-              }}
-            >
-              star
-            </FontIcon>
-          </div> : <span />
+            star
+          </FontIcon>
+        </div>
       }
 
       primaryText={item.title || item.name}
@@ -80,7 +79,6 @@ const DataContainer = Relay.createContainer(Data, {
         id,
         title,
         name,
-        summary,
         body,
         description,
         stargazers_count,
@@ -89,7 +87,6 @@ const DataContainer = Relay.createContainer(Data, {
         up_vote_count,
         source_id,
         source_name,
-        company,
         pinned,
       }
     `,

@@ -5,7 +5,6 @@ import Relay from 'react-relay';
 // Child Components icons
 import Github from './achievements/github.es6';
 import StackOverflow from './achievements/stackoverflow.es6';
-import Linkedin from './achievements/linkedin.es6';
 import Youtube from './achievements/youtube.es6';
 import Connections from './connections.es6';
 
@@ -16,7 +15,6 @@ import RemoveAchievement from '../../mutations/developer/removeAchievement.es6';
 const componentsMap = new Map();
 componentsMap.set('github', Github);
 componentsMap.set('stackoverflow', StackOverflow);
-componentsMap.set('linkedin', Linkedin);
 componentsMap.set('youtube', Youtube);
 
 const renderEmptyPlaceholder = () => (
@@ -98,9 +96,9 @@ class DeveloperAchievements extends Component {
           <p style={{ color: '#777', maxWidth: '90%', margin: '5px auto' }}>
             {developer.is_owner ?
               'Pin your contributions and achievements from Github, ' +
-              'Stackoverflow, Linkedin and Youtube.' :
+              'Stackoverflow and Youtube.' :
               'Pinned contributions and achievements from Github, ' +
-              'Stackoverflow, Linkedin and Youtube'
+              'Stackoverflow and Youtube'
             }
           </p>
         </div>
@@ -139,7 +137,6 @@ const DeveloperAchievementsContainer = Relay.createContainer(DeveloperAchievemen
               source_name,
               ${Github.getFragment('achievement')},
               ${StackOverflow.getFragment('achievement')},
-              ${Linkedin.getFragment('achievement')},
               ${Youtube.getFragment('achievement')},
             }
           }

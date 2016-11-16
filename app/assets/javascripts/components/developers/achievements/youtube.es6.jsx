@@ -13,26 +13,10 @@ import YoutubeIcon from '../../shared/icons/youtube.es6';
 import sanitize from '../../../utils/sanitize.es6';
 
 class Youtube extends Component {
-  constructor(props) {
-    super(props);
-    this.edit = this.edit.bind(this);
-    this.delete = this.edit.bind(this);
-  }
-
   componentDidMount() {
     setTimeout(() => {
       this.iframe.setAttribute('src', this.iframe.getAttribute('data-src'));
     }, 1000);
-  }
-
-  edit() {
-    this.setState({ editing: true });
-    console.log('enable edit form');
-  }
-
-  delete() {
-    this.setState({ deleting: true });
-    console.log('Delete mutation');
   }
 
   render() {

@@ -15,28 +15,12 @@ import StackOverflowIcon from '../../shared/icons/stackoverflow.es6';
 import sanitize from '../../../utils/sanitize.es6';
 
 class StackOverflow extends Component {
-  constructor(props) {
-    super(props);
-    this.edit = this.edit.bind(this);
-    this.delete = this.edit.bind(this);
-  }
-
   componentDidMount() {
     setTimeout(() => {
       $('code').each((i, block) => {
         hljs.highlightBlock(block);
       });
     }, 500);
-  }
-
-  edit() {
-    this.setState({ editing: true });
-    console.log('enable edit form');
-  }
-
-  delete() {
-    this.setState({ deleting: true });
-    console.log('Delete mutation');
   }
 
   render() {

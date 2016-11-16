@@ -7,19 +7,16 @@ import { List, ListItem } from 'material-ui/List';
 import RaisedButton from 'material-ui/RaisedButton';
 import Snackbar from 'material-ui/Snackbar';
 import Loader from 'react-loader';
-import update from 'immutability-helper';
 
 // Child Components icons
 import Github from '../shared/icons/github.es6';
 import StackOverflow from '../shared/icons/stackoverflow.es6';
-import Linkedin from '../shared/icons/linkedin.es6';
 import Youtube from '../shared/icons/youtube.es6';
 import Item from './imports/item.es6';
 
 // Provider authentication
 import GoogleLogin from '../../connectors/google.es6';
 import StackOverflowLogin from '../../connectors/stackexchange.es6';
-import LinkedinLogin from '../../connectors/linkedin.es6';
 
 // Mutations
 import ConnectOAuth from '../../mutations/developer/connectOauth.es6';
@@ -29,13 +26,11 @@ import ToggleAchievement from '../../mutations/import/toggle.es6';
 const iconsMap = new Map();
 iconsMap.set('github', Github);
 iconsMap.set('stackoverflow', StackOverflow);
-iconsMap.set('linkedin', Linkedin);
 iconsMap.set('youtube', Youtube);
 
 // Map connection js adapters
 const adapterMap = new Map();
 adapterMap.set('youtube', GoogleLogin);
-adapterMap.set('linkedin', LinkedinLogin);
 adapterMap.set('stackoverflow', StackOverflowLogin);
 
 class Connection extends Component {
