@@ -105,6 +105,11 @@ class Developer extends Component {
           <Bio developer={developer} />
           <Links developer={developer} />
           <div className="clearfix" />
+          {developer.premium ?
+            <div className="premium-badge">
+              Premium
+            </div> : ''
+          }
         </ListItem>
       </div>
     );

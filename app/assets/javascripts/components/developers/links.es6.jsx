@@ -33,11 +33,11 @@ class Links extends Component {
 
   render() {
     return (
-      <div className="links">
+      <div className="links" style={{ marginTop: 10 }}>
         <div className={css(iconStyles.links)}>
           {this.props.developer.email && this.props.developer.hireable ?
             <Chip
-              labelStyle={{ fontSize: 15, paddingLeft: 5 }}
+              labelStyle={{ fontSize: 14 }}
               className={css(iconStyles.linkIcon, iconStyles.hover)}
               onClick={this.openMail}
               style={{ cursor: 'pointer' }}
@@ -57,7 +57,7 @@ class Links extends Component {
 
           {this.props.developer.blog ?
             <Chip
-              labelStyle={{ fontSize: 15, paddingLeft: 5 }}
+              labelStyle={{ fontSize: 14 }}
               className={css(iconStyles.linkIcon, iconStyles.hover)}
               style={{ cursor: 'pointer' }}
               onClick={event => Links.openUrl(event, this.props.developer.blog)}
@@ -75,7 +75,7 @@ class Links extends Component {
           }
 
           <Chip
-            labelStyle={{ fontSize: 15, paddingLeft: 5 }}
+            labelStyle={{ fontSize: 14 }}
             className={css(iconStyles.linkIcon, iconStyles.hover)}
             style={{ cursor: 'pointer' }}
             onClick={event => Links.openUrl(event, this.props.developer.html_url)}
@@ -93,7 +93,7 @@ class Links extends Component {
 
           {this.props.developer.remote ?
             <Chip
-              labelStyle={{ fontSize: 15, paddingLeft: 5 }}
+              labelStyle={{ fontSize: 14 }}
               className={css(iconStyles.linkIcon)}
             >
               <Avatar
@@ -110,7 +110,7 @@ class Links extends Component {
 
           {this.props.developer.relocate ?
             <Chip
-              labelStyle={{ fontSize: 15, paddingLeft: 5 }}
+              labelStyle={{ fontSize: 14 }}
               className={css(iconStyles.linkIcon)}
             >
               <Avatar
@@ -143,7 +143,6 @@ const LinksContainer = Relay.createContainer(
           html_url,
           email,
           remote,
-          premium,
           relocate,
           html_url,
           hireable,

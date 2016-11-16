@@ -7,9 +7,10 @@ import Relay from 'react-relay';
 import { css } from 'aphrodite';
 import queryString from 'query-string';
 import _ from 'underscore';
+import Chip from 'material-ui/Chip';
 
 // StyleSheets
-import chipStyles from '../styles/chips.es6';
+import iconStyles from '../styles/icons.es6';
 import Colors from '../../utils/colors.json';
 
 const Languages = (props) => {
@@ -32,16 +33,31 @@ const Languages = (props) => {
   return (
     <div className="languages">
       {developer.languages && developer.languages.length > 0 ?
-        <div className={css(chipStyles.wrapper)}>
-          <div className="header-separator">Languages and Frameworks</div>
+        <div
+          className={css(iconStyles.links)}
+          style={{ maxWidth: '80%' }}
+        >
+          <div className="header-separator">Programming Languages</div>
           {developer.languages.map(platform => (
-            <div
+            <Chip
               key={Math.random()}
+              labelStyle={{ fontSize: 14 }}
+              style={{ cursor: 'pointer' }}
+              className={css(iconStyles.linkIcon, iconStyles.hover, iconStyles.bordered)}
               onClick={() => Turbolinks.visit(`/search?${query(platform)}`)}
             >
-              <span style={{ backgroundColor: getColor(platform) }} />
+              <span
+                style={{
+                  backgroundColor: getColor(platform),
+                  width: 12,
+                  height: 12,
+                  borderRadius: '50%',
+                  marginRight: 10,
+                  display: 'inline-block',
+                }}
+              />
               {platform}
-            </div>
+            </Chip>
           ))}
         </div> : ''
       }

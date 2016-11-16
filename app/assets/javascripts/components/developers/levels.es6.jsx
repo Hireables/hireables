@@ -6,8 +6,8 @@ import FontIcon from 'material-ui/FontIcon';
 import Chip from 'material-ui/Chip';
 import Avatar from 'material-ui/Avatar';
 
-// StyleSheets
-import chipStyles from '../styles/chips.es6';
+// Stylesheet
+import iconStyles from '../styles/icons.es6';
 
 const Levels = (props) => {
   const { developer } = props;
@@ -20,18 +20,18 @@ const Levels = (props) => {
         developer.mid ||
         developer.junior ||
         developer.student ?
-          <div className={css(chipStyles.wrapper)}>
+          <div className={css(iconStyles.links)}>
             {developer.cto ?
               <Chip
-                labelStyle={{ fontSize: 15, paddingLeft: 5 }}
+                labelStyle={{ fontSize: 14 }}
                 key={Math.random()}
-                className={css(chipStyles.chip)}
+                className={css(iconStyles.linkIcon)}
               >
                 <Avatar
-                  className={css(chipStyles.iconAvatar)}
+                  className={css(iconStyles.iconAvatar)}
                   icon={
                     <FontIcon
-                      className={`material-icons ${css(chipStyles.chipIcon)}`}
+                      className={`material-icons ${css(iconStyles.chipIcon)}`}
                     >label</FontIcon>
                   }
                 />
@@ -41,15 +41,15 @@ const Levels = (props) => {
 
             {developer.lead ?
               <Chip
-                labelStyle={{ fontSize: 15, paddingLeft: 5 }}
+                labelStyle={{ fontSize: 14 }}
                 key={Math.random()}
-                className={css(chipStyles.chip)}
+                className={css(iconStyles.linkIcon)}
               >
                 <Avatar
-                  className={css(chipStyles.iconAvatar)}
+                  className={css(iconStyles.iconAvatar)}
                   icon={
                     <FontIcon
-                      className={`material-icons ${css(chipStyles.chipIcon)}`}
+                      className={`material-icons ${css(iconStyles.chipIcon)}`}
                     >label</FontIcon>
                   }
                 />
@@ -59,15 +59,15 @@ const Levels = (props) => {
 
             {developer.senior ?
               <Chip
-                labelStyle={{ fontSize: 15, paddingLeft: 5 }}
+                labelStyle={{ fontSize: 14 }}
                 key={Math.random()}
-                className={css(chipStyles.chip)}
+                className={css(iconStyles.linkIcon)}
               >
                 <Avatar
-                  className={css(chipStyles.iconAvatar)}
+                  className={css(iconStyles.iconAvatar)}
                   icon={
                     <FontIcon
-                      className={`material-icons ${css(chipStyles.chipIcon)}`}
+                      className={`material-icons ${css(iconStyles.chipIcon)}`}
                     >label</FontIcon>
                   }
                 />
@@ -78,15 +78,15 @@ const Levels = (props) => {
 
             {developer.mid ?
               <Chip
-                labelStyle={{ fontSize: 15, paddingLeft: 5 }}
+                labelStyle={{ fontSize: 14 }}
                 key={Math.random()}
-                className={css(chipStyles.chip)}
+                className={css(iconStyles.linkIcon)}
               >
                 <Avatar
-                  className={css(chipStyles.iconAvatar)}
+                  className={css(iconStyles.iconAvatar)}
                   icon={
                     <FontIcon
-                      className={`material-icons ${css(chipStyles.chipIcon)}`}
+                      className={`material-icons ${css(iconStyles.chipIcon)}`}
                     >label</FontIcon>
                   }
                 />
@@ -96,15 +96,15 @@ const Levels = (props) => {
 
             {developer.junior ?
               <Chip
-                labelStyle={{ fontSize: 15, paddingLeft: 5 }}
+                labelStyle={{ fontSize: 14 }}
                 key={Math.random()}
-                className={css(chipStyles.chip)}
+                className={css(iconStyles.linkIcon)}
               >
                 <Avatar
-                  className={css(chipStyles.iconAvatar)}
+                  className={css(iconStyles.iconAvatar)}
                   icon={
                     <FontIcon
-                      className={`material-icons ${css(chipStyles.chipIcon)}`}
+                      className={`material-icons ${css(iconStyles.chipIcon)}`}
                     >label</FontIcon>
                   }
                 />
@@ -114,15 +114,15 @@ const Levels = (props) => {
 
             {developer.student ?
               <Chip
-                labelStyle={{ fontSize: 15, paddingLeft: 5 }}
+                labelStyle={{ fontSize: 14 }}
                 key={Math.random()}
-                className={css(chipStyles.chip)}
+                className={css(iconStyles.linkIcon)}
               >
                 <Avatar
-                  className={css(chipStyles.iconAvatar)}
+                  className={css(iconStyles.iconAvatar)}
                   icon={
                     <FontIcon
-                      className={`material-icons ${css(chipStyles.chipIcon)}`}
+                      className={`material-icons ${css(iconStyles.chipIcon)}`}
                     >label</FontIcon>
                   }
                 />

@@ -3,7 +3,6 @@ import { StyleSheet } from 'aphrodite';
 const iconStyles = StyleSheet.create({
   links: {
     height: 'auto',
-    marginTop: 10,
     marginLeft: 0,
     display: 'flex',
     flexWrap: 'wrap',
@@ -12,9 +11,18 @@ const iconStyles = StyleSheet.create({
   linkIcon: {
     color: '#555',
     padding: 0,
-    margin: 0,
-    marginBottom: 5,
+    borderRadius: 0,
+    fontSize: 13,
     backgroundColor: 'transparent',
+  },
+
+  bordered: {
+    margin: 5,
+    border: '1px solid #f2f2f2',
+  },
+
+  premium: {
+    border: '1px solid #fff',
   },
 
   hover: {
