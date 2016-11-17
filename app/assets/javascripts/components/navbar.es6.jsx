@@ -50,12 +50,6 @@ class NavBar extends Component {
       padding: '0',
     };
 
-    const toolbarTitleStyles = {
-      fontSize: '16px',
-      color: '#fff',
-      padding: 0,
-    };
-
     const logoStyles = {
       color: '#fff',
       padding: 0,
