@@ -1,0 +1,42 @@
+.badge
+  vertical-align: middle
+  text-align: center
+  font-weight: 500
+  text-transform: uppercase
+
+  &.hireable
+    font-size: 14px
+    line-height: 24px
+    position: absolute
+    color: white
+    width: 24px
+    height: 24px
+    background-color: #66bb6a
+    border-radius: 100%
+    padding: 0
+    left: 65px
+    top: 6px
+    z-index: 10
+    overflow: hidden
+    display: block
+    transition: all 0.2s ease
+    border: 1px solid white
+
+    &.big
+      top: 20px
+      left: 150px
+
+    .full
+      display: inline-block
+      text-transform: lowercase
+
+    &:hover
+      width: 80px
+      border-radius: 5px
+      text-transform: capitalize
+
+    &.maybe
+      background-color: #ff9100
+
+      &:hover
+        width: 120px
