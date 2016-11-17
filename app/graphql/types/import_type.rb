@@ -17,6 +17,7 @@ ImportType = GraphQL::ObjectType.define do
   field :likeCount, types.Int, 'Total likes for this data source'
   field :up_vote_count, types.Int, 'Total up votes for this data source'
   field :comment_count, types.Int, 'Total comments (so)'
+  field :yes_rsvp_count, types.Int, 'Total attendess for event(meetup)'
   field :viewCount, types.Int, 'Total views (youtube)'
   field :html_url, types.String, 'Url of this source(github)'
   field :is_accepted, types.Boolean, 'Is answer accepted?(stackoverflow)'

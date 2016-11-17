@@ -9,7 +9,8 @@ class Import < ApplicationRecord
                  :up_vote_count, :stargazers_count, :likeCount, :link,
                  :isCurrent, :homepage, :forks_count, :is_accepted,
                  :viewCount, :comment_count, :score, :body, :summary,
-                 :description, :title, :name, :full_name, :language
+                 :description, :title, :name, :full_name, :language,
+                 :yes_rsvp_count
 
   def self.by_source(source)
     where(source_name: source)
