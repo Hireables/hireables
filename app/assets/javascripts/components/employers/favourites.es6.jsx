@@ -82,7 +82,7 @@ class Favourites extends Component {
   }
 
   render() {
-    const { employer } = this.props;
+    const { employer, signedIn } = this.props;
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
         <Card
@@ -117,6 +117,7 @@ class Favourites extends Component {
               <List style={{ paddingTop: 0, paddingBottom: 0 }}>
                 {employer.favourites.edges.map(({ node }) => (
                   <Developer
+                    signedIn={signedIn}
                     developer={node}
                     key={node.id}
                   />
@@ -133,6 +134,7 @@ class Favourites extends Component {
 Favourites.propTypes = {
   employer: React.PropTypes.object,
   relay: React.PropTypes.object,
+  signedIn: React.PropTypes.bool,
 };
 
 const FavouritesContainer = Relay.createContainer(Favourites, {

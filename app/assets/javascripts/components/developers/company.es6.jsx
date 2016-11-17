@@ -5,7 +5,14 @@ import Relay from 'react-relay';
 const Company = props => (
   <div
     className="company"
-    style={{ color: 'rgba(0, 0, 0, 0.7)', fontWeight: 500 }}
+    style={{
+      color: 'rgba(0, 0, 0, 0.7)',
+      fontWeight: 500,
+      whiteSpace: 'nowrap',
+      width: 200,
+      textOverflow: 'ellipsis',
+      overflow: 'hidden',
+    }}
   >
     {props.developer.company ?
       <small className="company">

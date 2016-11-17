@@ -43,15 +43,11 @@ const DeveloperShow = (props) => {
             <div className="wrapper">
               <div className="image">
                 {developer.hireable ?
-                  <div
-                    className={
-                      css(
-                        badgeStyles.badge,
-                        badgeStyles.hireable,
-                        badgeStyles.big
-                      )
-                    }
-                  > H </div> : ''
+                  <div className="badge hireable big"> H
+                  <span className="full">ireable</span></div> :
+                  !developer.company ?
+                    <div className="badge hireable big maybe"> M
+                    <span className="full">ay be hireable</span></div> : ''
                 }
                 <Avatar
                   src={developer.avatar_url}
@@ -61,16 +57,7 @@ const DeveloperShow = (props) => {
 
                 <br />
                 {currentUser.isEmployer ? <Actions developer={developer} /> : ''}
-                <div
-                  style={{
-                    padding: 0,
-                    position: 'absolute',
-                    left: 20,
-                    top: 175,
-                  }}
-                >
-                  <Meta developer={developer} />
-                </div>
+                <Meta developer={developer} />
                 <Orgs developer={developer} />
               </div>
               <div className="basic">
@@ -80,11 +67,15 @@ const DeveloperShow = (props) => {
                   <Company developer={developer} />
                 </div>
                 <Bio developer={developer} />
-                <Links developer={developer} />
+                <Links developer={developer} signedIn={props.signedIn} />
                 <Languages developer={developer} />
-                <JobTypes developer={developer} />
-                <Preferences developer={developer} />
-                <Levels developer={developer} />
+                {props.signedIn ?
+                  <div className="pro-info">
+                    <JobTypes developer={developer} />
+                    <Preferences developer={developer} />
+                    <Levels developer={developer} />
+                  </div> : ''
+                }
               </div>
 
               {developer.premium ?
@@ -103,6 +94,7 @@ const DeveloperShow = (props) => {
 
 DeveloperShow.propTypes = {
   developer: React.PropTypes.object,
+  signedIn: React.PropTypes.bool,
 };
 
 const DeveloperShowContainer = Relay.createContainer(DeveloperShow, {

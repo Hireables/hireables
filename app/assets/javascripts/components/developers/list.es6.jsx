@@ -64,7 +64,7 @@ class DevelopersList extends Component {
   }
 
   render() {
-    const { root } = this.props;
+    const { root, signedIn } = this.props;
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
         <Card
@@ -84,6 +84,7 @@ class DevelopersList extends Component {
                   <Developer
                     developer={node}
                     key={node.id}
+                    signedIn={signedIn}
                   />
                 ))}
 
@@ -110,6 +111,7 @@ class DevelopersList extends Component {
 DevelopersList.propTypes = {
   root: React.PropTypes.object,
   relay: React.PropTypes.object,
+  signedIn: React.PropTypes.bool,
 };
 
 const DevelopersListContainer = Relay.createContainer(DevelopersList, {

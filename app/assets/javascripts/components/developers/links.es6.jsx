@@ -35,24 +35,26 @@ class Links extends Component {
     return (
       <div className="links" style={{ marginTop: 10 }}>
         <div className={css(iconStyles.links)}>
-          {this.props.developer.email && this.props.developer.hireable ?
-            <Chip
-              labelStyle={{ fontSize: 14 }}
-              className={css(iconStyles.linkIcon, iconStyles.hover)}
-              onClick={this.openMail}
-              style={{ cursor: 'pointer' }}
-            >
-              <Avatar
-                className={css(iconStyles.iconAvatar)}
-                icon={
-                  <FontIcon
-                    className={`material-icons ${css(iconStyles.chipIcon)}`}
-                  >email
-                  </FontIcon>
-                }
-              />
-              Email
-            </Chip> : ''
+          {this.props.signedIn &&
+            this.props.developer.email &&
+            this.props.developer.hireable ?
+              <Chip
+                labelStyle={{ fontSize: 14 }}
+                className={css(iconStyles.linkIcon, iconStyles.hover)}
+                onClick={this.openMail}
+                style={{ cursor: 'pointer' }}
+              >
+                <Avatar
+                  className={css(iconStyles.iconAvatar)}
+                  icon={
+                    <FontIcon
+                      className={`material-icons ${css(iconStyles.chipIcon)}`}
+                    >email
+                    </FontIcon>
+                  }
+                />
+                Email
+              </Chip> : ''
           }
 
           {this.props.developer.blog ?
@@ -98,6 +100,7 @@ class Links extends Component {
 
 Links.propTypes = {
   developer: React.PropTypes.object,
+  signedIn: React.PropTypes.bool,
 };
 
 const LinksContainer = Relay.createContainer(

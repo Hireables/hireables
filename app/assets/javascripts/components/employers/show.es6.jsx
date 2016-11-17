@@ -81,7 +81,7 @@ class EmployerShow extends Component {
       fontWeight: '400',
     };
 
-    const { employer } = this.props;
+    const { employer, signedIn } = this.props;
     const bio = createDOMPurify.sanitize(
       employer.bio,
       { ALLOWED_TAGS: ['b', 'i'] }
@@ -179,7 +179,7 @@ class EmployerShow extends Component {
                 </div>
               </div>
               <div className="employer-favourites">
-                <Favourites employer={employer} />
+                <Favourites employer={employer} signedIn={signedIn} />
               </div>
             </div>
           </header>
@@ -191,6 +191,7 @@ class EmployerShow extends Component {
 
 EmployerShow.propTypes = {
   employer: React.PropTypes.object,
+  signedIn: React.PropTypes.bool,
 };
 
 const EmployerShowContainer = Relay.createContainer(EmployerShow, {

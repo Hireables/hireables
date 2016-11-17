@@ -47,7 +47,7 @@ class Popup extends Component {
   }
 
   render() {
-    const { developer } = this.props;
+    const { developer, signedIn } = this.props;
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
         <dialog
@@ -61,7 +61,7 @@ class Popup extends Component {
             onClick={() => this.dialog.close()}
             icon={<FontIcon className="material-icons">close</FontIcon>}
           />
-          <DeveloperShow developer={developer} />
+          <DeveloperShow developer={developer} signedIn={signedIn} />
         </dialog>
       </MuiThemeProvider>
     );
@@ -70,6 +70,7 @@ class Popup extends Component {
 
 Popup.propTypes = {
   developer: React.PropTypes.object,
+  signedIn: React.PropTypes.bool,
 };
 
 const PopupContainer = Relay.createContainer(
