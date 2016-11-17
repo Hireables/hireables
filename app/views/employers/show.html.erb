@@ -1,1 +1,1 @@
-<%= react_component 'EmployerShow', 'EmployerRoute', { id: @login }.to_json %>
+<%= react_component 'EmployerShow', 'EmployerRoute', { id: @login, signedIn: signed_in? }.to_json %>
