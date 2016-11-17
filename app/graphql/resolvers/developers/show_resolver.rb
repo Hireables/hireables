@@ -7,7 +7,6 @@ module Developers
     end
 
     def initialize(_developer, args, ctx)
-      raise StandardError, 'Unauthorised' unless ctx[:current_user].present?
       @current_user = ctx[:current_user]
       safe_params = args.instance_variable_get(:@original_values).to_h
       @params = HashWithIndifferentAccess.new(safe_params)
