@@ -1,4 +1,4 @@
-/* global Routes document $ */
+/* global Routes window document $ */
 
 // Modules
 import React, { Component } from 'react';
@@ -34,6 +34,9 @@ class Developer extends Component {
   constructor(props) {
     super(props);
     this.openPopup = this.openPopup.bind(this);
+    this.prefetch = this.prefetch.bind(this);
+    this.clearPrefetch = this.clearPrefetch.bind(this);
+    this.prefetcher = null;
   }
 
   openPopup() {
@@ -64,19 +67,32 @@ class Developer extends Component {
     );
   }
 
+  prefetch() {
+    if (this.prefetcher === null) {
+      this.prefetcher = setTimeout(() => {
+        $.getJSON(`/${this.props.developer.login}`);
+      }, 1000);
+    }
+  }
+
+  clearPrefetch() {
+    window.clearTimeout(this.prefetcher);
+  }
 
   render() {
     const { developer, signedIn } = this.props;
 
     return (
       <div
+        onMouseOver={this.prefetch}
+        onMouseLeave={this.clearPrefetch}
+        onClick={this.openPopup}
         className={
           `profile--item ${developer.premium ? 'premium' : ''}`
         }
       >
         <ListItem
           innerDivStyle={{ padding: '30px 10px 16px 125px' }}
-          onClick={this.openPopup}
           leftAvatar={
             <div className="avatar" style={{ top: 20, textAlign: 'center' }}>
               {developer.hireable ?

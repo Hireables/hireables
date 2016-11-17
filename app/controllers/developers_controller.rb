@@ -14,9 +14,32 @@ class DevelopersController < ApplicationController
 
   # GET /:id
   def show
+    fetch_developer
+    fetch_orgs
+    fetch_languages
+
+    respond_to do |format|
+      format.html
+      format.json { head :ok }
+    end
   end
 
   private
+
+  def fetch_developer
+    return if Rails.cache.exist?(['developer', params[:id], 'full'])
+    FetchDeveloperJob.enqueue(params[:id], current_user.try(:access_token))
+  end
+
+  def fetch_orgs
+    return if Rails.cache.exist?(['developer', params[:id], 'organizations'])
+    FetchDeveloperOrgsJob.enqueue(params[:id], current_user.try(:access_token))
+  end
+
+  def fetch_languages
+    return if Rails.cache.exist?(['developer', params[:id], 'languages'])
+    FetchDeveloperLanguagesJob.enqueue(params[:id], current_user.try(:access_token))
+  end
 
   def set_developer
     @login = params[:id]
