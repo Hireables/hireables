@@ -140,6 +140,7 @@ const DeveloperAchievementsContainer = Relay.createContainer(DeveloperAchievemen
               ${Github.getFragment('achievement')},
               ${StackOverflow.getFragment('achievement')},
               ${Youtube.getFragment('achievement')},
+              ${Linkedin.getFragment('achievement')},
             }
           }
         }

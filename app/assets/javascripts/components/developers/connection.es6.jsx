@@ -12,10 +12,12 @@ import Loader from 'react-loader';
 import Github from '../shared/icons/github.es6';
 import StackOverflow from '../shared/icons/stackoverflow.es6';
 import Youtube from '../shared/icons/youtube.es6';
+import Linkedin from '../shared/icons/linkedin.es6';
 import Item from './imports/item.es6';
 
 // Provider authentication
 import GoogleLogin from '../../connectors/google.es6';
+import LinkedinLogin from '../../connectors/linkedin.es6';
 import StackOverflowLogin from '../../connectors/stackexchange.es6';
 
 // Mutations
@@ -27,11 +29,13 @@ const iconsMap = new Map();
 iconsMap.set('github', Github);
 iconsMap.set('stackoverflow', StackOverflow);
 iconsMap.set('youtube', Youtube);
+iconsMap.set('linkedin', Linkedin);
 
 // Map connection js adapters
 const adapterMap = new Map();
 adapterMap.set('youtube', GoogleLogin);
 adapterMap.set('stackoverflow', StackOverflowLogin);
+adapterMap.set('linkedin', LinkedinLogin);
 
 class Connection extends Component {
   constructor(props) {

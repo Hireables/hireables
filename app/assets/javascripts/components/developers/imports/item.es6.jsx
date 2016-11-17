@@ -12,7 +12,7 @@ import '../../styles/pins.sass';
 const Data = (props) => {
   const { item, toggleItemOnServer } = props;
   const description = createDOMPurify.sanitize(
-    item.description || item.body,
+    item.description || item.body || item.summary,
     { ALLOWED_TAGS: ['b', 'i'] }
   );
 
@@ -32,27 +32,28 @@ const Data = (props) => {
         />
       }
       rightIcon={
-        <div
-          style={{
-            right: 20,
-            top: 20,
-            display: 'flex',
-            lineHeight: '30px',
-            justifyContent: 'space-between',
-            color: '#777',
-          }}
-        >
-          {item[starFields.get(item.source_name)]}
-          <FontIcon
-            color="#777"
-            className="material-icons"
+        item.source_name !== 'linkedin' ?
+          <div
             style={{
-              marginLeft: 5,
+              right: 20,
+              top: 20,
+              display: 'flex',
+              lineHeight: '30px',
+              justifyContent: 'space-between',
+              color: '#777',
             }}
           >
-            star
-          </FontIcon>
-        </div>
+            {item[starFields.get(item.source_name)]}
+            <FontIcon
+              color="#777"
+              className="material-icons"
+              style={{
+                marginLeft: 5,
+              }}
+            >
+              star
+            </FontIcon>
+          </div> : <span />
       }
 
       primaryText={item.title || item.name}
@@ -85,6 +86,7 @@ const DataContainer = Relay.createContainer(Data, {
         stargazers_count,
         likeCount,
         viewCount,
+        summary,
         up_vote_count,
         source_id,
         source_name,
