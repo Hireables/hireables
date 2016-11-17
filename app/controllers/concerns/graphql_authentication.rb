@@ -3,7 +3,6 @@ module GraphqlAuthentication
 
   included do
     before_action :find_current_employer, :find_current_developer
-    before_action :render_unauthorised, unless: :authenticated?
   end
 
   def authenticated?
