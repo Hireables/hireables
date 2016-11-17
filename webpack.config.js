@@ -38,6 +38,9 @@ var defaults = {
   resolve: {
     modulesDirectories: ['node_modules', './app/assets/javascripts/'],
     extensions: ['', '.js', '.jsx', '.es6.js'],
+    alias: {
+      oauthio: path.join(__dirname, 'node_modules/oauthio-web/dist/oauth.min.js'),
+    },
   },
 
   plugins: [
@@ -65,8 +68,10 @@ var defaults = {
     includePaths: [path.resolve(__dirname, './app/assets/javascripts/')],
   },
   module: {
+    noParse: [
+      path.join(__dirname, 'node_modules/oauthio-web/dist/oauth.min.js')
+    ],
     loaders: [
-
       // For react-rails we need to expose these deps to global object
       {
         test: /\.jsx?$/,

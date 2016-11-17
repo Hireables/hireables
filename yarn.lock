@@ -1829,7 +1829,7 @@ form-data@~2.1.1:
     combined-stream "^1.0.5"
     mime-types "^2.1.12"
 
-formsy-material-ui@^0.5.2:
+formsy-material-ui@0.5.2:
   version "0.5.2"
   resolved "https://registry.yarnpkg.com/formsy-material-ui/-/formsy-material-ui-0.5.2.tgz#1196377636061d67d6cddf151f7ee2bec830f8d9"
   dependencies:
@@ -2617,9 +2617,9 @@ map-obj@^1.0.0, map-obj@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/map-obj/-/map-obj-1.0.1.tgz#d933ceb9205d82bdcf4886f6742bdc2b4dea146d"
 
-material-ui@^0.16.2:
-  version "0.16.2"
-  resolved "https://registry.yarnpkg.com/material-ui/-/material-ui-0.16.2.tgz#4bdd966b1fd2f6a6def9d19d13fff13db6c8bfcb"
+material-ui@0.16.0:
+  version "0.16.0"
+  resolved "https://registry.yarnpkg.com/material-ui/-/material-ui-0.16.0.tgz#58ef44eddfb3143bb4feade341928516dc8df34a"
   dependencies:
     babel-runtime "^6.11.6"
     inline-style-prefixer "^2.0.1"
@@ -2628,7 +2628,7 @@ material-ui@^0.16.2:
     lodash.throttle "^4.1.1"
     react-addons-create-fragment "^15.0.0"
     react-addons-transition-group "^15.0.0"
-    react-event-listener "^0.4.0"
+    react-event-listener "^0.3.0"
     recompose "^0.20.2"
     simple-assign "^0.1.0"
     warning "^3.0.0"
@@ -3374,40 +3374,35 @@ rc@~1.1.6:
     minimist "^1.2.0"
     strip-json-comments "~1.0.4"
 
-react-addons-create-fragment@^15.0.0:
-  version "15.4.0"
-  resolved "https://registry.yarnpkg.com/react-addons-create-fragment/-/react-addons-create-fragment-15.4.0.tgz#3e7c4806db6e3ec553fe0b88a622dc816a1cc7a1"
+react-addons-create-fragment@15.3.2, react-addons-create-fragment@^15.0.0:
+  version "15.3.2"
+  resolved "https://registry.yarnpkg.com/react-addons-create-fragment/-/react-addons-create-fragment-15.3.2.tgz#0e589c8c7add0e5db5db48367b5167cbed9c5852"
 
-react-addons-perf@^15.3.2:
-  version "15.4.0"
-  resolved "https://registry.yarnpkg.com/react-addons-perf/-/react-addons-perf-15.4.0.tgz#1e8b694677b31eb759289f7ddeb72e9f9215c745"
+react-addons-perf@15.3.2:
+  version "15.3.2"
+  resolved "https://registry.yarnpkg.com/react-addons-perf/-/react-addons-perf-15.3.2.tgz#bbdbebe8649f936f9636a5750ac145bf5c620213"
 
-react-addons-pure-render-mixin@^15.3.2:
-  version "15.4.0"
-  resolved "https://registry.yarnpkg.com/react-addons-pure-render-mixin/-/react-addons-pure-render-mixin-15.4.0.tgz#76d594622a1fa9ec1e1b27500490acb4b093d9c2"
+react-addons-pure-render-mixin@15.3.2:
+  version "15.3.2"
+  resolved "https://registry.yarnpkg.com/react-addons-pure-render-mixin/-/react-addons-pure-render-mixin-15.3.2.tgz#c5f54764667ead26e6cdf7178b6c8dbbd8463ec2"
 
-"react-addons-shallow-compare@^0.14.0 || ^15.0.0":
-  version "15.4.0"
-  resolved "https://registry.yarnpkg.com/react-addons-shallow-compare/-/react-addons-shallow-compare-15.4.0.tgz#17b2cced1928937bbcdb4832fb200bc34bd47871"
+react-addons-shallow-compare@15.3.2, "react-addons-shallow-compare@^0.14.0 || ^15.0.0":
+  version "15.3.2"
+  resolved "https://registry.yarnpkg.com/react-addons-shallow-compare/-/react-addons-shallow-compare-15.3.2.tgz#c9edba49b9eab44d0c59024d289beb1ab97318b5"
 
-react-addons-transition-group@^15.0.0:
-  version "15.4.0"
-  resolved "https://registry.yarnpkg.com/react-addons-transition-group/-/react-addons-transition-group-15.4.0.tgz#dbcb8a6a466c6d54f347710345e0004b699a68e0"
+react-addons-transition-group@15.3.2, react-addons-transition-group@^15.0.0:
+  version "15.3.2"
+  resolved "https://registry.yarnpkg.com/react-addons-transition-group/-/react-addons-transition-group-15.3.2.tgz#64f758d18bd1e59128726b1c9a4db79127c4f1ed"
 
-react-dom@^15.3.2:
-  version "15.4.0"
-  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-15.4.0.tgz#6a97a69000966570db48c746bc4b7b0ca50d1534"
-  dependencies:
-    fbjs "^0.8.1"
-    loose-envify "^1.1.0"
-    object-assign "^4.1.0"
+react-dom@15.3.2:
+  version "15.3.2"
+  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-15.3.2.tgz#c46b0aa5380d7b838e7a59c4a7beff2ed315531f"
 
-react-event-listener@^0.4.0:
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/react-event-listener/-/react-event-listener-0.4.0.tgz#26c40ab18f9f0e0d8d1fed9c3465e79c0a99c9a5"
+react-event-listener@^0.3.0:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/react-event-listener/-/react-event-listener-0.3.1.tgz#6994a35429d6eaaef19f8d0a0d34a20590ad290d"
   dependencies:
     react-addons-shallow-compare "^0.14.0 || ^15.0.0"
-    warning "^3.0.0"
 
 react-loader@^2.4.0:
   version "2.4.0"
@@ -3427,15 +3422,19 @@ react-static-container@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/react-static-container/-/react-static-container-1.0.1.tgz#694c0dd68a896b879519afb548399cc1989c9ab0"
 
-react-tap-event-plugin@^1.0.0:
+react-tap-event-plugin@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/react-tap-event-plugin/-/react-tap-event-plugin-1.0.0.tgz#7a248505a9e9abecc352b2dab313d17685c51adf"
   dependencies:
     fbjs "^0.2.1"
 
-react@^15.3.2:
-  version "15.4.0"
-  resolved "https://registry.yarnpkg.com/react/-/react-15.4.0.tgz#736c1c7c542e8088127106e1f450b010f86d172b"
+react-truncate@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/react-truncate/-/react-truncate-2.0.2.tgz#17d224cbb6b51875e772314dfd3f85651e705286"
+
+react@15.3.2:
+  version "15.3.2"
+  resolved "https://registry.yarnpkg.com/react/-/react-15.3.2.tgz#a7bccd2fee8af126b0317e222c28d1d54528d09e"
   dependencies:
     fbjs "^0.8.4"
     loose-envify "^1.1.0"
