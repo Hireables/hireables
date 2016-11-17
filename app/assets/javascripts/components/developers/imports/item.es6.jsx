@@ -20,6 +20,7 @@ const Data = (props) => {
   starFields.set('github', 'stargazers_count');
   starFields.set('stackoverflow', 'up_vote_count');
   starFields.set('youtube', 'likeCount');
+  starFields.set('meetup', 'yes_rsvp_count');
 
   return (
     <ListItem
@@ -61,7 +62,7 @@ const Data = (props) => {
         <span
           className="description"
           style={{ maxWidth: '70%' }}
-          dangerouslySetInnerHTML={{ __html: description }}
+          dangerouslySetInnerHTML={{ __html: description.replace(/&nbsp;/g, '') }}
         />
       }
       secondaryTextLines={2}
@@ -86,6 +87,7 @@ const DataContainer = Relay.createContainer(Data, {
         stargazers_count,
         likeCount,
         viewCount,
+        yes_rsvp_count,
         summary,
         up_vote_count,
         source_id,

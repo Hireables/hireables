@@ -7,6 +7,7 @@ import Github from './achievements/github.es6';
 import StackOverflow from './achievements/stackoverflow.es6';
 import Youtube from './achievements/youtube.es6';
 import Linkedin from './achievements/linkedin.es6';
+import Meetup from './achievements/meetup.es6';
 import Connections from './connections.es6';
 
 // Mutation
@@ -18,6 +19,7 @@ componentsMap.set('github', Github);
 componentsMap.set('stackoverflow', StackOverflow);
 componentsMap.set('youtube', Youtube);
 componentsMap.set('linkedin', Linkedin);
+componentsMap.set('meetup', Meetup);
 
 const renderEmptyPlaceholder = () => (
   <div
@@ -141,6 +143,7 @@ const DeveloperAchievementsContainer = Relay.createContainer(DeveloperAchievemen
               ${StackOverflow.getFragment('achievement')},
               ${Youtube.getFragment('achievement')},
               ${Linkedin.getFragment('achievement')},
+              ${Meetup.getFragment('achievement')},
             }
           }
         }

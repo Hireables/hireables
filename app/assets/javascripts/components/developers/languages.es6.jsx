@@ -35,7 +35,7 @@ const Languages = (props) => {
       {developer.languages && developer.languages.length > 0 ?
         <div
           className={css(iconStyles.links)}
-          style={{ maxWidth: '80%' }}
+          style={{ maxWidth: '90%' }}
         >
           <div className="header-separator">Programming Languages</div>
           {developer.languages.map(platform => (
