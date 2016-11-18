@@ -24,7 +24,6 @@ import Achievements from './achievements.es6';
 import Preferences from './preferences.es6';
 
 // StyleSheets
-import badgeStyles from '../styles/badges.es6';
 import '../styles/profile.sass';
 
 // Utils
@@ -106,6 +105,7 @@ const DeveloperShowContainer = Relay.createContainer(DeveloperShow, {
         login,
         hireable,
         premium,
+        company,
         ${Preferences.getFragment('developer')}
         ${Achievements.getFragment('developer')},
         ${Name.getFragment('developer')},

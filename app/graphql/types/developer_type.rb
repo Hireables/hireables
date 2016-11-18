@@ -147,7 +147,7 @@ end
 
 def resolve_connections(obj)
   return [] if obj.connections.nil?
-  obj.connections.order(id: :desc)
+  obj.connections.order(id: :asc)
 end
 
 def favourited?(obj, ctx)
