@@ -24,6 +24,6 @@ class ImportConnectionDataJob < Que::Job
   end
 
   def date_fields
-    %w(creation_date startDate publishedAt pushed_at created)
+    %w(creation_date startDate publishedAt pushed_at created created_at)
   end
 end
