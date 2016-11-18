@@ -23,7 +23,6 @@ class Connection < ApplicationRecord
 
   def fetch_data
     send(import_methods.fetch(provider))
-
   rescue KeyError
     'Unknown import type'
   end

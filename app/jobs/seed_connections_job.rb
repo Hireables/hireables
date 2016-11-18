@@ -13,6 +13,6 @@ class SeedConnectionsJob < Que::Job
   end
 
   def allowed_connections
-    %w(stackoverflow producthunt linkedin meetup youtube)
+    %w(youtube meetup producthunt linkedin stackoverflow)
   end
 end
