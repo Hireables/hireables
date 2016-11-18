@@ -6,11 +6,9 @@ module Producthunt
   end
 
   def fetch_products
-    Rails.cache.fetch(self) do
-      products['posts'].lazy.map do |product|
-        HashWithIndifferentAccess.new(product.to_hash).except(*excluded_fields)
-      end.take(20).to_a
-    end
+    products['posts'].lazy.map do |product|
+      HashWithIndifferentAccess.new(product.to_hash).except(*ph_excluded_fields)
+    end.take(20).to_a
   rescue NoMethodError
     []
   end
@@ -18,11 +16,13 @@ module Producthunt
   private
 
   def products
-    response = client.get(
-      "#{PRODUCTS_URI}/users/#{uid}/posts?&#{ph_params}",
-      headers
-    )
-    JSON.parse(response.body)
+    Rails.cache.fetch(self) do
+      response = client.get(
+        "#{PRODUCTS_URI}/users/#{uid}/posts?&#{ph_params}",
+        headers
+      )
+      JSON.parse(response.body)
+    end
   rescue JSON::ParserError
     { 'posts': [] }
   end
@@ -31,7 +31,7 @@ module Producthunt
     { access_token: access_token }.to_query
   end
 
-  def excluded_fields
+  def ph_excluded_fields
     %w(user screenshot_url makers current_user)
   end
 end

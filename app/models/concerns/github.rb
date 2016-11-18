@@ -7,7 +7,7 @@ module Github
       .search_developer_repos(developer.login)
       .lazy
       .map do |repo|
-        HashWithIndifferentAccess.new(repo.to_hash).except(*excluded_fields)
+        HashWithIndifferentAccess.new(repo.to_hash).except(*gh_excluded_fields)
       end.take(20).to_a
 
   rescue NoMethodError
@@ -16,7 +16,7 @@ module Github
 
   private
 
-  def excluded_fields
+  def gh_excluded_fields
     %w(
       owner forks_url keys_url collaborators_url teams_url hooks_url
       issue_events_url events_url assignees_url branches_url tags_url

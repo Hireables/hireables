@@ -6,23 +6,26 @@ module Stackoverflow
   end
 
   def fetch_answers
-    Rails.cache.fetch(self) do
-      response = client.get("#{SO_ANSWERS_URI}?&#{so_params}", headers)
-      answers = JSON.parse(response.body)['items']
-      return [] if answers.nil?
-      answers.map do |answer|
-        answer.tap do |obj|
-          obj['id'] = obj['answer_id']
-          obj['creation_date'] = Time.at(obj['creation_date']).utc
-        end
+    answers.map do |answer|
+      answer.tap do |obj|
+        obj['id'] = obj['answer_id']
+        obj['creation_date'] = Time.at(obj['creation_date']).utc
       end
     end
-
   rescue NoMethodError
     []
   end
 
   private
+
+  def answers
+    Rails.cache.fetch(self) do
+      response = client.get("#{SO_ANSWERS_URI}?&#{so_params}", headers)
+      JSON.parse(response.body)['items']
+    end
+  rescue JSON::ParserError
+    { 'items': [] }
+  end
 
   def so_params
     {

@@ -15,10 +15,9 @@ module Developers
     end
 
     def call
-      {
-        developer: current_developer.reload,
-        deletedId: params['id']
-      }  if achievement.update!(pinned: false)
+      if achievement.update!(pinned: false)
+        { developer: current_developer.reload, deletedId: params['id'] }
+      end
     end
 
     def owner?
