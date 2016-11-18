@@ -10,7 +10,8 @@ class Import < ApplicationRecord
                  :isCurrent, :homepage, :forks_count, :is_accepted,
                  :viewCount, :comment_count, :score, :body, :summary,
                  :description, :title, :name, :full_name, :language,
-                 :yes_rsvp_count
+                 :yes_rsvp_count, :votes_count, :comments_count, :tagline,
+                 :discussion_url, :redirect_url, :featured, :thumbnail
 
   def self.by_source(source)
     where(source_name: source)

@@ -68,6 +68,6 @@ class Developer < ApplicationRecord
   end
 
   def allowed_connections
-    %w(stackoverflow linkedin meetup youtube)
+    %w(stackoverflow producthunt linkedin meetup youtube)
   end
 end
