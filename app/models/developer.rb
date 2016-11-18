@@ -11,6 +11,7 @@ class Developer < ApplicationRecord
   has_many :connections, dependent: :destroy
   has_many :achievements, -> { where(pinned: true) }, class_name: 'Import'
 
+  before_save :format_languages, unless: :empty_languages?
   after_create :seed_available_connections
   after_commit :set_premium!, on: :update, if: :profile_completed?
   after_commit :fetch_languages!, on: :create
@@ -18,6 +19,14 @@ class Developer < ApplicationRecord
   after_commit :notify_admin!, on: :create
 
   mount_uploader :avatar, ImageUploader
+
+  def empty_languages?
+    languages.nil? || languages.empty?
+  end
+
+  def format_languages
+    self.languages = languages.join(',').split(',')
+  end
 
   def profile_completed?
     required_fields.all? do |field|
@@ -38,21 +47,19 @@ class Developer < ApplicationRecord
     @github_access_token ||= access_token_by_provider('github')
   end
 
+  def set_premium!
+    update!(premium: profile_completed?)
+  end
+
   private
 
   def seed_available_connections
-    allowed_connections.each do |connection|
-      connections.create!(provider: connection)
-    end
+    SeedConnectionsJob.enqueue(id)
   end
 
   def notify_admin!
     return unless Rails.env.production?
     AdminMailerJob.enqueue(self.class.name, id)
-  end
-
-  def required_fields
-    %w(bio email location blog)
   end
 
   def fetch_languages!
@@ -63,11 +70,7 @@ class Developer < ApplicationRecord
     FetchDeveloperOrgsJob.enqueue(login, github_access_token)
   end
 
-  def set_premium!
-    update!(premium: profile_completed?)
-  end
-
-  def allowed_connections
-    %w(stackoverflow producthunt linkedin meetup youtube)
+  def required_fields
+    %w(bio email location blog languages)
   end
 end
