@@ -2,6 +2,15 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   before_action :failure, if: :malformed_auth?
   include Devise::Controllers::Rememberable
 
+  def producthunt
+    @auth_hash = {
+      uid: auth_hash.uid,
+      access_token: auth_hash.credentials.token,
+      expires_at: Time.now + 5.days
+    }
+    render layout: false
+  end
+
   def github
     @developer = Authenticator.call(auth_hash)
     if @developer.persisted?
