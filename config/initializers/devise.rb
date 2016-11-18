@@ -240,6 +240,8 @@ Devise.setup do |config|
 
   config.omniauth :github, ENV['GITHUB_KEY'], ENV['GITHUB_SECRET'], scope: 'user, public_repo, read:org'
   config.omniauth :producthunt, ENV['PRODUCTHUNT_API_KEY'], ENV['PRODUCTHUNT_API_SECRET'], callback_url: 'http://hireables.dev/developers/auth/producthunt/callback'
+  config.omniauth :meetup, ENV['MEETUP_API_KEY'], ENV['MEETUP_API_SECRET'], callback_url: 'http://hireables.dev/developers/auth/meetup/callback'
+
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
   # change the failure app, you can configure them inside the config.warden block.

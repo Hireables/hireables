@@ -8,10 +8,18 @@ GIT
       mime-types (>= 1.16)
 
 GIT
-  remote: https://github.com/gauravtiwari/omniauth-producthunt.git
-  revision: d7676fbcaa1751aefa3058eb0033a2c19053a246
+  remote: https://github.com/gauravtiwari/omniauth-meetup
+  revision: 685d4e95a38034beade25f2edb9cc34d195b6d86
   specs:
-    omniauth-producthunt (0.0.1)
+    omniauth-meetup (0.0.8)
+      omniauth (~> 1.0)
+      omniauth-oauth2 (~> 1.0)
+
+GIT
+  remote: https://github.com/gauravtiwari/omniauth-producthunt.git
+  revision: 54967389ca51826aae63eeda120e52f1ee3ca53b
+  specs:
+    omniauth-producthunt (0.0.2)
       omniauth-oauth2
 
 GEM
@@ -103,7 +111,7 @@ GEM
       activesupport (>= 4.1.0)
     graphiql-rails (1.4.0)
       rails
-    graphql (1.2.3)
+    graphql (1.2.4)
     hashie (3.4.6)
     heroku-deflater (0.6.2)
       rack (>= 1.4.5)
@@ -284,6 +292,7 @@ DEPENDENCIES
   newrelic_rpm
   octokit
   omniauth-github
+  omniauth-meetup!
   omniauth-producthunt!
   pg
   puma
