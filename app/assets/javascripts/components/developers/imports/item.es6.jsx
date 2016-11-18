@@ -12,7 +12,7 @@ import '../../styles/pins.sass';
 const Data = (props) => {
   const { item, toggleItemOnServer } = props;
   const description = createDOMPurify.sanitize(
-    item.description || item.body || item.summary,
+    item.description || item.body || item.summary || item.tagline,
     { ALLOWED_TAGS: ['b', 'i'] }
   );
 
@@ -21,6 +21,7 @@ const Data = (props) => {
   starFields.set('stackoverflow', 'up_vote_count');
   starFields.set('youtube', 'likeCount');
   starFields.set('meetup', 'yes_rsvp_count');
+  starFields.set('producthunt', 'votes_count');
 
   return (
     <ListItem
@@ -92,6 +93,10 @@ const DataContainer = Relay.createContainer(Data, {
         up_vote_count,
         source_id,
         source_name,
+        votes_count,
+        comments_count,
+        discussion_url,
+        tagline,
         pinned,
       }
     `,

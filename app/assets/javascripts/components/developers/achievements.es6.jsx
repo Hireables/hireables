@@ -8,6 +8,7 @@ import StackOverflow from './achievements/stackoverflow.es6';
 import Youtube from './achievements/youtube.es6';
 import Linkedin from './achievements/linkedin.es6';
 import Meetup from './achievements/meetup.es6';
+import ProductHunt from './achievements/producthunt.es6';
 import Connections from './connections.es6';
 
 // Mutation
@@ -20,6 +21,7 @@ componentsMap.set('stackoverflow', StackOverflow);
 componentsMap.set('youtube', Youtube);
 componentsMap.set('linkedin', Linkedin);
 componentsMap.set('meetup', Meetup);
+componentsMap.set('producthunt', ProductHunt);
 
 const renderEmptyPlaceholder = () => (
   <div
@@ -100,9 +102,9 @@ class DeveloperAchievements extends Component {
           <p style={{ color: '#777', maxWidth: '90%', margin: '5px auto' }}>
             {developer.is_owner ?
               'Pin your contributions and achievements from Github, ' +
-              'Stackoverflow and Youtube.' :
+              'Linkedin, Stackoverflow, ProductHunt, Meetup and Youtube.' :
               'Pinned contributions and achievements from Github, ' +
-              'Stackoverflow and Youtube'
+              'Linkedin, Stackoverflow, ProductHunt, Meetup and Youtube'
             }
           </p>
         </div>
@@ -144,6 +146,7 @@ const DeveloperAchievementsContainer = Relay.createContainer(DeveloperAchievemen
               ${Youtube.getFragment('achievement')},
               ${Linkedin.getFragment('achievement')},
               ${Meetup.getFragment('achievement')},
+              ${ProductHunt.getFragment('achievement')}
             }
           }
         }

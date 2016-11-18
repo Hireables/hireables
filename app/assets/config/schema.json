@@ -1143,6 +1143,20 @@
               "deprecationReason": null
             },
             {
+              "name": "comments_count",
+              "description": "Total comments (ph)",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "company",
               "description": "Company name (in)",
               "args": [
@@ -1207,6 +1221,34 @@
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "discussion_url",
+              "description": "Discussion url (ph)",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "featured",
+              "description": "Product featured(ph)",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -1357,6 +1399,20 @@
               "deprecationReason": null
             },
             {
+              "name": "redirect_url",
+              "description": "Product url (ph)",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "source_id",
               "description": "Data source id",
               "args": [
@@ -1413,6 +1469,34 @@
               "deprecationReason": null
             },
             {
+              "name": "tagline",
+              "description": "Product tagline(ph)",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "thumbnail",
+              "description": "ProductHunt thumbnail (ph)",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "title",
               "description": "title of this data source",
               "args": [
@@ -1443,6 +1527,20 @@
             {
               "name": "viewCount",
               "description": "Total views (youtube)",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "votes_count",
+              "description": "Total votes count (ph)",
               "args": [
 
               ],

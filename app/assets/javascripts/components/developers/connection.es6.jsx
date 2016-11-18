@@ -14,12 +14,14 @@ import StackOverflow from '../shared/icons/stackoverflow.es6';
 import Youtube from '../shared/icons/youtube.es6';
 import Linkedin from '../shared/icons/linkedin.es6';
 import Meetup from '../shared/icons/meetup.es6';
+import ProductHunt from '../shared/icons/producthunt.es6';
 import Item from './imports/item.es6';
 
 // Provider authentication
 import GoogleLogin from '../../connectors/google.es6';
 import MeetupLogin from '../../connectors/meetup.es6';
 import LinkedinLogin from '../../connectors/linkedin.es6';
+import ProductHuntLogin from '../../connectors/producthunt.es6';
 import StackOverflowLogin from '../../connectors/stackexchange.es6';
 
 // Mutations
@@ -32,6 +34,7 @@ iconsMap.set('github', Github);
 iconsMap.set('stackoverflow', StackOverflow);
 iconsMap.set('youtube', Youtube);
 iconsMap.set('meetup', Meetup);
+iconsMap.set('producthunt', ProductHunt);
 iconsMap.set('linkedin', Linkedin);
 
 // Map connection js adapters
@@ -39,6 +42,7 @@ const adapterMap = new Map();
 adapterMap.set('youtube', GoogleLogin);
 adapterMap.set('stackoverflow', StackOverflowLogin);
 adapterMap.set('linkedin', LinkedinLogin);
+adapterMap.set('producthunt', ProductHuntLogin);
 adapterMap.set('meetup', MeetupLogin);
 
 class Connection extends Component {

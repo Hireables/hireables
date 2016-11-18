@@ -15,7 +15,7 @@ export default class Meetup {
           resolve({
             access_token: result.access_token,
             expires_at: expirationTime,
-            uid: data.raw.id
+            uid: data.raw.id,
           });
         });
       }).fail(err => (reject(err)));
