@@ -24,7 +24,7 @@ const ProductHunt = (props) => {
           <Card className="achievement-card full-width">
             <div className="achievement-card-content">
               <h2 className="intro">
-                <i className="icon material-icons">app</i>
+                <i className="icon material-icons">apps</i>
                 <span>App/Product</span>
               </h2>
 
