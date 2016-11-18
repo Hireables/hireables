@@ -2892,10 +2892,6 @@ oauth-sign@~0.8.1:
   version "0.8.2"
   resolved "https://registry.yarnpkg.com/oauth-sign/-/oauth-sign-0.8.2.tgz#46a6ab7f0aead8deae9ec0565780b7d4efeb9d43"
 
-oauthio-web@^0.6.1:
-  version "0.6.1"
-  resolved "https://registry.yarnpkg.com/oauthio-web/-/oauthio-web-0.6.1.tgz#5135da9f29b32048d8c0bb0b25ff86b56ecffc6d"
-
 object-assign@^4.0.1, object-assign@^4.1.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/object-assign/-/object-assign-4.1.0.tgz#7a3b3d0e98063d43f4c03f2e8ae6cd51a86883a0"
