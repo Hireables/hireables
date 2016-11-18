@@ -20,12 +20,7 @@ module Developers
       unless connection.owner?(current_developer)
         raise StandardError, 'Unauthorised'
       end
-      connection.attributes = valid_params
-      connection.importing = true
-      if connection.save!
-        ImportConnectionDataJob.enqueue(connection.id)
-        { connection: connection.reload }
-      end
+      { connection: connection.reload } if connection.update!(valid_params)
     end
 
     private

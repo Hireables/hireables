@@ -14,9 +14,7 @@ class Authenticator
       @connection = Connection.where(connection_attrs).first_or_initialize
       @connection.developer = create_from_oauth if @connection.developer_id.nil?
       @connection.access_token = auth.credentials.token
-      @connection.importing = true
-      ImportConnectionDataJob.enqueue(@connection.id) if @connection.save!
-      @connection.developer
+      @connection.developer if @connection.save!
     end
   end
 

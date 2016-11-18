@@ -10,11 +10,17 @@ class Connection < ApplicationRecord
   belongs_to :developer, touch: true
   has_many :imports, dependent: :destroy
 
+  after_commit :import_connection_data, if: :access_token_previously_changed?
   validates_presence_of :provider
   validates_uniqueness_of :provider
 
   def owner?(user)
     user == developer
+  end
+
+  def import_connection_data
+    update!(importing: true)
+    ImportConnectionDataJob.enqueue(id)
   end
 
   def expired?
