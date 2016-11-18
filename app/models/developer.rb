@@ -12,7 +12,7 @@ class Developer < ApplicationRecord
   has_many :achievements, -> { where(pinned: true) }, class_name: 'Import'
 
   before_save :format_languages, unless: :empty_languages?
-  after_create :seed_available_connections
+  after_commit :seed_available_connections, on: :create
   after_commit :set_premium!, on: :update, if: :profile_completed?
   after_commit :fetch_languages!, on: :create
   after_commit :cache_orgs!, on: :create
