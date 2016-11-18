@@ -4,6 +4,7 @@
 import React, { Component } from 'react';
 import Relay from 'react-relay';
 import Formsy from 'formsy-react';
+import Chip from 'material-ui/Chip';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
 import ActionDelete from 'material-ui/svg-icons/action/delete';
@@ -24,6 +25,7 @@ import UpdateDeveloper from '../../mutations/developer/updateDeveloper.es6';
 
 // Stylesheets
 import formStyles from '../styles/forms.es6';
+import chipStyles from '../styles/chips.es6';
 
 const cardTitleStyle = {
   padding: '8px 16px 8px',
@@ -48,12 +50,20 @@ class DeveloperEdit extends Component {
     this.enableButton = this.enableButton.bind(this);
     this.disableButton = this.disableButton.bind(this);
     this.setNotification = this.setNotification.bind(this);
+    this.renderChip = this.renderChip.bind(this);
+    this.handleRequestDelete = this.handleRequestDelete.bind(this);
+    this.addNewLanguage = this.addNewLanguage.bind(this);
+
+    const languages = props.developer.languages.map((elem, index) => (
+      { key: index, label: elem }
+    ));
 
     this.state = {
       open: false,
       value: 1,
       loaded: false,
       canSubmit: false,
+      languages,
       notification: '',
       validationErrors: {},
     };
@@ -69,6 +79,10 @@ class DeveloperEdit extends Component {
 
   submitForm(event) {
     event.preventDefault();
+    const languages = this.state.languages.map(elem => (
+      elem.label
+    ));
+
     this.setNotification('Saving...');
 
     const onFailure = (transaction) => {
@@ -88,9 +102,13 @@ class DeveloperEdit extends Component {
       window.location.href = Routes.developer_path(this.props.developer.login);
     };
 
+    const newModel = Object.assign(this.formNode.getModel(), {
+      languages: languages.toString(),
+    });
+
     Relay.Store.commitUpdate(new UpdateDeveloper({
       id: this.props.developer.id,
-      ...this.formNode.getModel(),
+      ...newModel,
     }), { onFailure, onSuccess });
   }
 
@@ -116,6 +134,82 @@ class DeveloperEdit extends Component {
     this.setState({
       open: false,
     });
+  }
+
+  addNewLanguage(event) {
+    if (event.keyCode === 13) {
+      event.preventDefault();
+    }
+
+    if (event.keyCode === 13 || event.keyCode === 188 || event.keyCode === 32) {
+      const newLanguage = event.target.value.trim();
+      if (newLanguage === '') {
+        this.setState({
+          validationErrors: {
+            languages: 'Empty language',
+          },
+        });
+
+        setTimeout(() => {
+          this.clearValidationErrors();
+        }, 3000);
+
+        return;
+      }
+
+      const isDuplicate = this.state.languages.some(language => (
+        language.label === newLanguage
+      ));
+
+      if (isDuplicate) {
+        this.languageNode.state.value = '';
+
+        this.setState({
+          validationErrors: {
+            languages: 'Duplicate language',
+          },
+        });
+
+        setTimeout(() => {
+          this.clearValidationErrors();
+        }, 3000);
+
+        return;
+      }
+
+      const languages = this.state.languages.concat([{
+        key: this.state.languages.length + 1,
+        label: newLanguage.toLowerCase(),
+      }]);
+
+      this.setState({ languages }, () => {
+        this.languageNode.state.value = '';
+        this.setState({
+          canSubmit: true,
+        });
+      });
+    }
+  }
+
+  handleRequestDelete(key) {
+    this.languages = this.state.languages;
+    const languageToDelete = this.languages
+    .map(language => language.key)
+    .indexOf(key);
+    this.languages.splice(languageToDelete, 1);
+    this.setState({ languages: this.languages });
+  }
+
+  renderChip(data) {
+    return (
+      <Chip
+        key={data.key}
+        onRequestDelete={() => this.handleRequestDelete(data.key)}
+        className={css(chipStyles.badge)}
+      >
+        {data.label}
+      </Chip>
+    );
   }
 
   render() {
@@ -203,6 +297,23 @@ class DeveloperEdit extends Component {
                       isUrl: 'Should be a valid url',
                     }}
                   />
+                </div>
+                <div className="search-box">
+                  <FormsyText
+                    id="text-field-default"
+                    placeholder="(ex: ruby, python)"
+                    name="languages"
+                    className="languages"
+                    onKeyDown={this.addNewLanguage}
+                    ref={node => (this.languageNode = node)}
+                    floatingLabelText="Languages and frameworks you work with *"
+                    floatingLabelFixed
+                    fullWidth
+                  />
+
+                  <div className={css(chipStyles.wrapper)}>
+                    {this.state.languages.map(this.renderChip, this)}
+                  </div>
                 </div>
 
                 <div className="clearfix" />
@@ -395,6 +506,7 @@ const DeveloperEditContainer = Relay.createContainer(DeveloperEdit, {
         bio,
         blog,
         location,
+        languages,
 
         hireable,
 
