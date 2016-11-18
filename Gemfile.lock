@@ -7,6 +7,13 @@ GIT
       activesupport (>= 4.0.0)
       mime-types (>= 1.16)
 
+GIT
+  remote: https://github.com/gauravtiwari/omniauth-producthunt.git
+  revision: d7676fbcaa1751aefa3058eb0033a2c19053a246
+  specs:
+    omniauth-producthunt (0.0.1)
+      omniauth-oauth2
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -193,7 +200,7 @@ GEM
       thor (>= 0.18.1, < 2.0)
     rainbow (2.1.0)
     rake (11.3.0)
-    redis (3.3.1)
+    redis (3.3.2)
     redis-namespace (1.5.2)
       redis (~> 3.0, >= 3.0.4)
     redis-objects (1.2.1)
@@ -221,7 +228,7 @@ GEM
     sawyer (0.8.0)
       addressable (>= 2.3.5, < 2.6)
       faraday (~> 0.8, < 0.10)
-    sentry-raven (2.1.2)
+    sentry-raven (2.1.3)
       faraday (>= 0.7.6, < 0.10.x)
     spring (2.0.0)
       activesupport (>= 4.2)
@@ -277,6 +284,7 @@ DEPENDENCIES
   newrelic_rpm
   octokit
   omniauth-github
+  omniauth-producthunt!
   pg
   puma
   que

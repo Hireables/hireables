@@ -62,6 +62,7 @@ gem 'wisper'
 
 # Simple and extremely flexible way to upload files
 gem 'carrierwave', git: 'https://github.com/carrierwaveuploader/carrierwave.git'
+gem 'omniauth-producthunt', git: 'https://github.com/gauravtiwari/omniauth-producthunt.git'
 
 group :production do
   gem 'rails_12factor'
