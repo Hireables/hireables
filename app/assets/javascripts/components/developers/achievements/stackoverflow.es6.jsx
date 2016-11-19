@@ -83,7 +83,6 @@ class StackOverflow extends Component {
                 />
 
                 <CardActions className="meta">
-                  <span className="badge">Answer</span>
                   {achievement.is_accepted ?
                     <span className="badge">
                       Accepted

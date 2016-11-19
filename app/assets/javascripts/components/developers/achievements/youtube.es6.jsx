@@ -91,16 +91,6 @@ class Youtube extends Component {
 
                 <CardActions className="meta">
                   <span className="badge">
-                    <a
-                      href={`//youtube.com/watch?v=${achievement.source_id}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Youtube
-                    </a>
-                  </span>
-                  <span className="badge">Video</span>
-                  <span className="badge">
                     {`${achievement.likeCount}`}
                     <FontIcon
                       color="#fff"
