@@ -8,14 +8,6 @@ GIT
       mime-types (>= 1.16)
 
 GIT
-  remote: https://github.com/gauravtiwari/omniauth-meetup
-  revision: 685d4e95a38034beade25f2edb9cc34d195b6d86
-  specs:
-    omniauth-meetup (0.0.8)
-      omniauth (~> 1.0)
-      omniauth-oauth2 (~> 1.0)
-
-GIT
   remote: https://github.com/gauravtiwari/omniauth-producthunt.git
   revision: 54967389ca51826aae63eeda120e52f1ee3ca53b
   specs:
@@ -161,6 +153,9 @@ GEM
     omniauth-github (1.1.2)
       omniauth (~> 1.0)
       omniauth-oauth2 (~> 1.1)
+    omniauth-meetup (0.0.8)
+      omniauth (~> 1.0)
+      omniauth-oauth2 (~> 1.0)
     omniauth-oauth2 (1.4.0)
       oauth2 (~> 1.0)
       omniauth (~> 1.2)
@@ -292,7 +287,7 @@ DEPENDENCIES
   newrelic_rpm
   octokit
   omniauth-github
-  omniauth-meetup!
+  omniauth-meetup
   omniauth-producthunt!
   pg
   puma
