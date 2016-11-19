@@ -3,16 +3,16 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   include Devise::Controllers::Rememberable
 
   def self.provides_callback_for(provider)
-    class_eval %(
+    class_eval %Q{
       def #{provider}
         @auth_hash = {
           uid: auth_hash.uid,
           access_token: auth_hash.credentials.token,
           expires_at: Time.now + 5.days
         }
-        render :callback layout: false
+        render :callback, layout: false
       end
-    )
+    }
   end
 
   [:producthunt, :meetup, :stackexchange].each do |provider|
