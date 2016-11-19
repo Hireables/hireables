@@ -8,14 +8,19 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
         @auth_hash = {
           uid: auth_hash.uid,
           access_token: auth_hash.credentials.token,
-          expires_at: Time.now + 5.days
+          expires_at: expires_at
         }
         render :callback, layout: false
       end
     }
   end
 
-  [:producthunt, :meetup, :stackexchange, :linkedin, :google_oauth2].each do |provider|
+  [
+    :producthunt,
+    :meetup, :stackexchange,
+    :linkedin,
+    :google
+  ].each do |provider|
     provides_callback_for provider
   end
 
@@ -52,6 +57,15 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   private
+
+  def expires_at
+    return Time.at(auth_hash.credentials.expires_at).utc if expires?
+    Time.now + 5.days
+  end
+
+  def expires?
+    auth_hash.credentials.expires
+  end
 
   def auth_hash
     request.env['omniauth.auth']

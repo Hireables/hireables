@@ -65,7 +65,7 @@ gem 'carrierwave', git: 'https://github.com/carrierwaveuploader/carrierwave.git'
 gem 'omniauth-producthunt', git: 'https://github.com/gauravtiwari/omniauth-producthunt.git'
 gem 'omniauth-meetup'
 gem 'omniauth-stackexchange', git: 'https://github.com/gauravtiwari/omniauth-stackexchange.git'
-gem 'omniauth-linkedin-oauth2'
+gem 'omniauth-linkedin-oauth2', git: 'https://github.com/decioferreira/omniauth-linkedin-oauth2'
 gem 'omniauth-google-oauth2'
 
 group :production do
