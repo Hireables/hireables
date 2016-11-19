@@ -15,7 +15,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     )
   end
 
-  [:producthunt, :meetup].each do |provider|
+  [:producthunt, :meetup, :stackexchange].each do |provider|
     provides_callback_for provider
   end
 

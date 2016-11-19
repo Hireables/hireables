@@ -241,6 +241,7 @@ Devise.setup do |config|
   config.omniauth :github, ENV['GITHUB_KEY'], ENV['GITHUB_SECRET'], scope: 'user, public_repo, read:org'
   config.omniauth :producthunt, ENV['PRODUCTHUNT_API_KEY'], ENV['PRODUCTHUNT_API_SECRET'], callback_url: 'http://hireables.dev/developers/auth/producthunt/callback'
   config.omniauth :meetup, ENV['MEETUP_API_KEY'], ENV['MEETUP_API_SECRET'], callback_url: 'http://hireables.dev/developers/auth/meetup/callback'
+  config.omniauth :stackexchange, ENV['STACKOVERFLOW_CLIENT_ID'], ENV['STACKOVERFLOW_CLIENT_SECRET'], public_key: ENV['STACKOVERFLOW_CLIENT_KEY'], callback_url: 'http://hireables.dev/developers/auth/stackexchange/callback'
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or

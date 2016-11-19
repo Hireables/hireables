@@ -14,6 +14,14 @@ GIT
     omniauth-producthunt (0.0.2)
       omniauth-oauth2
 
+GIT
+  remote: https://github.com/gauravtiwari/omniauth-stackexchange.git
+  revision: 2898ce04a32064cba65ec25674ea5f9d074aec1c
+  specs:
+    omniauth-stackexchange (0.2.1)
+      omniauth (~> 1.0)
+      omniauth-oauth2 (~> 1.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -289,6 +297,7 @@ DEPENDENCIES
   omniauth-github
   omniauth-meetup
   omniauth-producthunt!
+  omniauth-stackexchange!
   pg
   puma
   que
