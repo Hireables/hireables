@@ -24,11 +24,18 @@ GIT
 
 GIT
   remote: https://github.com/gauravtiwari/omniauth-stackexchange.git
-  revision: 2898ce04a32064cba65ec25674ea5f9d074aec1c
+  revision: 8c654ddec8068af38f7423f3b64c30e96df8775c
   specs:
-    omniauth-stackexchange (0.2.1)
+    omniauth-stackexchange (0.2.2)
       omniauth (~> 1.0)
       omniauth-oauth2 (~> 1.0)
+
+GIT
+  remote: https://github.com/romanbsd/heroku-deflater.git
+  revision: 60d92ba0f8ae2b51b9496ffba85d0d73f0071b9f
+  specs:
+    heroku-deflater (0.6.2)
+      rack (>= 1.4.5)
 
 GEM
   remote: https://rubygems.org/
@@ -122,8 +129,6 @@ GEM
       rails
     graphql (1.2.4)
     hashie (3.4.6)
-    heroku-deflater (0.6.2)
-      rack (>= 1.4.5)
     http-cookie (1.0.3)
       domain_name (~> 0.5)
     i18n (0.7.0)
@@ -304,7 +309,7 @@ DEPENDENCIES
   foreman
   graphiql-rails
   graphql
-  heroku-deflater
+  heroku-deflater!
   js-routes
   jwt
   mailgun_rails

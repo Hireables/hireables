@@ -71,7 +71,7 @@ gem 'omniauth-google-oauth2'
 group :production do
   gem 'rails_12factor'
   gem 'sentry-raven'
-  gem 'heroku-deflater'
+  gem 'heroku-deflater', git: 'https://github.com/romanbsd/heroku-deflater.git'
   gem 'puma_worker_killer'
   gem 'newrelic_rpm'
 end
