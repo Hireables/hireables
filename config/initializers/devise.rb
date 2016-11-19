@@ -242,6 +242,12 @@ Devise.setup do |config|
   config.omniauth :producthunt, ENV['PRODUCTHUNT_API_KEY'], ENV['PRODUCTHUNT_API_SECRET'], callback_url: 'http://hireables.dev/developers/auth/producthunt/callback'
   config.omniauth :meetup, ENV['MEETUP_API_KEY'], ENV['MEETUP_API_SECRET'], callback_url: 'http://hireables.dev/developers/auth/meetup/callback'
   config.omniauth :stackexchange, ENV['STACKOVERFLOW_CLIENT_ID'], ENV['STACKOVERFLOW_CLIENT_SECRET'], public_key: ENV['STACKOVERFLOW_CLIENT_KEY'], callback_url: 'http://hireables.dev/developers/auth/stackexchange/callback'
+  config.omniauth :linkedin, ENV['LINKEDIN_CLIENT_ID'], ENV['LINKEDIN_CLIENT_SECRET']
+  config.omniauth :google_oauth2, ENV['GOOGLE_CLIENT_ID'], ENV['GOOGLE_CLIENT_SECRET'], {
+    name: 'google',
+    scope: "email, profile, //gdata.youtube.com",
+    prompt: 'select_account'
+  }
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
