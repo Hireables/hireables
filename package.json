@@ -46,6 +46,7 @@
     "material-ui": "^0.16.4",
     "moment": "^2.14.1",
     "node-sass": "^3.12.5",
+    "promise-window": "^1.1.0",
     "query-string": "^4.2.3",
     "react": "^15.4.0",
     "react-dom": "^15.4.0",

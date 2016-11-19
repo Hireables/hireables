@@ -3290,6 +3290,10 @@ progress@^1.1.8:
   version "1.1.8"
   resolved "https://registry.yarnpkg.com/progress/-/progress-1.1.8.tgz#e260c78f6161cdd9b0e56cc3e0a85de17c7a57be"
 
+promise-window@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/promise-window/-/promise-window-1.1.0.tgz#43e5f7439bda006997e006bb87cf75c2ccf15e5b"
+
 promise@^7.1.1:
   version "7.1.1"
   resolved "https://registry.yarnpkg.com/promise/-/promise-7.1.1.tgz#489654c692616b8aa55b0724fa809bb7db49c5bf"
