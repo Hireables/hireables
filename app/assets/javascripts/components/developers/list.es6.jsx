@@ -10,13 +10,22 @@ import { List } from 'material-ui/List';
 import {
   Card,
   CardText,
+  CardTitle,
 } from 'material-ui/Card';
+import Toggle from 'material-ui/Toggle';
 
 // Local components
 import Developer from './item.es6';
 import Pagination from '../pagination.es6';
 import EmptyList from '../shared/emptyList.es6';
 import muiTheme from '../theme.es6';
+
+const cardTitleStyle = {
+  padding: '8px 16px 8px',
+  backgroundColor: '#f5f5f5',
+  borderBottom: '1px solid #d8d8d8',
+  marginBottom: 20,
+};
 
 class DevelopersList extends Component {
   static visitPage(page) {
@@ -33,6 +42,8 @@ class DevelopersList extends Component {
     super(props);
     this.loadNext = this.loadNext.bind(this);
     this.loadPrevious = this.loadPrevious.bind(this);
+    this.toggleHireables = this.toggleHireables.bind(this);
+    this.state = { developers: props.root.developers.edges || [] };
 
     this.queryObject = _.pick(
       queryString.parse(document.location.search),
@@ -63,8 +74,19 @@ class DevelopersList extends Component {
     DevelopersList.visitPage(newPage);
   }
 
+  toggleHireables(event, toggled) {
+    if (toggled) {
+      const hireables = this.state.developers.filter(({ node }) => (node.hireable));
+      this.setState({ developers: hireables });
+    } else {
+      this.setState({ developers: this.props.root.developers.edges });
+    }
+  }
+
   render() {
+    const { developers } = this.state;
     const { root, signedIn } = this.props;
+
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
         <Card
@@ -77,10 +99,29 @@ class DevelopersList extends Component {
             borderRadius: 0,
           }}
         >
+          <CardTitle
+            className="card-title"
+            style={cardTitleStyle}
+            titleStyle={{
+              color: '#333',
+              fontSize: 18,
+              fontWeight: 400,
+            }}
+          >
+            Result
+
+            <Toggle
+              label="Hireables"
+              className="pull-right"
+              onToggle={this.toggleHireables}
+              style={{ width: 'auto', display: 'inline-block' }}
+            />
+          </CardTitle>
+
           <CardText style={{ padding: 0, overflow: 'hidden' }}>
-            {root.developers.edges && root.developers.edges.length > 0 ?
+            {developers.length > 0 ?
               <List style={{ paddingTop: 0, paddingBottom: 0 }}>
-                {root.developers.edges.map(({ node }) => (
+                {developers.map(({ node }) => (
                   <Developer
                     developer={node}
                     key={node.id}
@@ -138,6 +179,7 @@ const DevelopersListContainer = Relay.createContainer(DevelopersList, {
             node {
               id,
               premium,
+              hireable,
               ${Developer.getFragment('developer')}
             }
           }
