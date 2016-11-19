@@ -32,10 +32,6 @@
   </head>
 
   <body class="application <%= user_signed_in? ? 'authenticated' : 'guest'%>">
-    <% if developer_signed_in? %>
-      <%= render partial: 'layouts/api_keys' %>
-    <% end %>
-
     <%= react_component 'NavBar', nil, { authenticated: signed_in?, current_user: { name: current_user.try(:name), email: current_user.try(:email), avatar_url: current_user.try(:avatar_url, :thumb), login:  current_user.try(:login), type: current_user.try(:class).try(:name).try(:downcase) } }.to_json %>
 
     <div class="content">

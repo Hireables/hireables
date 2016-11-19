@@ -18,6 +18,7 @@ DeveloperType = GraphQL::ObjectType.define do
   field :location, types.String, 'The location of this developer'
   field :blog, types.String, 'The blog website of this developer'
   field :html_url, types.String, 'The github url of this developer'
+  field :linkedin, types.String, 'The linkedin profile url of this developer'
   field :followers, types.Int, 'The followers of this developer'
   field :public_gists, types.Int, 'The gists of this developer'
   field :public_repos, types.Int, 'The repos of this developer'

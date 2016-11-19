@@ -774,6 +774,20 @@
               "deprecationReason": null
             },
             {
+              "name": "linkedin",
+              "description": "The linkedin profile url of this developer",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "location",
               "description": "The location of this developer",
               "args": [
