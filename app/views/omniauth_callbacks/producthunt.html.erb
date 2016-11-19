@@ -1,7 +1,0 @@
-<script type="text/javascript">
-  /* global window */
-  window.opener.postMessage(
-    { auth: '<%= raw @auth_hash.to_json %>' },
-    '<%= root_url %>'
-  );
-</script>

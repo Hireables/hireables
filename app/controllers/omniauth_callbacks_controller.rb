@@ -2,22 +2,21 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   before_action :failure, if: :malformed_auth?
   include Devise::Controllers::Rememberable
 
-  def producthunt
-    @auth_hash = {
-      uid: auth_hash.uid,
-      access_token: auth_hash.credentials.token,
-      expires_at: Time.now + 5.days
-    }
-    render layout: false
+  def self.provides_callback_for(provider)
+    class_eval %(
+      def #{provider}
+        @auth_hash = {
+          uid: auth_hash.uid,
+          access_token: auth_hash.credentials.token,
+          expires_at: Time.now + 5.days
+        }
+        render :callback layout: false
+      end
+    )
   end
 
-  def meetup
-    @auth_hash = {
-      uid: auth_hash.uid,
-      access_token: auth_hash.credentials.token,
-      expires_at: Time.now + 5.days
-    }
-    render layout: false
+  [:producthunt, :meetup].each do |provider|
+    provides_callback_for provider
   end
 
   def github
@@ -59,6 +58,6 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def malformed_auth?
-    auth_hash.nil? || auth_hash[:info].nil?
+    auth_hash.nil? || auth_hash.credentials.nil?
   end
 end

@@ -1,0 +1,10 @@
+<% if @auth_hash.credentials.access_token.present? %>
+  <% auth_json = raw @auth_hash.to_json %>
+  <% javascript_tag %>
+    window.opener.postMessage({ auth: '<%= auth_json %>' }, '<%= root_url %>');
+  <% end %>
+<% else %>
+  <% javascript_tag %>
+    window.opener.postMessage({ error: 'failed' }, '<%= root_url %>');
+  <% end %>
+<% end %>
