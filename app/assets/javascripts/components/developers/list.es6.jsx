@@ -21,9 +21,8 @@ import EmptyList from '../shared/emptyList.es6';
 import muiTheme from '../theme.es6';
 
 const cardTitleStyle = {
-  padding: '8px 16px 8px',
+  padding: '16px 16px',
   backgroundColor: '#f5f5f5',
-  borderBottom: '1px solid #d8d8d8',
   marginBottom: 20,
 };
 

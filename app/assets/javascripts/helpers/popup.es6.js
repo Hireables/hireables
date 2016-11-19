@@ -5,6 +5,14 @@ const popup = (linkUrl) => {
   const promiseWindow = new PromiseWindow(linkUrl, {
     width: Math.floor(window.outerWidth * 0.8),
     height: Math.floor(window.outerHeight * 0.5),
+    window: {
+      toolbar: 'no',
+      scrollbars: 'yes',
+      status: 'yes',
+      resizable: 'yes',
+      location: 'yes',
+      menuBar: 'no',
+    },
   });
 
   const timeout = window.setTimeout(() => { promiseWindow.close(); }, 30000);
