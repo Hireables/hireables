@@ -33,7 +33,7 @@ module Linkedin
   end
 
   def developer_has_no_linkedin?
-    developer.linkedin.nil?
+    developer.linkedin.nil? || developer.linkedin.empty?
   end
 
   def linkedin_connected?
