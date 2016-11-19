@@ -6,8 +6,10 @@ class FileUploadResolver
   end
 
   def initialize(_obj, inputs, ctx)
-    raise StandardError,
-          'You are not logged in' unless ctx[:current_employer].present?
+    unless ctx[:current_employer].present?
+      raise StandardError,
+            'You are not logged in'
+    end
     @user = ctx[:current_employer]
     @file = ctx[:file]
     @record = Schema.object_from_id(inputs['id'], ctx)

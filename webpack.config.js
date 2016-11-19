@@ -66,7 +66,6 @@ var defaults = {
   },
   module: {
     loaders: [
-
       // For react-rails we need to expose these deps to global object
       {
         test: /\.jsx?$/,
@@ -81,6 +80,7 @@ var defaults = {
         test: /\.sass$/,
         loaders: ['style', 'css', 'sass'],
       },
+      { test: /\.json$/, loader: 'json-loader' },
       { test: require.resolve('react'), loader: 'expose?React' },
       { test: require.resolve('jquery'), loader: 'expose?$!expose?jQuery' },
       { test: require.resolve('react-dom'), loader: 'expose?ReactDOM' },

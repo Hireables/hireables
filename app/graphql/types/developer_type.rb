@@ -1,4 +1,3 @@
-# rubocop:disable Metrics/BlockLength
 DeveloperType = GraphQL::ObjectType.define do
   name 'Developer'
   description 'Fetch developer associated fields'
@@ -6,7 +5,7 @@ DeveloperType = GraphQL::ObjectType.define do
   global_id_field :id
 
   field :database_id, types.Int, 'The database id of this developer' do
-    resolve -> (obj, _args, _ctx) { obj.id }
+    resolve ->(obj, _args, _ctx) { obj.id }
   end
 
   # About
@@ -19,113 +18,137 @@ DeveloperType = GraphQL::ObjectType.define do
   field :location, types.String, 'The location of this developer'
   field :blog, types.String, 'The blog website of this developer'
   field :html_url, types.String, 'The github url of this developer'
+  field :linkedin, types.String, 'The linkedin profile url of this developer'
   field :followers, types.Int, 'The followers of this developer'
   field :public_gists, types.Int, 'The gists of this developer'
   field :public_repos, types.Int, 'The repos of this developer'
 
   field :favourited, types.Boolean do
     description 'Is developer favourited by current employer?'
-    resolve -> (obj, _args, ctx) { favourited?(obj, ctx) }
+    resolve ->(obj, _args, ctx) { favourited?(obj, ctx) }
+  end
+
+  field :is_owner, types.Boolean do
+    description 'Is current user owner?'
+    resolve ->(obj, _args, ctx) do
+      ctx[:current_developer].present? &&
+        ctx[:current_developer].id == obj.id
+    end
+  end
+
+  connection :achievements, ImportType.connection_type do
+    description 'Achievement connection to fetch paginated achievements.'
+    resolve ->(obj, _args, _ctx) { resolve_achievements(obj) }
+  end
+
+  field :connections, types[ConnectionType] do
+    description 'Developer current connections'
+    resolve ->(obj, _args, _ctx) { resolve_connections(obj) }
   end
 
   field :premium, types.Boolean do
     description 'Is it premium profile?'
-    resolve(DeveloperCustomFieldResolver.new(:premium, :boolean))
+    resolve(Developers::CustomFieldResolver.new(:premium, :boolean))
   end
 
-  field :platforms, types[types.String] do
-    description 'Languages or platforms interested in'
-    resolve -> (obj, _args, ctx) { resolve_platforms(obj, ctx) }
-  end
-
-  field :linkedin, types.String do
-    description 'Linkedin profile'
-    resolve(DeveloperCustomFieldResolver.new(:linkedin, :string))
+  field :languages, types[types.String] do
+    description 'Languages works with'
+    resolve ->(obj, _args, ctx) { resolve_languages(obj, ctx) }
   end
 
   # Availability
   field :hireable, types.Boolean do
     description 'Is developer hireable?'
-    resolve -> (obj, _args, _ctx) { obj.hireable.nil? ? false : obj.hireable }
+    resolve ->(obj, _args, _ctx) { obj.hireable.nil? ? false : obj.hireable }
   end
 
   # Preferences
   field :remote, types.Boolean do
     description 'Prefer remote?'
-    resolve(DeveloperCustomFieldResolver.new(:remote, :boolean))
+    resolve(Developers::CustomFieldResolver.new(:remote, :boolean))
   end
 
   field :relocate, types.Boolean do
     description 'Can relocate?'
-    resolve(DeveloperCustomFieldResolver.new(:relocate, :boolean))
+    resolve(Developers::CustomFieldResolver.new(:relocate, :boolean))
   end
 
   # Job types
   field :full_time, types.Boolean do
     description 'Full-Time work'
-    resolve(DeveloperCustomFieldResolver.new(:full_time, :boolean))
+    resolve(Developers::CustomFieldResolver.new(:full_time, :boolean))
   end
 
   field :part_time, types.Boolean do
     description 'Part-Time work'
-    resolve(DeveloperCustomFieldResolver.new(:part_time, :boolean))
+    resolve(Developers::CustomFieldResolver.new(:part_time, :boolean))
   end
 
   field :contract, types.Boolean do
     description 'Contract work'
-    resolve(DeveloperCustomFieldResolver.new(:contract, :boolean))
+    resolve(Developers::CustomFieldResolver.new(:contract, :boolean))
   end
 
   field :freelance, types.Boolean do
     description 'Freelance work'
-    resolve(DeveloperCustomFieldResolver.new(:freelance, :boolean))
+    resolve(Developers::CustomFieldResolver.new(:freelance, :boolean))
   end
 
   field :internship, types.Boolean do
     description 'Internship work'
-    resolve(DeveloperCustomFieldResolver.new(:internship, :boolean))
+    resolve(Developers::CustomFieldResolver.new(:internship, :boolean))
   end
 
   field :startup, types.Boolean do
     description 'Startup work'
-    resolve(DeveloperCustomFieldResolver.new(:startup, :boolean))
+    resolve(Developers::CustomFieldResolver.new(:startup, :boolean))
   end
 
   # Levels
   field :cto, types.Boolean do
     description 'CTO level'
-    resolve(DeveloperCustomFieldResolver.new(:cto, :boolean))
+    resolve(Developers::CustomFieldResolver.new(:cto, :boolean))
   end
 
   field :lead, types.Boolean do
     description 'Lead level'
-    resolve(DeveloperCustomFieldResolver.new(:lead, :boolean))
+    resolve(Developers::CustomFieldResolver.new(:lead, :boolean))
   end
 
   field :senior, types.Boolean do
     description 'Senior level'
-    resolve(DeveloperCustomFieldResolver.new(:senior, :boolean))
+    resolve(Developers::CustomFieldResolver.new(:senior, :boolean))
   end
 
   field :mid, types.Boolean do
     description 'Mid-level level'
-    resolve(DeveloperCustomFieldResolver.new(:mid, :boolean))
+    resolve(Developers::CustomFieldResolver.new(:mid, :boolean))
   end
 
   field :junior, types.Boolean do
     description 'Junior level'
-    resolve(DeveloperCustomFieldResolver.new(:junior, :boolean))
+    resolve(Developers::CustomFieldResolver.new(:junior, :boolean))
   end
 
   field :student, types.Boolean do
     description 'Student level'
-    resolve(DeveloperCustomFieldResolver.new(:student, :boolean))
+    resolve(Developers::CustomFieldResolver.new(:student, :boolean))
   end
 
   field :orgs, types[OrgType] do
     description 'Repo connection to fetch developer orgs.'
-    resolve -> (obj, _args, ctx) { resolve_orgs(obj, ctx) }
+    resolve ->(obj, _args, ctx) { resolve_orgs(obj, ctx) }
   end
+end
+
+def resolve_achievements(obj)
+  return [] if obj.achievements.nil?
+  obj.achievements.order(created_at: :desc)
+end
+
+def resolve_connections(obj)
+  return [] if obj.connections.nil?
+  obj.connections.order(id: :asc)
 end
 
 def favourited?(obj, ctx)
@@ -133,12 +156,23 @@ def favourited?(obj, ctx)
 end
 
 def resolve_orgs(obj, ctx)
-  api = Github::Api.new(ctx[:current_user].try(:access_token))
-  api.fetch_developer_orgs(obj.login)
+  github_api(ctx).fetch_developer_orgs(obj.login)
 end
 
-def resolve_platforms(obj, ctx)
-  return obj.platforms unless obj.platforms.nil?
-  api = Github::Api.new(ctx[:current_user].try(:access_token))
-  api.fetch_developer_languages(obj.login)
+def resolve_languages(obj, ctx)
+  return obj.languages unless obj.languages.nil?
+  languages = github_api(ctx).fetch_developer_languages(obj.login)
+  languages.nil? ? [] : languages
+end
+
+def github_api(ctx)
+  @github_api ||= Github::Api.new(token(ctx))
+end
+
+def token(ctx)
+  @token ||= if ctx[:current_developer].present?
+               ctx[:current_developer].github_access_token
+             elsif ctx[:current_employer].present?
+               ctx[:current_employer].try(:access_token)
+             end
 end

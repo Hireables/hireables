@@ -4,16 +4,16 @@ class Employer < ApplicationRecord
   devise :database_authenticatable, :registerable, :recoverable,
          :rememberable, :trackable, :validatable
 
-  store :preferences, accessors: [:language, :location], coder: JSON
+  store_accessor :preferences, :language, :location, :type
 
-  validates_presence_of :name, :company, :website, :login, :location
+  validates_presence_of :name, :company, :website, :login, :preferences
   validates_uniqueness_of :login
   validate :website_url_format, unless: :url_valid?
 
   before_validation :add_login, unless: :login_present?
   after_commit :notify_admin!, on: :create
 
-  has_many :favourites
+  has_many :favourites, dependent: :destroy
   set :favourited_developers
 
   mount_uploader :avatar, ImageUploader
@@ -77,9 +77,8 @@ class Employer < ApplicationRecord
   end
 
   def notify_admin!
-    AdminMailerWorker.perform_async(
-      self.class.name, id
-    ) if Rails.env.production?
+    return unless Rails.env.production?
+    AdminMailerJob.enqueue(self.class.name, id)
   end
 
   def website_url_format

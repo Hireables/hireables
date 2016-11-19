@@ -5,7 +5,8 @@ import Relay from 'react-relay';
 import Formsy from 'formsy-react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
-import { FormsyText } from 'formsy-material-ui/lib';
+import { FormsyText, FormsySelect } from 'formsy-material-ui/lib';
+import MenuItem from 'material-ui/MenuItem';
 import ActionDelete from 'material-ui/svg-icons/action/delete';
 import {
   Card,
@@ -19,7 +20,7 @@ import muiTheme from '../theme.es6';
 import UpdateEmployer from '../../mutations/employer/updateEmployer.es6';
 
 const cardTitleStyle = {
-  padding: '8px 16px 8px',
+  padding: '8px 16px',
   backgroundColor: '#f5f5f5',
   borderBottom: '1px solid #d8d8d8',
 };
@@ -50,6 +51,7 @@ class EmployerEdit extends Component {
       canSubmit: false,
       suggesting: false,
       notification: '',
+      selectedType: this.props.employer.type,
       selectedLocation: this.props.employer.location,
     };
   }
@@ -175,7 +177,7 @@ class EmployerEdit extends Component {
       <MuiThemeProvider muiTheme={muiTheme}>
         <Card
           className="card"
-          style={{ border: '1px solid #d8d8d8' }}
+          style={{ border: '5px solid #f2f2f2' }}
         >
           <CardTitle
             title="Update your profile"
@@ -187,7 +189,7 @@ class EmployerEdit extends Component {
             }}
           />
 
-          <CardText>
+          <CardText style={{ padding: '16px 16px 0', fontSize: 16 }}>
             <div className="form registration">
               <Formsy.Form
                 method="post"
@@ -234,6 +236,20 @@ class EmployerEdit extends Component {
                         isUrl: 'Invalid website url',
                       }}
                     />
+                  </div>
+
+                  <div className="field">
+                    <FormsySelect
+                      id="text-field-default"
+                      name="type"
+                      floatingLabelText="Employer type *"
+                      value={this.state.selectedType}
+                      required
+                    >
+                      <MenuItem value={'Recruiter'} primaryText="Recruiter" />
+                      <MenuItem value={'Company'} primaryText="Company" />
+                      <MenuItem value={'Startup'} primaryText="Startup" />
+                    </FormsySelect>
                   </div>
 
                   <div className="field">
@@ -320,12 +336,20 @@ class EmployerEdit extends Component {
                   />
 
                   <RaisedButton
+                    label="Back"
+                    primary
+                    style={{ marginLeft: 10 }}
+                    type="submit"
+                    href={Routes.root_path()}
+                  />
+
+                  <RaisedButton
                     label="Delete account"
                     secondary
                     icon={<ActionDelete />}
                     data-method="delete"
                     data-confirm="This will completely delete your account. Okay?"
-                    className="edit-link pull-right"
+                    className="delete-link pull-right"
                     href={Routes.cancel_employer_registration_path()}
                   />
                 </div>
@@ -363,6 +387,7 @@ const EmployerEditContainer = Relay.createContainer(EmployerEdit, {
         company,
         website,
         location,
+        type,
         email,
       }
     `,

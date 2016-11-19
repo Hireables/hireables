@@ -1,24 +1,20 @@
 class Authenticator
-  attr_reader :auth, :developer
+  attr_reader :auth
 
   def self.call(*args)
-    new(*args).find_or_create_from_omniauth
+    new(*args).find_or_create_from_oauth
   end
 
   def initialize(auth)
     @auth = auth
-    @developer = Developer.where(
-      uid: auth.uid,
-      provider: auth.provider
-    ).first
   end
 
-  def find_or_create_from_omniauth
-    if developer.nil?
-      create_from_omniauth
-    else
-      developer.update!(access_token: auth.credentials.token)
-      developer
+  def find_or_create_from_oauth
+    ActiveRecord::Base.transaction do
+      @connection = Connection.where(connection_attrs).first_or_create
+      @connection.developer = create_from_oauth if @connection.developer_id.nil?
+      @connection.access_token = auth.credentials.token
+      @connection.developer if @connection.save!
     end
   end
 
@@ -26,20 +22,25 @@ class Authenticator
 
   # rubocop:disable Metrics/MethodLength
   # rubocop:disable Metrics/AbcSize
-  def create_from_omniauth
-    Developer.create!(
+  def create_from_oauth
+    Developer.new(
       email: auth.info.email,
       bio: auth.extra.raw_info.bio,
       password: Devise.friendly_token[0, 20],
       name: auth.info.name,
-      uid: auth.uid,
       login: auth.info.nickname,
       remote_avatar_url: auth.extra.raw_info.avatar_url,
       location: auth.extra.raw_info.location,
-      provider: auth.provider,
       hireable: (auth.extra.raw_info.hireable.nil? ? false : true),
-      access_token: auth.credentials.token,
+      blog: auth.extra.raw_info.blog,
       data: auth.extra.raw_info
     )
+  end
+
+  def connection_attrs
+    {
+      uid: auth.uid,
+      provider: auth.provider
+    }
   end
 end

@@ -1,11 +1,34 @@
 GIT
   remote: https://github.com/carrierwaveuploader/carrierwave.git
-  revision: ec850831eeaf0f2f45c002bcec9b90698b78d0d8
+  revision: 237328dbcbd5a18f5c737fb1c7e9197e8c118c31
   specs:
-    carrierwave (1.0.0.beta)
+    carrierwave (1.0.0.rc)
       activemodel (>= 4.0.0)
       activesupport (>= 4.0.0)
       mime-types (>= 1.16)
+
+GIT
+  remote: https://github.com/decioferreira/omniauth-linkedin-oauth2
+  revision: c7422a87ce5ab441c33ecd6bf52594857667b074
+  specs:
+    omniauth-linkedin-oauth2 (0.1.5)
+      omniauth (~> 1.0)
+      omniauth-oauth2
+
+GIT
+  remote: https://github.com/gauravtiwari/omniauth-producthunt.git
+  revision: 54967389ca51826aae63eeda120e52f1ee3ca53b
+  specs:
+    omniauth-producthunt (0.0.2)
+      omniauth-oauth2
+
+GIT
+  remote: https://github.com/gauravtiwari/omniauth-stackexchange.git
+  revision: 2898ce04a32064cba65ec25674ea5f9d074aec1c
+  specs:
+    omniauth-stackexchange (0.2.1)
+      omniauth (~> 1.0)
+      omniauth-oauth2 (~> 1.0)
 
 GEM
   remote: https://rubygems.org/
@@ -47,13 +70,14 @@ GEM
       i18n (~> 0.7)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
-    addressable (2.4.0)
+    addressable (2.5.0)
+      public_suffix (~> 2.0, >= 2.0.2)
     arel (7.1.4)
     ast (2.3.0)
     bcrypt (3.1.11)
     builder (3.2.2)
     concurrent-ruby (1.0.2)
-    connection_pool (2.2.0)
+    connection_pool (2.2.1)
     dalli (2.7.6)
     devise (4.2.0)
       bcrypt (~> 3.0)
@@ -93,9 +117,9 @@ GEM
     formatador (0.2.5)
     globalid (0.3.7)
       activesupport (>= 4.1.0)
-    graphiql-rails (1.3.0)
+    graphiql-rails (1.4.0)
       rails
-    graphql (1.0.0)
+    graphql (1.2.4)
     hashie (3.4.6)
     heroku-deflater (0.6.2)
       rack (>= 1.4.5)
@@ -127,7 +151,7 @@ GEM
     multi_xml (0.5.5)
     multipart-post (2.0.0)
     netrc (0.11.0)
-    newrelic_rpm (3.17.0.325)
+    newrelic_rpm (3.17.1.326)
     nio4r (1.2.1)
     nokogiri (1.6.8.1)
       mini_portile2 (~> 2.1.0)
@@ -137,31 +161,37 @@ GEM
       multi_json (~> 1.3)
       multi_xml (~> 0.5)
       rack (>= 1.2, < 3)
-    octokit (4.4.1)
-      sawyer (~> 0.7.0, >= 0.5.3)
+    octokit (4.6.1)
+      sawyer (~> 0.8.0, >= 0.5.3)
     omniauth (1.3.1)
       hashie (>= 1.2, < 4)
       rack (>= 1.0, < 3)
     omniauth-github (1.1.2)
       omniauth (~> 1.0)
       omniauth-oauth2 (~> 1.1)
+    omniauth-google-oauth2 (0.4.1)
+      jwt (~> 1.5.2)
+      multi_json (~> 1.3)
+      omniauth (>= 1.1.1)
+      omniauth-oauth2 (>= 1.3.1)
+    omniauth-meetup (0.0.8)
+      omniauth (~> 1.0)
+      omniauth-oauth2 (~> 1.0)
     omniauth-oauth2 (1.4.0)
       oauth2 (~> 1.0)
       omniauth (~> 1.2)
     orm_adapter (0.5.0)
     parser (2.3.1.4)
       ast (~> 2.2)
-    passenger (5.0.30)
-      rack
-      rake (>= 0.8.1)
     pg (0.19.0)
     powerpack (0.1.1)
+    public_suffix (2.0.4)
+    puma (3.6.0)
+    que (0.12.0)
     rack (2.0.1)
     rack-attack (5.0.1)
       rack
     rack-cors (0.4.0)
-    rack-protection (1.5.3)
-      rack
     rack-test (0.6.3)
       rack (>= 1.0)
     rails (5.0.0.1)
@@ -194,7 +224,7 @@ GEM
       thor (>= 0.18.1, < 2.0)
     rainbow (2.1.0)
     rake (11.3.0)
-    redis (3.3.1)
+    redis (3.3.2)
     redis-namespace (1.5.2)
       redis (~> 3.0, >= 3.0.4)
     redis-objects (1.2.1)
@@ -205,7 +235,7 @@ GEM
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 4.0)
       netrc (~> 0.8)
-    rubocop (0.44.1)
+    rubocop (0.45.0)
       parser (>= 2.3.1.1, < 3.0)
       powerpack (~> 0.1)
       rainbow (>= 1.99.1, < 3.0)
@@ -219,16 +249,11 @@ GEM
       sprockets (>= 2.8, < 4.0)
       sprockets-rails (>= 2.0, < 4.0)
       tilt (>= 1.1, < 3)
-    sawyer (0.7.0)
-      addressable (>= 2.3.5, < 2.5)
-      faraday (~> 0.8, < 0.10)
-    sentry-raven (2.1.2)
+    sawyer (0.8.1)
+      addressable (>= 2.3.5, < 2.6)
+      faraday (~> 0.8, < 1.0)
+    sentry-raven (2.1.4)
       faraday (>= 0.7.6, < 0.10.x)
-    sidekiq (4.2.3)
-      concurrent-ruby (~> 1.0)
-      connection_pool (~> 2.2, >= 2.2.0)
-      rack-protection (>= 1.5.0)
-      redis (~> 3.2, >= 3.2.1)
     spring (2.0.0)
       activesupport (>= 4.2)
     sprockets (3.7.0)
@@ -259,6 +284,7 @@ GEM
     websocket-driver (0.6.4)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.2)
+    wisper (1.6.1)
 
 PLATFORMS
   ruby
@@ -268,6 +294,7 @@ DEPENDENCIES
   connection_pool
   dalli
   devise
+  faraday
   figaro
   fog-aws
   foreman
@@ -281,8 +308,14 @@ DEPENDENCIES
   newrelic_rpm
   octokit
   omniauth-github
-  passenger
+  omniauth-google-oauth2
+  omniauth-linkedin-oauth2!
+  omniauth-meetup
+  omniauth-producthunt!
+  omniauth-stackexchange!
   pg
+  puma
+  que
   rack-attack
   rack-cors
   rails (>= 5.0.x)
@@ -292,11 +325,11 @@ DEPENDENCIES
   rubocop
   sass-rails (~> 5.0)
   sentry-raven
-  sidekiq
   spring
   turbolinks (~> 5.0.x)
   typhoeus
   uglifier (>= 1.3.0)
+  wisper
 
 RUBY VERSION
    ruby 2.2.5p319

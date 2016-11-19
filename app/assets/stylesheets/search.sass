@@ -6,6 +6,7 @@
   .search-filters,
   .employer-profile
     width: 30%
+    border: 5px solid #f2f2f2
     float: left
 
     &.sticky
@@ -19,28 +20,44 @@
 
   .search-results,
   .employer-favourites
-    width: 68%
+    width: 66%
     float: right
 
 @media(max-width: 980px)
-  .search-wrapper
-    .search-filters, .search-results
+  .search-wrapper,
+  .employers-show-wrapper
+    margin: 5px 0
+
+    .search-filters,
+    .search-results,
+    .employer-profile,
+    .employer-favourites
       width: 100%
       float: none
+      border: none!important
 
-    .search-results
-      margin-top: 40px
+    .search-results,
+    .employer-favourites
+      margin-top: 20px
+
+      .card-title
+        margin-bottom: 0!important
 
 @media(max-width: 500px)
-  .search-wrapper
+  .search-wrapper,
+  .employers-show-wrapper
     margin: 0
 
-    .search-filters, .search-results
+    .search-filters,
+    .search-results,
+    .employer-profile
+
       width: 100%
       float: none
 
       .search-card-title
         display: none!important
 
-    .search-results
+    .search-results,
+    .employer-favourites
       margin-top: 0

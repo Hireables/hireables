@@ -1,0 +1,47 @@
+.import-container
+  max-width: 100%
+  min-height: auto
+  overflow: hidden
+  border-top: 1px solid #f2f2f2
+
+  .content
+    padding: 0
+    margin: 0
+    overflow-y: scroll
+    max-height: 400px
+    min-height: 350px
+    margin-bottom: 5px
+    display: none
+
+    &.open
+      display: block
+
+    .selection-item
+      display: table
+      width: 100%
+      color: #767676
+      table-layout: fixed
+
+      .title, .meta
+        display: table-cell
+        vertical-align: middle
+
+      .title
+        width: 80%
+
+      .meta
+        width: 20%
+        text-align: right
+        white-space: nowrap
+        font-size: 14px
+
+  .actions
+    padding: 10px 15px
+    background-color: #f2f2f2
+    overflow: hidden
+    position: absolute
+    width: calc(100% - 30px)
+    bottom: 0
+
+    .notification
+      line-height: 36px

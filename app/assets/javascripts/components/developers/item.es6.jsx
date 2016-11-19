@@ -1,4 +1,4 @@
-/* global Routes document $ */
+/* global Routes window document $ */
 
 // Modules
 import React, { Component } from 'react';
@@ -6,7 +6,6 @@ import ReactDOM from 'react-dom';
 import Relay from 'react-relay';
 import { ListItem } from 'material-ui/List';
 import Avatar from 'material-ui/Avatar';
-import { css } from 'aphrodite';
 
 // Child Components
 import Meta from './meta.es6';
@@ -24,7 +23,7 @@ import Actions from './actions.es6';
 import developerRoute from '../../routes/developerRoute.es6';
 
 // StyleSheets
-import badgeStyles from '../styles/badges.es6';
+import '../styles/badges.sass';
 
 // Utils
 import CurrentUser from '../../helpers/currentUser.es6';
@@ -35,6 +34,9 @@ class Developer extends Component {
   constructor(props) {
     super(props);
     this.openPopup = this.openPopup.bind(this);
+    this.prefetch = this.prefetch.bind(this);
+    this.clearPrefetch = this.clearPrefetch.bind(this);
+    this.prefetcher = null;
   }
 
   openPopup() {
@@ -51,6 +53,7 @@ class Developer extends Component {
           if (props) {
             return (
               <ProfilePopup
+                signedIn={this.props.signedIn}
                 {...props}
               />
             );
@@ -64,30 +67,41 @@ class Developer extends Component {
     );
   }
 
+  prefetch() {
+    if (this.prefetcher === null) {
+      this.prefetcher = setTimeout(() => {
+        $.getJSON(`/${this.props.developer.login}`);
+      }, 1000);
+    }
+  }
+
+  clearPrefetch() {
+    window.clearTimeout(this.prefetcher);
+  }
 
   render() {
-    const { developer } = this.props;
+    const { developer, signedIn } = this.props;
 
     return (
       <div
+        onMouseOver={this.prefetch}
+        onMouseLeave={this.clearPrefetch}
+        onClick={this.openPopup}
         className={
           `profile--item ${developer.premium ? 'premium' : ''}`
         }
       >
         <ListItem
+          className="profile--list-item"
           innerDivStyle={{ padding: '30px 10px 16px 125px' }}
-          onClick={this.openPopup}
           leftAvatar={
-            <div className="avatar" style={{ top: 20 }}>
+            <div className="avatar" style={{ top: 20, textAlign: 'center' }}>
               {developer.hireable ?
-                <div
-                  className={
-                    css(
-                      badgeStyles.badge,
-                      badgeStyles.hireable
-                    )
-                  }
-                > H </div> : ''
+                <div className="badge hireable"> H
+                <span className="full">ireable</span></div> :
+                !developer.company ?
+                  <div className="badge hireable maybe"> M
+                  <span className="full">ay be hireable</span></div> : ''
               }
               <Avatar src={developer.avatar_url} size={80} />
               {currentUser.isEmployer ? <Actions developer={developer} /> : ''}
@@ -97,14 +111,24 @@ class Developer extends Component {
           secondaryTextLines={1}
         >
           <Name developer={developer} />
-          <Location developer={developer} />
-          <Company developer={developer} />
+          <div
+            className="company-location"
+            style={{ display: 'flex', marginTop: 5 }}
+          >
+            <Location developer={developer} />
+            <Company developer={developer} />
+          </div>
           <div style={{ position: 'absolute', right: 0, top: '10px' }}>
             <Meta developer={developer} />
           </div>
           <Bio developer={developer} />
-          <Links developer={developer} />
+          <Links developer={developer} signedIn={signedIn} />
           <div className="clearfix" />
+          {developer.premium ?
+            <div className="premium-badge">
+              Premium
+            </div> : ''
+          }
         </ListItem>
       </div>
     );
@@ -113,6 +137,7 @@ class Developer extends Component {
 
 Developer.propTypes = {
   developer: React.PropTypes.object,
+  signedIn: React.PropTypes.bool,
 };
 
 const DeveloperContainer = Relay.createContainer(Developer, {
@@ -124,6 +149,8 @@ const DeveloperContainer = Relay.createContainer(Developer, {
         hireable,
         login,
         premium,
+        email,
+        company,
         ${Name.getFragment('developer')},
         ${Company.getFragment('developer')},
         ${Links.getFragment('developer')},

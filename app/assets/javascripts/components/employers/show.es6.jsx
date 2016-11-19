@@ -7,8 +7,6 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { grey700 } from 'material-ui/styles/colors';
 import createDOMPurify from 'dompurify';
 import IconButton from 'material-ui/IconButton';
-import RaisedButton from 'material-ui/RaisedButton';
-import ActionEdit from 'material-ui/svg-icons/image/edit';
 import ActionCamera from 'material-ui/svg-icons/image/camera-alt';
 
 // Mutations
@@ -26,6 +24,7 @@ class EmployerShow extends Component {
     super(props);
     this.openFileDialog = this.openFileDialog.bind(this);
     this.uploadAvatar = this.uploadAvatar.bind(this);
+    this.state = { uploading: false };
   }
 
   componentDidMount() {
@@ -82,7 +81,7 @@ class EmployerShow extends Component {
       fontWeight: '400',
     };
 
-    const { employer } = this.props;
+    const { employer, signedIn } = this.props;
     const bio = createDOMPurify.sanitize(
       employer.bio,
       { ALLOWED_TAGS: ['b', 'i'] }
@@ -105,6 +104,7 @@ class EmployerShow extends Component {
                     className="avatar"
                     style={{
                       width: 100,
+                      position: 'relative',
                       margin: '0 auto',
                     }}
                   >
@@ -117,11 +117,15 @@ class EmployerShow extends Component {
                         size={100}
                       >{userBadge()}</Avatar>
                     }
-                    <IconButton
-                      onClick={this.openFileDialog}
-                    >
-                      <ActionCamera />
-                    </IconButton>
+
+                    {this.state.uploading ?
+                      <span style={{ marginTop: 5 }}>
+                        Uploading...
+                      </span> :
+                      <IconButton onClick={this.openFileDialog}>
+                        <ActionCamera />
+                      </IconButton>
+                    }
                     <input
                       type="file"
                       ref={node => (this.fileNode = node)}
@@ -172,21 +176,10 @@ class EmployerShow extends Component {
                       </a>
                     </div> : ''
                   }
-
-                  {this.props.can_edit ?
-                    <RaisedButton
-                      label="Edit"
-                      primary
-                      icon={<ActionEdit />}
-                      className="edit-link"
-                      style={{ marginTop: 10 }}
-                      href={Routes.edit_employer_registration_path()}
-                    /> : ''
-                  }
                 </div>
               </div>
               <div className="employer-favourites">
-                <Favourites employer={employer} />
+                <Favourites employer={employer} signedIn={signedIn} />
               </div>
             </div>
           </header>
@@ -198,7 +191,7 @@ class EmployerShow extends Component {
 
 EmployerShow.propTypes = {
   employer: React.PropTypes.object,
-  can_edit: React.PropTypes.bool,
+  signedIn: React.PropTypes.bool,
 };
 
 const EmployerShowContainer = Relay.createContainer(EmployerShow, {

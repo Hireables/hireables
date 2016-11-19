@@ -27,6 +27,12 @@ const Pagination = props => (
         }
         {props.pageInfo != null &&
           props.pageInfo.hasNextPage ?
+            <div className="info">
+              See more hireables on next page
+            </div> : ''
+        }
+        {props.pageInfo != null &&
+          props.pageInfo.hasNextPage ?
             <RaisedButton
               label="Next"
               primary

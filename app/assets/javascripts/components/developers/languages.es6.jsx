@@ -5,14 +5,13 @@
 import React from 'react';
 import Relay from 'react-relay';
 import { css } from 'aphrodite';
-import FontIcon from 'material-ui/FontIcon';
-import Chip from 'material-ui/Chip';
-import Avatar from 'material-ui/Avatar';
 import queryString from 'query-string';
 import _ from 'underscore';
+import Chip from 'material-ui/Chip';
 
 // StyleSheets
-import chipStyles from '../styles/chips.es6';
+import iconStyles from '../styles/icons.es6';
+import LanguageColors from '../../utils/languages.json';
 
 const Languages = (props) => {
   const { developer } = props;
@@ -26,19 +25,36 @@ const Languages = (props) => {
     return queryString.stringify(newQuery);
   };
 
+  const getColor = (language) => {
+    const obj = LanguageColors[language];
+    return obj === undefined ? '#333' : obj;
+  };
+
   return (
     <div className="languages">
-      {developer.platforms.length > 0 ?
-        <div className={css(chipStyles.wrapper)}>
-          <div className="header-separator">Languages and Frameworks</div>
-          {developer.platforms.map(platform => (
+      {developer.languages && developer.languages.length > 0 ?
+        <div
+          className={css(iconStyles.links)}
+          style={{ maxWidth: '90%' }}
+        >
+          <div className="header-separator">Programming Languages</div>
+          {developer.languages.map(platform => (
             <Chip
               key={Math.random()}
-              className={css(chipStyles.chip)}
-              onTouchTap={() => Turbolinks.visit(`/search?${query(platform)}`)}
+              labelStyle={{ fontSize: 14 }}
+              style={{ cursor: 'pointer' }}
+              className={css(iconStyles.linkIcon, iconStyles.hover, iconStyles.bordered)}
+              onClick={() => Turbolinks.visit(`/search?${query(platform)}`)}
             >
-              <Avatar
-                icon={<FontIcon className="material-icons">code</FontIcon>}
+              <span
+                style={{
+                  backgroundColor: getColor(platform),
+                  width: 12,
+                  height: 12,
+                  borderRadius: '50%',
+                  marginRight: 10,
+                  display: 'inline-block',
+                }}
               />
               {platform}
             </Chip>
@@ -57,7 +73,7 @@ const LanguagesContainer = Relay.createContainer(Languages, {
   fragments: {
     developer: () => Relay.QL`
       fragment on Developer {
-        platforms,
+        languages,
       }
     `,
   },

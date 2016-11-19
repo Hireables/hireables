@@ -6,7 +6,7 @@ gem 'rails', '>= 5.0.x'
 gem 'pg'
 
 # Web Server
-gem 'passenger'
+gem 'puma'
 
 # SASS
 gem 'sass-rails', '~> 5.0'
@@ -14,10 +14,11 @@ gem 'uglifier', '>= 1.3.0'
 
 # HTTP requests and caching
 gem 'octokit'
+gem 'faraday'
 gem 'typhoeus'
 
 # Background workers
-gem 'sidekiq'
+gem 'que'
 gem 'connection_pool'
 gem 'redis-namespace'
 gem 'redis-objects'
@@ -36,7 +37,7 @@ gem 'omniauth-github'
 gem 'devise'
 
 # CORS
-gem 'rack-cors', :require => 'rack/cors'
+gem 'rack-cors', require: 'rack/cors'
 
 # Client side routes
 gem 'js-routes'
@@ -56,8 +57,16 @@ gem 'mini_magick'
 # Amazone s3
 gem 'fog-aws'
 
+# Event publishing
+gem 'wisper'
+
 # Simple and extremely flexible way to upload files
 gem 'carrierwave', git: 'https://github.com/carrierwaveuploader/carrierwave.git'
+gem 'omniauth-producthunt', git: 'https://github.com/gauravtiwari/omniauth-producthunt.git'
+gem 'omniauth-meetup'
+gem 'omniauth-stackexchange', git: 'https://github.com/gauravtiwari/omniauth-stackexchange.git'
+gem 'omniauth-linkedin-oauth2', git: 'https://github.com/decioferreira/omniauth-linkedin-oauth2'
+gem 'omniauth-google-oauth2'
 
 group :production do
   gem 'rails_12factor'

@@ -25,7 +25,7 @@ const ErrorComponent = (props) => {
 
   return (
     <MuiThemeProvider muiTheme={muiTheme}>
-      <div className="overlay">
+      <div className={`overlay ${props.cssClass}`}>
         <div className="error">
           <FontIcon style={{ display: 'block' }}>
             <AlertError style={{ width: 50, height: 50 }} color="#c9302c" />
@@ -45,6 +45,7 @@ const ErrorComponent = (props) => {
 
 ErrorComponent.propTypes = {
   retry: React.PropTypes.func,
+  cssClass: React.PropTypes.string,
   source: React.PropTypes.object,
   response: React.PropTypes.object,
 };

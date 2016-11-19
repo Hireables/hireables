@@ -1,13 +1,38 @@
+.premium-badge
+  position: absolute
+  right: 20px
+  top: 20px
+  text-transform: uppercase
+  font-weight: 400
+  color: #777
+  font-size: 13px
+
+  &:before
+    width: 8px
+    height: 8px
+    content: ''
+    background-color: #f1c90a
+    position: absolute
+    left: -15px
+    top: 4px
+
 .profile--item
-  border-bottom: 1px solid #f2f2f2
+  border: 5px solid #f2f2f2
   font-weight: 500
   position: relative
   background-color: white
   cursor: pointer
+  min-height: 120px
+  margin-bottom: 20px
   padding-bottom: 20px
+
+  .premium-badge
+    bottom: 10px
+    top: auto
 
   &.premium
     background-color: #eaf4fb
+    border-color: rgba(91, 152, 224, 0.1)
 
 .profile--show
   max-width: 980px
@@ -18,13 +43,29 @@
     margin: 10px auto!important
 
 
+@media(max-width: 980px)
+  .profile--item
+    border: 0
+    margin: 0
+    border-bottom: 1px solid #f2f2f2
+
 @media(max-width: 500px)
   .profile--show
     .container
       max-width: calc(100% - 40px)
 
+      .premium-badge
+        top: 0
+        right: 0
+
   .profile--item
     padding-bottom: 0
+
+    .profile--list-item
+      padding: 30px 10px 16px 100px!important
+
+      .company-location
+        display: block!important
 
     .avatar
       img

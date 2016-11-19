@@ -50,12 +50,6 @@ class NavBar extends Component {
       padding: '0',
     };
 
-    const toolbarTitleStyles = {
-      fontSize: '16px',
-      color: '#fff',
-      padding: 0,
-    };
-
     const logoStyles = {
       color: '#fff',
       padding: 0,
@@ -147,10 +141,12 @@ class NavBar extends Component {
                       <Avatar
                         src={current_user.avatar_url}
                         style={userImageStyles}
+                        onClick={() => Turbolinks.visit(currentUserProfilePath)}
                         className="logged-in-image"
                       /> : <Avatar
                         src={current_user.avatar_url}
                         style={userImageStyles}
+                        onClick={() => Turbolinks.visit(currentUserProfilePath)}
                         className="logged-in-image"
                       >{userBadge()}</Avatar>
                     }

@@ -22,7 +22,7 @@ module Hireables
     # Autloaded paths
     config.autoload_paths += Dir["#{config.root}/app/graphql/*"]
     config.autoload_paths += Dir["#{config.root}/app/lib/*"]
-    config.autoload_paths += Dir["#{config.root}/app/workers/*"]
+    config.autoload_paths += Dir["#{config.root}/app/jobs/*"]
     config.autoload_paths << Rails.root.join('app/services')
 
     # Middlewares

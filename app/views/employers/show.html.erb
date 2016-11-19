@@ -1,1 +1,1 @@
-<%= react_component 'EmployerShow', 'EmployerRoute', { id: @login, can_edit: employer_signed_in? && @employer == current_employer }.to_json %>
+<%= react_component 'EmployerShow', 'EmployerRoute', { id: @login, signedIn: signed_in? }.to_json %>

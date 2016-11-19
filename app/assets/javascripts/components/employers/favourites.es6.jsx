@@ -23,9 +23,9 @@ import CurrentUser from '../../helpers/currentUser.es6';
 const currentUser = new CurrentUser();
 
 const cardTitleStyle = {
-  padding: '8px 16px 8px',
+  padding: 15,
   backgroundColor: '#f5f5f5',
-  borderBottom: '1px solid #d8d8d8',
+  marginBottom: 20,
 };
 
 class Favourites extends Component {
@@ -35,6 +35,10 @@ class Favourites extends Component {
     this.handleScrollLoad = this.handleScrollLoad.bind(this);
     this.updateFavourites = this.updateFavourites.bind(this);
     this.state = { loading: false };
+  }
+
+  componentWillMount() {
+    this.props.relay.forceFetch();
   }
 
   componentDidMount() {
@@ -78,10 +82,17 @@ class Favourites extends Component {
   }
 
   render() {
-    const { employer } = this.props;
+    const { employer, signedIn } = this.props;
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
-        <Card containerStyle={{ paddingBottom: 0 }}>
+        <Card
+          containerStyle={{ paddingBottom: 0 }}
+          style={{
+            boxShadow: 'none',
+            border: 0,
+            borderRadius: 0,
+          }}
+        >
           <CardTitle
             className="card-title"
             style={cardTitleStyle}
@@ -106,6 +117,7 @@ class Favourites extends Component {
               <List style={{ paddingTop: 0, paddingBottom: 0 }}>
                 {employer.favourites.edges.map(({ node }) => (
                   <Developer
+                    signedIn={signedIn}
                     developer={node}
                     key={node.id}
                   />
@@ -122,6 +134,7 @@ class Favourites extends Component {
 Favourites.propTypes = {
   employer: React.PropTypes.object,
   relay: React.PropTypes.object,
+  signedIn: React.PropTypes.bool,
 };
 
 const FavouritesContainer = Relay.createContainer(Favourites, {

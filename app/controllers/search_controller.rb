@@ -14,8 +14,9 @@ class SearchController < ApplicationController
   end
 
   def enqueue_search_worker
-    Rails.cache.fetch([@prepared_params.to_query, 'worker']) do
-      SearchDevelopersWorker.perform_async(search_cache_key)
+    hex_string = Digest::SHA256.hexdigest(@prepared_params.to_props.to_s)
+    Rails.cache.fetch([hex_string, 'worker']) do
+      SearchDevelopersJob.enqueue(search_cache_key)
     end
   end
 
