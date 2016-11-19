@@ -8,6 +8,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
 import Chip from 'material-ui/Chip';
 import _ from 'underscore';
+import AutoComplete from 'material-ui/AutoComplete';
 import { FormsyText } from 'formsy-material-ui/lib';
 import { css } from 'aphrodite';
 import {
@@ -18,6 +19,7 @@ import {
 
 // Local components
 import muiTheme from './theme.es6';
+import LanguageList from '../utils/languages.json';
 import CurrentUser from '../helpers/currentUser.es6';
 import Environment from '../helpers/environment.es6';
 
@@ -57,8 +59,8 @@ class Search extends Component {
   constructor(props) {
     super(props);
     this.handleRequestDelete = this.handleRequestDelete.bind(this);
-    this.checkComma = this.checkComma.bind(this);
     this.addNewLanguage = this.addNewLanguage.bind(this);
+    this.onInvalidLanguageSelection = this.onInvalidLanguageSelection.bind(this);
     this.renderChip = this.renderChip.bind(this);
     this.enableButton = this.enableButton.bind(this);
     this.disableButton = this.disableButton.bind(this);
@@ -94,13 +96,9 @@ class Search extends Component {
     });
   }
 
-  handleRequestDelete(key) {
-    this.languagesData = this.state.languagesData;
-    const languageToDelete = this.languagesData
-    .map(language => language.key)
-    .indexOf(key);
-    this.languagesData.splice(languageToDelete, 1);
-    this.setState({ languagesData: this.languagesData });
+  onInvalidLanguageSelection() {
+    this.languageNode.state.searchText = '';
+    this.languageNode.focus();
   }
 
   enableButton() {
@@ -143,65 +141,50 @@ class Search extends Component {
     }
   }
 
-  checkComma(event) {
-    if (event.keyCode === 13) {
-      event.preventDefault();
-      this.addNewLanguage(event);
-    }
-
-    if (event.keyCode === 188 || event.keyCode === 32) {
-      this.addNewLanguage(event);
-    }
-  }
-
   clearValidationErrors() {
     this.setState({
       validationErrors: {},
     });
   }
 
-  addNewLanguage(event) {
-    const newLanguage = event.target.value.trim();
-    if (newLanguage === '') {
-      this.setState({
-        validationErrors: {
-          language: 'Empty language',
-        },
-      });
+  handleRequestDelete(key) {
+    this.languagesData = this.state.languagesData;
+    const languageToDelete = this.languagesData
+    .map(language => language.key)
+    .indexOf(key);
+    this.languagesData.splice(languageToDelete, 1);
+    this.setState({ languagesData: this.languagesData });
+  }
 
-      setTimeout(() => {
-        this.clearValidationErrors();
-      }, 3000);
-
+  addNewLanguage(selectedLanguage, index) {
+    const newLanguage = selectedLanguage.trim();
+    if (index === -1) {
+      this.onInvalidLanguageSelection();
       return;
     }
 
-    const isDuplicate = this.state.languagesData.some(item => (
-      item.label === newLanguage
+    if (newLanguage === '') {
+      this.onInvalidLanguageSelection();
+      return;
+    }
+
+    const isDuplicate = this.state.languagesData.some(language => (
+      language.label === newLanguage
     ));
 
     if (isDuplicate) {
-      this.languageNode.state.value = '';
-
-      this.setState({
-        validationErrors: {
-          language: 'Duplicate language',
-        },
-      });
-
-      setTimeout(() => {
-        this.clearValidationErrors();
-      }, 3000);
-
+      this.onInvalidLanguageSelection();
       return;
     }
 
-    const languagesData = this.state.languagesData.concat(
-      [{ key: this.state.languagesData.length + 1, label: newLanguage }]
-    );
+    const languagesData = this.state.languagesData.concat([{
+      key: this.state.languagesData.length + 1,
+      label: newLanguage,
+    }]);
 
     this.setState({ languagesData }, () => {
-      this.languageNode.state.value = '';
+      this.languageNode.state.searchText = '';
+      this.languageNode.focus();
       this.setState({
         canSubmit: true,
       });
@@ -221,6 +204,8 @@ class Search extends Component {
   }
 
   render() {
+    const languageKeys = Object.keys(LanguageList);
+
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
         <Card
@@ -252,16 +237,20 @@ class Search extends Component {
             >
 
               <div className="search-box language">
-                <FormsyText
+                <AutoComplete
                   id="text-field-default"
                   placeholder="(ex: ruby, python)"
                   name="language"
-                  onKeyDown={this.checkComma}
-                  ref={node => (this.languageNode = node)}
-                  floatingLabelText="Search by programming languages"
+                  className="languages"
+                  onNewRequest={this.addNewLanguage}
+                  onKeyDown={Search.onKeyPress}
+                  floatingLabelText="Search by programming languages *"
                   floatingLabelFixed
                   fullWidth
-                  autoFocus
+                  ref={node => (this.languageNode = node)}
+                  filter={AutoComplete.fuzzyFilter}
+                  dataSource={languageKeys}
+                  maxSearchResults={5}
                 />
 
                 <div className={css(chipStyles.wrapper)}>
