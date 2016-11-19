@@ -115,6 +115,7 @@ GEM
     foreman (0.82.0)
       thor (~> 0.19.1)
     formatador (0.2.5)
+    get_process_mem (0.2.1)
     globalid (0.3.7)
       activesupport (>= 4.1.0)
     graphiql-rails (1.4.0)
@@ -187,6 +188,9 @@ GEM
     powerpack (0.1.1)
     public_suffix (2.0.4)
     puma (3.6.0)
+    puma_worker_killer (0.0.7)
+      get_process_mem (~> 0.2)
+      puma (>= 2.7, < 4)
     que (0.12.0)
     rack (2.0.1)
     rack-attack (5.0.1)
@@ -315,6 +319,7 @@ DEPENDENCIES
   omniauth-stackexchange!
   pg
   puma
+  puma_worker_killer
   que
   rack-attack
   rack-cors

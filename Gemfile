@@ -72,6 +72,7 @@ group :production do
   gem 'rails_12factor'
   gem 'sentry-raven'
   gem 'heroku-deflater'
+  gem 'puma_worker_killer'
   gem 'newrelic_rpm'
 end
 
