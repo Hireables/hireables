@@ -242,7 +242,7 @@ Devise.setup do |config|
   config.omniauth :producthunt, ENV['PRODUCTHUNT_API_KEY'], ENV['PRODUCTHUNT_API_SECRET'], callback_url: "#{ENV['SITE_DOMAIN']}/developers/auth/producthunt/callback"
   config.omniauth :meetup, ENV['MEETUP_API_KEY'], ENV['MEETUP_API_SECRET'], callback_url: "#{ENV['SITE_DOMAIN']}/developers/auth/meetup/callback"
   config.omniauth :stackexchange, ENV['STACKOVERFLOW_CLIENT_ID'], ENV['STACKOVERFLOW_CLIENT_SECRET'], public_key: ENV['STACKOVERFLOW_CLIENT_KEY'], callback_url: "#{ENV['SITE_DOMAIN']}/developers/auth/stackexchange/callback"
-  config.omniauth :linkedin, ENV['LINKEDIN_CLIENT_ID'], ENV['LINKEDIN_CLIENT_SECRET']
+  config.omniauth :linkedin, ENV['LINKEDIN_CLIENT_ID'], ENV['LINKEDIN_CLIENT_SECRET'], callback_url: "#{ENV['SITE_DOMAIN']}/developers/auth/linkedin/callback"
   config.omniauth :google_oauth2, ENV['GOOGLE_CLIENT_ID'], ENV['GOOGLE_CLIENT_SECRET'], {
     name: 'google',
     scope: "email, profile, https://www.googleapis.com/auth/youtube",

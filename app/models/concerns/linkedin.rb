@@ -35,6 +35,6 @@ module Linkedin
   end
 
   def in_params
-    { oauth_token: access_token, format: 'json' }.to_query
+    { oauth2_access_token: access_token, format: 'json' }.to_query
   end
 end
