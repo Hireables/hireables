@@ -11,6 +11,8 @@ class Connection < ApplicationRecord
   has_many :imports, dependent: :destroy
 
   after_commit :import_connection_data, if: :access_token_previously_changed?
+  after_commit :save_linkedin_url, if: [:linkedin_connected?, :no_linkedin_url?]
+
   validates_presence_of :provider
   validates_uniqueness_of :provider
 
@@ -42,6 +44,18 @@ class Connection < ApplicationRecord
       'producthunt' => 'fetch_products',
       'meetup' => 'fetch_events'
     }.freeze
+  end
+
+  def save_linkedin_url
+    developer.update!(linkedin: fetch_profile['publicProfileUrl'])
+  end
+
+  def no_linkedin_url?
+    developer.linkedin.nil?
+  end
+
+  def linkedin_connected?
+    provider == 'linkedin' && access_token.present?
   end
 
   def expiring

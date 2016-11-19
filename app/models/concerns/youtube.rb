@@ -24,6 +24,8 @@ module Youtube
     return [] if video_ids.nil?
     response = client.get("#{YOUTUBE_VIDEO_URI}?&#{video_params}", headers)
     JSON.parse(response.body)['items']
+  rescue JSON::ParserError
+    { 'items': [] }
   end
 
   def video_ids

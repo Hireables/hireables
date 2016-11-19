@@ -6,7 +6,7 @@ module Producthunt
   end
 
   def fetch_products
-    products['posts'].lazy.map do |product|
+    products.lazy.map do |product|
       HashWithIndifferentAccess.new(product.to_hash).except(*ph_excluded_fields)
     end.take(20).to_a
   rescue NoMethodError
@@ -21,7 +21,7 @@ module Producthunt
         "#{PRODUCTS_URI}/users/#{uid}/posts?&#{ph_params}",
         headers
       )
-      JSON.parse(response.body)
+      JSON.parse(response.body)['posts']
     end
   rescue JSON::ParserError
     { 'posts': [] }

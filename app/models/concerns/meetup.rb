@@ -21,6 +21,8 @@ module Meetup
       response = client.get("#{MEETUP_EVENTS_URI}?&#{meetup_params}", headers)
       JSON.parse(response.body)
     end
+  rescue JSON::ParserError
+    []
   end
 
   def meetup_params

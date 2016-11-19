@@ -12,6 +12,8 @@ module Linkedin
       response = client.get("#{LINKEDIN_PEOPLE_URI}?&#{in_params}", headers)
       JSON.parse(response.body)
     end
+  rescue JSON::ParserError
+    {}
   end
 
   def fetch_positions
