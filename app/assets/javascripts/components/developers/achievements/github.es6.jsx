@@ -6,7 +6,7 @@ import moment from 'moment';
 import IconButton from 'material-ui/IconButton';
 import FontIcon from 'material-ui/FontIcon';
 
-import Colors from '../../../utils/colors.json';
+import Languages from '../../../utils/languages.json';
 
 // Child Components icons
 import GithubIcon from '../../shared/icons/github.es6';
@@ -76,7 +76,7 @@ const Github = (props) => {
                 <span
                   className="badge"
                   style={{
-                    backgroundColor: Colors[achievement.language],
+                    backgroundColor: Languages[achievement.language],
                   }}
                 >
                   {achievement.language}

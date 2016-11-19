@@ -11,7 +11,7 @@ import Chip from 'material-ui/Chip';
 
 // StyleSheets
 import iconStyles from '../styles/icons.es6';
-import Colors from '../../utils/colors.json';
+import LanguageColors from '../../utils/languages.json';
 
 const Languages = (props) => {
   const { developer } = props;
@@ -26,7 +26,7 @@ const Languages = (props) => {
   };
 
   const getColor = (language) => {
-    const obj = Colors[language];
+    const obj = LanguageColors[language];
     return obj === undefined ? '#333' : obj;
   };
 

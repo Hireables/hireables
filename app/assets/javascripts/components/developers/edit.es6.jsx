@@ -9,6 +9,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
 import ActionDelete from 'material-ui/svg-icons/action/delete';
 import Snackbar from 'material-ui/Snackbar';
+import AutoComplete from 'material-ui/AutoComplete';
 import {
   Card,
   CardTitle,
@@ -19,6 +20,7 @@ import { css } from 'aphrodite';
 
 // Child Components
 import muiTheme from '../theme.es6';
+import LanguageList from '../../utils/languages.json';
 
 // Mutations
 import UpdateDeveloper from '../../mutations/developer/updateDeveloper.es6';
@@ -53,6 +55,7 @@ class DeveloperEdit extends Component {
     this.renderChip = this.renderChip.bind(this);
     this.handleRequestDelete = this.handleRequestDelete.bind(this);
     this.addNewLanguage = this.addNewLanguage.bind(this);
+    this.onInvalidLanguageSelection = this.onInvalidLanguageSelection.bind(this);
 
     const languages = props.developer.languages.map((elem, index) => (
       { key: index, label: elem }
@@ -67,6 +70,12 @@ class DeveloperEdit extends Component {
       notification: '',
       validationErrors: {},
     };
+  }
+
+  onInvalidLanguageSelection(message) {
+    this.languageNode.state.searchText = '';
+    this.languageNode.focus();
+    this.setNotification(message);
   }
 
   setNotification(notification) {
@@ -136,59 +145,39 @@ class DeveloperEdit extends Component {
     });
   }
 
-  addNewLanguage(event) {
-    if (event.keyCode === 13) {
-      event.preventDefault();
+  addNewLanguage(selectedLanguage, index) {
+    const newLanguage = selectedLanguage.trim();
+    if (index === -1) {
+      this.onInvalidLanguageSelection('Please select from the list');
+      return;
     }
 
-    if (event.keyCode === 13 || event.keyCode === 188 || event.keyCode === 32) {
-      const newLanguage = event.target.value.trim();
-      if (newLanguage === '') {
-        this.setState({
-          validationErrors: {
-            languages: 'Empty language',
-          },
-        });
+    if (newLanguage === '') {
+      this.onInvalidLanguageSelection('Empty language');
+      return;
+    }
 
-        setTimeout(() => {
-          this.clearValidationErrors();
-        }, 3000);
+    const isDuplicate = this.state.languages.some(language => (
+      language.label === newLanguage
+    ));
 
-        return;
-      }
+    if (isDuplicate) {
+      this.onInvalidLanguageSelection('Duplicate language');
+      return;
+    }
 
-      const isDuplicate = this.state.languages.some(language => (
-        language.label === newLanguage
-      ));
+    const languages = this.state.languages.concat([{
+      key: this.state.languages.length + 1,
+      label: newLanguage,
+    }]);
 
-      if (isDuplicate) {
-        this.languageNode.state.value = '';
-
-        this.setState({
-          validationErrors: {
-            languages: 'Duplicate language',
-          },
-        });
-
-        setTimeout(() => {
-          this.clearValidationErrors();
-        }, 3000);
-
-        return;
-      }
-
-      const languages = this.state.languages.concat([{
-        key: this.state.languages.length + 1,
-        label: newLanguage.toLowerCase(),
-      }]);
-
-      this.setState({ languages }, () => {
-        this.languageNode.state.value = '';
-        this.setState({
-          canSubmit: true,
-        });
+    this.setState({ languages }, () => {
+      this.languageNode.state.searchText = '';
+      this.languageNode.focus();
+      this.setState({
+        canSubmit: true,
       });
-    }
+    });
   }
 
   handleRequestDelete(key) {
@@ -214,7 +203,7 @@ class DeveloperEdit extends Component {
 
   render() {
     const { developer } = this.props;
-
+    const languageKeys = Object.keys(LanguageList);
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
         <Card
@@ -299,17 +288,34 @@ class DeveloperEdit extends Component {
                   />
                 </div>
                 <div className="search-box">
-                  <FormsyText
+                  <AutoComplete
                     id="text-field-default"
                     placeholder="(ex: ruby, python)"
                     name="languages"
                     className="languages"
-                    onKeyDown={this.addNewLanguage}
-                    ref={node => (this.languageNode = node)}
+                    onNewRequest={this.addNewLanguage}
+                    onKeyDown={DeveloperEdit.onKeyPress}
                     floatingLabelText="Languages and frameworks you work with *"
                     floatingLabelFixed
                     fullWidth
+                    ref={node => (this.languageNode = node)}
+                    filter={AutoComplete.fuzzyFilter}
+                    dataSource={languageKeys}
+                    maxSearchResults={5}
                   />
+
+                  {/*// <FormsyText
+                  //   id="text-field-default"
+                  //   placeholder="(ex: ruby, python)"
+                  //   name="languages"
+                  //   className="languages"
+                  //   onKeyDown={this.addNewLanguage}
+                  //   ref={node => (this.languageNode = node)}
+                  //   floatingLabelText="Languages and frameworks you work with *"
+                  //   floatingLabelFixed
+                  //   fullWidth
+                  // />
+                  */}
 
                   <div className={css(chipStyles.wrapper)}>
                     {this.state.languages.map(this.renderChip, this)}
