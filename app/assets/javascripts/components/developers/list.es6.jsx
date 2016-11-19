@@ -24,7 +24,6 @@ const cardTitleStyle = {
   padding: '16px 16px',
   backgroundColor: '#f5f5f5',
   marginBottom: 20,
-  border: '1px solid #d8d8d8',
 };
 
 class DevelopersList extends Component {

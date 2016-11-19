@@ -29,10 +29,16 @@
     .skills
       max-width: 100%
 
+@media(max-width: 980px)
+  .profile--show
+    .container
+      max-width: calc(100% - 40px)
 
 @media(max-width: 500px)
   .wrapper
     display: block
+    padding: 0
+    border: 0
 
     .image, .profile
       width: 100%

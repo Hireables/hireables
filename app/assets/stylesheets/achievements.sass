@@ -1,7 +1,7 @@
 .achievements
   position: relative
   margin: 100px auto
-  width: 700px
+  max-width: 700px
 
   .starting-point
     position: absolute
@@ -198,3 +198,29 @@
       background-color: rgba(0,0,0, 0.7)
       color: #fff
       padding: 5px 10px
+
+@media(max-width: 500px)
+  .achievements
+    margin: 0
+
+    .achievements-intro
+      margin: 40px 0!important
+
+    .starting-point
+      display: none
+
+    &:before
+      content: ''
+      display: none
+
+    .achievement
+      margin: 0
+      border: 0
+      border-bottom: 1px solid #f2f2f2
+
+      &:before, &:after
+        content: 0
+        display: none
+
+      .achievement-card-content
+        margin: 0

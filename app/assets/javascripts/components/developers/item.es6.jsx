@@ -92,6 +92,7 @@ class Developer extends Component {
         }
       >
         <ListItem
+          className="profile--list-item"
           innerDivStyle={{ padding: '30px 10px 16px 125px' }}
           leftAvatar={
             <div className="avatar" style={{ top: 20, textAlign: 'center' }}>
@@ -110,7 +111,10 @@ class Developer extends Component {
           secondaryTextLines={1}
         >
           <Name developer={developer} />
-          <div style={{ display: 'flex', marginTop: 5 }}>
+          <div
+            className="company-location"
+            style={{ display: 'flex', marginTop: 5 }}
+          >
             <Location developer={developer} />
             <Company developer={developer} />
           </div>

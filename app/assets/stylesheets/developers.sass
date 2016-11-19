@@ -43,13 +43,29 @@
     margin: 10px auto!important
 
 
+@media(max-width: 980px)
+  .profile--item
+    border: 0
+    margin: 0
+    border-bottom: 1px solid #f2f2f2
+
 @media(max-width: 500px)
   .profile--show
     .container
       max-width: calc(100% - 40px)
 
+      .premium-badge
+        top: 0
+        right: 0
+
   .profile--item
     padding-bottom: 0
+
+    .profile--list-item
+      padding: 30px 10px 16px 100px!important
+
+      .company-location
+        display: block!important
 
     .avatar
       img

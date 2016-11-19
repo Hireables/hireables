@@ -83,8 +83,8 @@ const DeveloperShow = (props) => {
                 </div> : ''
               }
             </div>
-            <Achievements developer={developer} />
           </div>
+          <Achievements developer={developer} />
         </header>
       </div>
     </MuiThemeProvider>
