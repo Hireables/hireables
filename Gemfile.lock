@@ -263,6 +263,8 @@ GEM
       faraday (~> 0.8, < 1.0)
     sentry-raven (2.1.4)
       faraday (>= 0.7.6, < 0.10.x)
+    serviceworker-rails (0.5.1)
+      railties (>= 3.1)
     spring (2.0.0)
       activesupport (>= 4.2)
     sprockets (3.7.0)
@@ -335,6 +337,7 @@ DEPENDENCIES
   rubocop
   sass-rails (~> 5.0)
   sentry-raven
+  serviceworker-rails
   spring
   turbolinks (~> 5.0.x)
   typhoeus

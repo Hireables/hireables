@@ -34,6 +34,11 @@ gem 'turbolinks', '~> 5.0.x'
 
 # Omniauth login
 gem 'omniauth-github'
+gem 'omniauth-producthunt', git: 'https://github.com/gauravtiwari/omniauth-producthunt.git'
+gem 'omniauth-meetup'
+gem 'omniauth-stackexchange', git: 'https://github.com/gauravtiwari/omniauth-stackexchange.git'
+gem 'omniauth-linkedin-oauth2', git: 'https://github.com/decioferreira/omniauth-linkedin-oauth2'
+gem 'omniauth-google-oauth2'
 gem 'devise'
 
 # CORS
@@ -60,13 +65,11 @@ gem 'fog-aws'
 # Event publishing
 gem 'wisper'
 
+# Service worker
+gem 'serviceworker-rails'
+
 # Simple and extremely flexible way to upload files
 gem 'carrierwave', git: 'https://github.com/carrierwaveuploader/carrierwave.git'
-gem 'omniauth-producthunt', git: 'https://github.com/gauravtiwari/omniauth-producthunt.git'
-gem 'omniauth-meetup'
-gem 'omniauth-stackexchange', git: 'https://github.com/gauravtiwari/omniauth-stackexchange.git'
-gem 'omniauth-linkedin-oauth2', git: 'https://github.com/decioferreira/omniauth-linkedin-oauth2'
-gem 'omniauth-google-oauth2'
 
 group :production do
   gem 'rails_12factor'
