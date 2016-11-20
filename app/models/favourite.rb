@@ -5,7 +5,6 @@ class Favourite < ApplicationRecord
   before_destroy :delete_cached_favorited_login
 
   belongs_to :employer
-  belongs_to :developer
 
   private
 
