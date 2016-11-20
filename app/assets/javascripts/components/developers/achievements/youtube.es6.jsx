@@ -54,10 +54,9 @@ class Youtube extends Component {
 
                 <time className="date">
                   {
-                    moment
-                    .utc(new Date(achievement.created_at))
-                    .local()
+                    moment(achievement.created_at, 'YYYY-MM-DD HH:mm:ss [UTC]')
                     .format('MMMM Do YYYY')
+                    .toString()
                   }
                 </time>
 
