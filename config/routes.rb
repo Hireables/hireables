@@ -11,7 +11,6 @@ Rails.application.routes.draw do
   root to: 'pages#index'
   get '/cookies-policy', to: 'pages#cookies_policy'
   get '/privacy-policy', to: 'pages#privacy_policy'
-  get '/terms-of-service', to: 'pages#terms'
   get '/upgrade-browser', to: 'pages#upgrade_browser'
 
   namespace :graphql do
