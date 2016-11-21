@@ -65,9 +65,6 @@ gem 'fog-aws'
 # Event publishing
 gem 'wisper'
 
-# Service worker
-gem 'serviceworker-rails'
-
 # Simple and extremely flexible way to upload files
 gem 'carrierwave', git: 'https://github.com/carrierwaveuploader/carrierwave.git'
 
