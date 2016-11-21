@@ -81,7 +81,7 @@ class Home extends Component {
                   </li>
                   <li style={listStyles}>
                     <ActionCheckCircle style={iconStyles} color="#66bb6a" />
-                    Update your experiences and job preferences.
+                    Add your achievements and job preferences.
                   </li>
                   <li style={listStyles}>
                     <ActionCheckCircle style={iconStyles} color="#66bb6a" />
