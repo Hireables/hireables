@@ -143,6 +143,9 @@ GEM
       nokogiri (>= 1.5.9)
     mail (2.6.4)
       mime-types (>= 1.16, < 4)
+    mailboxer (0.14.0)
+      carrierwave (>= 0.5.8)
+      rails (>= 4.2.0)
     mailgun_rails (0.8.0)
       actionmailer (>= 3.2.13)
       json (>= 1.7.7)
@@ -314,6 +317,7 @@ DEPENDENCIES
   high_voltage (~> 3.0.0)
   js-routes
   jwt
+  mailboxer
   mailgun_rails
   mini_magick
   newrelic_rpm

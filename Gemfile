@@ -71,6 +71,9 @@ gem 'carrierwave', git: 'https://github.com/carrierwaveuploader/carrierwave.git'
 # Static pages
 gem 'high_voltage', '~> 3.0.0'
 
+# Private messaging
+gem 'mailboxer'
+
 group :production do
   gem 'rails_12factor'
   gem 'sentry-raven'
