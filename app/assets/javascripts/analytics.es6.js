@@ -1,4 +1,4 @@
-/* global ga _gs mixpanel document */
+/* global ga _gs document */
 
 import $ from 'jquery';
 import DOMLoadEvent from './utils/domLoadEvent.es6';
