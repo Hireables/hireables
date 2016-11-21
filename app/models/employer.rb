@@ -36,7 +36,7 @@ class Employer < ApplicationRecord
 
   def add_to_favourites!(developer)
     if developer.respond_to?(:premium)
-      favourites.create!(login: developer.login, developer: developer)
+      favourites.create!(login: developer.login, developer_id: developer.id)
     else
       favourites.create!(login: developer.login)
     end
