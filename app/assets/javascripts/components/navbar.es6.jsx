@@ -134,9 +134,15 @@ class NavBar extends Component {
                 <span style={betaStyles}>beta2</span>
               </ToolbarGroup>
 
-              <ToolbarGroup key={2}>
+              <ToolbarGroup
+                key={2}
+                style={{ display: 'block' }}
+              >
                 {authenticated ?
-                  <div className="logged-in">
+                  <div
+                    className="logged-in"
+                    style={{ display: 'flex', alignItems: 'center' }}
+                  >
                     {current_user.avatar_url ?
                       <Avatar
                         src={current_user.avatar_url}
