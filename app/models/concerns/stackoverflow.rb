@@ -8,6 +8,7 @@ module Stackoverflow
   def fetch_answers
     answers.map do |answer|
       answer.tap do |obj|
+        obj['category'] = 'answer'
         obj['id'] = obj['answer_id']
         obj['creation_date'] = Time.at(obj['creation_date']).utc
       end

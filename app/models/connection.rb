@@ -9,7 +9,6 @@ class Connection < ApplicationRecord
 
   belongs_to :developer, touch: true
   has_many :imports, dependent: :destroy
-
   after_commit :import_connection_data, if: :access_token_previously_changed?
 
   validates_presence_of :provider

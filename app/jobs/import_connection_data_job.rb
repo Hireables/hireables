@@ -9,6 +9,7 @@ class ImportConnectionDataJob < Que::Job
         import = connection.imports.where(
           developer: connection.developer,
           source_id: item['id'],
+          category: item['category'],
           source_name: connection.provider
         ).first_or_initialize
         import.data = item

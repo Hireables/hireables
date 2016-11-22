@@ -7,6 +7,7 @@ module Producthunt
 
   def fetch_products
     products.lazy.map do |product|
+      obj['category'] = 'product'
       HashWithIndifferentAccess.new(product.to_hash).except(*ph_excluded_fields)
     end.take(20).to_a
   rescue NoMethodError

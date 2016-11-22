@@ -16,12 +16,20 @@ const Data = (props) => {
     { ALLOWED_TAGS: ['b', 'i'] }
   );
 
-  const starFields = new Map();
-  starFields.set('github', 'stargazers_count');
-  starFields.set('stackoverflow', 'up_vote_count');
-  starFields.set('youtube', 'likeCount');
-  starFields.set('meetup', 'yes_rsvp_count');
-  starFields.set('producthunt', 'votes_count');
+  const starFields = {
+    github: {
+      pr: 'comments',
+      repo: 'stargazers_count',
+    },
+    stackoverflow: 'up_vote_count',
+    youtube: 'likeCount',
+    meetup: 'yes_rsvp_count',
+    producthunt: 'votes_count',
+  };
+
+  const count = item.source_name === 'github' ?
+    item[starFields[item.source_name][item.category]] :
+    item[starFields[item.source_name]];
 
   return (
     <ListItem
@@ -45,7 +53,7 @@ const Data = (props) => {
               color: '#777',
             }}
           >
-            {item[starFields.get(item.source_name)]}
+            {count}
             <FontIcon
               color="#777"
               className="material-icons"
@@ -85,6 +93,7 @@ const DataContainer = Relay.createContainer(Data, {
         name,
         body,
         description,
+        category,
         stargazers_count,
         likeCount,
         viewCount,
@@ -96,6 +105,7 @@ const DataContainer = Relay.createContainer(Data, {
         votes_count,
         comments_count,
         discussion_url,
+        comments,
         tagline,
         pinned,
       }

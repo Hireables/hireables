@@ -87,6 +87,22 @@ module Github
       end
     end
 
+
+    def search_developer_pulls(login)
+      Rails.cache.fetch(['developer', login, 'pulls']) do
+        client.auto_paginate = true
+        begin
+          search = client.search_issues(
+            "is:pr author:#{login} is:closed", sort: 'comments'
+          )
+          return [] if search.items.nil?
+          search.items
+        rescue Octokit::UnprocessableEntity
+          []
+        end
+      end
+    end
+
     def fetch_developer_repos(login)
       Rails.cache.fetch(['developer', login, 'repos']) do
         client.auto_paginate = true

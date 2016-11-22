@@ -1143,8 +1143,36 @@
               "deprecationReason": null
             },
             {
+              "name": "category",
+              "description": "Data source category",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "comment_count",
               "description": "Total comments (so)",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "comments",
+              "description": "Total comments (github pr)",
               "args": [
 
               ],
