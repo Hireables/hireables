@@ -1,4 +1,3 @@
-# rubocop:disable Metrics/BlockLength
 Rails.application.routes.draw do
   authenticated :developer do
     root 'search#index', as: :developer_root

@@ -87,7 +87,6 @@ module Github
       end
     end
 
-
     def search_developer_pulls(login)
       Rails.cache.fetch(['developer', login, 'pulls']) do
         client.auto_paginate = true
