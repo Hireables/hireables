@@ -68,6 +68,9 @@ gem 'wisper'
 # Simple and extremely flexible way to upload files
 gem 'carrierwave', git: 'https://github.com/carrierwaveuploader/carrierwave.git'
 
+# Static pages
+gem 'high_voltage', '~> 3.0.0'
+
 group :production do
   gem 'rails_12factor'
   gem 'sentry-raven'

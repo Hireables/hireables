@@ -9,9 +9,6 @@ Rails.application.routes.draw do
   end
 
   root to: 'pages#index'
-  get '/cookies-policy', to: 'pages#cookies_policy'
-  get '/privacy-policy', to: 'pages#privacy_policy'
-  get '/upgrade-browser', to: 'pages#upgrade_browser'
 
   namespace :graphql do
     post '/', to: 'query#create'
@@ -38,7 +35,5 @@ Rails.application.routes.draw do
 
   resources :search, only: :index
   resources :employers, only: [:show, :edit]
-
-  get '/:id', to: 'developers#show', as: :developer
-  get '/:id/edit', to: 'developers#edit', as: :edit_developer
+  resources :developers, only: [:edit, :show]
 end

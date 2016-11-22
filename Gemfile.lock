@@ -129,6 +129,7 @@ GEM
       rails
     graphql (1.2.4)
     hashie (3.4.6)
+    high_voltage (3.0.0)
     http-cookie (1.0.3)
       domain_name (~> 0.5)
     i18n (0.7.0)
@@ -310,6 +311,7 @@ DEPENDENCIES
   graphiql-rails
   graphql
   heroku-deflater!
+  high_voltage (~> 3.0.0)
   js-routes
   jwt
   mailgun_rails
