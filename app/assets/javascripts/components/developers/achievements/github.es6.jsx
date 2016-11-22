@@ -31,7 +31,7 @@ const Github = (props) => {
             <div className="achievement-card-content">
               <h2 className="intro">
                 <i className="icon material-icons">lock_open</i>
-                <span>Open Source/{achievement.category} </span>
+                <span>Open Source</span>
               </h2>
 
               {achievement.is_owner ?
@@ -76,6 +76,10 @@ const Github = (props) => {
               />
 
               <CardActions className="meta">
+                <span className="badge">
+                  {achievement.category}
+                </span>
+
                 {achievement.language ?
                   <span
                     className="badge"
