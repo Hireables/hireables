@@ -5,14 +5,23 @@ import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card';
 import moment from 'moment';
 import IconButton from 'material-ui/IconButton';
 import FontIcon from 'material-ui/FontIcon';
-import markdownJS from 'markdown';
+import marked from 'marked';
 import Languages from '../../../utils/languages.json';
 
 // Child Components icons
 import GithubIcon from '../../shared/icons/github.es6';
 import sanitize from '../../../utils/sanitize.es6';
 
-const markdown = markdownJS.markdown;
+marked.setOptions({
+  renderer: new marked.Renderer(),
+  gfm: true,
+  tables: true,
+  breaks: false,
+  pedantic: false,
+  sanitize: true,
+  smartLists: true,
+  smartypants: false,
+});
 
 const Github = (props) => {
   const { achievement, remove } = props;
@@ -71,7 +80,7 @@ const Github = (props) => {
               <CardText
                 className="achievement-card-description"
                 dangerouslySetInnerHTML={{
-                  __html: sanitize(achievement.description || markdown.toHTML(achievement.body)),
+                  __html: sanitize(achievement.description || marked(achievement.body)),
                 }}
               />
 
