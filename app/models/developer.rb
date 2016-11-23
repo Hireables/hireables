@@ -20,6 +20,8 @@ class Developer < ApplicationRecord
 
   mount_uploader :avatar, ImageUploader
 
+  acts_as_messageable
+
   def empty_languages?
     languages.nil? || languages.empty?
   end
