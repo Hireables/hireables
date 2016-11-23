@@ -55,6 +55,8 @@ gem 'jwt'
 
 # Mail delivery
 gem 'mailgun_rails'
+gem 'griddler'
+gem 'griddler-sendgrid'
 
 # Image processing and upload
 gem 'mini_magick'
@@ -85,6 +87,7 @@ end
 group :development do
   gem 'graphiql-rails'
   gem 'spring'
+  gem 'ngrok-tunnel'
   gem 'foreman'
   gem 'rubocop'
   gem 'figaro'
