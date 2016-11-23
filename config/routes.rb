@@ -35,4 +35,5 @@ Rails.application.routes.draw do
   resources :search, only: :index
   resources :employers, only: [:show, :edit]
   resources :developers, only: [:edit, :show]
+  mount_griddler('/email/replies')
 end
