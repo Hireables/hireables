@@ -87,7 +87,6 @@ end
 group :development do
   gem 'graphiql-rails'
   gem 'spring'
-  gem 'ngrok-tunnel'
   gem 'foreman'
   gem 'rubocop'
   gem 'figaro'
