@@ -21,4 +21,11 @@ QueryType = GraphQL::ObjectType.define do
     description 'Returns a employer profile by id'
     resolve(Employers::ShowResolver)
   end
+
+  field :mailbox do
+    argument :type, types.String
+    type MailboxType
+    description 'Returns a mailbox by type'
+    resolve(MailboxResolver)
+  end
 end
