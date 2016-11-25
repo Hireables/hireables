@@ -70,7 +70,7 @@ class Developer extends Component {
   prefetch() {
     if (this.prefetcher === null) {
       this.prefetcher = setTimeout(() => {
-        $.getJSON(`/${this.props.developer.login}`);
+        $.getJSON(Routes.developer_path(this.props.developer.login));
       }, 1000);
     }
   }
