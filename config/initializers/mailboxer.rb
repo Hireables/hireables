@@ -3,7 +3,7 @@ Mailboxer.setup do |config|
   config.search_enabled = false
   config.search_engine = :solr
   config.subject_max_length = 255
-  config.body_max_length = 32000
+  config.body_max_length = 3200000
 end
 
 Rails.application.config.to_prepare do
