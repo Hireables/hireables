@@ -87,6 +87,8 @@ end
 group :development do
   gem 'graphiql-rails'
   gem 'spring'
+  gem 'pry-rails'
+  gem 'awesome_print'
   gem 'foreman'
   gem 'rubocop'
   gem 'figaro'
