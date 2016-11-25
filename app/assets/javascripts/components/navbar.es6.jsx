@@ -145,7 +145,6 @@ class NavBar extends Component {
                         onClick={() => Turbolinks.visit(currentUserProfilePath)}
                         className="avatar-image"
                       /> : <Avatar
-                        src={current_user.avatar_url}
                         style={userImageStyles}
                         onClick={() => Turbolinks.visit(currentUserProfilePath)}
                         className="avatar-badge"

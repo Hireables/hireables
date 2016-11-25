@@ -8,6 +8,8 @@ import Footer from './components/footer.es6';
 import DeveloperRoute from './routes/developerRoute.es6';
 import Home from './components/home.es6';
 import Search from './components/search.es6';
+import Mailbox from './components/email/mailbox.es6';
+import MailboxRoute from './routes/mailboxRoute.es6';
 import DevelopersList from './components/developers/list.es6';
 import DeveloperShow from './components/developers/show.es6';
 import DeveloperEdit from './components/developers/edit.es6';
@@ -40,12 +42,14 @@ ReactHelper.registerComponent({
   EmployerShow,
   EmployerEdit,
   DeveloperLogin,
+  Mailbox,
 });
 
 ReactHelper.registerRoute({
   RootRoute,
   EmployerRoute,
   DeveloperRoute,
+  MailboxRoute,
 });
 
 // Render components to DOM
