@@ -13,10 +13,26 @@ class Folders extends Component {
   render() {
     return (
       <List>
-        <ListItem primaryText="Inbox" leftIcon={<ContentInbox />} />
-        <ListItem primaryText="Sent mail" leftIcon={<ContentSend />} />
-        <ListItem primaryText="Drafts" leftIcon={<ContentDrafts />} />
-        <ListItem primaryText="Trash" leftIcon={<ContentArchieve />} />
+        <ListItem
+          primaryText="Inbox"
+          style={{ color: '#fff' }}
+          leftIcon={<ContentInbox color='white' />}
+        />
+        <ListItem
+          primaryText="Sent mail"
+          style={{ color: '#fff' }}
+          leftIcon={<ContentSend color='white' />}
+        />
+        <ListItem
+          primaryText="Drafts"
+          style={{ color: '#fff' }}
+          leftIcon={<ContentDrafts color='white' />}
+        />
+        <ListItem
+          primaryText="Trash"
+          style={{ color: '#fff' }}
+          leftIcon={<ContentArchieve color='white' />}
+        />
       </List>
     );
   }
