@@ -7,6 +7,10 @@ Rails.application.routes.draw do
     root 'search#index', as: :employer_root
   end
 
+  authenticate :developer do
+    get 'mailbox/:id', to: 'mailboxes#show'
+  end
+
   root to: 'pages#index'
 
   namespace :graphql do
