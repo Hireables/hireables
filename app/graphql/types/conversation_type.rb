@@ -1,5 +1,6 @@
 ConversationType = GraphQL::ObjectType.define do
   name 'Conversation'
+  model_names ['Mailboxer::Conversation']
   description 'Fetch conversation associated fields'
   interfaces [GraphQL::Relay::Node.interface]
   global_id_field :id
@@ -10,13 +11,13 @@ ConversationType = GraphQL::ObjectType.define do
   field :count_messages, types.String, 'Total messages count'
 
   field :is_trashed, types.Boolean, 'Is conversation trashed?' do
-    resolve ->(obj, _args, _ctx) do
+    resolve ->(obj, _args, ctx) do
       obj.is_trashed?(ctx[:current_user])
     end
   end
 
   field :is_unread, types.Boolean, 'Is conversation unread?' do
-    resolve ->(obj, _args, _ctx) do
+    resolve ->(obj, _args, ctx) do
       obj.is_unread?(ctx[:current_user])
     end
   end

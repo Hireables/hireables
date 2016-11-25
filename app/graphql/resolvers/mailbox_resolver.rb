@@ -13,6 +13,6 @@ class MailboxResolver
   end
 
   def call
-    Mailboxer::Mailbox.new(user, params[:type] || 'inbox')
+    Mailboxer::Mailbox.new(user, params[:id] || 'inbox')
   end
 end

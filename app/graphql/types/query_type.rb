@@ -23,7 +23,7 @@ QueryType = GraphQL::ObjectType.define do
   end
 
   field :mailbox do
-    argument :type, types.String
+    argument :id, types.String
     type MailboxType
     description 'Returns a mailbox by type'
     resolve(MailboxResolver)
