@@ -73,7 +73,7 @@
               "description": "Returns a mailbox by type",
               "args": [
                 {
-                  "name": "type",
+                  "name": "id",
                   "description": null,
                   "type": {
                     "kind": "SCALAR",
