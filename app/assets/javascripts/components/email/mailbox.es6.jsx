@@ -1,4 +1,4 @@
-/* global document $ */
+/* global document $ window */
 
 import React, { Component } from 'react';
 import Relay from 'react-relay';
@@ -13,6 +13,7 @@ import conversationRoute from '../../routes/conversationRoute.es6';
 import Folders from './folders.es6';
 import Conversation from './conversation.es6';
 import muiTheme from '../theme.es6';
+import LoadingComponent from '../shared/loadingComponent';
 import CurrentUser from '../../helpers/currentUser.es6';
 
 const currentUser = new CurrentUser();
@@ -45,9 +46,20 @@ class Mailbox extends Component {
   constructor(props) {
     super(props);
     this.showReceipts = this.showReceipts.bind(this);
+    this.handleScrollLoad = this.handleScrollLoad.bind(this);
+    this.loadMore = this.loadMore.bind(this);
     this.state = {
       selected: false,
+      loading: false,
     };
+  }
+
+  componentDidMount() {
+    this.conversationsNode.addEventListener('scroll', this.handleScrollLoad);
+  }
+
+  componentWillUnmount() {
+    this.conversationsNode.removeEventListener('scroll', this.handleScrollLoad);
   }
 
   showReceipts(conversationId) {
@@ -55,6 +67,37 @@ class Mailbox extends Component {
       Mailbox.renderReceipts(conversationId);
     });
   }
+
+  handleScrollLoad() {
+    if ($(this.conversationsNode).scrollTop() >
+        $(this.conversationsNode).height() -
+        $(this.conversationsNode).height() - 200 &&
+        !this.state.loading
+      ) {
+      const { mailbox } = this.props;
+      if (mailbox.conversations.pageInfo.hasNextPage) {
+        this.setState({
+          loading: true,
+        }, () => {
+          this.loadMore();
+        });
+      }
+    }
+  }
+
+  loadMore() {
+    const { relay } = this.props;
+    relay.setVariables({
+      first: relay.variables.first + 10,
+    }, (readyState) => {
+      if (readyState.done) {
+        this.setState({
+          loading: false,
+        });
+      }
+    });
+  }
+
 
   render() {
     const { mailbox } = this.props;
@@ -64,7 +107,10 @@ class Mailbox extends Component {
           <div className="folders">
             <Folders />
           </div>
-          <div className="conversations">
+          <div
+            className="conversations"
+            ref={node => (this.conversationsNode = node)}
+          >
             <List style={{ paddingTop: 0, paddingBottom: 0 }}>
               {mailbox.conversations && mailbox.conversations.edges.length > 0 ?
                 mailbox.conversations.edges.map(({ node }) => (
@@ -79,6 +125,7 @@ class Mailbox extends Component {
                       <h1>No conversations found</h1>
                     </div>
               }
+              {this.state.loading ? <LoadingComponent cssClass="relative" /> : ''}
             </List>
           </div>
 
@@ -99,12 +146,13 @@ class Mailbox extends Component {
 
 Mailbox.propTypes = {
   mailbox: React.PropTypes.object,
+  relay: React.PropTypes.object,
 };
 
 const MailboxContainer = Relay.createContainer(Mailbox, {
   initialVariables: {
     type: 'inbox',
-    first: 20,
+    first: 10,
   },
   fragments: {
     mailbox: () => Relay.QL`
@@ -117,6 +165,10 @@ const MailboxContainer = Relay.createContainer(Mailbox, {
               id,
               ${Conversation.getFragment('conversation')}
             },
+          },
+
+          pageInfo {
+            hasNextPage,
           },
         },
       }
