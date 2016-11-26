@@ -1,4 +1,4 @@
-class MailboxesController < ApplicationController
+class MailboxController < ApplicationController
   layout 'mailbox'
   before_action :authenticate_user!
 
