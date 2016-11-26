@@ -5,7 +5,7 @@ MailboxType = GraphQL::ObjectType.define do
   global_id_field :id
 
   field :type, types.String, 'The type of the mailbox'
-  connection :conversations, Mailboxer::ConversationType.connection_type do
+  connection :conversations, ConversationType.connection_type do
     description 'Conversation connection to fetch paginated conversations.'
     resolve ->(obj, _args, _ctx) do
       obj.send(obj.type)

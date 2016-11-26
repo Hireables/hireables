@@ -28,4 +28,14 @@ QueryType = GraphQL::ObjectType.define do
     description 'Returns a mailbox by type'
     resolve(MailboxResolver)
   end
+
+  field :conversation do
+    argument :id, !types.ID
+    type ConversationType
+    description 'Returns a conversation by id'
+    resolve ->(_obj, args, ctx) do
+      raise StandardError 'Unauthorised' unless ctx[:current_user].present?
+      Schema.object_from_id(args['id'], ctx)
+    end
+  end
 end
