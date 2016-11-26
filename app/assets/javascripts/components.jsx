@@ -9,6 +9,8 @@ import DeveloperRoute from './routes/developerRoute.es6';
 import Home from './components/home.es6';
 import Search from './components/search.es6';
 import Mailbox from './components/email/mailbox.es6';
+import ConversationRoute from './routes/conversationRoute.es6';
+import Receipts from './components/email/receipts.es6';
 import MailboxRoute from './routes/mailboxRoute.es6';
 import DevelopersList from './components/developers/list.es6';
 import DeveloperShow from './components/developers/show.es6';
@@ -43,6 +45,7 @@ ReactHelper.registerComponent({
   EmployerEdit,
   DeveloperLogin,
   Mailbox,
+  Receipts,
 });
 
 ReactHelper.registerRoute({
@@ -50,6 +53,7 @@ ReactHelper.registerRoute({
   EmployerRoute,
   DeveloperRoute,
   MailboxRoute,
+  ConversationRoute,
 });
 
 // Render components to DOM
