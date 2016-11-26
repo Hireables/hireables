@@ -8,6 +8,7 @@ class CreateMailboxer < ActiveRecord::Migration
       t.column :created_at, :datetime, :null => false
       t.column :updated_at, :datetime, :null => false
     end
+
     #Receipts
     create_table :mailboxer_receipts do |t|
       t.references :receiver, :polymorphic => true
@@ -15,10 +16,12 @@ class CreateMailboxer < ActiveRecord::Migration
       t.column :is_read, :boolean, :default => false
       t.column :trashed, :boolean, :default => false
       t.column :deleted, :boolean, :default => false
+      t.column :is_draft, :boolean, :default => false
       t.column :mailbox_type, :string, :limit => 25
       t.column :created_at, :datetime, :null => false
       t.column :updated_at, :datetime, :null => false
     end
+
     #Notifications and Messages
     create_table :mailboxer_notifications do |t|
       t.column :type, :string
@@ -40,6 +43,16 @@ class CreateMailboxer < ActiveRecord::Migration
     #Conversations
     #Receipts
     add_index "mailboxer_receipts","notification_id"
+    add_index :mailboxer_receipts, [:mailbox_type], name: 'sent_receipts', where: "mailbox_type = 'sentbox'"
+    add_index :mailboxer_receipts, [:mailbox_type], name: 'inbox_receipts', where: "mailbox_type = 'inbox'"
+    add_index :mailboxer_receipts, [:mailbox_type], name: 'trashed_receipts', where: "trashed = true AND deleted = false"
+    add_index :mailboxer_receipts, [:trashed], name: 'not_trashed_receipts', where: "trashed = false"
+    add_index :mailboxer_receipts, [:deleted], name: 'deleted_receipts', where: "deleted = true"
+    add_index :mailboxer_receipts, [:is_read], name: 'read_receipts', where: "is_read = true"
+    add_index :mailboxer_receipts, [:is_read], name: 'unread_receipts', where: "is_read = false"
+    add_index :mailboxer_receipts, [:is_draft], name: 'draft_receipts', where: "is_draft = true"
+    add_index :mailboxer_receipts, [:mailbox_type, :trashed, :deleted], name: 'all_inbox_receipts', where: "mailbox_type = 'inbox' AND trashed = false AND deleted = false"
+    add_index :mailboxer_receipts, [:mailbox_type, :trashed, :deleted], name: 'all_sentbox_receipts', where: "mailbox_type = 'sentbox' AND trashed = false AND deleted = false"
 
     #Messages
     add_index "mailboxer_notifications","conversation_id"

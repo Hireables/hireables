@@ -189,14 +189,25 @@ ActiveRecord::Schema.define(version: 20161201015109) do
     t.boolean  "is_read",                    default: false
     t.boolean  "trashed",                    default: false
     t.boolean  "deleted",                    default: false
+    t.boolean  "is_draft",                   default: false
     t.string   "mailbox_type",    limit: 25
     t.datetime "created_at",                                 null: false
     t.datetime "updated_at",                                 null: false
     t.boolean  "is_delivered",               default: false
     t.string   "delivery_method"
     t.string   "message_id"
+    t.index ["deleted"], name: "deleted_receipts", where: "(deleted = true)", using: :btree
+    t.index ["is_draft"], name: "draft_receipts", where: "(is_draft = true)", using: :btree
+    t.index ["is_read"], name: "read_receipts", where: "(is_read = true)", using: :btree
+    t.index ["is_read"], name: "unread_receipts", where: "(is_read = false)", using: :btree
+    t.index ["mailbox_type", "trashed", "deleted"], name: "all_inbox_receipts", where: "(((mailbox_type)::text = 'inbox'::text) AND (trashed = false) AND (deleted = false))", using: :btree
+    t.index ["mailbox_type", "trashed", "deleted"], name: "all_sentbox_receipts", where: "(((mailbox_type)::text = 'sentbox'::text) AND (trashed = false) AND (deleted = false))", using: :btree
+    t.index ["mailbox_type"], name: "inbox_receipts", where: "((mailbox_type)::text = 'inbox'::text)", using: :btree
+    t.index ["mailbox_type"], name: "sent_receipts", where: "((mailbox_type)::text = 'sentbox'::text)", using: :btree
+    t.index ["mailbox_type"], name: "trashed_receipts", where: "((trashed = true) AND (deleted = false))", using: :btree
     t.index ["notification_id"], name: "index_mailboxer_receipts_on_notification_id", using: :btree
     t.index ["receiver_id", "receiver_type"], name: "index_mailboxer_receipts_on_receiver_id_and_receiver_type", using: :btree
+    t.index ["trashed"], name: "not_trashed_receipts", where: "(trashed = false)", using: :btree
   end
 
   create_table "que_jobs", primary_key: ["queue", "priority", "run_at", "job_id"], force: :cascade, comment: "3" do |t|
