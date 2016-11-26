@@ -1,3 +1,5 @@
+/* global document */
+
 import React, { Component } from 'react';
 import Relay from 'react-relay';
 import { ListItem } from 'material-ui/List';
@@ -7,17 +9,6 @@ import { darkBlack } from 'material-ui/styles/colors';
 import Receipt from './receipt.es6';
 
 class Conversation extends Component {
-  constructor(props) {
-    super(props);
-    this.showMessages = this.showMessages.bind(this);
-  }
-
-  showMessages() {
-    this.props.relay.setVariables({
-      visible: true,
-    });
-  }
-
   render() {
     const { conversation } = this.props;
     const userBadge = () => {
@@ -27,11 +18,9 @@ class Conversation extends Component {
     };
 
     return (
-      <div
-        className={`conversation ${conversation.is_unread ? 'unread' : 'read'}`}
-      >
+      <div className={`conversation ${conversation.is_unread ? 'unread' : 'read'}`}>
         <ListItem
-          onClick={this.showMessages}
+          onClick={event => this.props.showReceipts(event, conversation.id)}
           leftAvatar={
             conversation.last_message.sender.avatar_url ?
               <Avatar src={conversation.last_message.sender.avatar_url} /> :
@@ -50,23 +39,6 @@ class Conversation extends Component {
           secondaryTextLines={2}
           disabled
         />
-
-        <div className="receipts">
-          <div className="header">
-            <h1>
-              {conversation.subject}
-            </h1>
-          </div>
-
-          {conversation.receipts && conversation.receipts.edges.length > 0 ?
-            conversation.receipts.edges.map(({ node }) => (
-              <Receipt receipt={node} key={node.id} />
-            )) :
-              <div className="no-result">
-                <h1>No email has been selected</h1>
-              </div>
-          }
-        </div>
         <Divider />
       </div>
     );
@@ -75,6 +47,7 @@ class Conversation extends Component {
 
 Conversation.propTypes = {
   conversation: React.PropTypes.object,
+  showReceipts: React.PropTypes.func,
 };
 
 const ConversationContainer = Relay.createContainer(Conversation, {
