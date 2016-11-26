@@ -42,7 +42,7 @@ class Receipt extends Component {
                 </Avatar>
             }
           />
-          <CardText>
+          <CardText className="body">
             {receipt.message.body}
           </CardText>
         </Card>
