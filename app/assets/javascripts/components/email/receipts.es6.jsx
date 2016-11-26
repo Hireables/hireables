@@ -1,6 +1,7 @@
 import React from 'react';
 import Relay from 'react-relay';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import IconButton from 'material-ui/IconButton';
 import muiTheme from '../theme.es6';
 import Receipt from './receipt.es6';
 
@@ -13,6 +14,21 @@ const Receipts = (props) => {
           <h1>
             {conversation.subject}
           </h1>
+          <div className="actions">
+            <IconButton
+              iconClassName="material-icons"
+              tooltip="Reply"
+            >
+              reply
+            </IconButton>
+
+            <IconButton
+              iconClassName="material-icons"
+              tooltip="Move to trash"
+            >
+              delete
+            </IconButton>
+          </div>
         </div>
         {conversation.receipts && conversation.receipts.edges.length > 0 ?
           conversation.receipts.edges.map(({ node }) => (
@@ -41,15 +57,6 @@ const ReceiptsContainer = Relay.createContainer(Receipts, {
       fragment on Conversation {
         id,
         subject,
-        is_unread,
-        last_message {
-          id,
-          sender {
-            avatar_url,
-            name,
-          },
-          body,
-        },
         receipts(first: $first) {
           edges {
             node {

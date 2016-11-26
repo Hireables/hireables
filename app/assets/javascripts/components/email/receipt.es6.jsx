@@ -2,13 +2,7 @@ import React, { Component } from 'react';
 import Relay from 'react-relay';
 import moment from 'moment';
 import Avatar from 'material-ui/Avatar';
-import {
-  Card,
-  CardActions,
-  CardHeader,
-  CardText,
-} from 'material-ui/Card';
-import FlatButton from 'material-ui/FlatButton';
+import { Card, CardHeader, CardText } from 'material-ui/Card';
 
 class Receipt extends Component {
   constructor(props) {
@@ -46,15 +40,9 @@ class Receipt extends Component {
                 </Avatar>
             }
           />
-
           <CardText>
             {receipt.message.body}
           </CardText>
-
-          <CardActions>
-            <FlatButton label="Reply" onTouchTap={this.handleExpand} />
-            <FlatButton label="Reduce" onTouchTap={this.handleReduce} />
-          </CardActions>
         </Card>
       </div>
     );
@@ -72,6 +60,7 @@ const ReceiptContainer = Relay.createContainer(Receipt, {
         id,
         is_read,
         message {
+          id,
           body,
           subject,
           created_at,

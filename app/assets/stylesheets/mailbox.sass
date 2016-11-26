@@ -50,14 +50,16 @@ div[data-component-name='Mailbox']
     .header
       position: fixed
       top: 56px
-      width: 100%
+      width: calc(100% - 360px - 250px)
       height: 50px
       z-index: 799
+      padding: 0px 20px
       background-color: #f2f2f2
+      display: flex
+      justify-content: space-between
 
       h1
         margin: 0
-        padding: 0px 20px
         font-size: 20px
         font-weight: 400
         text-transform: capitalize
