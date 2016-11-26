@@ -10,6 +10,12 @@ ConversationType = GraphQL::ObjectType.define do
   field :last_message, MessageType, 'Last message of this conversation'
   field :count_messages, types.String, 'Total messages count'
 
+  field :database_id, types.Int, 'Is conversation trashed?' do
+    resolve ->(obj, _args, _ctx) do
+      obj.id
+    end
+  end
+
   field :is_trashed, types.Boolean, 'Is conversation trashed?' do
     resolve ->(obj, _args, ctx) do
       obj.is_trashed?(ctx[:current_user])

@@ -26,7 +26,9 @@ class Receipt extends Component {
           }}
         >
           <CardHeader
+            style={{ paddingBottom: 0 }}
             title={receipt.message.sender.name}
+            subtitleStyle={{ fontSize: 12, fontWeight: 400 }}
             subtitle={
               moment(receipt.message.created_at, 'YYYY-MM-DD HH:mm:ss [UTC]')
               .format('MMMM Do YYYY HH:MM')

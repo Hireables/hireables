@@ -15,7 +15,7 @@ div[data-component-name='Mailbox']
   .conversations
     float: left
     position: relative
-    width: 360px
+    width: 300px
     margin-top: 0px
     padding: 0px
     min-height: 100%
@@ -28,19 +28,62 @@ div[data-component-name='Mailbox']
 
     .conversation
       cursor: pointer
+      position: relative
 
-      &.unread, &:hover
+      &.unread
+        &:before
+          background: #48b0f7
+          border-radius: 50%
+          content: ''
+          height: 10px
+          position: absolute
+          left: calc(72px/2 - 5px)
+          top: 66px
+          width: 10px
+
+      .title
+        font-size: 15px
+        color: #3b4752
+        font-weight: 400
+        text-overflow: ellipsis
+        width: 90%
+        color: #3b4752
+        overflow: hidden
+        white-space: nowrap
+
+      .datetime
+        color: #121212
+        font-size: 12px
+        position: absolute
+        right: 20px
+        top: 15px
+
+      .sender
+        white-space: nowrap
+        text-overflow: ellipsis
+        overflow: hidden
+        font-size: 12px
+        letter-spacing: 0.01em
+        opacity: 0.7
+
+      &.active
+        background-color: #fef6dd
+
+        &:hover
+          background-color: #fef6dd
+
+      &:hover
         background-color: #dbefff
 
   #receipts
     position: relative
     height: 100%
-    margin-left: 610px
+    margin-left: 550px
 
   .receipts
     overflow: auto
     height: 100%
-    padding-top: 62px
+    padding-top: 50px
     position: relative
 
     .receipt
@@ -50,7 +93,7 @@ div[data-component-name='Mailbox']
     .header
       position: fixed
       top: 56px
-      width: calc(100% - 360px - 250px)
+      width: calc(100% - 300px - 250px)
       height: 50px
       z-index: 799
       padding: 0px 20px
@@ -60,18 +103,29 @@ div[data-component-name='Mailbox']
 
       h1
         margin: 0
-        font-size: 20px
+        font-size: 16px
         font-weight: 400
+        color: #424242
         text-transform: capitalize
         line-height: 50px
         vertical-align: middle
 
-    .no-result
-      bottom: 0
-      left: 0
-      margin-top: -34px
-      opacity: 0.5
-      position: absolute
-      right: 0
-      text-align: center
-      top: 50%
+        .icon
+          vertical-align: middle
+          margin-right: 10px
+
+  .no-result
+    bottom: 0
+    left: 0
+    margin-top: -34px
+    opacity: 0.5
+    position: absolute
+    right: 0
+    text-align: center
+    top: 50%
+
+    h1
+      font-size: 24px
+      font-weight: 400
+      max-width: 80%
+      margin: 0 auto

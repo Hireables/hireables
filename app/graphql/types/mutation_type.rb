@@ -9,4 +9,5 @@ MutationType = GraphQL::ObjectType.define do
   field :EmployerFileUpload, field: Employers::FileUploadMutation.field
   field :ToggleAchievement, field: Developers::ToggleAchievementMutation.field
   field :RemoveAchievement, field: Developers::RemoveAchievementMutation.field
+  field :MarkAsReadMutation, field: Mailbox::MarkAsReadMutation.field
 end

@@ -1,11 +1,10 @@
-/* global document */
+/* global document $ */
 
 import React, { Component } from 'react';
 import Relay from 'react-relay';
 import { List } from 'material-ui/List';
+import Avatar from 'material-ui/Avatar';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import Divider from 'material-ui/Divider';
-import Subheader from 'material-ui/Subheader';
 import ReactDOM from 'react-dom';
 import Loader from 'react-loader';
 import Receipts from './receipts.es6';
@@ -14,6 +13,9 @@ import conversationRoute from '../../routes/conversationRoute.es6';
 import Folders from './folders.es6';
 import Conversation from './conversation.es6';
 import muiTheme from '../theme.es6';
+import CurrentUser from '../../helpers/currentUser.es6';
+
+const currentUser = new CurrentUser();
 
 class Mailbox extends Component {
   static renderReceipts(conversationId) {
@@ -48,14 +50,14 @@ class Mailbox extends Component {
     };
   }
 
-  showReceipts(event, conversationId) {
-    event.preventDefault();
+  showReceipts(conversationId) {
     this.setState({ selected: true }, () => {
       Mailbox.renderReceipts(conversationId);
     });
   }
 
   render() {
+    const { mailbox } = this.props;
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
         <div className="mailbox">
@@ -63,25 +65,29 @@ class Mailbox extends Component {
             <Folders />
           </div>
           <div className="conversations">
-            <List>
-              <Subheader>Today</Subheader>
-              {this.props.mailbox.conversations.edges.map(({ node }) => (
-                <Conversation
-                  conversation={node}
-                  key={node.id}
-                  showReceipts={this.showReceipts}
-                />
-              ))}
-              <Divider />
+            <List style={{ paddingTop: 0, paddingBottom: 0 }}>
+              {mailbox.conversations && mailbox.conversations.edges.length > 0 ?
+                mailbox.conversations.edges.map(({ node }) => (
+                  <Conversation
+                    conversation={node}
+                    key={node.id}
+                    showReceipts={this.showReceipts}
+                  />
+                )) :
+                    <div className="no-result">
+                      <Avatar src={currentUser.avatar} />
+                      <h1>No conversations found</h1>
+                    </div>
+              }
             </List>
           </div>
-
 
           {this.state.selected ?
             <div id="receipts" /> :
             <div className="receipts">
               <div className="no-result">
-                <h1>No email has been selected</h1>
+                <Avatar src={currentUser.avatar} />
+                <h1>No conversation has been selected</h1>
               </div>
             </div>
           }
