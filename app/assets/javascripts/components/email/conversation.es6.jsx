@@ -6,7 +6,6 @@ import { ListItem } from 'material-ui/List';
 import Avatar from 'material-ui/Avatar';
 import Divider from 'material-ui/Divider';
 import moment from 'moment';
-import Receipt from './receipt.es6';
 import MarkAsRead from '../../mutations/mailbox/mark_as_read.es6';
 
 class Conversation extends Component {
@@ -114,14 +113,6 @@ const ConversationContainer = Relay.createContainer(Conversation, {
             name,
           },
           body,
-        },
-        receipts(first: $first) @include(if: $visible) {
-          edges {
-            node {
-              id,
-              ${Receipt.getFragment('receipt')},
-            }
-          }
         }
       }
     `,
