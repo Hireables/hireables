@@ -26,7 +26,7 @@ end
 def encode_object(object, type)
   GraphQL::Schema::UniqueWithinType.encode(
     type.name,
-    object.id,
+    object.id.to_s + '-' + object.class.name,
     separator: '---'
   )
 end
