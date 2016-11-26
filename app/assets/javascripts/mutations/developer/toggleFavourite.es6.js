@@ -27,7 +27,7 @@ export default class extends Relay.Mutation {
   getVariables() {
     return {
       id: this.props.id,
-      login: this.props.login
+      login: this.props.login,
     };
   }
 
@@ -35,7 +35,7 @@ export default class extends Relay.Mutation {
     return {
       developer: {
         id: this.props.id,
-        favourited: !this.props.favourited
+        favourited: !this.props.favourited,
       }
     };
   }
