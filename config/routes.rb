@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   end
 
   authenticate :developer do
-    get 'mailbox/:id', to: 'mailboxes#show'
+    resources :mailbox, only: :show
   end
 
   root to: 'pages#index'
