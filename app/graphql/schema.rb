@@ -49,7 +49,7 @@ def models
     'Viewer' => Viewer,
     'Conversation' => Mailboxer::Conversation,
     'Message' => Mailboxer::Message,
-    'Mailbox' => Mailboxer::Message,
+    'Mailbox' => Mailboxer::Mailbox,
     'Receipt' => Mailboxer::Receipt
   }.freeze
 end

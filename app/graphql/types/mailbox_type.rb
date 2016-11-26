@@ -1,5 +1,6 @@
 MailboxType = GraphQL::ObjectType.define do
   name 'Mailbox'
+  model_names ['Mailboxer::Mailbox']
   description 'Fetch mailbox conversations'
   interfaces [GraphQL::Relay::Node.interface]
   global_id_field :id
