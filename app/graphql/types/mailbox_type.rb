@@ -8,8 +8,15 @@ MailboxType = GraphQL::ObjectType.define do
   field :type, types.String, 'The type of the mailbox'
   connection :conversations, ConversationType.connection_type do
     description 'Conversation connection to fetch paginated conversations.'
-    resolve ->(obj, _args, _ctx) do
-      obj.send(obj.type)
+    resolve ->(obj, _args, ctx) do
+      inbox = obj.send(obj.type)
+      Rails.cache.fetch([
+        obj.type,
+        ctx[:current_user],
+        inbox.maximum(:updated_at).to_i
+      ]) do
+        inbox
+      end
     end
   end
 end

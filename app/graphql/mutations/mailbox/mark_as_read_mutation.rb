@@ -12,6 +12,7 @@ module Mailbox
       raise StandardError 'Unauthorised' unless ctx[:current_user].present?
       conversation = Schema.object_from_id(inputs['id'], ctx)
       conversation.mark_as_read(ctx[:current_user])
+      conversation.touch
       { conversation: conversation.reload }
     end
   end
