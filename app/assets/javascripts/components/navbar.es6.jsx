@@ -17,6 +17,7 @@ import MenuItem from 'material-ui/MenuItem';
 import Avatar from 'material-ui/Avatar';
 import ActionContentMail from 'material-ui/svg-icons/content/mail';
 import muiTheme from './theme.es6';
+import nameBadge from '../utils/nameBadge.es6';
 
 class NavBar extends Component {
   constructor(props) {
@@ -90,12 +91,6 @@ class NavBar extends Component {
       backgroundColor: 'white',
     };
 
-    const userBadge = () => {
-      const { name } = this.props.current_user;
-      const chunks = name.split(' ');
-      return chunks[0][0] + chunks[1][0];
-    };
-
     const { current_user, authenticated } = this.props;
 
     const currentUserLogoutPath = current_user.type === 'employer' ?
@@ -148,13 +143,13 @@ class NavBar extends Component {
                         src={current_user.avatar_url}
                         style={userImageStyles}
                         onClick={() => Turbolinks.visit(currentUserProfilePath)}
-                        className="logged-in-image"
+                        className="avatar-image"
                       /> : <Avatar
                         src={current_user.avatar_url}
                         style={userImageStyles}
                         onClick={() => Turbolinks.visit(currentUserProfilePath)}
-                        className="logged-in-image"
-                      >{userBadge()}</Avatar>
+                        className="avatar-badge"
+                      >{nameBadge(current_user.name)}</Avatar>
                     }
                     <a
                       style={toolbarGroupStyles.link}

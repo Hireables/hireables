@@ -18,6 +18,7 @@ import Search from '../search.es6';
 
 // Utils
 import muiTheme from '../theme.es6';
+import nameBadge from '../../utils/nameBadge.es6';
 
 class EmployerShow extends Component {
   constructor(props) {
@@ -87,12 +88,6 @@ class EmployerShow extends Component {
       { ALLOWED_TAGS: ['b', 'i'] }
     );
 
-    const userBadge = () => {
-      const { name } = employer;
-      const chunks = name.split(' ');
-      return chunks[0][0] + chunks[1][0];
-    };
-
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
         <div className="employers-show-wrapper">
@@ -112,10 +107,12 @@ class EmployerShow extends Component {
                       <Avatar
                         src={employer.avatar_url}
                         size={100}
+                        className="avatar-image"
                       /> : <Avatar
                         src={employer.avatar_url}
                         size={100}
-                      >{userBadge()}</Avatar>
+                        className="avatar-badge"
+                      >{nameBadge(employer.name)}</Avatar>
                     }
 
                     {this.state.uploading ?

@@ -5,7 +5,6 @@ import React from 'react';
 import Relay from 'react-relay';
 import Avatar from 'material-ui/Avatar';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import { css } from 'aphrodite';
 
 // Child components
 import Languages from './languages.es6';
