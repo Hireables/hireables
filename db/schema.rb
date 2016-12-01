@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161122090210) do
+ActiveRecord::Schema.define(version: 20161201015109) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,7 +26,7 @@ ActiveRecord::Schema.define(version: 20161122090210) do
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
     t.index ["developer_id"], name: "index_connections_on_developer_id", using: :btree
-    t.index ["uid", "provider"], name: "index_connections_on_uid_and_provider", unique: true, using: :btree
+    t.index ["uid", "provider", "developer_id"], name: "index_connections_on_uid_and_provider_and_developer_id", unique: true, using: :btree
   end
 
   create_table "developers", force: :cascade do |t|
