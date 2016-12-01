@@ -11,7 +11,7 @@ class Connection < ApplicationRecord
   has_many :imports, dependent: :destroy
   after_commit :import_connection_data, if: :access_token_previously_changed?
 
-  validates_presence_of :provider
+  validates_presence_of :provider, :developer_id
   validates_uniqueness_of :provider, scope: [:uid, :developer_id]
 
   def owner?(user)
