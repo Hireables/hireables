@@ -2,7 +2,7 @@ module Github
   extend ActiveSupport::Concern
 
   def fetch_repos
-    repos.zip(pulls).flatten
+    repos.zip(pulls).flatten.compact
   rescue NoMethodError
     []
   end
