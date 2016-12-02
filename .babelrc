@@ -1,4 +1,9 @@
 {
-  "plugins": ["transform-class-properties", "babel-relay-plugin-loader-0.9", "transform-object-rest-spread"],
+  "plugins": [
+    "transform-class-properties",
+    "babel-relay-plugin-loader-0.9",
+    "transform-object-rest-spread",
+    "transform-flow-strip-types"
+  ],
   "presets": ["es2015", "stage-0", "react"]
 }

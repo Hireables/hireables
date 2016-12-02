@@ -1,6 +1,7 @@
 {
   "name": "Hireables",
   "devDependencies": {
+    "babel-plugin-transform-flow-strip-types": "^6.18.0",
     "eslint": "^3.7.1",
     "eslint-config-airbnb": "^12.0.0",
     "eslint-plugin-import": "^1.16.0",
@@ -33,6 +34,7 @@
     "css-loader": "^0.23.1",
     "dialog-polyfill": "^0.4.4",
     "dompurify": "^0.8.3",
+    "eslint-plugin-flowtype": "^2.29.1",
     "expose-loader": "^0.7.1",
     "extract-text-webpack-plugin": "^1.0.1",
     "formsy-material-ui": "0.5.2",
