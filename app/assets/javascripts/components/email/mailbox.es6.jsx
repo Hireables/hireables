@@ -1,5 +1,3 @@
-// @flow
-
 /* global document $ window */
 
 import React, { Component } from 'react';
@@ -21,15 +19,6 @@ import CurrentUser from '../../helpers/currentUser.es6';
 const currentUser = new CurrentUser();
 
 class Mailbox extends Component {
-  conversationsNode: Object;
-  state: {
-    selected: boolean,
-    loading: boolean
-  };
-  showReceipts: () => void;
-  handleScrollLoad: () => void;
-  loadMore: () => void;
-
   static renderReceipts(conversationId) {
     conversationRoute.params = {};
     conversationRoute.params.id = conversationId;
