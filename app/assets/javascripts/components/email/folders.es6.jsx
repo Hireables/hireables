@@ -1,4 +1,5 @@
-/* global Turbolinks Routes */
+/* global Turbolinks Routes window */
+
 import React from 'react';
 import { List, ListItem } from 'material-ui/List';
 import ContentInbox from 'material-ui/svg-icons/content/inbox';
@@ -10,27 +11,35 @@ const Folders = () => (
   <List>
     <ListItem
       primaryText="Inbox"
-      style={{ color: '#fff' }}
+      className={
+        `folder ${Routes.mailbox_path('inbox') === window.location.pathname ? 'active' : ''}`
+      }
       onClick={() => Turbolinks.visit(Routes.mailbox_path('inbox'))}
-      leftIcon={<ContentInbox color="white" />}
+      leftIcon={<ContentInbox />}
     />
     <ListItem
       primaryText="Sent mail"
-      style={{ color: '#fff' }}
+      className={
+        `folder ${Routes.mailbox_path('sentbox') === window.location.pathname ? 'active' : ''}`
+      }
       onClick={() => Turbolinks.visit(Routes.mailbox_path('sentbox'))}
-      leftIcon={<ContentSend color="white" />}
+      leftIcon={<ContentSend />}
     />
     <ListItem
       primaryText="Drafts"
-      style={{ color: '#fff' }}
+      className={
+        `folder ${Routes.mailbox_path('drafts') === window.location.pathname ? 'active' : ''}`
+      }
       onClick={() => Turbolinks.visit(Routes.mailbox_path('drafts'))}
-      leftIcon={<ContentDrafts color="white" />}
+      leftIcon={<ContentDrafts />}
     />
     <ListItem
       primaryText="Trash"
-      style={{ color: '#fff' }}
+      className={
+        `folder ${Routes.mailbox_path('trash') === window.location.pathname ? 'active' : ''}`
+      }
       onClick={() => Turbolinks.visit(Routes.mailbox_path('trash'))}
-      leftIcon={<ContentArchieve color="white" />}
+      leftIcon={<ContentArchieve />}
     />
   </List>
 );

@@ -3,6 +3,7 @@ import Relay from 'react-relay';
 import moment from 'moment';
 import Avatar from 'material-ui/Avatar';
 import { Card, CardHeader, CardText } from 'material-ui/Card';
+import nameBadge from '../../utils/nameBadge.es6';
 
 class Receipt extends Component {
   constructor(props) {
@@ -11,12 +12,6 @@ class Receipt extends Component {
 
   render() {
     const { receipt } = this.props;
-    const userBadge = () => {
-      const { name } = receipt.message.sender;
-      const chunks = name.split(' ');
-      return chunks[0][0] + chunks[1][0];
-    };
-
     return (
       <div className="receipt">
         <Card
@@ -38,7 +33,7 @@ class Receipt extends Component {
               receipt.message.sender.avatar_url ?
                 receipt.message.sender.avatar_url :
                 <Avatar>
-                  {userBadge()}
+                  {nameBadge(receipt.message.sender.name)}
                 </Avatar>
             }
           />

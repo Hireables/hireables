@@ -7,6 +7,7 @@ import Avatar from 'material-ui/Avatar';
 import Divider from 'material-ui/Divider';
 import moment from 'moment';
 import MarkAsRead from '../../mutations/mailbox/mark_as_read.es6';
+import nameBadge from '../../utils/nameBadge.es6';
 
 class Conversation extends Component {
   constructor(props) {
@@ -44,12 +45,6 @@ class Conversation extends Component {
 
   render() {
     const { conversation } = this.props;
-    const userBadge = () => {
-      const { name } = conversation.last_message.sender;
-      const chunks = name.split(' ');
-      return chunks[0][0] + chunks[1][0];
-    };
-
     return (
       <div
         className="conversation"
@@ -62,7 +57,7 @@ class Conversation extends Component {
             conversation.last_message.sender.avatar_url ?
               <Avatar src={conversation.last_message.sender.avatar_url} /> :
               <Avatar>
-                {userBadge()}
+                {nameBadge(conversation.last_message.sender.name)}
               </Avatar>
           }
           primaryText={<div className="title">{conversation.subject}</div>}
