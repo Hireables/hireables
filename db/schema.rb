@@ -195,6 +195,9 @@ ActiveRecord::Schema.define(version: 20161201015109) do
     t.datetime "created_at",                                 null: false
     t.datetime "updated_at",                                 null: false
     t.boolean  "is_delivered",               default: false
+    t.boolean  "is_rejected",                default: false
+    t.boolean  "is_spam",                    default: false
+    t.boolean  "is_replied",                 default: false
     t.string   "delivery_method"
     t.string   "message_id"
     t.index ["deleted"], name: "deleted_receipts", where: "(deleted = true)", using: :btree
