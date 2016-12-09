@@ -9,18 +9,20 @@ import Subject from 'material-ui/svg-icons/action/subject';
 import muiTheme from '../theme.es6';
 import Receipt from './receipt.es6';
 import CurrentUser from '../../helpers/currentUser.es6';
+import Composer from './composer.es6';
 
 const currentUser = new CurrentUser();
 
 const Receipts = (props) => {
   const { conversation } = props;
+
   return (
     <MuiThemeProvider muiTheme={muiTheme}>
       <div className="receipts">
         <div className="header">
           <h1>
             <Subject className="icon" />
-            {conversation.subject}
+            {conversation.subject} ({conversation.count_messages})
           </h1>
           <div className="actions">
             <IconButton
@@ -36,6 +38,9 @@ const Receipts = (props) => {
             </IconButton>
           </div>
         </div>
+
+        <Composer conversation={conversation} />
+
         {conversation.receipts && conversation.receipts.edges.length > 0 ?
           conversation.receipts.edges.map(({ node }) => (
             <Receipt receipt={node} key={node.id} />

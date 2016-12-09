@@ -8,6 +8,7 @@ import {
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
 import IconMenu from 'material-ui/IconMenu';
+import Badge from 'material-ui/Badge';
 import IconButton from 'material-ui/IconButton';
 import NavigationExpandMoreIcon from 'material-ui/svg-icons/navigation/expand-more';
 import FontIcon from 'material-ui/FontIcon';
@@ -138,6 +139,39 @@ class NavBar extends Component {
                     className="logged-in"
                     style={{ display: 'flex', alignItems: 'center' }}
                   >
+                    <div
+                      className={
+                        `inbox ${
+                          Routes.mailbox_path('inbox') === window.location.pathname ?
+                            'active' : ''
+                          }`
+                      }
+                    >
+                      <Badge
+                        badgeContent={10}
+                        style={{
+                          verticalAlign: 'middle',
+                          padding: 0,
+                          position: 'initial',
+                        }}
+                        badgeStyle={{
+                          top: 10,
+                          right: 15,
+                        }}
+                      />
+                      <IconButton
+                        href={Routes.mailbox_path('inbox')}
+                        touch
+                        style={{
+                          verticalAlign: 'middle',
+                        }}
+                      >
+                        <FontIcon
+                          color="white"
+                          className="material-icons"
+                        >inbox</FontIcon>
+                      </IconButton>
+                    </div>
                     {current_user.avatar_url ?
                       <Avatar
                         src={current_user.avatar_url}

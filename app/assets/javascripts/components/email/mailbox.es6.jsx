@@ -111,7 +111,20 @@ class Mailbox extends Component {
             className="conversations"
             ref={node => (this.conversationsNode = node)}
           >
-            <List style={{ paddingTop: 0, paddingBottom: 0 }}>
+            <div className="header">
+              <h1>
+                {mailbox.type}
+                {mailbox.conversations_count > 0 ?
+                  <span className="count">
+                    &nbsp;({mailbox.conversations_count})
+                  </span> : ''
+                }
+              </h1>
+            </div>
+            <List
+              className="conversations-list"
+              style={{ paddingTop: 0, paddingBottom: 0 }}
+            >
               {mailbox.conversations && mailbox.conversations.edges.length > 0 ?
                 mailbox.conversations.edges.map(({ node }) => (
                   <Conversation
@@ -120,10 +133,10 @@ class Mailbox extends Component {
                     showReceipts={this.showReceipts}
                   />
                 )) :
-                    <div className="no-result">
-                      <Avatar src={currentUser.avatar} />
-                      <h1>No conversations found</h1>
-                    </div>
+                <div className="no-result">
+                  <Avatar src={currentUser.avatar} />
+                  <h1>No conversations found</h1>
+                </div>
               }
               {this.state.loading ? <LoadingComponent cssClass="relative" /> : ''}
             </List>
@@ -159,6 +172,7 @@ const MailboxContainer = Relay.createContainer(Mailbox, {
       fragment on Mailbox {
         id,
         type,
+        conversations_count,
         conversations(first: $first) {
           edges {
             node {
