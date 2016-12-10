@@ -4,6 +4,7 @@ import moment from 'moment';
 import Avatar from 'material-ui/Avatar';
 import { Card, CardHeader, CardText } from 'material-ui/Card';
 import nameBadge from '../../utils/nameBadge.es6';
+import { sanitizeRichText } from '../../utils/sanitize.es6';
 
 class Receipt extends Component {
   constructor(props) {
@@ -37,9 +38,12 @@ class Receipt extends Component {
                 </Avatar>
             }
           />
-          <CardText className="body">
-            {receipt.message.body}
-          </CardText>
+          <CardText
+            className="body"
+            dangerouslySetInnerHTML={{
+              __html: sanitizeRichText(receipt.message.body),
+            }}
+          />
         </Card>
       </div>
     );

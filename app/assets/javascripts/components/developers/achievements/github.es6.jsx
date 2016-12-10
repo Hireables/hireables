@@ -10,7 +10,7 @@ import Languages from '../../../utils/languages.json';
 
 // Child Components icons
 import GithubIcon from '../../shared/icons/github.es6';
-import sanitize from '../../../utils/sanitize.es6';
+import { sanitizeText } from '../../../utils/sanitize.es6';
 
 marked.setOptions({
   renderer: new marked.Renderer(),
@@ -80,7 +80,7 @@ const Github = (props) => {
               <CardText
                 className="achievement-card-description"
                 dangerouslySetInnerHTML={{
-                  __html: sanitize(achievement.description || marked(achievement.body)),
+                  __html: sanitizeText(achievement.description || marked(achievement.body)),
                 }}
               />
 

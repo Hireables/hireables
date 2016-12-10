@@ -10,7 +10,7 @@ import moment from 'moment';
 
 // Child Components icons
 import LinkedinIcon from '../../shared/icons/linkedin.es6';
-import sanitize from '../../../utils/sanitize.es6';
+import { sanitizeText } from '../../../utils/sanitize.es6';
 
 const Linkedin = (props) => {
   const { achievement, remove } = props;
@@ -59,7 +59,7 @@ const Linkedin = (props) => {
               <CardText
                 className="achievement-card-description"
                 dangerouslySetInnerHTML={{
-                  __html: sanitize(achievement.summary),
+                  __html: sanitizeText(achievement.summary),
                 }}
               />
               <CardActions className="meta">

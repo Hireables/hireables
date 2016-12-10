@@ -8,6 +8,7 @@ import Divider from 'material-ui/Divider';
 import moment from 'moment';
 import MarkAsRead from '../../mutations/mailbox/mark_as_read.es6';
 import nameBadge from '../../utils/nameBadge.es6';
+import { sanitizeText } from '../../utils/sanitize.es6';
 
 class Conversation extends Component {
   constructor(props) {
@@ -62,9 +63,12 @@ class Conversation extends Component {
           }
           primaryText={<div className="title">{conversation.subject}</div>}
           secondaryText={
-            <p className="body">
-              {conversation.last_message.body}
-            </p>
+            <p
+              className="body"
+              dangerouslySetInnerHTML={{
+                __html: sanitizeText(conversation.last_message.body),
+              }}
+            />
           }
           secondaryTextLines={2}
           disabled

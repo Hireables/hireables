@@ -5,7 +5,6 @@ import Relay from 'react-relay';
 import Avatar from 'material-ui/Avatar';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { grey700 } from 'material-ui/styles/colors';
-import createDOMPurify from 'dompurify';
 import IconButton from 'material-ui/IconButton';
 import ActionCamera from 'material-ui/svg-icons/image/camera-alt';
 
@@ -18,6 +17,7 @@ import Search from '../search.es6';
 
 // Utils
 import muiTheme from '../theme.es6';
+import { sanitizeText } from '../../utils/sanitize.es6';
 import nameBadge from '../../utils/nameBadge.es6';
 
 class EmployerShow extends Component {
@@ -83,11 +83,6 @@ class EmployerShow extends Component {
     };
 
     const { employer, signedIn } = this.props;
-    const bio = createDOMPurify.sanitize(
-      employer.bio,
-      { ALLOWED_TAGS: ['b', 'i'] }
-    );
-
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
         <div className="employers-show-wrapper">
@@ -140,7 +135,7 @@ class EmployerShow extends Component {
                   <div className="bio" style={{ marginTop: '5px' }}>
                     <span
                       style={bioStyles}
-                      dangerouslySetInnerHTML={{ __html: bio }}
+                      dangerouslySetInnerHTML={{ __html: sanitizeText(employer.bio) }}
                     />
                   </div>
 

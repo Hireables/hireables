@@ -4,16 +4,13 @@ import Relay from 'react-relay';
 import { ListItem } from 'material-ui/List';
 import FontIcon from 'material-ui/FontIcon';
 import Checkbox from 'material-ui/Checkbox';
-import createDOMPurify from 'dompurify';
-
-// Stylesheet
+import { sanitizeText } from '../../../utils/sanitize.es6';
 import '../../styles/pins.sass';
 
 const Data = (props) => {
   const { item, toggleItemOnServer } = props;
-  const description = createDOMPurify.sanitize(
-    item.description || item.body || item.summary || item.tagline,
-    { ALLOWED_TAGS: ['b', 'i'] }
+  const description = sanitizeText(
+    item.description || item.body || item.summary || item.tagline
   );
 
   const starFields = {

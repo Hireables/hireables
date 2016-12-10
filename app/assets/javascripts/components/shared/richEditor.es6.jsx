@@ -21,17 +21,11 @@ class RichEditor extends Component {
 
   render() {
     const toolbarConfig = {
-      display: ['BLOCK_TYPE_DROPDOWN', 'INLINE_STYLE_BUTTONS', 'BLOCK_TYPE_BUTTONS', 'LINK_BUTTONS', 'HISTORY_BUTTONS'],
+      display: ['INLINE_STYLE_BUTTONS', 'BLOCK_TYPE_BUTTONS', 'LINK_BUTTONS', 'HISTORY_BUTTONS'],
       INLINE_STYLE_BUTTONS: [
         { label: 'Bold', style: 'BOLD', className: 'editor-button' },
         { label: 'Italic', style: 'ITALIC', className: 'editor-button' },
         { label: 'Underline', style: 'UNDERLINE', className: 'editor-button' },
-      ],
-      BLOCK_TYPE_DROPDOWN: [
-        { label: 'Normal', style: 'unstyled' },
-        { label: 'Heading Large', style: 'header-one' },
-        { label: 'Heading Medium', style: 'header-two' },
-        { label: 'Heading Small', style: 'header-three' },
       ],
       BLOCK_TYPE_BUTTONS: [
         { label: 'UL', style: 'unordered-list-item', className: 'editor-button' },

@@ -3,7 +3,6 @@
 import React from 'react';
 import { List, ListItem } from 'material-ui/List';
 import ContentInbox from 'material-ui/svg-icons/content/inbox';
-import ContentDrafts from 'material-ui/svg-icons/content/drafts';
 import ContentArchieve from 'material-ui/svg-icons/content/archive';
 import ContentSend from 'material-ui/svg-icons/content/send';
 
@@ -24,14 +23,6 @@ const Folders = () => (
       }
       onClick={() => Turbolinks.visit(Routes.mailbox_path('sentbox'))}
       leftIcon={<ContentSend />}
-    />
-    <ListItem
-      primaryText="Drafts"
-      className={
-        `folder ${Routes.mailbox_path('drafts') === window.location.pathname ? 'active' : ''}`
-      }
-      onClick={() => Turbolinks.visit(Routes.mailbox_path('drafts'))}
-      leftIcon={<ContentDrafts />}
     />
     <ListItem
       primaryText="Trash"

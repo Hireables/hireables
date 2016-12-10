@@ -98,7 +98,6 @@ class Mailbox extends Component {
     });
   }
 
-
   render() {
     const { mailbox } = this.props;
     return (
@@ -180,7 +179,6 @@ const MailboxContainer = Relay.createContainer(Mailbox, {
               ${Conversation.getFragment('conversation')}
             },
           },
-
           pageInfo {
             hasNextPage,
           },

@@ -35,10 +35,10 @@ export default class extends Relay.Mutation {
 
   getOptimisticResponse() {
     return {
-      connection: {
+      conversation: {
         id: this.props.conversationId,
         is_unread: false,
-      }
+      },
     };
   }
 }

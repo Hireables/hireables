@@ -12,7 +12,7 @@ import moment from 'moment';
 
 // Child Components icons
 import StackOverflowIcon from '../../shared/icons/stackoverflow.es6';
-import sanitize from '../../../utils/sanitize.es6';
+import { sanitizeText } from '../../../utils/sanitize.es6';
 
 class StackOverflow extends Component {
   componentDidMount() {
@@ -77,7 +77,7 @@ class StackOverflow extends Component {
                 <CardText
                   className="achievement-card-description"
                   dangerouslySetInnerHTML={{
-                    __html: sanitize(achievement.body),
+                    __html: sanitizeText(achievement.body),
                   }}
                 />
 
