@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161201015109) do
+ActiveRecord::Schema.define(version: 20161210125409) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -65,6 +65,7 @@ ActiveRecord::Schema.define(version: 20161201015109) do
     t.datetime "updated_at",                          null: false
     t.datetime "remember_created_at"
     t.string   "blog"
+    t.integer  "receipts_count"
     t.index ["contract"], name: "index_developers_on_contract", using: :btree
     t.index ["cto"], name: "index_developers_on_cto", using: :btree
     t.index ["data"], name: "index_developers_on_data", using: :gin
@@ -110,6 +111,7 @@ ActiveRecord::Schema.define(version: 20161201015109) do
     t.inet     "last_sign_in_ip"
     t.datetime "created_at",                             null: false
     t.datetime "updated_at",                             null: false
+    t.integer  "receipts_count"
     t.index ["email"], name: "index_employers_on_email", unique: true, using: :btree
     t.index ["login"], name: "index_employers_on_login", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_employers_on_reset_password_token", unique: true, using: :btree
@@ -156,9 +158,11 @@ ActiveRecord::Schema.define(version: 20161201015109) do
   end
 
   create_table "mailboxer_conversations", force: :cascade do |t|
-    t.string   "subject",    default: ""
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.string   "subject",        default: ""
+    t.integer  "messages_count"
+    t.integer  "receipts_count"
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
   end
 
   create_table "mailboxer_notifications", force: :cascade do |t|
@@ -168,6 +172,7 @@ ActiveRecord::Schema.define(version: 20161201015109) do
     t.string   "sender_type"
     t.integer  "sender_id"
     t.integer  "conversation_id"
+    t.integer  "receipts_count"
     t.boolean  "draft",                default: false
     t.string   "notification_code"
     t.string   "notified_object_type"
@@ -186,22 +191,22 @@ ActiveRecord::Schema.define(version: 20161201015109) do
   create_table "mailboxer_receipts", force: :cascade do |t|
     t.string   "receiver_type"
     t.integer  "receiver_id"
-    t.integer  "notification_id",                            null: false
-    t.boolean  "is_read",                    default: false
-    t.boolean  "trashed",                    default: false
-    t.boolean  "deleted",                    default: false
-    t.boolean  "is_draft",                   default: false
-    t.string   "mailbox_type",    limit: 25
-    t.datetime "created_at",                                 null: false
-    t.datetime "updated_at",                                 null: false
-    t.boolean  "is_delivered",               default: false
-    t.boolean  "is_rejected",                default: false
-    t.boolean  "is_spam",                    default: false
-    t.boolean  "is_replied",                 default: false
+    t.integer  "notification_id",                                null: false
+    t.boolean  "is_read",                        default: false
+    t.boolean  "trashed",                        default: false
+    t.boolean  "deleted",                        default: false
+    t.string   "mailbox_type",        limit: 25
+    t.integer  "messages_count"
+    t.integer  "notifications_count"
+    t.datetime "created_at",                                     null: false
+    t.datetime "updated_at",                                     null: false
+    t.boolean  "is_delivered",                   default: false
+    t.boolean  "is_rejected",                    default: false
+    t.boolean  "is_spam",                        default: false
+    t.boolean  "is_replied",                     default: false
     t.string   "delivery_method"
     t.string   "message_id"
     t.index ["deleted"], name: "deleted_receipts", where: "(deleted = true)", using: :btree
-    t.index ["is_draft"], name: "draft_receipts", where: "(is_draft = true)", using: :btree
     t.index ["is_read"], name: "read_receipts", where: "(is_read = true)", using: :btree
     t.index ["is_read"], name: "unread_receipts", where: "(is_read = false)", using: :btree
     t.index ["mailbox_type", "trashed", "deleted"], name: "all_inbox_receipts", where: "(((mailbox_type)::text = 'inbox'::text) AND (trashed = false) AND (deleted = false))", using: :btree

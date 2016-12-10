@@ -5,6 +5,8 @@ class CreateMailboxer < ActiveRecord::Migration
     #Conversations
     create_table :mailboxer_conversations do |t|
       t.column :subject, :string, :default => ""
+      t.column :messages_count, :integer
+      t.column :receipts_count, :integer
       t.column :created_at, :datetime, :null => false
       t.column :updated_at, :datetime, :null => false
     end
@@ -16,8 +18,9 @@ class CreateMailboxer < ActiveRecord::Migration
       t.column :is_read, :boolean, :default => false
       t.column :trashed, :boolean, :default => false
       t.column :deleted, :boolean, :default => false
-      t.column :is_draft, :boolean, :default => false
       t.column :mailbox_type, :string, :limit => 25
+      t.column :messages_count, :integer
+      t.column :notifications_count, :integer
       t.column :created_at, :datetime, :null => false
       t.column :updated_at, :datetime, :null => false
     end
@@ -29,6 +32,7 @@ class CreateMailboxer < ActiveRecord::Migration
       t.column :subject, :string, :default => ""
       t.references :sender, :polymorphic => true
       t.column :conversation_id, :integer
+      t.column :receipts_count, :integer
       t.column :draft, :boolean, :default => false
       t.string :notification_code, :default => nil
       t.references :notified_object, :polymorphic => true
@@ -50,7 +54,6 @@ class CreateMailboxer < ActiveRecord::Migration
     add_index :mailboxer_receipts, [:deleted], name: 'deleted_receipts', where: "deleted = true"
     add_index :mailboxer_receipts, [:is_read], name: 'read_receipts', where: "is_read = true"
     add_index :mailboxer_receipts, [:is_read], name: 'unread_receipts', where: "is_read = false"
-    add_index :mailboxer_receipts, [:is_draft], name: 'draft_receipts', where: "is_draft = true"
     add_index :mailboxer_receipts, [:mailbox_type, :trashed, :deleted], name: 'all_inbox_receipts', where: "mailbox_type = 'inbox' AND trashed = false AND deleted = false"
     add_index :mailboxer_receipts, [:mailbox_type, :trashed, :deleted], name: 'all_sentbox_receipts', where: "mailbox_type = 'sentbox' AND trashed = false AND deleted = false"
 
