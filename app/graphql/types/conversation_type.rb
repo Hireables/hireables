@@ -7,19 +7,10 @@ ConversationType = GraphQL::ObjectType.define do
 
   field :subject, types.String, 'Subject of this conversation'
   field :created_at, types.String, 'When this conversation was created'
-  field :count_messages, types.Int, 'Total messages count' do
-    resolve ->(obj, _args, _ctx) do
-      Rails.cache.fetch([obj, 'count']) do
-        obj.count_messages
-      end
-    end
-  end
-
+  field :messages_count, types.Int, 'Total messages count'
   field :last_message, MessageType, 'Last message of this conversation' do
     resolve ->(obj, _args, _ctx) do
-      Rails.cache.fetch([obj, 'last_message']) do
-        obj.last_message
-      end
+      obj.last_message
     end
   end
 
@@ -31,39 +22,30 @@ ConversationType = GraphQL::ObjectType.define do
 
   field :is_trashed, types.Boolean, 'Is conversation trashed?' do
     resolve ->(obj, _args, ctx) do
-      Rails.cache.fetch([obj, 'trashed']) do
-        obj.is_trashed?(ctx[:current_user])
-      end
+      obj.is_trashed?(ctx[:current_user])
     end
   end
 
   field :is_unread, types.Boolean, 'Is conversation unread?' do
     resolve ->(obj, _args, ctx) do
-      Rails.cache.fetch([obj, 'unread']) do
-        obj.is_unread?(ctx[:current_user])
-      end
+      obj.is_unread?(ctx[:current_user])
     end
   end
 
   connection :receipts, ReceiptType.connection_type do
     description 'Receipt connection to fetch paginated receipts.'
     resolve ->(obj, _args, ctx) do
-      Rails.cache.fetch([
-        obj,
-        obj.receipts_for(ctx[:current_user]).maximum(:updated_at),
-        'receipts'
-      ]) do
-        obj.receipts_for(ctx[:current_user])
-      end
+      obj
+        .receipts_for(ctx[:current_user])
+        .includes(message: :sender)
+        .order(id: :desc)
     end
   end
 
   connection :participants, ParticipantType.connection_type do
     description 'Message connection to fetch paginated messages.'
     resolve ->(obj, _args, ctx) do
-      Rails.cache.fetch([obj, 'participants']) do
-        obj.participants.select { |p| p != ctx[:current_user] }
-      end
+      obj.participants.select { |p| p != ctx[:current_user] }
     end
   end
 end
