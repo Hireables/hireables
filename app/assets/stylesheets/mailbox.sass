@@ -50,7 +50,7 @@ div[data-component-name='Mailbox']
       position: fixed
       top: 56px
       width: 299px
-      height: 50px
+      height: 40px
       z-index: 799
       padding: 0px 20px
       background-color: #fafafa
@@ -61,7 +61,7 @@ div[data-component-name='Mailbox']
         font-size: 16px
         font-weight: 400
         color: #424242
-        line-height: 50px
+        line-height: 40px
         vertical-align: middle
 
         .icon
@@ -69,7 +69,7 @@ div[data-component-name='Mailbox']
           margin-right: 10px
 
     .conversations-list
-      margin-top: 50px
+      margin-top: 40px
 
     .conversation
       cursor: pointer
@@ -144,6 +144,13 @@ div[data-component-name='Mailbox']
         line-height: 1.5
         font-size: 16px!important
         max-width: 90%
+
+        p
+          &:first-of-type
+            margin-top: 0
+
+          &:last-of-type
+            margin-bottom: 0
 
     .header
       position: fixed
