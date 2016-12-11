@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161210125409) do
+ActiveRecord::Schema.define(version: 20161201015109) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -65,7 +65,6 @@ ActiveRecord::Schema.define(version: 20161210125409) do
     t.datetime "updated_at",                          null: false
     t.datetime "remember_created_at"
     t.string   "blog"
-    t.integer  "receipts_count"
     t.index ["contract"], name: "index_developers_on_contract", using: :btree
     t.index ["cto"], name: "index_developers_on_cto", using: :btree
     t.index ["data"], name: "index_developers_on_data", using: :gin
@@ -111,7 +110,6 @@ ActiveRecord::Schema.define(version: 20161210125409) do
     t.inet     "last_sign_in_ip"
     t.datetime "created_at",                             null: false
     t.datetime "updated_at",                             null: false
-    t.integer  "receipts_count"
     t.index ["email"], name: "index_employers_on_email", unique: true, using: :btree
     t.index ["login"], name: "index_employers_on_login", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_employers_on_reset_password_token", unique: true, using: :btree
@@ -177,13 +175,18 @@ ActiveRecord::Schema.define(version: 20161210125409) do
     t.string   "notification_code"
     t.string   "notified_object_type"
     t.integer  "notified_object_id"
+    t.string   "message_object_type"
+    t.integer  "message_object_id"
     t.string   "attachment"
     t.datetime "updated_at",                           null: false
     t.datetime "created_at",                           null: false
     t.boolean  "global",               default: false
     t.datetime "expires"
     t.index ["conversation_id"], name: "index_mailboxer_notifications_on_conversation_id", using: :btree
+    t.index ["message_object_type", "message_object_id"], name: "mailboxer_message_object", using: :btree
+    t.index ["notification_code"], name: "index_mailboxer_notifications_on_notification_code", using: :btree
     t.index ["notified_object_id", "notified_object_type"], name: "index_mailboxer_notifications_on_notified_object_id_and_type", using: :btree
+    t.index ["notified_object_type", "notified_object_id"], name: "mailboxer_notified_object", using: :btree
     t.index ["sender_id", "sender_type"], name: "index_mailboxer_notifications_on_sender_id_and_sender_type", using: :btree
     t.index ["type"], name: "index_mailboxer_notifications_on_type", using: :btree
   end

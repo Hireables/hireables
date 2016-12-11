@@ -34,7 +34,7 @@ class CreateMailboxer < ActiveRecord::Migration
       t.column :conversation_id, :integer
       t.column :receipts_count, :integer
       t.column :draft, :boolean, :default => false
-      t.string :notification_code, :default => nil
+      t.string :notification_code, :default => nil, index: true
       t.references :notified_object, :polymorphic => true
       t.references :message_object, :polymorphic => true
       t.column :attachment, :string
@@ -60,6 +60,8 @@ class CreateMailboxer < ActiveRecord::Migration
 
     #Messages
     add_index "mailboxer_notifications","conversation_id"
+    add_index :mailboxer_notifications, [:notified_object_type, :notified_object_id], name: 'mailboxer_notified_object'
+    add_index :mailboxer_notifications, [:message_object_type, :message_object_id], name: 'mailboxer_message_object'
 
   #Foreign keys
     #Conversations
