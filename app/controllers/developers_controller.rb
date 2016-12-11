@@ -38,7 +38,10 @@ class DevelopersController < ApplicationController
 
   def fetch_languages
     return if Rails.cache.exist?(['developer', params[:id], 'languages'])
-    FetchDeveloperLanguagesJob.enqueue(params[:id], current_user.try(:access_token))
+    FetchDeveloperLanguagesJob.enqueue(
+      params[:id],
+      current_user.try(:access_token)
+    )
   end
 
   def set_developer
