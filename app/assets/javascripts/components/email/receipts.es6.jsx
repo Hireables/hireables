@@ -10,7 +10,7 @@ import Subject from 'material-ui/svg-icons/action/subject';
 import muiTheme from '../theme.es6';
 import Receipt from './receipt.es6';
 import CurrentUser from '../../helpers/currentUser.es6';
-import Composer from './composer.es6';
+import ReplyComposer from './replyComposer.es6';
 import LoadingComponent from '../shared/loadingComponent';
 
 const currentUser = new CurrentUser();
@@ -101,7 +101,7 @@ class Receipts extends Component {
           </div>
 
           {this.state.replying ?
-            <Composer
+            <ReplyComposer
               toggleReplyForm={this.toggleReplyForm}
               conversation={conversation}
             /> : ''

@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import Relay from 'react-relay';
 import { List } from 'material-ui/List';
 import Avatar from 'material-ui/Avatar';
+import RaisedButton from 'material-ui/RaisedButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import ReactDOM from 'react-dom';
 import Loader from 'react-loader';
@@ -104,6 +105,15 @@ class Mailbox extends Component {
       <MuiThemeProvider muiTheme={muiTheme}>
         <div className="mailbox">
           <div className="folders">
+            <div className="composer-button">
+              <RaisedButton
+                primary
+                label="Compose"
+                style={{
+                  display: 'block',
+                }}
+              />
+            </div>
             <Folders />
           </div>
           <div

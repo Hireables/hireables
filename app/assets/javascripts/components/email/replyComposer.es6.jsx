@@ -6,13 +6,13 @@ import Formsy from 'formsy-react';
 import Snackbar from 'material-ui/Snackbar';
 import RaisedButton from 'material-ui/RaisedButton';
 import RichEditor from '../shared/richEditor.es6';
-import CreateConversation from '../../mutations/mailbox/createConversation.es6';
+import ConversationReply from '../../mutations/mailbox/conversationReply.es6';
 
-class Composer extends Component {
+class ReplyComposer extends Component {
   constructor(props) {
     super(props);
     this.handleRequestClose = this.handleRequestClose.bind(this);
-    this.createConversation = this.createConversation.bind(this);
+    this.replyToConversation = this.replyToConversation.bind(this);
     this.onFailure = this.onFailure.bind(this);
     this.onSuccess = this.onSuccess.bind(this);
     this.state = {
@@ -52,10 +52,10 @@ class Composer extends Component {
     });
   }
 
-  createConversation() {
+  replyToConversation() {
     const onFailure = transaction => this.onFailure(transaction);
     const onSuccess = response => this.onSuccess(response);
-    Relay.Store.commitUpdate(new CreateConversation({
+    Relay.Store.commitUpdate(new ConversationReply({
       conversationId: this.props.conversation.id,
       body: this.editorNode.state.value.toString('html'),
     }), { onFailure, onSuccess });
@@ -78,10 +78,10 @@ class Composer extends Component {
           <div className="clearfix" />
           <div className="actions">
             <RaisedButton
-              label="Send"
+              label="Reply"
               primary
               type="submit"
-              onClick={this.createConversation}
+              onClick={this.replyToConversation}
             />
           </div>
 
@@ -100,9 +100,9 @@ class Composer extends Component {
   }
 }
 
-Composer.propTypes = {
+ReplyComposer.propTypes = {
   toggleReplyForm: React.PropTypes.func,
   conversation: React.PropTypes.object,
 };
 
-export default Composer;
+export default ReplyComposer;
