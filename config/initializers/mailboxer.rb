@@ -31,6 +31,7 @@ Rails.application.config.to_prepare do
   end
 
   Mailboxer::Message.class_eval do
+    belongs_to :message_object, polymorphic: true, required: false
     belongs_to :conversation,
                validate: true,
                autosave: true,

@@ -4,12 +4,10 @@ class EmployersController < ApplicationController
   before_action :set_employer, only: [:show, :edit]
 
   # GET /employers/:id
-  def show
-  end
+  def show; end
 
   # GET /employers/:id/edit
-  def edit
-  end
+  def edit; end
 
   private
 

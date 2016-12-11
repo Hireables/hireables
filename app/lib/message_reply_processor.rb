@@ -3,6 +3,5 @@ class MessageReplyProcessor
     @email = email
   end
 
-  def process
-  end
+  def process; end
 end
