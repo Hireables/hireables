@@ -10,7 +10,9 @@ ConversationType = GraphQL::ObjectType.define do
   field :messages_count, types.Int, 'Total messages count'
   field :last_message, MessageType, 'Last message of this conversation' do
     resolve ->(obj, _args, _ctx) do
-      obj.last_message
+      Rails.cache.fetch([obj, 'last_message']) do
+        obj.messages.includes(:sender).order(id: :desc).first
+      end
     end
   end
 
@@ -28,17 +30,24 @@ ConversationType = GraphQL::ObjectType.define do
 
   field :is_unread, types.Boolean, 'Is conversation unread?' do
     resolve ->(obj, _args, ctx) do
-      obj.is_unread?(ctx[:current_user])
+      Rails.cache.fetch(obj) do
+        obj.is_unread?(ctx[:current_user])
+      end
     end
   end
 
   connection :receipts, ReceiptType.connection_type do
     description 'Receipt connection to fetch paginated receipts.'
     resolve ->(obj, _args, ctx) do
-      obj
-        .receipts_for(ctx[:current_user])
-        .includes(message: :sender)
-        .order(id: :desc)
+      Rails.cache.fetch([
+        obj,
+        obj.receipts_for(ctx[:current_user]).cache_key
+      ]) do
+        obj
+          .receipts_for(ctx[:current_user])
+          .includes(message: :sender)
+          .order(id: :desc).to_a
+      end
     end
   end
 

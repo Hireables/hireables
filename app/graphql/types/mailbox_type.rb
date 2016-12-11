@@ -13,14 +13,19 @@ MailboxType = GraphQL::ObjectType.define do
 
   field :conversations_count, types.Int, 'Total number of conversations' do
     resolve ->(obj, _args, _ctx) do
-      obj.send(obj.type).size
+      box = Rails.cache.fetch([obj.type, obj.send(obj.type).cache_key]) do
+        obj.send(obj.type).to_a
+      end
+      box.count
     end
   end
 
   connection :conversations, ConversationType.connection_type do
     description 'Conversation connection to fetch paginated conversations.'
     resolve ->(obj, _args, _ctx) do
-      obj.send(obj.type)
+      Rails.cache.fetch([obj.type, obj.send(obj.type).cache_key]) do
+        obj.send(obj.type).to_a
+      end
     end
   end
 end
