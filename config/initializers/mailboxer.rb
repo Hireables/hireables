@@ -23,10 +23,17 @@ Rails.application.config.to_prepare do
   end
 
   Mailboxer::Receipt.class_eval do
-    belongs_to :message, class_name: "Mailboxer::Message", foreign_key: "notification_id", required: false, counter_cache: true
+    belongs_to :message,
+                        class_name: "Mailboxer::Message",
+                        foreign_key: "notification_id",
+                        required: false,
+                        counter_cache: true
   end
 
   Mailboxer::Message.class_eval do
-    belongs_to :conversation, validate: true, autosave: true, counter_cache: true
+    belongs_to :conversation,
+               validate: true,
+               autosave: true,
+               counter_cache: true
   end
 end
