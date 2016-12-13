@@ -16,6 +16,7 @@ import Conversation from './conversation.es6';
 import muiTheme from '../theme.es6';
 import LoadingComponent from '../shared/loadingComponent';
 import CurrentUser from '../../helpers/currentUser.es6';
+import Composer from './composer.es6';
 
 const currentUser = new CurrentUser();
 
@@ -44,9 +45,18 @@ class Mailbox extends Component {
     );
   }
 
+  static renderComposer() {
+    ReactDOM.unmountComponentAtNode(document.getElementById('receipts'));
+    ReactDOM.render(
+      <Composer />,
+      document.getElementById('receipts')
+    );
+  }
+
   constructor(props) {
     super(props);
     this.showReceipts = this.showReceipts.bind(this);
+    this.showComposer = this.showComposer.bind(this);
     this.handleScrollLoad = this.handleScrollLoad.bind(this);
     this.loadMore = this.loadMore.bind(this);
     this.state = {
@@ -66,6 +76,12 @@ class Mailbox extends Component {
   showReceipts(conversationId) {
     this.setState({ selected: true }, () => {
       Mailbox.renderReceipts(conversationId);
+    });
+  }
+
+  showComposer() {
+    this.setState({ selected: true }, () => {
+      Mailbox.renderComposer();
     });
   }
 
@@ -108,6 +124,7 @@ class Mailbox extends Component {
             <div className="composer-button">
               <RaisedButton
                 primary
+                onClick={this.showComposer}
                 label="Compose"
                 style={{
                   display: 'block',
