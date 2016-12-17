@@ -3,17 +3,21 @@
 import React, { Component } from 'react';
 import Relay from 'react-relay';
 import Formsy from 'formsy-react';
+import Chip from 'material-ui/Chip';
 import Snackbar from 'material-ui/Snackbar';
+import Avatar from 'material-ui/Avatar';
 import RaisedButton from 'material-ui/RaisedButton';
 import { FormsyText } from 'formsy-material-ui/lib';
-import Dropzone from 'react-dropzone';
+import AutoComplete from 'material-ui/AutoComplete';
 import IconButton from 'material-ui/IconButton';
+import { css } from 'aphrodite';
 import Mail from 'material-ui/svg-icons/content/mail';
 import Cancel from 'material-ui/svg-icons/navigation/cancel';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import muiTheme from '../theme.es6';
 import RichEditor from '../shared/richEditor.es6';
 import CreateConversation from '../../mutations/mailbox/createConversation.es6';
+import chipStyles from '../styles/chips.es6';
 
 class Composer extends Component {
   static onKeyPress(event) {
@@ -28,11 +32,19 @@ class Composer extends Component {
     super(props);
     this.handleRequestClose = this.handleRequestClose.bind(this);
     this.createConversation = this.createConversation.bind(this);
-    this.handleFileDrop = this.handleFileDrop.bind(this);
+    this.enableButton = this.enableButton.bind(this);
+    this.disableButton = this.disableButton.bind(this);
     this.onFailure = this.onFailure.bind(this);
     this.onSuccess = this.onSuccess.bind(this);
+    this.renderChip = this.renderChip.bind(this);
+    this.handleRequestDelete = this.handleRequestDelete.bind(this);
+    this.addRecipients = this.addRecipients.bind(this);
+    this.fetchRecipients = this.fetchRecipients.bind(this);
+    this.onInvalidRecipientSelection = this.onInvalidRecipientSelection.bind(this);
     this.state = {
       open: false,
+      canSubmit: false,
+      recipients: [],
       notification: '',
     };
   }
@@ -49,9 +61,19 @@ class Composer extends Component {
   }
 
   onSuccess(response) {
-    if (response.ConversationReply) {
-      this.props.toggleReplyForm();
+    if (response.CreateConversation) {
+      this.setNotification('Message Sent');
+      setTimeout(() => {
+        this.props.removeComposer();
+      }, 2000);
     }
+  }
+
+  onInvalidRecipientSelection(message) {
+    this.recipientNode.state.searchText = '';
+    this.recipientNode.focus();
+    this.setState({ canSubmit: false });
+    this.setNotification(message);
   }
 
   setNotification(notification) {
@@ -59,6 +81,75 @@ class Composer extends Component {
       notification,
     }, () => {
       this.setState({ open: true });
+    });
+  }
+
+  fetchRecipients(event) {
+    if (event.keyCode === 13) {
+      Composer.onKeyPress(event);
+      return;
+    }
+
+    this.props.relay.setVariables({
+      query: this.recipientNode.state.searchText,
+    });
+  }
+
+  addRecipients(selectedRecipient, index) {
+    if (index === -1) {
+      this.onInvalidRecipientSelection('Please select from the list');
+      return;
+    }
+
+    const newRecipient = selectedRecipient.name.trim();
+
+    if (newRecipient === '') {
+      this.onInvalidRecipientSelection('Empty recipient');
+      return;
+    }
+
+    const isDuplicate = this.state.recipients.some(recipient => (
+      recipient.database_id === selectedRecipient.database_id
+    ));
+
+    if (isDuplicate) {
+      this.onInvalidRecipientSelection('Duplicate recipient');
+      return;
+    }
+
+    const recipients = this.state.recipients.concat([{
+      database_id: selectedRecipient.database_id,
+      name: newRecipient,
+      avatar: selectedRecipient.avatar_url,
+    }]);
+
+    this.setState({ recipients }, () => {
+      this.recipientNode.state.searchText = '';
+      this.recipientNode.focus();
+      this.setState({
+        canSubmit: true,
+      });
+    });
+  }
+
+  handleRequestDelete(databaseId) {
+    this.recipients = this.state.recipients;
+    const recipientToDelete = this.recipients
+    .map(recipient => recipient.database_id)
+    .indexOf(databaseId);
+    this.recipients.splice(recipientToDelete, 1);
+    this.setState({ recipients: this.recipients });
+  }
+
+  enableButton() {
+    this.setState({
+      canSubmit: true,
+    });
+  }
+
+  disableButton() {
+    this.setState({
+      canSubmit: false,
     });
   }
 
@@ -71,18 +162,38 @@ class Composer extends Component {
   createConversation() {
     const onFailure = transaction => this.onFailure(transaction);
     const onSuccess = response => this.onSuccess(response);
-    Relay.Store.commitUpdate(new CreateConversation({
-      conversationId: this.props.conversation.id,
-      body: this.editorNode.state.value.toString('html'),
-    }), { onFailure, onSuccess });
+    if (this.state.recipients && this.state.recipients.length > 0) {
+      Relay.Store.commitUpdate(new CreateConversation({
+        id: this.props.mailbox.id,
+        recipients: this.state.recipients.map(recipient => recipient.database_id),
+        body: this.editorNode.state.value.toString('html'),
+        ...this.formNode.getModel(),
+      }), { onFailure, onSuccess });
+    } else {
+      this.setNotification('Please select atleast one recipient');
+    }
   }
 
-  handleFileDrop(acceptedFiles, rejectedFiles) {
-    console.log('Accepted files: ', acceptedFiles);
-    console.log('Rejected files: ', rejectedFiles);
+  renderChip(data) {
+    return (
+      <Chip
+        key={data.database_id}
+        onRequestDelete={() => this.handleRequestDelete(data.database_id)}
+        className={css(chipStyles.badge)}
+      >
+        <Avatar src={data.avatar} />
+        {data.name}
+      </Chip>
+    );
   }
 
   render() {
+    const dataSourceConfig = {
+      text: 'name',
+      value: 'database_id',
+      avatar: 'avatar_url',
+    };
+
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
         <div className="email-composor">
@@ -93,6 +204,7 @@ class Composer extends Component {
             </h1>
             <div className="actions">
               <IconButton
+                onClick={this.props.removeComposer}
                 tooltip="Discard"
               >
                 <Cancel />
@@ -107,10 +219,38 @@ class Composer extends Component {
             ref={node => (this.formNode = node)}
             onInvalid={this.disableButton}
           >
+            <div className="field recipients">
+              <AutoComplete
+                floatingLabelText="To *"
+                name="recipients"
+                id="recipients"
+                placeholder="(ex: Type 'ad' to search for adam)"
+                floatingLabelFixed
+                fullWidth
+                animated={false}
+                dataSource={
+                  this.props.composer.recipients.edges.map(({ node }) => node)
+                }
+                filter={AutoComplete.fuzzyFilter}
+                onNewRequest={this.addRecipients}
+                className="recipients-input"
+                ref={node => (this.recipientNode = node)}
+                onKeyDown={this.fetchRecipients}
+                dataSourceConfig={dataSourceConfig}
+                maxSearchResults={5}
+              />
+              <div className={css(chipStyles.wrapper)}>
+                {this.state.recipients.map(this.renderChip, this)}
+              </div>
+            </div>
+
             <div className="field subject">
               <FormsyText
-                id="text-field-default"
-                placeholder="(ex: Rails job)"
+                id="subject"
+                placeholder="(ex: Great opportunity at Apple Inc.)"
+                floatingLabelText="Subject *"
+                floatingLabelFixed
+                updateImmediately
                 name="subject"
                 fullWidth
                 className="subject-input"
@@ -125,27 +265,13 @@ class Composer extends Component {
               </div>
             </div>
 
-            <div className="field attachment">
-              <Dropzone
-                onDrop={this.onDrop}
-                multiple
-                disablePreview
-                maxSize={2}
-                accept="application/pdf, application/doc"
-              >
-                <div>
-                  Try dropping some files here,
-                  or click to select files to upload.
-                </div>
-              </Dropzone>
-            </div>
-
             <div className="clearfix" />
             <div className="actions">
               <RaisedButton
                 label="Send"
                 primary
                 type="submit"
+                disabled={!this.state.canSubmit}
                 onClick={this.createConversation}
               />
             </div>
@@ -168,7 +294,35 @@ class Composer extends Component {
 
 Composer.propTypes = {
   toggleReplyForm: React.PropTypes.func,
-  conversation: React.PropTypes.object,
+  mailbox: React.PropTypes.object,
+  composer: React.PropTypes.object,
+  relay: React.PropTypes.object,
+  removeComposer: React.PropTypes.func,
 };
 
-export default Composer;
+const ComposerContainer = Relay.createContainer(Composer, {
+  initialVariables: {
+    first: 5,
+    query: null,
+  },
+  fragments: {
+    composer: () => Relay.QL`
+      fragment on Composer {
+        id,
+        recipients(first: $first, query: $query) {
+          edges {
+            node {
+              id,
+              database_id,
+              email,
+              name,
+              avatar_url,
+            }
+          }
+        }
+      }
+    `,
+  },
+});
+
+export default ComposerContainer;

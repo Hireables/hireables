@@ -304,19 +304,6 @@ class DeveloperEdit extends Component {
                     maxSearchResults={5}
                   />
 
-                  {/*// <FormsyText
-                  //   id="text-field-default"
-                  //   placeholder="(ex: ruby, python)"
-                  //   name="languages"
-                  //   className="languages"
-                  //   onKeyDown={this.addNewLanguage}
-                  //   ref={node => (this.languageNode = node)}
-                  //   floatingLabelText="Languages and frameworks you work with *"
-                  //   floatingLabelFixed
-                  //   fullWidth
-                  // />
-                  */}
-
                   <div className={css(chipStyles.wrapper)}>
                     {this.state.languages.map(this.renderChip, this)}
                   </div>

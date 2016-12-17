@@ -9,6 +9,7 @@ import Trash from 'material-ui/svg-icons/action/delete';
 import Subject from 'material-ui/svg-icons/action/subject';
 import muiTheme from '../theme.es6';
 import Receipt from './receipt.es6';
+import nameBadge from '../../utils/nameBadge.es6';
 import CurrentUser from '../../helpers/currentUser.es6';
 import ReplyComposer from './replyComposer.es6';
 import LoadingComponent from '../shared/loadingComponent';
@@ -112,7 +113,12 @@ class Receipts extends Component {
               <Receipt receipt={node} key={node.id} />
             )) :
             <div className="no-result">
-              <Avatar src={currentUser.avatar} />
+              {currentUser.avatar ?
+                <Avatar src={currentUser.avatar} /> :
+                <Avatar>
+                  {nameBadge(currentUser.name)}
+                </Avatar>
+              }
               <h1>No emails found</h1>
             </div>
           }

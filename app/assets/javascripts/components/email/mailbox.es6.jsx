@@ -10,6 +10,7 @@ import ReactDOM from 'react-dom';
 import Loader from 'react-loader';
 import Receipts from './receipts.es6';
 import ErrorComponent from '../shared/errorComponent';
+import nameBadge from '../../utils/nameBadge.es6';
 import conversationRoute from '../../routes/conversationRoute.es6';
 import Folders from './folders.es6';
 import Conversation from './conversation.es6';
@@ -17,6 +18,7 @@ import muiTheme from '../theme.es6';
 import LoadingComponent from '../shared/loadingComponent';
 import CurrentUser from '../../helpers/currentUser.es6';
 import Composer from './composer.es6';
+import ComposerRoute from '../../routes/composerRoute.es6';
 
 const currentUser = new CurrentUser();
 
@@ -45,19 +47,13 @@ class Mailbox extends Component {
     );
   }
 
-  static renderComposer() {
-    ReactDOM.unmountComponentAtNode(document.getElementById('receipts'));
-    ReactDOM.render(
-      <Composer />,
-      document.getElementById('receipts')
-    );
-  }
-
   constructor(props) {
     super(props);
     this.showReceipts = this.showReceipts.bind(this);
     this.showComposer = this.showComposer.bind(this);
     this.handleScrollLoad = this.handleScrollLoad.bind(this);
+    this.renderComposer = this.renderComposer.bind(this);
+    this.removeComposer = this.removeComposer.bind(this);
     this.loadMore = this.loadMore.bind(this);
     this.state = {
       selected: false,
@@ -81,8 +77,13 @@ class Mailbox extends Component {
 
   showComposer() {
     this.setState({ selected: true }, () => {
-      Mailbox.renderComposer();
+      this.renderComposer();
     });
+  }
+
+  removeComposer() {
+    ReactDOM.unmountComponentAtNode(document.getElementById('receipts'));
+    this.setState({ selected: false });
   }
 
   handleScrollLoad() {
@@ -113,6 +114,32 @@ class Mailbox extends Component {
         });
       }
     });
+  }
+
+  renderComposer() {
+    ReactDOM.unmountComponentAtNode(document.getElementById('receipts'));
+    ReactDOM.render(
+      <Relay.Renderer
+        Container={Composer}
+        queryConfig={ComposerRoute}
+        environment={Relay.Store}
+        render={({ props, error, retry }) => {
+          if (props) {
+            return (
+              <Composer
+                mailbox={this.props.mailbox}
+                removeComposer={this.removeComposer}
+                {...props}
+              />
+            );
+          } else if (error) {
+            return <ErrorComponent retry={retry} />;
+          }
+          return <Loader />;
+        }}
+      />,
+      document.getElementById('receipts')
+    );
   }
 
   render() {
@@ -160,7 +187,12 @@ class Mailbox extends Component {
                   />
                 )) :
                 <div className="no-result">
-                  <Avatar src={currentUser.avatar} />
+                  {currentUser.avatar ?
+                    <Avatar src={currentUser.avatar} /> :
+                    <Avatar>
+                      {nameBadge(currentUser.name)}
+                    </Avatar>
+                  }
                   <h1>No conversations found</h1>
                 </div>
               }
@@ -172,7 +204,12 @@ class Mailbox extends Component {
             <div id="receipts" /> :
             <div className="receipts">
               <div className="no-result">
-                <Avatar src={currentUser.avatar} />
+                {currentUser.avatar ?
+                  <Avatar src={currentUser.avatar} /> :
+                  <Avatar>
+                    {nameBadge(currentUser.name)}
+                  </Avatar>
+                }
                 <h1>No conversation has been selected</h1>
               </div>
             </div>
@@ -193,6 +230,7 @@ const MailboxContainer = Relay.createContainer(Mailbox, {
     type: 'inbox',
     first: 10,
   },
+
   fragments: {
     mailbox: () => Relay.QL`
       fragment on Mailbox {

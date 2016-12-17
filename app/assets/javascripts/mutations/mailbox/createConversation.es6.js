@@ -8,7 +8,6 @@ export default class extends Relay.Mutation {
   getFatQuery() {
     return Relay.QL`
       fragment on CreateConversationPayload {
-        conversationEdge,
         mailbox {
           id,
           conversations_count,
@@ -21,26 +20,14 @@ export default class extends Relay.Mutation {
     return [{
       type: 'FIELDS_CHANGE',
       fieldIDs: {
-        conversation: this.props.mailboxId,
-      },
-    }, {
-      type: 'RANGE_ADD',
-      parentName: 'conversation',
-      parentID: this.props.mailboxId,
-      connectionName: 'conversations',
-      edgeName: 'conversationEdge',
-      rangeBehaviors: {
-        '': 'prepend',
-        'order(id)': 'append',
-        'order(-id)': 'prepend',
+        mailbox: this.props.id,
       },
     }];
   }
 
   getVariables() {
     return {
-      id: this.props.mailboxId,
-      body: this.props.body,
+      ...this.props,
     };
   }
 }
