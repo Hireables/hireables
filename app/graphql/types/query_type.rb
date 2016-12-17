@@ -8,6 +8,11 @@ QueryType = GraphQL::ObjectType.define do
     resolve ->(_obj, _args, _ctx) { Viewer::STATIC }
   end
 
+  field :composer, ComposerType do
+    description 'Root field that initializes composer for mailbox'
+    resolve ->(_obj, _args, _ctx) { Composer::STATIC }
+  end
+
   field :developer do
     argument :id, !types.String
     type DeveloperType

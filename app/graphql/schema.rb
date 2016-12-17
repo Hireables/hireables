@@ -47,6 +47,7 @@ def models
     'Connection' => Connection,
     'Favourite' => Favourite,
     'Viewer' => Viewer,
+    'Composer' => Composer,
     'Conversation' => Mailboxer::Conversation,
     'Message' => Mailboxer::Message,
     'Mailbox' => Mailboxer::Mailbox,
@@ -69,7 +70,7 @@ module SchemaHelpers
   end
 
   def checksum
-    files   = Dir['app/api/**/*.rb'].reject { |f| File.directory?(f) }
+    files   = Dir['app/graphql/**/*.rb'].reject { |f| File.directory?(f) }
     content = files.map { |f| File.read(f) }.join
     Digest::SHA256.hexdigest(content).to_s
   end

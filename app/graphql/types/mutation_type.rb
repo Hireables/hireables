@@ -11,4 +11,5 @@ MutationType = GraphQL::ObjectType.define do
   field :RemoveAchievement, field: Developers::RemoveAchievementMutation.field
   field :MarkAsReadMutation, field: Mailbox::MarkAsReadMutation.field
   field :ConversationReply, field: Mailbox::ConversationReplyMutation.field
+  field :CreateConversation, field: Mailbox::CreateConversation.field
 end
