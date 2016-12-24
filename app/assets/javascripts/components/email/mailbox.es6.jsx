@@ -148,16 +148,18 @@ class Mailbox extends Component {
       <MuiThemeProvider muiTheme={muiTheme}>
         <div className="mailbox">
           <div className="folders">
-            <div className="composer-button">
-              <RaisedButton
-                primary
-                onClick={this.showComposer}
-                label="Compose"
-                style={{
-                  display: 'block',
-                }}
-              />
-            </div>
+            {mailbox.user_type === 'employer' ?
+              <div className="composer-button">
+                <RaisedButton
+                  primary
+                  onClick={this.showComposer}
+                  label="Compose"
+                  style={{
+                    display: 'block',
+                  }}
+                />
+              </div> : ''
+            }
             <Folders />
           </div>
           <div
@@ -236,6 +238,7 @@ const MailboxContainer = Relay.createContainer(Mailbox, {
       fragment on Mailbox {
         id,
         type,
+        user_type,
         conversations_count,
         conversations(first: $first) {
           edges {
