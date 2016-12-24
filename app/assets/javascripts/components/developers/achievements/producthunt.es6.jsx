@@ -8,7 +8,7 @@ import FontIcon from 'material-ui/FontIcon';
 
 // Child Components icons
 import ProductHuntIcon from '../../shared/icons/producthunt.es6';
-import { sanitize } from '../../../utils/sanitize.es6';
+import { sanitizeText } from '../../../utils/sanitize.es6';
 
 const ProductHunt = (props) => {
   const { achievement, remove } = props;

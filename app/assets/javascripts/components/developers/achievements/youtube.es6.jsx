@@ -10,7 +10,7 @@ import FontIcon from 'material-ui/FontIcon';
 
 // Child Components icons
 import YoutubeIcon from '../../shared/icons/youtube.es6';
-import { sanitize } from '../../../utils/sanitize.es6';
+import { sanitizeText } from '../../../utils/sanitize.es6';
 
 class Youtube extends Component {
   componentDidMount() {
