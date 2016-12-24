@@ -148,16 +148,16 @@ class NavBar extends Component {
                       }
                     >
                       <Badge
-                        badgeContent={10}
+                        badgeContent={this.props.current_user.unread_inbox_count}
                         style={{
                           verticalAlign: 'middle',
                           padding: 0,
                           position: 'initial',
                         }}
-                        badgeStyle={{
-                          top: 10,
-                          right: 15,
-                        }}
+                        badgeStyle={
+                          this.props.current_user.unread_inbox_count === 0 ?
+                          { display: 'none' } : { top: 10, right: 15 }
+                        }
                       />
                       <IconButton
                         href={Routes.mailbox_path('inbox')}
@@ -250,35 +250,35 @@ class NavBar extends Component {
                       </IconMenu>
                     </a>
                   </div> :
-                    <div className="logged out">
-                      <RaisedButton
-                        onTouchTap={this.handleTouchTap}
-                        label="Login"
-                        style={buttonStyle}
-                      />
-                      <Popover
-                        open={this.state.open}
-                        anchorEl={this.state.anchorEl}
-                        anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
-                        targetOrigin={{ horizontal: 'left', vertical: 'top' }}
-                        onRequestClose={this.handleRequestClose}
-                      >
-                        <Menu>
-                          <MenuItem
-                            leftIcon={<FontIcon className="muidocs-icon-custom-github" />}
-                            href={Routes.developer_github_omniauth_authorize_path()}
-                            primaryText="Developer"
-                            innerDivStyle={{ padding: '0px 16px 0px 50px' }}
-                          />
-                          <MenuItem
-                            innerDivStyle={{ padding: '0px 16px 0px 50px' }}
-                            href={Routes.new_employer_session_path()}
-                            primaryText="Employer"
-                            leftIcon={<ActionContentMail />}
-                          />
-                        </Menu>
-                      </Popover>
-                    </div>
+                  <div className="logged out">
+                    <RaisedButton
+                      onTouchTap={this.handleTouchTap}
+                      label="Login"
+                      style={buttonStyle}
+                    />
+                    <Popover
+                      open={this.state.open}
+                      anchorEl={this.state.anchorEl}
+                      anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
+                      targetOrigin={{ horizontal: 'left', vertical: 'top' }}
+                      onRequestClose={this.handleRequestClose}
+                    >
+                      <Menu>
+                        <MenuItem
+                          leftIcon={<FontIcon className="muidocs-icon-custom-github" />}
+                          href={Routes.developer_github_omniauth_authorize_path()}
+                          primaryText="Developer"
+                          innerDivStyle={{ padding: '0px 16px 0px 50px' }}
+                        />
+                        <MenuItem
+                          innerDivStyle={{ padding: '0px 16px 0px 50px' }}
+                          href={Routes.new_employer_session_path()}
+                          primaryText="Employer"
+                          leftIcon={<ActionContentMail />}
+                        />
+                      </Menu>
+                    </Popover>
+                  </div>
                 }
               </ToolbarGroup>
             </Toolbar>
@@ -291,6 +291,7 @@ class NavBar extends Component {
 
 NavBar.propTypes = {
   current_user: React.PropTypes.object,
+  unread_inbox_count: React.PropTypes.number,
   authenticated: React.PropTypes.bool,
 };
 
