@@ -14,13 +14,14 @@ module Mailbox
 
     # Resolve block to mark a conversation as read
     resolve ->(_obj, inputs, ctx) do
-      raise StandardError 'Unauthorised' unless ctx[:current_user].present?
+      raise StandardError 'Unauthorised' unless ctx[:current_employer].present?
       mailbox = Schema.object_from_id(inputs[:id], ctx)
-      user = ctx[:current_user]
       recipients = Developer.where(id: inputs[:recipients])
-
-      # Reply to conversation
-      user.send_message(recipients, inputs[:body], inputs[:subject])
+      ctx[:current_employer].send_message(
+        recipients,
+        inputs[:body],
+        inputs[:subject]
+      )
       { mailbox: mailbox }
     end
   end

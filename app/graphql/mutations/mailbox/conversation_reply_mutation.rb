@@ -17,6 +17,10 @@ module Mailbox
       conversation = Schema.object_from_id(inputs[:id], ctx)
       user = ctx[:current_user]
 
+      unless conversation.participants.include?(user)
+        raise StandardError 'Unauthorised'
+      end
+
       # Reply to conversation
       receipt = user.reply_to_conversation(conversation, inputs[:body])
       receipts_connection = GraphQL::Relay::RelationConnection.new(
