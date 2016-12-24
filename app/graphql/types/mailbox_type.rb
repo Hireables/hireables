@@ -11,6 +11,12 @@ MailboxType = GraphQL::ObjectType.define do
     end
   end
 
+  field :user_type, types.String, 'The type of the mailbox' do
+    resolve ->(_obj, _args, ctx) do
+      ctx[:current_user].class.name.downcase
+    end
+  end
+
   field :conversations_count, types.Int, 'Total number of conversations' do
     resolve ->(obj, _args, _ctx) do
       box = Rails.cache.fetch([obj.type, obj.send(obj.type).cache_key]) do
