@@ -30,7 +30,7 @@ ConversationType = GraphQL::ObjectType.define do
 
   field :is_unread, types.Boolean, 'Is conversation unread?' do
     resolve ->(obj, _args, ctx) do
-      Rails.cache.fetch(obj) do
+      Rails.cache.fetch([ctx[:current_user], obj]) do
         obj.is_unread?(ctx[:current_user])
       end
     end
@@ -41,6 +41,7 @@ ConversationType = GraphQL::ObjectType.define do
     resolve ->(obj, _args, ctx) do
       Rails.cache.fetch([
         obj,
+        ctx[:current_user],
         obj.receipts_for(ctx[:current_user]).cache_key
       ]) do
         obj
