@@ -4,7 +4,7 @@ class Employer < ApplicationRecord
   devise :database_authenticatable, :registerable, :recoverable,
          :rememberable, :trackable, :validatable
 
-  store_accessor :preferences, :language, :location, :type
+  store_accessor :preferences, :languages, :location, :type, :industries
 
   validates_presence_of :name, :company, :website, :login, :preferences
   validates_uniqueness_of :login
