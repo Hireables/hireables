@@ -1,17 +1,15 @@
-# rubocop:disable Metrics/BlockLength
 Rails.application.routes.draw do
   authenticated :developer do
-    root 'search#index', as: :developer_root
+    resources :mailbox, only: :show
+    root 'developers#profile', as: :developer_root
   end
 
   authenticated :employer do
+    resources :mailbox, only: :show
     root 'search#index', as: :employer_root
   end
 
   root to: 'pages#index'
-  get '/cookies-policy', to: 'pages#cookies_policy'
-  get '/privacy-policy', to: 'pages#privacy_policy'
-  get '/upgrade-browser', to: 'pages#upgrade_browser'
 
   namespace :graphql do
     post '/', to: 'query#create'
@@ -38,7 +36,6 @@ Rails.application.routes.draw do
 
   resources :search, only: :index
   resources :employers, only: [:show, :edit]
-
-  get '/:id', to: 'developers#show', as: :developer
-  get '/:id/edit', to: 'developers#edit', as: :edit_developer
+  resources :developers, only: [:edit, :show]
+  mount_griddler('/email/replies')
 end

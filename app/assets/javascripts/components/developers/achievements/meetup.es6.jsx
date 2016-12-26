@@ -11,7 +11,7 @@ import Truncate from 'react-truncate';
 
 // Child Components icons
 import MeetupIcon from '../../shared/icons/meetup.es6';
-import sanitize from '../../../utils/sanitize.es6';
+import { sanitizeText } from '../../../utils/sanitize.es6';
 
 const Meetup = (props) => {
   const { achievement, remove } = props;
@@ -80,7 +80,7 @@ const Meetup = (props) => {
               >
                 <CardText
                   dangerouslySetInnerHTML={{
-                    __html: sanitize(achievement.description).replace(/&nbsp;/g, ''),
+                    __html: sanitizeText(achievement.description).replace(/&nbsp;/g, ''),
                   }}
                 />
               </Truncate>

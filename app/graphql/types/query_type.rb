@@ -8,6 +8,14 @@ QueryType = GraphQL::ObjectType.define do
     resolve ->(_obj, _args, _ctx) { Viewer::STATIC }
   end
 
+  field :composer, ComposerType do
+    description 'Root field that initializes composer for mailbox'
+    resolve ->(_obj, _args, ctx) do
+      raise StandardError, 'Unauthorised' unless ctx[:current_employer].present?
+      Composer::STATIC
+    end
+  end
+
   field :developer do
     argument :id, !types.String
     type DeveloperType
@@ -20,5 +28,22 @@ QueryType = GraphQL::ObjectType.define do
     type EmployerType
     description 'Returns a employer profile by id'
     resolve(Employers::ShowResolver)
+  end
+
+  field :mailbox do
+    argument :id, types.String
+    type MailboxType
+    description 'Returns a mailbox by type'
+    resolve(MailboxResolver)
+  end
+
+  field :conversation do
+    argument :id, !types.ID
+    type ConversationType
+    description 'Returns a conversation by id'
+    resolve ->(_obj, args, ctx) do
+      raise StandardError 'Unauthorised' unless ctx[:current_user].present?
+      Schema.object_from_id(args['id'], ctx)
+    end
   end
 end

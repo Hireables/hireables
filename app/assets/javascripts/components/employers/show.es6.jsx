@@ -5,7 +5,6 @@ import Relay from 'react-relay';
 import Avatar from 'material-ui/Avatar';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { grey700 } from 'material-ui/styles/colors';
-import createDOMPurify from 'dompurify';
 import IconButton from 'material-ui/IconButton';
 import ActionCamera from 'material-ui/svg-icons/image/camera-alt';
 
@@ -18,6 +17,8 @@ import Search from '../search.es6';
 
 // Utils
 import muiTheme from '../theme.es6';
+import { sanitizeText } from '../../utils/sanitize.es6';
+import nameBadge from '../../utils/nameBadge.es6';
 
 class EmployerShow extends Component {
   constructor(props) {
@@ -82,17 +83,6 @@ class EmployerShow extends Component {
     };
 
     const { employer, signedIn } = this.props;
-    const bio = createDOMPurify.sanitize(
-      employer.bio,
-      { ALLOWED_TAGS: ['b', 'i'] }
-    );
-
-    const userBadge = () => {
-      const { name } = employer;
-      const chunks = name.split(' ');
-      return chunks[0][0] + chunks[1][0];
-    };
-
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
         <div className="employers-show-wrapper">
@@ -112,10 +102,12 @@ class EmployerShow extends Component {
                       <Avatar
                         src={employer.avatar_url}
                         size={100}
+                        className="avatar-image"
                       /> : <Avatar
                         src={employer.avatar_url}
                         size={100}
-                      >{userBadge()}</Avatar>
+                        className="avatar-badge"
+                      >{nameBadge(employer.name)}</Avatar>
                     }
 
                     {this.state.uploading ?
@@ -143,7 +135,7 @@ class EmployerShow extends Component {
                   <div className="bio" style={{ marginTop: '5px' }}>
                     <span
                       style={bioStyles}
-                      dangerouslySetInnerHTML={{ __html: bio }}
+                      dangerouslySetInnerHTML={{ __html: sanitizeText(employer.bio) }}
                     />
                   </div>
 

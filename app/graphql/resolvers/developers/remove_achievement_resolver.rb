@@ -16,7 +16,10 @@ module Developers
 
     def call
       if achievement.update!(pinned: false)
-        { developer: current_developer.reload, deletedId: params['id'] }
+        {
+          developer: current_developer.reload,
+          deletedId: params['id']
+        }
       end
     end
 

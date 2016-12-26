@@ -3,7 +3,7 @@ class SeedConnectionsJob < Que::Job
     developer = Developer.find(developer_id)
     ActiveRecord::Base.transaction do
       allowed_connections.each do |connection|
-        developer.connections.create!(provider: connection)
+        developer.connections.where(provider: connection).first_or_create
       end
       destroy
     end

@@ -3,7 +3,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   include Devise::Controllers::Rememberable
 
   def self.provides_callback_for(provider)
-    class_eval %Q{
+    class_eval %(
       def #{provider}
         @auth_hash = {
           uid: auth_hash.uid,
@@ -12,7 +12,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
         }
         render :callback, layout: false
       end
-    }
+    )
   end
 
   [

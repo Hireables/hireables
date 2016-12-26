@@ -7,7 +7,10 @@ module Meetup
 
   def fetch_events
     events.lazy.map do |event|
-      event.tap { |obj| obj['created'] = Time.at(obj['created'] / 1000).utc }
+      event.tap do |obj|
+        obj['category'] = 'event'
+        obj['created'] = Time.at(obj['created'] / 1000).utc
+      end
       HashWithIndifferentAccess.new(event.to_hash).except(*mu_excluded_fields)
     end.to_a
   rescue NoMethodError

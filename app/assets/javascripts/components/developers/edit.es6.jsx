@@ -108,7 +108,7 @@ class DeveloperEdit extends Component {
     };
 
     const onSuccess = () => {
-      window.location.href = Routes.developer_path(this.props.developer.login);
+      window.location.href = Routes.developer_root_path(this.props.developer.login);
     };
 
     const newModel = Object.assign(this.formNode.getModel(), {
@@ -303,19 +303,6 @@ class DeveloperEdit extends Component {
                     dataSource={languageKeys}
                     maxSearchResults={5}
                   />
-
-                  {/*// <FormsyText
-                  //   id="text-field-default"
-                  //   placeholder="(ex: ruby, python)"
-                  //   name="languages"
-                  //   className="languages"
-                  //   onKeyDown={this.addNewLanguage}
-                  //   ref={node => (this.languageNode = node)}
-                  //   floatingLabelText="Languages and frameworks you work with *"
-                  //   floatingLabelFixed
-                  //   fullWidth
-                  // />
-                  */}
 
                   <div className={css(chipStyles.wrapper)}>
                     {this.state.languages.map(this.renderChip, this)}

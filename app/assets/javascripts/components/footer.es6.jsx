@@ -26,13 +26,13 @@ const Footer = () => (
               text="&copy; 2015-2016 Hireables"
               className={css(footerStyles.text, footerStyles.copyright)}
             />
-            <a href={Routes.privacy_policy_path()}>
+            <a href={Routes.page_path('privacy_policy')}>
               <ToolbarTitle
                 text="Privacy Policy"
                 className={css(footerStyles.text, footerStyles.copyright)}
               />
             </a>
-            <a href={Routes.cookies_policy_path()}>
+            <a href={Routes.page_path('cookies_policy')}>
               <ToolbarTitle
                 text="Cookies Policy"
                 className={css(footerStyles.text, footerStyles.copyright)}

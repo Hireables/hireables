@@ -11,7 +11,6 @@ import 'dialog-polyfill/dialog-polyfill.css';
 
 // Util
 import muiTheme from '../theme.es6';
-import CurrentUser from '../../helpers/currentUser.es6';
 import DeveloperShow from './show.es6';
 import Dialog from '../../utils/dialog.es6';
 import Environment from '../../helpers/environment.es6';
@@ -20,7 +19,6 @@ import Environment from '../../helpers/environment.es6';
 import '../styles/popup.sass';
 
 const environment = new Environment();
-const currentUser = new CurrentUser();
 
 class Popup extends Component {
   componentDidMount() {
@@ -37,11 +35,9 @@ class Popup extends Component {
 
     if (environment.isProduction) {
       mixpanel.track('Profile loaded', {
-        developerLogin: this.props.developer.login,
+        userLogin: this.props.developer.login,
         premium: this.props.developer.premium,
-        userId: currentUser.id,
-        userType: currentUser.type,
-        userName: currentUser.name,
+        userName: this.props.developer.name,
       });
     }
   }
@@ -79,6 +75,7 @@ const PopupContainer = Relay.createContainer(
       developer: () => Relay.QL`
         fragment on Developer {
           id,
+          name,
           ${DeveloperShow.getFragment('developer')}
         }
       `,

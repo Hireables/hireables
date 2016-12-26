@@ -46,10 +46,10 @@ module Hireables
     config.filter_parameters << :password
 
     # Cors
-    config.middleware.insert_before 0, Rack::Cors do
+    config.middleware.insert_before ActionDispatch::Static, Rack::Cors do
       allow do
-        origins '//fonts.gstatic.com', '//api.mixpanel.com'
-        resource '*', headers: :any, methods: [:get, :options]
+        origins '//fonts.googleapis.com, //fonts.gstatic.com', '//api.mixpanel.com'
+        resource '*', headers: :any, methods: [:get, :options, :head]
       end
     end
 

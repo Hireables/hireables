@@ -13,10 +13,10 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui">
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="HandheldFriendly" content="true">
-    <meta name="apple-touch-fullscreen" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="turbolinks-cache-control" content="no-cache">
+    <meta name="HandheldFriendly" content="true" />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="turbolinks-cache-control" content="no-cache" />
     <meta name="environment" content="<%= Rails.env %>" />
 
     <% if Rails.env.production? %>
@@ -32,14 +32,14 @@
 
   <body class="<%= user_signed_in? ? 'authenticated' : 'guest'%>">
     <div class="jumbotron <%= current_page?(root_path) ? 'landing' : 'page'%>">
-      <%= react_component 'NavBar', nil, { authenticated: signed_in?, current_user: { name: current_user.try(:name), email: current_user.try(:email), avatar_url: current_user.try(:avatar_url, :thumb), login:  current_user.try(:login), type: current_user.try(:class).try(:name).try(:downcase) } }.to_json %>
+      <%= react_component 'NavBar', nil, { authenticated: signed_in?, current_user: { name: current_user.try(:name), email: current_user.try(:email), avatar_url: current_user.try(:avatar_url, :thumb), login:  current_user.try(:login), type: current_user.try(:class).try(:name).try(:downcase), unread_inbox_count: current_user.try(:unread_inbox_count) } }.to_json %>
       <div class="container">
         <div class="intro">
           <h1 class="title">
-            <%= @title %>
+            <%= yield(:page_title) %>
           </h1>
           <h3 class="subtitle">
-            <%= @subtitle %>
+            <%= yield(:page_subtitle) %>
           </h3>
         </div>
       </div>

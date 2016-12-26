@@ -164,13 +164,24 @@ class Connection extends Component {
   toggleList(event) {
     if (event) { event.preventDefault(); }
     const { relay } = this.props;
-    relay.setVariables({
-      showData: !this.props.relay.variables.showData,
-    }, (readyState) => {
-      if (readyState.done) {
-        this.setState({ toggled: !this.state.toggled });
-      }
-    });
+    const toggled = !this.state.toggled;
+    if (toggled) {
+      relay.forceFetch({
+        showData: true,
+      }, (readyState) => {
+        if (readyState.done) {
+          this.setState({ toggled });
+        }
+      });
+    } else {
+      relay.setVariables({
+        showData: false,
+      }, (readyState) => {
+        if (readyState.done) {
+          this.setState({ toggled });
+        }
+      });
+    }
   }
 
   connect() {

@@ -2,21 +2,42 @@ module Github
   extend ActiveSupport::Concern
 
   def fetch_repos
-    @github_api ||= Github::Api.new(access_token)
-    @github_api
-      .search_developer_repos(developer.login)
-      .lazy
-      .map do |repo|
-        HashWithIndifferentAccess.new(repo.to_hash).except(*gh_excluded_fields)
-      end.take(20).to_a
-
+    repos.zip(pulls).flatten.compact
   rescue NoMethodError
     []
   end
 
   private
 
-  def gh_excluded_fields
+  def repos
+    github_api
+      .search_developer_repos(developer.login)
+      .lazy
+      .map do |repo|
+        repo['category'] = 'repo'
+        HashWithIndifferentAccess.new(repo.to_hash).except(*repo_fields)
+      end.to_a.take(20)
+  end
+
+  def pulls
+    github_api
+      .search_developer_pulls(developer.login)
+      .lazy
+      .map do |pr|
+        pr['category'] = 'pr'
+        HashWithIndifferentAccess.new(pr.to_hash).except(*pr_fields)
+      end.to_a.take(20)
+  end
+
+  def github_api
+    @github_api ||= Github::Api.new(access_token)
+  end
+
+  def pr_fields
+    %w(user pull_request)
+  end
+
+  def repo_fields
     %w(
       owner forks_url keys_url collaborators_url teams_url hooks_url
       issue_events_url events_url assignees_url branches_url tags_url

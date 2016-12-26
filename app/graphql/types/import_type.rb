@@ -5,6 +5,7 @@ ImportType = GraphQL::ObjectType.define do
   global_id_field :id
 
   field :source_id, types.String, 'Data source id'
+  field :category, types.String, 'Data source category'
   field :developer_id, types.String, 'Data owner id'
   field :connection_id, types.String, 'Data source connection id'
   field :source_name, types.String, 'Data source name'
@@ -23,6 +24,7 @@ ImportType = GraphQL::ObjectType.define do
   field :votes_count, types.Int, 'Total votes count (ph)'
   field :yes_rsvp_count, types.Int, 'Total attendess for event(meetup)'
   field :viewCount, types.Int, 'Total views (youtube)'
+  field :comments, types.Int, 'Total comments (github pr)'
   field :html_url, types.String, 'Url of this source(github)'
   field :is_accepted, types.Boolean, 'Is answer accepted?(stackoverflow)'
   field :isCurrent, types.Boolean, 'Is current job? (in)'

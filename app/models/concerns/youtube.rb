@@ -13,6 +13,7 @@ module Youtube
       return [] if videos.nil?
       videos.map do |video|
         new_video_hash = video.except('snippet', 'statistics')
+        new_video_hash['category'] = 'talk'
         new_video_hash.merge!(video['snippet']).merge!(video['statistics'])
       end
     end

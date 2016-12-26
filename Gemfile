@@ -55,6 +55,8 @@ gem 'jwt'
 
 # Mail delivery
 gem 'mailgun_rails'
+gem 'griddler'
+gem 'griddler-sendgrid'
 
 # Image processing and upload
 gem 'mini_magick'
@@ -68,6 +70,12 @@ gem 'wisper'
 # Simple and extremely flexible way to upload files
 gem 'carrierwave', git: 'https://github.com/carrierwaveuploader/carrierwave.git'
 
+# Static pages
+gem 'high_voltage', '~> 3.0.0'
+
+# Private messaging
+gem 'mailboxer'
+
 group :production do
   gem 'rails_12factor'
   gem 'sentry-raven'
@@ -79,6 +87,8 @@ end
 group :development do
   gem 'graphiql-rails'
   gem 'spring'
+  gem 'pry-rails'
+  gem 'awesome_print'
   gem 'foreman'
   gem 'rubocop'
   gem 'figaro'

@@ -13,12 +13,12 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui">
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="HandheldFriendly" content="true">
-    <meta name="apple-touch-fullscreen" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="turbolinks-cache-control" content="no-cache">
+    <meta name="HandheldFriendly" content="true" />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="turbolinks-cache-control" content="no-cache" />
     <meta name="environment" content="<%= Rails.env %>" />
-    <meta name="current_user" content="<%= current_user.try(:name) %>" id="<%= current_user.try(:id) %>" type="<%= current_user.try(:class).try(:name).try(:downcase) %>" />
+    <meta name="current_user" content="<%= current_user.try(:name) %>" id="<%= current_user.try(:id) %>" type="<%= current_user.try(:class).try(:name).try(:downcase) %>" avatar="<%= current_user.try(:avatar_url) %>" />
 
     <% if Rails.env.production? %>
       <%= render partial: 'layouts/tracking' %>
@@ -32,7 +32,7 @@
   </head>
 
   <body class="application <%= user_signed_in? ? 'authenticated' : 'guest'%>">
-    <%= react_component 'NavBar', nil, { authenticated: signed_in?, current_user: { name: current_user.try(:name), email: current_user.try(:email), avatar_url: current_user.try(:avatar_url, :thumb), login:  current_user.try(:login), type: current_user.try(:class).try(:name).try(:downcase) } }.to_json %>
+    <%= react_component 'NavBar', nil, { authenticated: signed_in?, current_user: { name: current_user.try(:name), email: current_user.try(:email), avatar_url: current_user.try(:avatar_url, :thumb), login:  current_user.try(:login), type: current_user.try(:class).try(:name).try(:downcase), unread_inbox_count: current_user.try(:unread_inbox_count) } }.to_json %>
 
     <div class="content">
       <%= yield %>

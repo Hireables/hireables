@@ -8,6 +8,7 @@ import {
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
 import IconMenu from 'material-ui/IconMenu';
+import Badge from 'material-ui/Badge';
 import IconButton from 'material-ui/IconButton';
 import NavigationExpandMoreIcon from 'material-ui/svg-icons/navigation/expand-more';
 import FontIcon from 'material-ui/FontIcon';
@@ -17,6 +18,7 @@ import MenuItem from 'material-ui/MenuItem';
 import Avatar from 'material-ui/Avatar';
 import ActionContentMail from 'material-ui/svg-icons/content/mail';
 import muiTheme from './theme.es6';
+import nameBadge from '../utils/nameBadge.es6';
 
 class NavBar extends Component {
   constructor(props) {
@@ -90,19 +92,10 @@ class NavBar extends Component {
       backgroundColor: 'white',
     };
 
-    const userBadge = () => {
-      const { name } = this.props.current_user;
-      const chunks = name.split(' ');
-      return chunks[0][0] + chunks[1][0];
-    };
-
     const { current_user, authenticated } = this.props;
 
     const currentUserLogoutPath = current_user.type === 'employer' ?
       Routes.destroy_employer_session_path() : Routes.destroy_developer_session_path();
-
-    const currentUserSearchPath = current_user.type === 'employer' ?
-      Routes.root_path() : Routes.search_index_path();
 
     let currentUserEditProfilePath = null;
     let currentUserProfilePath = null;
@@ -111,7 +104,7 @@ class NavBar extends Component {
     if (authenticated) {
       currentUserProfilePath = current_user.type === 'employer' ?
       Routes.employer_path(current_user.login) :
-        Routes.developer_path(current_user.login);
+        Routes.developer_root_path();
       currentUserEditProfilePath = current_user.type === 'employer' ?
         Routes.edit_employer_registration_path() :
           Routes.edit_developer_path(current_user.login);
@@ -143,18 +136,52 @@ class NavBar extends Component {
                     className="logged-in"
                     style={{ display: 'flex', alignItems: 'center' }}
                   >
+                    <div
+                      className={
+                        `inbox ${
+                          Routes.mailbox_path('inbox') === window.location.pathname ?
+                            'active' : ''
+                          }`
+                      }
+                    >
+                      <Badge
+                        badgeContent={this.props.current_user.unread_inbox_count}
+                        style={{
+                          verticalAlign: 'middle',
+                          padding: 0,
+                          position: 'initial',
+                        }}
+                        badgeStyle={
+                          this.props.current_user.unread_inbox_count === 0 ?
+                          { display: 'none' } : { top: 10, right: 15 }
+                        }
+                      />
+                      <IconButton
+                        href={Routes.mailbox_path('inbox')}
+                        touch
+                        style={{
+                          verticalAlign: 'middle',
+                          height: 56,
+                          width: 56,
+                        }}
+                      >
+                        <FontIcon
+                          color="white"
+                          className="material-icons"
+                        >inbox</FontIcon>
+                      </IconButton>
+                    </div>
                     {current_user.avatar_url ?
                       <Avatar
                         src={current_user.avatar_url}
                         style={userImageStyles}
                         onClick={() => Turbolinks.visit(currentUserProfilePath)}
-                        className="logged-in-image"
+                        className="avatar-image"
                       /> : <Avatar
-                        src={current_user.avatar_url}
                         style={userImageStyles}
                         onClick={() => Turbolinks.visit(currentUserProfilePath)}
-                        className="logged-in-image"
-                      >{userBadge()}</Avatar>
+                        className="avatar-badge"
+                      >{nameBadge(current_user.name)}</Avatar>
                     }
                     <a
                       style={toolbarGroupStyles.link}
@@ -185,17 +212,18 @@ class NavBar extends Component {
                           }
                         />
 
-                        <MenuItem
-                          innerDivStyle={{ padding: '0px 16px 0px 50px' }}
-                          href={currentUserSearchPath}
-                          primaryText="Search"
-                          leftIcon={
-                            <FontIcon
-                              className="material-icons"
-                            >
-                              search</FontIcon>
-                          }
-                        />
+                        {current_user.type === 'employer' ?
+                          <MenuItem
+                            innerDivStyle={{ padding: '0px 16px 0px 50px' }}
+                            href={Routes.search_index_path()}
+                            primaryText="Search"
+                            leftIcon={
+                              <FontIcon
+                                className="material-icons"
+                              >
+                                search</FontIcon>
+                            }
+                          /> : ''}
 
                         <MenuItem
                           innerDivStyle={{ padding: '0px 16px 0px 50px' }}
@@ -222,35 +250,35 @@ class NavBar extends Component {
                       </IconMenu>
                     </a>
                   </div> :
-                    <div className="logged out">
-                      <RaisedButton
-                        onTouchTap={this.handleTouchTap}
-                        label="Login"
-                        style={buttonStyle}
-                      />
-                      <Popover
-                        open={this.state.open}
-                        anchorEl={this.state.anchorEl}
-                        anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
-                        targetOrigin={{ horizontal: 'left', vertical: 'top' }}
-                        onRequestClose={this.handleRequestClose}
-                      >
-                        <Menu>
-                          <MenuItem
-                            leftIcon={<FontIcon className="muidocs-icon-custom-github" />}
-                            href={Routes.developer_github_omniauth_authorize_path()}
-                            primaryText="Developer"
-                            innerDivStyle={{ padding: '0px 16px 0px 50px' }}
-                          />
-                          <MenuItem
-                            innerDivStyle={{ padding: '0px 16px 0px 50px' }}
-                            href={Routes.new_employer_session_path()}
-                            primaryText="Employer"
-                            leftIcon={<ActionContentMail />}
-                          />
-                        </Menu>
-                      </Popover>
-                    </div>
+                  <div className="logged out">
+                    <RaisedButton
+                      onTouchTap={this.handleTouchTap}
+                      label="Login"
+                      style={buttonStyle}
+                    />
+                    <Popover
+                      open={this.state.open}
+                      anchorEl={this.state.anchorEl}
+                      anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
+                      targetOrigin={{ horizontal: 'left', vertical: 'top' }}
+                      onRequestClose={this.handleRequestClose}
+                    >
+                      <Menu>
+                        <MenuItem
+                          leftIcon={<FontIcon className="muidocs-icon-custom-github" />}
+                          href={Routes.developer_github_omniauth_authorize_path()}
+                          primaryText="Developer"
+                          innerDivStyle={{ padding: '0px 16px 0px 50px' }}
+                        />
+                        <MenuItem
+                          innerDivStyle={{ padding: '0px 16px 0px 50px' }}
+                          href={Routes.new_employer_session_path()}
+                          primaryText="Employer"
+                          leftIcon={<ActionContentMail />}
+                        />
+                      </Menu>
+                    </Popover>
+                  </div>
                 }
               </ToolbarGroup>
             </Toolbar>
@@ -263,6 +291,7 @@ class NavBar extends Component {
 
 NavBar.propTypes = {
   current_user: React.PropTypes.object,
+  unread_inbox_count: React.PropTypes.number,
   authenticated: React.PropTypes.bool,
 };
 

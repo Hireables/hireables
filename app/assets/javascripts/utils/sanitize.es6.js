@@ -1,5 +1,15 @@
 import createDOMPurify from 'dompurify';
 
-export default function sanitize(text) {
-  return createDOMPurify.sanitize(text, { ALLOWED_TAGS: ['b', 'i', 'code'] });
+export function sanitizeRichText(text) {
+  return createDOMPurify.sanitize(text, {
+    ALLOWED_TAGS: [
+      'b', 'i', 'em', 'ins', 'code', 'p', 'li', 'ul', 'ol', 'strong',
+    ],
+  });
+}
+
+export function sanitizeText(text) {
+  return createDOMPurify.sanitize(text, {
+    ALLOWED_TAGS: ['b', 'i', 'em', 'code', 'pre'],
+  });
 }

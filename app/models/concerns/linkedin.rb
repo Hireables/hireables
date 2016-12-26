@@ -47,6 +47,7 @@ module Linkedin
       position.tap do |obj|
         year = obj['startDate']['year']
         month = obj['startDate']['month']
+        obj['category'] = 'position'
         obj['startDate'] = Time.new(year, month).to_s
       end
     end

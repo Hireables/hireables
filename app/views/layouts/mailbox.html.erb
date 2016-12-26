@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Hireables</title>
+    <%= favicon_link_tag 'favicon.ico' %>
+    <meta name="description" content="Search hireable developers through Github"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+
+    <!--[if IE]>
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta http-equiv="imagetoolbar" content="no" />
+    <![endif]-->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="HandheldFriendly" content="true" />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="turbolinks-cache-control" content="no-cache" />
+    <meta name="environment" content="<%= Rails.env %>" />
+    <meta name="current_user" content="<%= current_user.try(:name) %>" id="<%= current_user.try(:id) %>" type="<%= current_user.try(:class).try(:name).try(:downcase) %>" avatar="<%= current_user.try(:avatar_url) %>" />
+
+    <% if Rails.env.production? %>
+      <%= render partial: 'layouts/tracking' %>
+    <% end %>
+
+    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
+
+    <%= csrf_meta_tags %>
+    <%= yield :head %>
+  </head>
+
+  <body class="application <%= user_signed_in? ? 'authenticated' : 'guest'%>">
+    <%= react_component 'NavBar', nil, { authenticated: signed_in?, current_user: { name: current_user.try(:name), email: current_user.try(:email), avatar_url: current_user.try(:avatar_url, :thumb), login:  current_user.try(:login), type: current_user.try(:class).try(:name).try(:downcase), unread_inbox_count: current_user.try(:unread_inbox_count) } }.to_json %>
+
+    <div class="mailbox-container">
+      <%= yield %>
+    </div>
+  </body>
+</html>

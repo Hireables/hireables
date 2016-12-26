@@ -18,6 +18,8 @@ class Employer < ApplicationRecord
 
   mount_uploader :avatar, ImageUploader
 
+  acts_as_messageable
+
   def active_for_authentication?
     super && verified?
   end

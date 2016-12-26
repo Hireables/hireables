@@ -1,0 +1,237 @@
+.mailbox,
+div[data-component-name='Mailbox']
+  position: relative
+  min-height: 100%
+  height: 100%
+
+  .composer-button
+    margin-bottom: 10px
+
+  .composor
+    padding: 20px 30px
+    border-bottom: 1px solid #f2f2f2
+
+    .DraftEditor-root
+      min-height: 200px
+
+    .RichTextEditor__root___2QXK-
+      border: 0
+      font-family: inherit
+
+      .public-DraftEditor-content,
+      .public-DraftEditorPlaceholder-root
+        padding: 20px 9px
+
+  .folders
+    background: #e2edfc
+    width: 250px
+    float: left
+    padding: 30px
+    height: 100%
+    position: fixed
+
+    .folder
+
+      &.active
+        background: rgba(0, 0, 0, 0.1)!important
+
+  .conversations
+    float: left
+    position: relative
+    width: 300px
+    margin-top: 0px
+    padding: 0px
+    min-height: 100%
+    margin-left: 250px
+    background: #fff
+    height: 100%
+    overflow-y: auto
+    border-right: 1px solid #ccc
+    transition: all 0.5s ease
+
+    .header
+      position: fixed
+      top: 56px
+      width: 299px
+      height: 40px
+      z-index: 799
+      padding: 0px 20px
+      background-color: #fafafa
+      border-bottom: 1px solid #e8e8e8
+
+      h1
+        margin: 0
+        font-size: 16px
+        font-weight: 400
+        color: #424242
+        line-height: 40px
+        vertical-align: middle
+
+        .icon
+          vertical-align: middle
+          margin-right: 10px
+
+    .conversations-list
+      margin-top: 40px
+
+    .conversation
+      cursor: pointer
+      position: relative
+
+      &.unread
+        &:before
+          background: #48b0f7
+          border-radius: 50%
+          content: ''
+          height: 10px
+          position: absolute
+          left: calc(72px/2 - 5px)
+          top: 66px
+          width: 10px
+
+      .title
+        font-size: 15px
+        color: #3b4752
+        font-weight: 400
+        text-overflow: ellipsis
+        width: 90%
+        color: #3b4752
+        overflow: hidden
+        white-space: nowrap
+
+      .datetime
+        color: #121212
+        font-size: 12px
+        position: absolute
+        right: 20px
+        top: 15px
+
+      .sender
+        white-space: nowrap
+        text-overflow: ellipsis
+        overflow: hidden
+        font-size: 12px
+        letter-spacing: 0.01em
+        opacity: 0.7
+
+      &.active
+        background-color: #eaeef0
+
+        &:hover
+          background-color: #eaeef0
+
+      &:hover
+        background-color: #dbefff
+
+  #receipts
+    position: relative
+    height: 100%
+    margin-left: 550px
+
+  .receipts,
+  .email-composor
+    overflow: auto
+    height: 100%
+    padding-top: 50px
+    position: relative
+
+    .receipt
+      border-bottom: 1px solid #f2f2f2
+      cursor: initial
+      padding: 20px
+
+      &:last-of-type
+        border: none
+
+      .body
+        letter-spacing: 0.001em
+        line-height: 1.5
+        font-size: 16px!important
+        max-width: 90%
+
+        p
+          &:first-of-type
+            margin-top: 0
+
+          &:last-of-type
+            margin-bottom: 0
+
+    .header
+      position: fixed
+      top: 56px
+      width: calc(100% - 300px - 250px)
+      height: 50px
+      z-index: 799
+      padding: 0px 20px
+      background-color: #fafafa
+      border-bottom: 1px solid #e8e8e8
+      display: flex
+      justify-content: space-between
+
+      h1
+        margin: 0
+        font-size: 16px
+        font-weight: 400
+        color: #424242
+        line-height: 50px
+        vertical-align: middle
+
+        .icon
+          vertical-align: middle
+          margin-right: 10px
+
+  .no-result
+    bottom: 0
+    left: 0
+    margin-top: -34px
+    opacity: 0.5
+    position: absolute
+    right: 0
+    text-align: center
+    top: 50%
+
+    h1
+      font-size: 22px
+      font-weight: 400
+      max-width: 80%
+      margin: 20px auto
+
+.email-composer
+  .header
+    height: 50px
+    padding: 0px 20px
+    background-color: #fafafa
+    border-bottom: 1px solid #e8e8e8
+    display: flex
+    justify-content: space-between
+
+    h1
+      margin: 0
+      font-size: 16px
+      font-weight: 400
+      color: #424242
+      line-height: 50px
+      vertical-align: middle
+
+      .icon
+        vertical-align: middle
+        margin-right: 10px
+
+  .email-composer-form
+    padding: 0 20px
+
+    .field
+
+      .DraftEditor-root
+        min-height: 200px
+
+      .RichTextEditor__root___2QXK-
+        border: 0
+        font-family: inherit
+
+        .EditorToolbar__root___3_Aqz
+          margin: 0
+
+        .public-DraftEditor-content,
+        .public-DraftEditorPlaceholder-root
+          padding: 20px 9px

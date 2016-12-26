@@ -1,7 +1,11 @@
+GraphQL::ObjectType.accepts_definitions(
+  model_names: GraphQL::Define.assign_metadata_key(:model_names)
+)
+
 Schema = GraphQL::Schema.define do
   query QueryType
   mutation MutationType
-  max_depth 8
+  max_depth 12
   rescue_from ActiveRecord::RecordInvalid, &:messag
   rescue_from ActiveRecord::Rollback, &:message
   rescue_from StandardError, &:message
@@ -9,17 +13,20 @@ Schema = GraphQL::Schema.define do
   rescue_from ActiveRecord::RecordNotFound, &:message
   object_from_id ->(id, _ctx) { decode_object(id) }
   id_from_object ->(obj, type, _ctx) { encode_object(obj, type) }
-  resolve_type ->(object, _ctx) { Schema.types[type_name(object)] }
-end
-
-def type_name(object)
-  object.class.name
+  resolve_type ->(obj, _ctx) do
+    class_name = obj.class.name
+    custom_resolved_type = Schema.types.values.find do |value|
+      value.metadata[:model_names] &&
+        value.metadata[:model_names].include?(class_name)
+    end
+    custom_resolved_type.nil? ? Schema.types[class_name] : custom_resolved_type
+  end
 end
 
 def encode_object(object, type)
   GraphQL::Schema::UniqueWithinType.encode(
     type.name,
-    object.id,
+    object.id.to_s + '-' + object.class.name,
     separator: '---'
   )
 end
@@ -29,7 +36,23 @@ def decode_object(id)
     id,
     separator: '---'
   )
-  Object.const_get(type_name).find(object_id)
+  models.fetch(type_name).find(object_id)
+end
+
+def models
+  {
+    'Employer' => Employer,
+    'Developer' => Developer,
+    'Import' => Import,
+    'Connection' => Connection,
+    'Favourite' => Favourite,
+    'Viewer' => Viewer,
+    'Composer' => Composer,
+    'Conversation' => Mailboxer::Conversation,
+    'Message' => Mailboxer::Message,
+    'Mailbox' => Mailboxer::Mailbox,
+    'Receipt' => Mailboxer::Receipt
+  }.freeze
 end
 
 # Responsible for dumping Schema.json
@@ -47,7 +70,7 @@ module SchemaHelpers
   end
 
   def checksum
-    files   = Dir['app/api/**/*.rb'].reject { |f| File.directory?(f) }
+    files   = Dir['app/graphql/**/*.rb'].reject { |f| File.directory?(f) }
     content = files.map { |f| File.read(f) }.join
     Digest::SHA256.hexdigest(content).to_s
   end

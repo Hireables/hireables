@@ -244,7 +244,7 @@ class Search extends Component {
                   className="languages"
                   onNewRequest={this.addNewLanguage}
                   onKeyDown={Search.onKeyPress}
-                  floatingLabelText="Search by programming languages *"
+                  floatingLabelText="By programming languages"
                   floatingLabelFixed
                   fullWidth
                   ref={node => (this.languageNode = node)}
@@ -265,7 +265,7 @@ class Search extends Component {
                   name="location"
                   fullWidth
                   defaultValue={this.state.form.location}
-                  floatingLabelText="Search by location"
+                  floatingLabelText="By location"
                   floatingLabelFixed
                 />
               </div>
@@ -277,7 +277,7 @@ class Search extends Component {
                   name="repos"
                   fullWidth
                   defaultValue={this.state.form.repos}
-                  floatingLabelText="Search by number of repos"
+                  floatingLabelText="By number of repos"
                   floatingLabelFixed
                 />
               </div>
