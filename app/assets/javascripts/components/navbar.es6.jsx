@@ -156,7 +156,7 @@ class NavBar extends Component {
                         }}
                         badgeStyle={
                           this.props.current_user.unread_inbox_count === 0 ?
-                          { display: 'none' } : { top: 10, right: 15 }
+                          { display: 'none' } : { top: 10, right: 10 }
                         }
                       />
                       <IconButton
@@ -164,6 +164,8 @@ class NavBar extends Component {
                         touch
                         style={{
                           verticalAlign: 'middle',
+                          height: 56,
+                          width: 56,
                         }}
                       >
                         <FontIcon

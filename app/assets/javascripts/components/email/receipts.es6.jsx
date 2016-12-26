@@ -13,6 +13,8 @@ import nameBadge from '../../utils/nameBadge.es6';
 import CurrentUser from '../../helpers/currentUser.es6';
 import ReplyComposer from './replyComposer.es6';
 import LoadingComponent from '../shared/loadingComponent';
+import TrashConversation from '../../mutations/mailbox/trashConversation.es6';
+import DeleteConversation from '../../mutations/mailbox/deleteConversation.es6';
 
 const currentUser = new CurrentUser();
 
@@ -21,11 +23,13 @@ class Receipts extends Component {
     super(props);
     this.toggleReplyForm = this.toggleReplyForm.bind(this);
     this.handleScrollLoad = this.handleScrollLoad.bind(this);
+    this.deleteConversation = this.deleteConversation.bind(this);
     this.loadMore = this.loadMore.bind(this);
 
     this.state = {
       replying: false,
       loading: false,
+      open: false,
     };
   }
 
@@ -35,6 +39,41 @@ class Receipts extends Component {
 
   componentWillUnmount() {
     this.receiptsNode.removeEventListener('scroll', this.handleScrollLoad);
+  }
+
+  deleteConversation() {
+    const onFailure = (transaction) => {
+      const error = transaction.getError() || new Error('Mutation failed.');
+      let errorMessage;
+      if (error.source.errors && Array.isArray(error.source.errors)) {
+        errorMessage = error.source.errors[0].message;
+      } else {
+        errorMessage = error.message;
+      }
+      this.props.setNotification(errorMessage);
+    };
+
+    const onSuccess = (response) => {
+      if (response.TrashConversation) {
+        this.props.unmountReceipts();
+        this.props.setNotification('Conversation moved to trash');
+      } else if (response.DeleteConversation) {
+        this.props.unmountReceipts();
+        this.props.setNotification('Conversation permanently deleted');
+      }
+    };
+
+    if (this.props.mailbox.type === 'Trash') {
+      Relay.Store.commitUpdate(new DeleteConversation({
+        id: this.props.conversation.id,
+        mailbox_id: this.props.mailbox.id,
+      }), { onFailure, onSuccess });
+    } else {
+      Relay.Store.commitUpdate(new TrashConversation({
+        id: this.props.conversation.id,
+        mailbox_id: this.props.mailbox.id,
+      }), { onFailure, onSuccess });
+    }
   }
 
   toggleReplyForm() {
@@ -71,7 +110,6 @@ class Receipts extends Component {
     });
   }
 
-
   render() {
     const { conversation } = this.props;
     return (
@@ -95,6 +133,7 @@ class Receipts extends Component {
 
               <IconButton
                 tooltip="Move to trash"
+                onClick={this.deleteConversation}
               >
                 <Trash />
               </IconButton>
@@ -105,6 +144,7 @@ class Receipts extends Component {
             <ReplyComposer
               toggleReplyForm={this.toggleReplyForm}
               conversation={conversation}
+              setNotification={this.props.setNotification}
             /> : ''
           }
 
@@ -132,6 +172,9 @@ class Receipts extends Component {
 Receipts.propTypes = {
   conversation: React.PropTypes.object,
   relay: React.PropTypes.object,
+  mailbox: React.PropTypes.object,
+  unmountReceipts: React.PropTypes.func,
+  setNotification: React.PropTypes.func,
 };
 
 const ReceiptsContainer = Relay.createContainer(Receipts, {

@@ -17,9 +17,8 @@ MutationType = GraphQL::ObjectType.define do
 
   # Mailbox
   field :CreateConversation, field: Mailbox::Conversations::Create.field
+  field :TrashConversation, field: Mailbox::Conversations::Trash.field
   field :DeleteConversation, field: Mailbox::Conversations::Delete.field
   field :ReplyToConversation, field: Mailbox::Conversations::Reply.field
   field :MarkAsReadConversation, field: Mailbox::Conversations::MarkAsRead.field
-  field :DeleteConversationMessage,
-        field: Mailbox::Conversations::Messages::Delete.field
 end

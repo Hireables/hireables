@@ -4,7 +4,6 @@ import React, { Component } from 'react';
 import Relay from 'react-relay';
 import Formsy from 'formsy-react';
 import Chip from 'material-ui/Chip';
-import Snackbar from 'material-ui/Snackbar';
 import Avatar from 'material-ui/Avatar';
 import RaisedButton from 'material-ui/RaisedButton';
 import { FormsyText } from 'formsy-material-ui/lib';
@@ -30,58 +29,26 @@ class Composer extends Component {
 
   constructor(props) {
     super(props);
-    this.handleRequestClose = this.handleRequestClose.bind(this);
     this.createConversation = this.createConversation.bind(this);
     this.enableButton = this.enableButton.bind(this);
     this.disableButton = this.disableButton.bind(this);
-    this.onFailure = this.onFailure.bind(this);
-    this.onSuccess = this.onSuccess.bind(this);
     this.renderChip = this.renderChip.bind(this);
     this.handleRequestDelete = this.handleRequestDelete.bind(this);
     this.addRecipients = this.addRecipients.bind(this);
     this.fetchRecipients = this.fetchRecipients.bind(this);
     this.onInvalidRecipientSelection = this.onInvalidRecipientSelection.bind(this);
+
     this.state = {
-      open: false,
       canSubmit: false,
       recipients: [],
-      notification: '',
     };
-  }
-
-  onFailure(transaction) {
-    const error = transaction.getError() || new Error('Mutation failed.');
-    let errorMessage;
-    if (error.source.errors && Array.isArray(error.source.errors)) {
-      errorMessage = error.source.errors[0].message;
-    } else {
-      errorMessage = error.message;
-    }
-    this.setNotification(errorMessage);
-  }
-
-  onSuccess(response) {
-    if (response.CreateConversation) {
-      this.setNotification('Message Sent');
-      setTimeout(() => {
-        this.props.removeComposer();
-      }, 2000);
-    }
   }
 
   onInvalidRecipientSelection(message) {
     this.recipientNode.state.searchText = '';
     this.recipientNode.focus();
     this.setState({ canSubmit: false });
-    this.setNotification(message);
-  }
-
-  setNotification(notification) {
-    this.setState({
-      notification,
-    }, () => {
-      this.setState({ open: true });
-    });
+    this.props.setNotification(message);
   }
 
   fetchRecipients(event) {
@@ -153,15 +120,25 @@ class Composer extends Component {
     });
   }
 
-  handleRequestClose() {
-    this.setState({
-      open: false,
-    });
-  }
-
   createConversation() {
-    const onFailure = transaction => this.onFailure(transaction);
-    const onSuccess = response => this.onSuccess(response);
+    const onFailure = (transaction) => {
+      const error = transaction.getError() || new Error('Mutation failed.');
+      let errorMessage;
+      if (error.source.errors && Array.isArray(error.source.errors)) {
+        errorMessage = error.source.errors[0].message;
+      } else {
+        errorMessage = error.message;
+      }
+      this.props.setNotification(errorMessage);
+    };
+
+    const onSuccess = (response) => {
+      if (response.CreateConversation) {
+        this.props.setNotification('Message Sent');
+        this.props.removeComposer();
+      }
+    };
+
     if (this.state.recipients && this.state.recipients.length > 0) {
       Relay.Store.commitUpdate(new CreateConversation({
         id: this.props.mailbox.id,
@@ -170,7 +147,7 @@ class Composer extends Component {
         ...this.formNode.getModel(),
       }), { onFailure, onSuccess });
     } else {
-      this.setNotification('Please select atleast one recipient');
+      this.props.setNotification('Please select atleast one recipient');
     }
   }
 
@@ -275,16 +252,6 @@ class Composer extends Component {
                 onClick={this.createConversation}
               />
             </div>
-
-            <div className="notifications">
-              <Snackbar
-                open={this.state.open}
-                ref={node => (this.notification = node)}
-                message={this.state.notification}
-                autoHideDuration={5000}
-                onRequestClose={this.handleRequestClose}
-              />
-            </div>
           </Formsy.Form>
         </div>
       </MuiThemeProvider>
@@ -293,11 +260,11 @@ class Composer extends Component {
 }
 
 Composer.propTypes = {
-  toggleReplyForm: React.PropTypes.func,
   mailbox: React.PropTypes.object,
   composer: React.PropTypes.object,
   relay: React.PropTypes.object,
   removeComposer: React.PropTypes.func,
+  setNotification: React.PropTypes.func,
 };
 
 const ComposerContainer = Relay.createContainer(Composer, {

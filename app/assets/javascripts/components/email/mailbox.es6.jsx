@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import Relay from 'react-relay';
 import { List } from 'material-ui/List';
+import Snackbar from 'material-ui/Snackbar';
 import Avatar from 'material-ui/Avatar';
 import RaisedButton from 'material-ui/RaisedButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -23,28 +24,8 @@ import ComposerRoute from '../../routes/composerRoute.es6';
 const currentUser = new CurrentUser();
 
 class Mailbox extends Component {
-  static renderReceipts(conversationId) {
-    conversationRoute.params = {};
-    conversationRoute.params.id = conversationId;
+  static unmountReceipts() {
     ReactDOM.unmountComponentAtNode(document.getElementById('receipts'));
-    ReactDOM.render(
-      <Relay.Renderer
-        Container={Receipts}
-        queryConfig={conversationRoute}
-        environment={Relay.Store}
-        render={({ props, error, retry }) => {
-          if (props) {
-            return (
-              <Receipts {...props} />
-            );
-          } else if (error) {
-            return <ErrorComponent retry={retry} />;
-          }
-          return <Loader />;
-        }}
-      />,
-      document.getElementById('receipts')
-    );
   }
 
   constructor(props) {
@@ -53,15 +34,22 @@ class Mailbox extends Component {
     this.showComposer = this.showComposer.bind(this);
     this.handleScrollLoad = this.handleScrollLoad.bind(this);
     this.renderComposer = this.renderComposer.bind(this);
+    this.renderReceipts = this.renderReceipts.bind(this);
     this.removeComposer = this.removeComposer.bind(this);
+    this.setNotification = this.setNotification.bind(this);
+    this.handleRequestClose = this.handleRequestClose.bind(this);
     this.loadMore = this.loadMore.bind(this);
+
     this.state = {
       selected: false,
       loading: false,
+      notification: '',
+      open: false,
     };
   }
 
   componentDidMount() {
+    this.setNotification(`${this.props.mailbox.type} loaded`);
     this.conversationsNode.addEventListener('scroll', this.handleScrollLoad);
   }
 
@@ -69,9 +57,23 @@ class Mailbox extends Component {
     this.conversationsNode.removeEventListener('scroll', this.handleScrollLoad);
   }
 
+  setNotification(notification) {
+    this.setState({
+      notification,
+    }, () => {
+      this.setState({ open: true });
+    });
+  }
+
+  handleRequestClose() {
+    this.setState({
+      open: false,
+    });
+  }
+
   showReceipts(conversationId) {
     this.setState({ selected: true }, () => {
-      Mailbox.renderReceipts(conversationId);
+      this.renderReceipts(conversationId);
     });
   }
 
@@ -116,6 +118,35 @@ class Mailbox extends Component {
     });
   }
 
+  renderReceipts(conversationId) {
+    conversationRoute.params = {};
+    conversationRoute.params.id = conversationId;
+    ReactDOM.unmountComponentAtNode(document.getElementById('receipts'));
+    ReactDOM.render(
+      <Relay.Renderer
+        Container={Receipts}
+        queryConfig={conversationRoute}
+        environment={Relay.Store}
+        render={({ props, error, retry }) => {
+          if (props) {
+            return (
+              <Receipts
+                {...props}
+                mailbox={this.props.mailbox}
+                setNotification={this.setNotification}
+                unmountReceipts={Mailbox.unmountReceipts}
+              />
+            );
+          } else if (error) {
+            return <ErrorComponent retry={retry} />;
+          }
+          return <Loader />;
+        }}
+      />,
+      document.getElementById('receipts')
+    );
+  }
+
   renderComposer() {
     ReactDOM.unmountComponentAtNode(document.getElementById('receipts'));
     ReactDOM.render(
@@ -129,6 +160,7 @@ class Mailbox extends Component {
               <Composer
                 mailbox={this.props.mailbox}
                 removeComposer={this.removeComposer}
+                setNotification={this.setNotification}
                 {...props}
               />
             );
@@ -216,6 +248,16 @@ class Mailbox extends Component {
               </div>
             </div>
           }
+
+          <div className="notifications">
+            <Snackbar
+              open={this.state.open}
+              ref={node => (this.notification = node)}
+              message={this.state.notification}
+              autoHideDuration={5000}
+              onRequestClose={this.handleRequestClose}
+            />
+          </div>
         </div>
       </MuiThemeProvider>
     );
