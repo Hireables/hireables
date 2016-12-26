@@ -1,1 +1,1 @@
-<%= react_component 'DeveloperShow', 'DeveloperRoute', { id: current_developer.login }.to_json %>
+<%= react_component 'DeveloperShow', 'DeveloperRoute', { id: current_developer.login, signedIn: signed_in? }.to_json %>
