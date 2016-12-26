@@ -1,14 +1,21 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions, no-nested-ternary */
-/* global $ ga location window Routes */
+/* global $ ga location window Routes document */
 
 // Modules
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import Relay from 'react-relay';
 import FontIcon from 'material-ui/FontIcon';
 import Chip from 'material-ui/Chip';
 import Avatar from 'material-ui/Avatar';
 import { css } from 'aphrodite';
 import SvgIcon from 'material-ui/SvgIcon';
+
+// Mail composer
+import PopupComposer from '../email/popupComposer.es6';
+import composerRoute from '../../routes/composerRoute.es6';
+import LoadingComponent from '../shared/loadingComponent';
+import ErrorComponent from '../shared/errorComponent';
 
 // Stylesheet
 import iconStyles from '../styles/icons.es6';
@@ -24,6 +31,7 @@ class Links extends Component {
   constructor(props) {
     super(props);
     this.openMail = this.openMail.bind(this);
+    this.openComposer = this.openComposer.bind(this);
   }
 
   openMail(e) {
@@ -31,6 +39,32 @@ class Links extends Component {
     window.location.href = `mailto:${this.props.developer.email}`;
     e.stopPropagation();
   }
+
+  openComposer(event) {
+    event.preventDefault();
+    composerRoute.params = {};
+    composerRoute.params.id = 'sentbox';
+    composerRoute.params.login = this.props.developer.login;
+
+    ReactDOM.render(
+      <Relay.Renderer
+        Container={PopupComposer}
+        queryConfig={composerRoute}
+        environment={Relay.Store}
+        render={({ props, error, retry }) => {
+          if (props) {
+            return <PopupComposer {...props} />;
+          } else if (error) {
+            return <ErrorComponent retry={retry} />;
+          }
+          return <LoadingComponent />;
+        }}
+      />,
+      document.getElementById('popups-container')
+    );
+    event.stopPropagation();
+  }
+
 
   render() {
     return (
@@ -42,7 +76,10 @@ class Links extends Component {
               <Chip
                 labelStyle={{ fontSize: 14 }}
                 className={css(iconStyles.linkIcon, iconStyles.hover)}
-                onClick={this.openMail}
+                onClick={event =>
+                  (this.props.developer.premium ?
+                    this.openComposer(event) : this.openMail(event))
+                }
                 style={{ cursor: 'pointer' }}
               >
                 <Avatar
@@ -144,8 +181,10 @@ const LinksContainer = Relay.createContainer(
     fragments: {
       developer: () => Relay.QL`
         fragment on Developer {
+          id,
           blog,
           login,
+          premium,
           html_url,
           email,
           html_url,

@@ -10,15 +10,15 @@ import muiTheme from '../theme.es6';
 
 // Error component
 const ErrorComponent = (props) => {
-  const { response, source } = props;
+  const { response, error } = props;
   let errorMessage;
 
   if (response) {
     errorMessage = response.statusText;
-  } else if (source && source.errors && Array.isArray(source.errors)) {
-    errorMessage = source.errors[0].message;
-  } else if (source && source.message) {
-    errorMessage = source.message;
+  } else if (error && error.source && Array.isArray(error.source.errors)) {
+    errorMessage = error.source.errors[0].message;
+  } else if (error && error.message) {
+    errorMessage = error.message;
   } else {
     errorMessage = 'Something went wrong!';
   }
@@ -46,7 +46,7 @@ const ErrorComponent = (props) => {
 ErrorComponent.propTypes = {
   retry: React.PropTypes.func,
   cssClass: React.PropTypes.string,
-  source: React.PropTypes.object,
+  error: React.PropTypes.object,
   response: React.PropTypes.object,
 };
 

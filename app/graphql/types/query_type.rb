@@ -10,7 +10,10 @@ QueryType = GraphQL::ObjectType.define do
 
   field :composer, ComposerType do
     description 'Root field that initializes composer for mailbox'
-    resolve ->(_obj, _args, _ctx) { Composer::STATIC }
+    resolve ->(_obj, _args, ctx) do
+      raise StandardError, 'Unauthorised' unless ctx[:current_employer].present?
+      Composer::STATIC
+    end
   end
 
   field :developer do

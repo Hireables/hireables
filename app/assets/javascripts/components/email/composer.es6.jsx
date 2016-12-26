@@ -272,6 +272,7 @@ const ComposerContainer = Relay.createContainer(Composer, {
     first: 5,
     query: null,
   },
+
   fragments: {
     composer: () => Relay.QL`
       fragment on Composer {

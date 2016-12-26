@@ -1,7 +1,8 @@
-/* global document $ window */
+/* global document $ window Turbolinks Routes */
 
 import React, { Component } from 'react';
 import Relay from 'react-relay';
+import queryString from 'query-string';
 import { List } from 'material-ui/List';
 import Snackbar from 'material-ui/Snackbar';
 import Avatar from 'material-ui/Avatar';
@@ -50,6 +51,14 @@ class Mailbox extends Component {
 
   componentDidMount() {
     this.setNotification(`${this.props.mailbox.type} loaded`);
+    const params = queryString.parse(document.location.search);
+
+    if (currentUser.isEmployer && params.composer) {
+      this.showComposer();
+    } else if (params.composer) {
+      Turbolinks.visit(Routes.mailbox_path('sentbox'));
+    }
+
     this.conversationsNode.addEventListener('scroll', this.handleScrollLoad);
   }
 
@@ -138,7 +147,7 @@ class Mailbox extends Component {
               />
             );
           } else if (error) {
-            return <ErrorComponent retry={retry} />;
+            return <ErrorComponent error={error} retry={retry} />;
           }
           return <Loader />;
         }}
@@ -165,7 +174,7 @@ class Mailbox extends Component {
               />
             );
           } else if (error) {
-            return <ErrorComponent retry={retry} />;
+            return <ErrorComponent error={error} retry={retry} />;
           }
           return <Loader />;
         }}
