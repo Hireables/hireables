@@ -1,5 +1,5 @@
 class SearchController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_employer!
   before_action :prepare_search_params!, :cache_query_metadata,
                 :enqueue_search_worker
 

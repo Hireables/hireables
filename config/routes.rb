@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   authenticated :developer do
     resources :mailbox, only: :show
-    root 'search#index', as: :developer_root
+    root 'developers#profile', as: :developer_root
   end
 
   authenticated :employer do

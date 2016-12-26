@@ -97,9 +97,6 @@ class NavBar extends Component {
     const currentUserLogoutPath = current_user.type === 'employer' ?
       Routes.destroy_employer_session_path() : Routes.destroy_developer_session_path();
 
-    const currentUserSearchPath = current_user.type === 'employer' ?
-      Routes.root_path() : Routes.search_index_path();
-
     let currentUserEditProfilePath = null;
     let currentUserProfilePath = null;
     let active = false;
@@ -107,7 +104,7 @@ class NavBar extends Component {
     if (authenticated) {
       currentUserProfilePath = current_user.type === 'employer' ?
       Routes.employer_path(current_user.login) :
-        Routes.developer_path(current_user.login);
+        Routes.developer_root_path();
       currentUserEditProfilePath = current_user.type === 'employer' ?
         Routes.edit_employer_registration_path() :
           Routes.edit_developer_path(current_user.login);
@@ -215,17 +212,18 @@ class NavBar extends Component {
                           }
                         />
 
-                        <MenuItem
-                          innerDivStyle={{ padding: '0px 16px 0px 50px' }}
-                          href={currentUserSearchPath}
-                          primaryText="Search"
-                          leftIcon={
-                            <FontIcon
-                              className="material-icons"
-                            >
-                              search</FontIcon>
-                          }
-                        />
+                        {current_user.type === 'employer' ?
+                          <MenuItem
+                            innerDivStyle={{ padding: '0px 16px 0px 50px' }}
+                            href={Routes.search_index_path()}
+                            primaryText="Search"
+                            leftIcon={
+                              <FontIcon
+                                className="material-icons"
+                              >
+                                search</FontIcon>
+                            }
+                          /> : ''}
 
                         <MenuItem
                           innerDivStyle={{ padding: '0px 16px 0px 50px' }}
