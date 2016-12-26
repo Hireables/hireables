@@ -108,7 +108,7 @@ class DeveloperEdit extends Component {
     };
 
     const onSuccess = () => {
-      window.location.href = Routes.developer_path(this.props.developer.login);
+      window.location.href = Routes.developer_root_path(this.props.developer.login);
     };
 
     const newModel = Object.assign(this.formNode.getModel(), {
