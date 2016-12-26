@@ -51,15 +51,8 @@ class Mailbox extends Component {
 
   componentDidMount() {
     this.setNotification(`${this.props.mailbox.type} loaded`);
-    const params = queryString.parse(document.location.search);
-
-    if (currentUser.isEmployer && params.composer) {
-      this.showComposer();
-    } else if (params.composer) {
-      Turbolinks.visit(Routes.mailbox_path('sentbox'));
-    }
-
     this.conversationsNode.addEventListener('scroll', this.handleScrollLoad);
+    this.props.relay.forceFetch();
   }
 
   componentWillUnmount() {

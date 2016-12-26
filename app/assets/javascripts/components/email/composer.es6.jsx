@@ -173,7 +173,7 @@ class Composer extends Component {
 
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
-        <div className="email-composor">
+        <div className="email-composer">
           <div className="header">
             <h1>
               <Mail className="icon" />
@@ -242,7 +242,6 @@ class Composer extends Component {
               </div>
             </div>
 
-            <div className="clearfix" />
             <div className="actions">
               <RaisedButton
                 label="Send"
