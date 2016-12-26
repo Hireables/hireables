@@ -2,14 +2,24 @@
 MutationType = GraphQL::ObjectType.define do
   name 'Mutation'
   description 'The mutation root of this schema for creating or changing data.'
+  # Profile updates
   field :UpdateDeveloper, field: Developers::UpdateMutation.field
   field :UpdateEmployer, field: Employers::UpdateMutation.field
-  field :ToggleFavourite, field: Employers::ToggleFavouriteMutation.field
-  field :ConnectOauth, field: Developers::ConnectOauthMutation.field
   field :EmployerFileUpload, field: Employers::FileUploadMutation.field
+
+  # Add to favourite
+  field :ToggleFavourite, field: Employers::ToggleFavouriteMutation.field
+
+  # Achievements
+  field :ConnectOauth, field: Developers::ConnectOauthMutation.field
   field :ToggleAchievement, field: Developers::ToggleAchievementMutation.field
   field :RemoveAchievement, field: Developers::RemoveAchievementMutation.field
-  field :MarkAsReadMutation, field: Mailbox::MarkAsReadMutation.field
-  field :ConversationReply, field: Mailbox::ConversationReplyMutation.field
-  field :CreateConversation, field: Mailbox::CreateConversation.field
+
+  # Mailbox
+  field :CreateConversation, field: Mailbox::Conversations::Create.field
+  field :DeleteConversation, field: Mailbox::Conversations::Delete.field
+  field :ReplyToConversation, field: Mailbox::Conversations::Reply.field
+  field :MarkAsReadConversation, field: Mailbox::Conversations::MarkAsRead.field
+  field :DeleteConversationMessage,
+        field: Mailbox::Conversations::Messages::Delete.field
 end

@@ -2,12 +2,12 @@ import Relay from 'react-relay';
 
 export default class extends Relay.Mutation {
   getMutation() {
-    return Relay.QL`mutation{ ConversationReply }`;
+    return Relay.QL`mutation{ ReplyToConversation }`;
   }
 
   getFatQuery() {
     return Relay.QL`
-      fragment on ConversationReplyPayload {
+      fragment on ReplyToConversationPayload {
         receiptEdge,
         conversation {
           id,
