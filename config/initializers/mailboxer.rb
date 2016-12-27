@@ -28,6 +28,16 @@ Rails.application.config.to_prepare do
                         foreign_key: "notification_id",
                         required: false,
                         counter_cache: true
+
+    after_commit :notify_receiver, on: :create, if: :inbox?
+
+    def inbox?
+      mailbox_type == 'inbox'
+    end
+
+    def notify_receiver
+      MailboxerMailerJob.enqueue(id)
+    end
   end
 
   Mailboxer::Message.class_eval do
