@@ -1,6 +1,5 @@
-/* global Turbolinks mixpanel document $ location Routes window */
+/* global Turbolinks */
 
-// Modules
 import React from 'react';
 import queryString from 'query-string';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -11,8 +10,6 @@ import {
   CardText,
   CardTitle,
 } from 'material-ui/Card';
-
-// Local components
 import muiTheme from './theme.es6';
 
 const cardTitleStyle = {
@@ -35,7 +32,7 @@ const showObject = (obj) => {
   return result;
 };
 
-const SavedSearch = (props) => (
+const SavedSearch = props => (
   <MuiThemeProvider muiTheme={muiTheme}>
     <Card
       style={{
