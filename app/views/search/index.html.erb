@@ -1,8 +1,17 @@
 <div class="container">
   <div class="search-wrapper">
-    <div class="search-filters">
-      <%= react_component 'Search', nil %>
+    <div class="search-box">
+      <div class="search-filters">
+        <%= react_component 'Search', nil %>
+      </div>
+
+      <% if @searches.any? %>
+        <div class="saved-searches">
+          <%= react_component 'SavedSearch', nil, { searches: @searches }.to_json %>
+        </div>
+      <% end %>
     </div>
+
     <div class="search-results">
       <%= react_component(
         'DevelopersList',

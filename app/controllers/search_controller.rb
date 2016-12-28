@@ -2,6 +2,15 @@ class SearchController < ApplicationController
   before_action :authenticate_employer!
   before_action :prepare_search_params!, :cache_query_metadata,
                 :enqueue_search_worker
+  after_action :save_search, unless: :search_saved?
+
+  def index
+    @searches = current_employer
+                .searches
+                .order(id: :desc)
+                .select(:params, :id, :created_at)
+                .limit(3)
+  end
 
   protected
 
@@ -32,6 +41,18 @@ class SearchController < ApplicationController
 
   def search_cache_key
     "search/#{current_user.class.name.downcase}/#{current_user.id}"
+  end
+
+  def save_search
+    Search.create(
+      params: search_params,
+      employer: current_employer
+    ) unless search_params.empty?
+  end
+
+  def search_saved?
+    return true if search_params.empty?
+    Search.where(params: search_params).exists?
   end
 
   def search_params

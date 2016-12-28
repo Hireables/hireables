@@ -14,6 +14,7 @@ class Employer < ApplicationRecord
   after_commit :notify_admin!, on: :create
 
   has_many :favourites, dependent: :destroy
+  has_many :searches, dependent: :destroy
   set :favourited_developers
 
   mount_uploader :avatar, ImageUploader
