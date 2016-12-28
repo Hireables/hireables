@@ -3,20 +3,37 @@
   position: relative
   margin: 40px 0px
 
-  .search-filters,
+  .search-box,
   .employer-profile
     width: 30%
-    border: 5px solid #f2f2f2
     float: left
 
-    &.sticky
-      position: fixed
-      top: 50px
-      width: 294px
+    .search-filters,
+    .saved-searches
+      border: 5px solid #f2f2f2
 
-    .filters
-      padding: 10px
-      background-color: white
+    .saved-searches
+      margin-top: 20px
+
+      .search
+        margin-bottom: 5px
+        font-size: 14px
+
+        .item
+          margin-bottom: 5px
+
+        .key
+          font-weight: 500
+
+    .search-filters
+      &.sticky
+        position: fixed
+        top: 50px
+        width: 294px
+
+      .filters
+        padding: 10px
+        background-color: white
 
   .search-results,
   .employer-favourites
@@ -28,13 +45,16 @@
   .employers-show-wrapper
     margin: 5px 0
 
-    .search-filters,
+    .search-box,
     .search-results,
     .employer-profile,
     .employer-favourites
       width: 100%
       float: none
-      border: none!important
+
+      .search-filters,
+      .saved-searches
+        border: none
 
     .search-results,
     .employer-favourites
@@ -48,10 +68,9 @@
   .employers-show-wrapper
     margin: 0
 
-    .search-filters,
+    .search-box,
     .search-results,
     .employer-profile
-
       width: 100%
       float: none
 

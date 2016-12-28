@@ -45,7 +45,7 @@ class Search extends Component {
   static makeSticky() {
     if ($(window).width() > 1024) {
       $(document).scroll(() => {
-        if ($(window).scrollTop() > 350 &&
+        if ($(window).scrollTop() > 450 &&
             !($(document).height() - $(window).scrollTop() < 600)
           ) {
           $('.search-filters, .employer-profile').addClass('sticky');
@@ -236,7 +236,7 @@ class Search extends Component {
               validationErrors={this.state.validationErrors}
             >
 
-              <div className="search-box language">
+              <div className="search-field language">
                 <AutoComplete
                   id="text-field-default"
                   placeholder="(ex: ruby, python)"
@@ -258,7 +258,7 @@ class Search extends Component {
                 </div>
               </div>
 
-              <div className="search-box location">
+              <div className="search-field location">
                 <FormsyText
                   id="text-field-default"
                   placeholder="(ex: london)"
@@ -270,7 +270,7 @@ class Search extends Component {
                 />
               </div>
 
-              <div className="search-box repos">
+              <div className="search-field repos">
                 <FormsyText
                   id="text-field-default"
                   placeholder="(ex: >=40)"
