@@ -10,11 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161201015109) do
+ActiveRecord::Schema.define(version: 20161228135019) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "citext"
+  enable_extension "hstore"
 
   create_table "connections", force: :cascade do |t|
     t.string   "uid"
@@ -233,6 +234,15 @@ ActiveRecord::Schema.define(version: 20161201015109) do
     t.text      "queue",                 default: "",             null: false
   end
 
+  create_table "searches", force: :cascade do |t|
+    t.hstore   "params"
+    t.integer  "employer_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["employer_id"], name: "index_searches_on_employer_id", using: :btree
+    t.index ["params"], name: "index_searches_on_params", using: :gin
+  end
+
   add_foreign_key "connections", "developers"
   add_foreign_key "favourites", "employers"
   add_foreign_key "imports", "connections"
@@ -240,4 +250,5 @@ ActiveRecord::Schema.define(version: 20161201015109) do
   add_foreign_key "mailboxer_conversation_opt_outs", "mailboxer_conversations", column: "conversation_id", name: "mb_opt_outs_on_conversations_id"
   add_foreign_key "mailboxer_notifications", "mailboxer_conversations", column: "conversation_id", name: "notifications_on_conversation_id"
   add_foreign_key "mailboxer_receipts", "mailboxer_notifications", column: "notification_id", name: "receipts_on_notification_id"
+  add_foreign_key "searches", "employers"
 end
