@@ -88,14 +88,14 @@
         .mobile-button {
             padding: 15px !important;
             border: 0 !important;
-            font-size: 16px !important;
+            font-size: 14px !important;
             display: block !important;
         }
 
     }
 
     /* ANDROID CENTER FIX */
-    div[style*="margin: 16px 0;"] { margin: 0 !important; }
+    div[style*="margin: 14px 0;"] { margin: 0 !important; }
 </style>
 </head>
 <body style="margin: 0 !important; padding: 0 !important;">
@@ -123,9 +123,16 @@
                                           </p>
                                         </tr>
                                         <tr>
-                                            <td align="left" style="padding: 20px 0 0 0; font-size: 16px; line-height: 25px; font-family: Helvetica, Arial, sans-serif; color: #666666;" class="padding-copy">
-                                              <%= sanitize @message.body %>
-                                            </td>
+                                          <td align="left" style="font-size: 14px; line-height: 25px; font-family: Helvetica, Arial, sans-serif; color: #333333;" class="padding-copy">
+                                            <%= sanitize @message.body %>
+                                          </td>
+                                        </tr>
+
+                                        <tr align="left">
+                                          <td class="content-block" style="font-family: Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 20px 0;"
+                                        >
+                                          <%= link_to 'Reply', mailbox_url('inbox'), class: "btn-primary", style: "font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; color: #FFF; text-decoration: none; line-height: 2; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: capitalize; background: #5b98e0; margin: 0; padding: 0; border-color: #5b98e0; border-style: solid; border-width: 5px 20px;" %>
+                                          </td>
                                         </tr>
                                     </table>
                                 </td>
@@ -142,21 +149,21 @@
         </td>
     </tr>
     <tr>
-        <td bgcolor="#ffffff" align="center" style="padding: 20px 0px;">
+        <td bgcolor="#ffffff" align="center">
             <!--[if (gte mso 9)|(IE)]>
             <table align="center" border="0" cellspacing="0" cellpadding="0" width="500">
             <tr>
             <td align="center" valign="top" width="500">
             <![endif]-->
             <!-- UNSUBSCRIBE COPY -->
-            <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" style="max-width: 500px;" class="responsive-table">
-                <tr>
-                    <td align="left" style="font-size: 12px; line-height: 18px; font-family: Helvetica, Arial, sans-serif; color:#666666;">
-                        1234 Main Street, Anywhere, MA 01234, USA
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" class="responsive-table">
+                <tr align="left">
+                    <td style="padding: 0 20px; font-size: 12px; line-height: 18px; font-family: Helvetica, Arial, sans-serif; color:#333333;">
+                        Sent with &#9829; from Hireables
                         <br>
-                        <a href="http://litmus.com" target="_blank" style="color: #666666; text-decoration: none;">Unsubscribe</a>
-                        <span style="font-family: Arial, sans-serif; font-size: 12px; color: #444444;">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-                        <a href="http://litmus.com" target="_blank" style="color: #666666; text-decoration: none;">View this email in your browser</a>
+                        <a href="<%= @receiver.class.name == 'Employer' ? edit_employer_url(@receiver) : edit_developer_url(@receiver) %>" target="_blank" style="font-size: 12px; line-height: 18px; font-family: Helvetica, Arial, sans-serif; text-decoration: underline; color: #333333;">
+                          Update notification preferences
+                        </a>
                     </td>
                 </tr>
             </table>
