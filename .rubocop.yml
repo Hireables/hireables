@@ -28,5 +28,7 @@ Style/Documentation:
   Enabled: false
 Style/Lambda:
   Enabled: false
+Metrics/BlockLength:
+  Enabled: false
 Style/IndentArray:
   EnforcedStyle: consistent
