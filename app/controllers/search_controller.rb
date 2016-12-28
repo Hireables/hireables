@@ -44,10 +44,8 @@ class SearchController < ApplicationController
   end
 
   def save_search
-    Search.create(
-      params: search_params,
-      employer: current_employer
-    ) unless search_params.empty?
+    return if search_params.empty?
+    Search.create(params: search_params, employer: current_employer)
   end
 
   def search_saved?

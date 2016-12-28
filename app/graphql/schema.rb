@@ -39,6 +39,7 @@ def decode_object(id)
   models.fetch(type_name).find(object_id)
 end
 
+# rubocop:disable Metrics/MethodLength
 def models
   {
     'Employer' => Employer,

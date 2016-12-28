@@ -1,6 +1,8 @@
 class MailboxerMailer < ActionMailer::Base
   default from: ENV.fetch('NOTIFICATIONS_EMAIL')
 
+  # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Metrics/AbcSize
   def new_message(reciept_id)
     @reciept = Mailboxer::Receipt.find(reciept_id)
     @receiver = @reciept.receiver
