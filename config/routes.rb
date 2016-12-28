@@ -1,11 +1,9 @@
 Rails.application.routes.draw do
   authenticated :developer do
-    resources :mailbox, only: :show
     root 'developers#profile', as: :developer_root
   end
 
   authenticated :employer do
-    resources :mailbox, only: :show
     root 'search#index', as: :employer_root
   end
 
@@ -34,6 +32,7 @@ Rails.application.routes.draw do
                                    graphql_path: '/graphql'
   end
 
+  resources :mailbox, only: :show
   resources :search, only: :index
   resources :employers, only: [:show, :edit]
   resources :developers, only: [:edit, :show]

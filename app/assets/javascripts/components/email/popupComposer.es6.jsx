@@ -143,11 +143,40 @@ class PopupComposer extends Component {
                 <List>
                   <ListItem
                     disabled
+                    innerDivStyle={{ padding: '10px 16px 20px 80px' }}
                     leftAvatar={
-                      <Avatar src={this.props.composer.recipient.avatar_url} />
+                      <Avatar
+                        size={70}
+                        src={this.props.composer.recipient.avatar_url}
+                        style={{ left: 0 }}
+                      />
                     }
                   >
-                    {this.props.composer.recipient.name}
+                    <div className="name">
+                      {this.props.composer.recipient.name}
+                    </div>
+
+                    <div
+                      className="location"
+                      style={{
+                        marginTop: 5,
+                        color: '#666',
+                        fontSize: 14,
+                      }}
+                    >
+                      {this.props.composer.recipient.location}
+                    </div>
+
+                    <div
+                      className="bio"
+                      style={{
+                        marginTop: 5,
+                        color: '#333',
+                        fontSize: 14,
+                      }}
+                    >
+                      {this.props.composer.recipient.bio}
+                    </div>
                   </ListItem>
                 </List>
               </div>
@@ -221,6 +250,9 @@ const PopupComposerContainer = Relay.createContainer(PopupComposer, {
           name,
           database_id,
           avatar_url,
+          location,
+          company,
+          bio,
         }
       }
     `,
