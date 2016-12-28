@@ -847,9 +847,9 @@ babel-register@^6.18.0:
     mkdirp "^0.5.1"
     source-map-support "^0.4.2"
 
-babel-relay-plugin-loader@gauravtiwari/babel-relay-plugin-loader:
+babel-relay-plugin-loader@^0.10.0:
   version "0.10.0"
-  resolved "https://codeload.github.com/gauravtiwari/babel-relay-plugin-loader/tar.gz/5b5a1b23dbc41aacb9277e6f474b561dc1ee9306"
+  resolved "https://registry.yarnpkg.com/babel-relay-plugin-loader/-/babel-relay-plugin-loader-0.10.0.tgz#1dff6f6d6355243fe23a2dec5483d4c45a111300"
   dependencies:
     babel-relay-plugin "^0.10.0"
 

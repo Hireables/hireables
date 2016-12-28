@@ -27,7 +27,7 @@
     "babel-preset-react": "^6.11.1",
     "babel-preset-stage-0": "^6.5.0",
     "babel-relay-plugin": "^0.10.0",
-    "babel-relay-plugin-loader": "gauravtiwari/babel-relay-plugin-loader",
+    "babel-relay-plugin-loader": "^0.10.0",
     "classnames": "^2.2.5",
     "css-loader": "^0.23.1",
     "dialog-polyfill": "^0.4.5",
