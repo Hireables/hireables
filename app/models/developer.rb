@@ -9,7 +9,7 @@ class Developer < ApplicationRecord
   validates_uniqueness_of :login
 
   has_many :connections, dependent: :destroy
-  has_many :achievements, -> { where(pinned: true) }, class_name: 'Import'
+  has_many :achievements
 
   before_save :format_languages, unless: :empty_languages?
   after_commit :seed_available_connections, on: :create
