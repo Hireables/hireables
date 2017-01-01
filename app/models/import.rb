@@ -17,4 +17,32 @@ class Import < ApplicationRecord
   def self.by_source(source)
     where(source_name: source)
   end
+
+  def get_field(attr)
+    available_field = mapped_fields[attr.to_sym].detect do |field|
+      respond_to?(field.to_sym) && send(field).present?
+    end
+    return nil if available_field.nil?
+    send(available_field)
+  end
+
+  def mapped_fields
+    {
+      title: title_fields,
+      description: description_fields,
+      link: link_fields
+    }.freeze
+  end
+
+  def title_fields
+    %w(title name)
+  end
+
+  def description_fields
+    %w(description summary body tagline)
+  end
+
+  def link_fields
+    %w(link html_url discussion_url)
+  end
 end
