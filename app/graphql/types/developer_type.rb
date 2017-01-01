@@ -36,7 +36,7 @@ DeveloperType = GraphQL::ObjectType.define do
     end
   end
 
-  connection :achievements, ImportType.connection_type do
+  connection :achievements, AchievementType.connection_type do
     description 'Achievement connection to fetch paginated achievements.'
     resolve ->(obj, _args, _ctx) { resolve_achievements(obj) }
   end
@@ -44,6 +44,11 @@ DeveloperType = GraphQL::ObjectType.define do
   field :connections, types[ConnectionType] do
     description 'Developer current connections'
     resolve ->(obj, _args, _ctx) { resolve_connections(obj) }
+  end
+
+  connection :imports, ImportType.connection_type do
+    description 'Returns imports available for a connection based on provider.'
+    resolve ->(obj, _args, _ctx) { obj.imports.order(id: :asc) }
   end
 
   field :premium, types.Boolean do
@@ -143,7 +148,7 @@ end
 
 def resolve_achievements(obj)
   return [] if obj.achievements.nil?
-  obj.achievements.order(created_at: :desc)
+  obj.achievements.order(date: :desc)
 end
 
 def resolve_connections(obj)
