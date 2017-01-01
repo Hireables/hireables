@@ -56,7 +56,7 @@ const Github = (props) => {
 
               <time className="date">
                 {
-                  moment(achievement.created_at, 'YYYY-MM-DD HH:mm:ss [UTC]')
+                  moment(achievement.date, 'YYYY-MM-DD HH:mm:ss [UTC]')
                   .format('MMMM Do YYYY')
                   .toString()
                 }
@@ -67,11 +67,11 @@ const Github = (props) => {
                 title={
                   <div className="title">
                     <a
-                      href={achievement.html_url}
+                      href={achievement.link}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      {achievement.name || achievement.title}
+                      {achievement.title}
                     </a>
                   </div>
                 }
@@ -80,7 +80,7 @@ const Github = (props) => {
               <CardText
                 className="achievement-card-description"
                 dangerouslySetInnerHTML={{
-                  __html: sanitizeText(achievement.description || marked(achievement.body)),
+                  __html: sanitizeText(achievement.description),
                 }}
               />
 
@@ -131,23 +131,19 @@ Github.propTypes = {
 const GithubContainer = Relay.createContainer(Github, {
   fragments: {
     achievement: () => Relay.QL`
-      fragment on Import {
+      fragment on Achievement {
         id,
-        name,
         title,
-        source_name,
         description,
+        source_name,
         category,
-        body,
         developer_id,
-        connection_id,
         language,
-        html_url,
+        link,
         is_owner,
         comments,
         stargazers_count,
-        pinned,
-        created_at,
+        date,
       }
     `,
   },

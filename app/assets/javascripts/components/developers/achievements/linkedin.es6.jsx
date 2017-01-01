@@ -41,7 +41,7 @@ const Linkedin = (props) => {
 
               <time className="date">
                 {
-                  moment(achievement.created_at, 'YYYY-MM-DD HH:mm:ss [UTC]')
+                  moment(achievement.date, 'YYYY-MM-DD HH:mm:ss [UTC]')
                   .format('MMMM Do YYYY')
                   .toString()
                 }
@@ -59,7 +59,7 @@ const Linkedin = (props) => {
               <CardText
                 className="achievement-card-description"
                 dangerouslySetInnerHTML={{
-                  __html: sanitizeText(achievement.summary),
+                  __html: sanitizeText(achievement.description),
                 }}
               />
               <CardActions className="meta">
@@ -85,18 +85,16 @@ Linkedin.propTypes = {
 const LinkedinContainer = Relay.createContainer(Linkedin, {
   fragments: {
     achievement: () => Relay.QL`
-      fragment on Import {
+      fragment on Achievement {
         id,
         title,
-        summary,
+        description,
         source_name,
         developer_id,
-        connection_id,
         company,
         is_owner,
-        pinned,
         isCurrent,
-        created_at,
+        date,
       }
     `,
   },

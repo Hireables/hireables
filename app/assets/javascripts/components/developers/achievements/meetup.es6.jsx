@@ -42,7 +42,7 @@ const Meetup = (props) => {
 
               <time className="date">
                 {
-                  moment(achievement.created_at, 'YYYY-MM-DD HH:mm:ss [UTC]')
+                  moment(achievement.date, 'YYYY-MM-DD HH:mm:ss [UTC]')
                   .format('MMMM Do YYYY')
                   .toString()
                 }
@@ -57,7 +57,7 @@ const Meetup = (props) => {
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      {achievement.name}
+                      {achievement.title}
                     </a>
                   </div>
                 }
@@ -117,17 +117,16 @@ Meetup.propTypes = {
 const MeetupContainer = Relay.createContainer(Meetup, {
   fragments: {
     achievement: () => Relay.QL`
-      fragment on Import {
+      fragment on Achievement {
         id,
-        name,
+        title,
         description,
         source_name,
         link,
         is_owner,
         yes_rsvp_count,
         developer_id,
-        connection_id,
-        created_at,
+        date,
       }
     `,
   },

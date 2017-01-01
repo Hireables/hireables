@@ -41,7 +41,7 @@ const ProductHunt = (props) => {
 
               <time className="date">
                 {
-                  moment(achievement.created_at, 'YYYY-MM-DD HH:mm:ss [UTC]')
+                  moment(achievement.date, 'YYYY-MM-DD HH:mm:ss [UTC]')
                   .format('MMMM Do YYYY')
                   .toString()
                 }
@@ -52,11 +52,11 @@ const ProductHunt = (props) => {
                 title={
                   <div className="title">
                     <a
-                      href={achievement.discussion_url}
+                      href={achievement.link}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      {achievement.name}
+                      {achievement.title}
                     </a>
                   </div>
                 }
@@ -65,7 +65,7 @@ const ProductHunt = (props) => {
               <CardText
                 className="achievement-card-description"
                 dangerouslySetInnerHTML={{
-                  __html: sanitizeText(achievement.tagline),
+                  __html: sanitizeText(achievement.description),
                 }}
               />
 
@@ -116,20 +116,18 @@ ProductHunt.propTypes = {
 const ProductHuntContainer = Relay.createContainer(ProductHunt, {
   fragments: {
     achievement: () => Relay.QL`
-      fragment on Import {
+      fragment on Achievement {
         id,
-        name,
+        title,
         source_name,
         developer_id,
-        connection_id,
         is_owner,
         votes_count,
         comments_count,
-        discussion_url,
-        tagline,
+        link,
+        description,
         thumbnail,
-        pinned,
-        created_at,
+        date,
       }
     `,
   },

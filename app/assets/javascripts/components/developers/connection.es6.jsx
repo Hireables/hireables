@@ -26,7 +26,8 @@ import StackOverflowLogin from '../../connectors/stackexchange.es6';
 
 // Mutations
 import ConnectOAuth from '../../mutations/developer/connectOauth.es6';
-import ToggleAchievement from '../../mutations/import/toggle.es6';
+import AddAchievement from '../../mutations/developer/addAchievement.es6';
+import RemoveAchievement from '../../mutations/developer/removeAchievement.es6';
 
 // Map icon component to string names
 const iconsMap = new Map();
@@ -50,7 +51,8 @@ class Connection extends Component {
     super(props);
     this.toggleList = this.toggleList.bind(this);
     this.connect = this.connect.bind(this);
-    this.toggleItemOnServer = this.toggleItemOnServer.bind(this);
+    this.pinImport = this.pinImport.bind(this);
+    this.unpinImport = this.unpinImport.bind(this);
     this.setNotification = this.setNotification.bind(this);
     this.showErrorNotification = this.showErrorNotification.bind(this);
     this.handleRequestClose = this.handleRequestClose.bind(this);
@@ -140,7 +142,7 @@ class Connection extends Component {
     }
   }
 
-  toggleItemOnServer(event, item) {
+  pinImport(event, item) {
     event.preventDefault();
     this.toggleDisableOnList();
 
@@ -150,10 +152,26 @@ class Connection extends Component {
     };
 
     const onSuccess = () => (this.toggleDisableOnList());
-    Relay.Store.commitUpdate(new ToggleAchievement({
+    Relay.Store.commitUpdate(new AddAchievement({
       id: item.id,
       developerId: this.props.developer.id,
-      connectionId: this.props.connection.id,
+    }), { onFailure, onSuccess });
+  }
+
+  unpinImport(event, item) {
+    event.preventDefault();
+    this.toggleDisableOnList();
+
+    const onFailure = (transaction) => {
+      this.showErrorNotification(transaction);
+      this.toggleDisableOnList();
+    };
+
+    const onSuccess = () => (this.toggleDisableOnList());
+
+    Relay.Store.commitUpdate(new RemoveAchievement({
+      id: item.id,
+      developerId: this.props.developer.id,
     }), { onFailure, onSuccess });
   }
 
@@ -249,7 +267,8 @@ class Connection extends Component {
                   <Item
                     item={node}
                     key={node.id}
-                    toggleItemOnServer={this.toggleItemOnServer}
+                    unpinImport={this.unpinImport}
+                    pinImport={this.pinImport}
                   />
                 ))}
                 <div className="actions">

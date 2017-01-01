@@ -54,7 +54,7 @@ class Youtube extends Component {
 
                 <time className="date">
                   {
-                    moment(achievement.created_at, 'YYYY-MM-DD HH:mm:ss [UTC]')
+                    moment(achievement.date, 'YYYY-MM-DD HH:mm:ss [UTC]')
                     .format('MMMM Do YYYY')
                     .toString()
                   }
@@ -136,19 +136,17 @@ Youtube.propTypes = {
 const YoutubeContainer = Relay.createContainer(Youtube, {
   fragments: {
     achievement: () => Relay.QL`
-      fragment on Import {
+      fragment on Achievement {
         id,
         title,
         source_name,
         source_id,
         description,
         developer_id,
-        connection_id,
         is_owner,
         likeCount,
         viewCount,
-        pinned,
-        created_at,
+        date,
       }
     `,
   },

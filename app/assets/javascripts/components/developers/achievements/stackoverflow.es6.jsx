@@ -53,7 +53,7 @@ class StackOverflow extends Component {
 
                 <time className="date">
                   {
-                    moment(achievement.created_at, 'YYYY-MM-DD HH:mm:ss [UTC]')
+                    moment(achievement.date, 'YYYY-MM-DD HH:mm:ss [UTC]')
                     .format('MMMM Do YYYY')
                     .toString()
                   }
@@ -77,7 +77,7 @@ class StackOverflow extends Component {
                 <CardText
                   className="achievement-card-description"
                   dangerouslySetInnerHTML={{
-                    __html: sanitizeText(achievement.body),
+                    __html: sanitizeText(achievement.description),
                   }}
                 />
 
@@ -134,20 +134,18 @@ StackOverflow.propTypes = {
 const StackOverflowContainer = Relay.createContainer(StackOverflow, {
   fragments: {
     achievement: () => Relay.QL`
-      fragment on Import {
+      fragment on Achievement {
         id,
         title,
-        body,
+        description,
         source_name,
         is_accepted,
         comment_count,
         developer_id,
-        connection_id,
         is_owner,
         link,
         up_vote_count,
-        pinned,
-        created_at,
+        date,
       }
     `,
   },

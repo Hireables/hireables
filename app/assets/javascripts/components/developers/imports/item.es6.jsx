@@ -8,7 +8,7 @@ import { sanitizeText } from '../../../utils/sanitize.es6';
 import '../../styles/pins.sass';
 
 const Data = (props) => {
-  const { item, toggleItemOnServer } = props;
+  const { item, unpinImport, pinImport } = props;
   const description = sanitizeText(
     item.description || item.body || item.summary || item.tagline
   );
@@ -35,7 +35,9 @@ const Data = (props) => {
         <Checkbox
           checked={item.pinned}
           style={{ top: 'calc(100% / 3)' }}
-          onCheck={event => toggleItemOnServer(event, item)}
+          onCheck={(event, checked) =>
+            (checked ? pinImport(event, item) : unpinImport(event, item))
+          }
         />
       }
       rightIcon={
@@ -78,7 +80,8 @@ const Data = (props) => {
 
 Data.propTypes = {
   item: React.PropTypes.object,
-  toggleItemOnServer: React.PropTypes.func,
+  pinImport: React.PropTypes.func,
+  unpinImport: React.PropTypes.func,
 };
 
 const DataContainer = Relay.createContainer(Data, {
