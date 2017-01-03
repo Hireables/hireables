@@ -63,6 +63,7 @@ class Developer < ApplicationRecord
       description: import.get_field(:description),
       date: import.created_at,
       data: import.data,
+      import: import,
       link: import.get_field(:link)
     )
   end
