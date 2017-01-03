@@ -1,6 +1,6 @@
 class CreateAchievements < ActiveRecord::Migration[5.0]
   def change
-    remove_index :imports, name: 'achievements'
+    remove_index :imports, name: 'achievements', column: :pinned
 
     create_table :achievements do |t|
       t.string :title
@@ -11,6 +11,7 @@ class CreateAchievements < ActiveRecord::Migration[5.0]
       t.string :source_id
       t.string :link
       t.jsonb :data
+      t.references :import, foreign_key: true
       t.references :developer, foreign_key: true
 
       t.timestamps

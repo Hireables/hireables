@@ -26,12 +26,15 @@ ActiveRecord::Schema.define(version: 20161231115337) do
     t.string   "source_id"
     t.string   "link"
     t.jsonb    "data"
+    t.integer  "import_id"
     t.integer  "developer_id"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
     t.index ["category"], name: "index_achievements_on_category", using: :btree
     t.index ["data"], name: "index_achievements_on_data", using: :gin
+    t.index ["date"], name: "index_achievements_on_date", using: :btree
     t.index ["developer_id"], name: "index_achievements_on_developer_id", using: :btree
+    t.index ["import_id"], name: "index_achievements_on_import_id", using: :btree
     t.index ["source_id"], name: "index_achievements_on_source_id", using: :btree
     t.index ["source_name", "source_id", "developer_id"], name: "developer_achievements", unique: true, using: :btree
     t.index ["source_name"], name: "index_achievements_on_source_name", using: :btree
@@ -263,6 +266,7 @@ ActiveRecord::Schema.define(version: 20161231115337) do
   end
 
   add_foreign_key "achievements", "developers"
+  add_foreign_key "achievements", "imports"
   add_foreign_key "connections", "developers"
   add_foreign_key "favourites", "employers"
   add_foreign_key "imports", "connections"
