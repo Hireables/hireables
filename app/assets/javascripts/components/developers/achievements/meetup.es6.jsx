@@ -122,6 +122,7 @@ const MeetupContainer = Relay.createContainer(Meetup, {
         title,
         description,
         source_name,
+        import_id,
         link,
         is_owner,
         yes_rsvp_count,

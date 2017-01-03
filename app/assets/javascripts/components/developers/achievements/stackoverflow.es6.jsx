@@ -142,6 +142,7 @@ const StackOverflowContainer = Relay.createContainer(StackOverflow, {
         is_accepted,
         comment_count,
         developer_id,
+        import_id,
         is_owner,
         link,
         up_vote_count,

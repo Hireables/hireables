@@ -121,6 +121,7 @@ const ProductHuntContainer = Relay.createContainer(ProductHunt, {
         title,
         source_name,
         developer_id,
+        import_id,
         is_owner,
         votes_count,
         comments_count,

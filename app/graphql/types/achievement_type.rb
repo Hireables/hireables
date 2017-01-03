@@ -7,7 +7,13 @@ AchievementType = GraphQL::ObjectType.define do
   field :source_id, types.String, 'Data source id'
   field :category, types.String, 'Data source category'
   field :developer_id, types.String, 'Data owner id'
-  field :connection_id, types.String, 'Data source connection id'
+
+  field :import_id, types.ID, 'Data import id' do
+    resolve ->(obj, _args, ctx) do
+      Schema.id_from_object(obj.import, ImportType, ctx)
+    end
+  end
+
   field :source_name, types.String, 'Data source name'
   field :title, types.String, 'title of this data source'
   field :description, types.String, 'Description of this data source'

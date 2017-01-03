@@ -138,6 +138,7 @@ const GithubContainer = Relay.createContainer(Github, {
         source_name,
         category,
         developer_id,
+        import_id,
         language,
         link,
         is_owner,

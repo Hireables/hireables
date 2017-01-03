@@ -1,6 +1,6 @@
 module Developers
   class RemoveAchievementResolver
-    attr_reader :current_developer, :import, :params
+    attr_reader :current_developer, :import, :params, :ctx
 
     def self.call(*args)
       new(*args).call
@@ -9,6 +9,7 @@ module Developers
     def initialize(_obj, inputs, ctx)
       @current_developer = ctx[:current_developer]
       @params = inputs
+      @ctx = ctx
       raise StandardError, 'Unauthorised' unless @current_developer.present?
       @import = Schema.object_from_id(inputs[:id], ctx)
       raise StandardError, 'Unauthorised' unless owner?
@@ -16,12 +17,15 @@ module Developers
 
     def call
       import.update!(pinned: false)
-      Achievement.find_by(
-        source_name: import.source_name,
-        source_id: import.source_id
-      ).destroy!
+      achievement = Achievement.find_by(import: import)
+      return if achievement.nil?
+      achievement.destroy!
 
-      { developer: current_developer.reload, deletedId: params['id'] }
+      {
+        developer: current_developer.reload,
+        import: import.reload,
+        deletedId: Schema.id_from_object(achievement, AchievementType, ctx)
+      }
     end
 
     def owner?

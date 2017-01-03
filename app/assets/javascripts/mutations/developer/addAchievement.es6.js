@@ -42,8 +42,8 @@ export default class extends Relay.Mutation {
         edgeName: 'achievementEdge',
         rangeBehaviors: {
           '': 'prepend',
-          'order(id)': 'append',
-          'order(-id)': 'prepend',
+          'order(date)': 'append',
+          'order(-date)': 'prepend',
         },
       },
     ];

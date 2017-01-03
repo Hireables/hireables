@@ -148,7 +148,7 @@ end
 
 def resolve_achievements(obj)
   return [] if obj.achievements.nil?
-  obj.achievements.order(date: :desc)
+  obj.achievements.includes(:import).order(date: :desc)
 end
 
 def resolve_connections(obj)

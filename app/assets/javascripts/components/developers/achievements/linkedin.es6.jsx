@@ -91,6 +91,7 @@ const LinkedinContainer = Relay.createContainer(Linkedin, {
         description,
         source_name,
         developer_id,
+        import_id,
         company,
         is_owner,
         isCurrent,

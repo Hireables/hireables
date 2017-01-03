@@ -61,9 +61,8 @@ class DeveloperAchievements extends Component {
     };
 
     Relay.Store.commitUpdate(new RemoveAchievement({
-      id: achievement.id,
+      id: achievement.import_id,
       developerId: achievement.developer_id,
-      connectionId: achievement.connection_id,
     }), { onFailure });
   }
 

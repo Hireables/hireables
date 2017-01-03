@@ -8,6 +8,13 @@ ImportType = GraphQL::ObjectType.define do
   field :category, types.String, 'Data source category'
   field :developer_id, types.String, 'Data owner id'
   field :connection_id, types.String, 'Data source connection id'
+
+  field :database_id, types.Int, 'Import database id' do
+    resolve ->(obj, _args, _ctx) do
+      obj.id
+    end
+  end
+
   field :source_name, types.String, 'Data source name'
   field :title, types.String, 'title of this data source'
   field :name, types.String, 'Name of this data source'

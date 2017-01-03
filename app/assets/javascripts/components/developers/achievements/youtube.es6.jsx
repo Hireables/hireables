@@ -143,6 +143,7 @@ const YoutubeContainer = Relay.createContainer(Youtube, {
         source_id,
         description,
         developer_id,
+        import_id,
         is_owner,
         likeCount,
         viewCount,

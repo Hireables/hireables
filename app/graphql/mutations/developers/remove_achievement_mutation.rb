@@ -9,6 +9,7 @@ module Developers
     # Return field
     return_field :deletedId, !types.ID
     return_field :developer, DeveloperType
+    return_field :import, ImportType
 
     # Resolve block to update a model
     resolve(Developers::RemoveAchievementResolver)

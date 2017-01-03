@@ -9,6 +9,10 @@ export default class extends Relay.Mutation {
     return Relay.QL`
       fragment on RemoveAchievementPayload {
         deletedId,
+        import {
+          id,
+          pinned,
+        },
         developer {
           id,
         }
@@ -17,24 +21,26 @@ export default class extends Relay.Mutation {
   }
 
   getConfigs() {
-    return [{
-      type: 'NODE_DELETE',
-      parentName: 'developer',
-      parentID: this.props.developerId,
-      connectionName: 'achievements',
-      deletedIDFieldName: 'deletedId',
-    }];
+    return [
+      {
+        type: 'FIELDS_CHANGE',
+        fieldIDs: {
+          import: this.props.id,
+        },
+      }, {
+        type: 'NODE_DELETE',
+        parentName: 'developer',
+        parentID: this.props.developerId,
+        connectionName: 'achievements',
+        deletedIDFieldName: 'deletedId',
+      },
+    ];
   }
 
   getVariables() {
     return {
       id: this.props.id,
-    };
-  }
-
-  getOptimisticResponse() {
-    return {
-      deletedId: this.props.id,
+      import_id: this.props.importId,
     };
   }
 }
