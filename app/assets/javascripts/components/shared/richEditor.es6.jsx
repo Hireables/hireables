@@ -5,8 +5,11 @@ class RichEditor extends Component {
   constructor(props) {
     super(props);
     this.onChange = this.onChange.bind(this);
+    const initialValue = this.props.content ?
+      RichTextEditor.createValueFromString(this.props.content, 'html') :
+        RichTextEditor.createEmptyValue();
     this.state = {
-      value: RichTextEditor.createEmptyValue(),
+      value: initialValue,
     };
   }
 
@@ -38,7 +41,7 @@ class RichEditor extends Component {
         value={this.state.value}
         onChange={this.onChange}
         toolbarConfig={toolbarConfig}
-        placeholder="Enter your message"
+        placeholder={this.props.placeholder || 'Enter your message'}
         spellcheck
         autoFocus
       />
@@ -48,6 +51,8 @@ class RichEditor extends Component {
 
 RichEditor.propTypes = {
   onChange: React.PropTypes.func,
+  placeholder: React.PropTypes.string,
+  content: React.PropTypes.string,
 };
 
 export default RichEditor;
