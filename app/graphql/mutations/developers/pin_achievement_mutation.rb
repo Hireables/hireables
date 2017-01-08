@@ -1,6 +1,6 @@
 module Developers
-  AddAchievementMutation = GraphQL::Relay::Mutation.define do
-    name 'AddAchievement'
+  PinAchievementMutation = GraphQL::Relay::Mutation.define do
+    name 'PinAchievement'
     description 'Add or remove an achievement from profile based on selection'
 
     # Define input and return field

@@ -1,24 +1,31 @@
+/* global $ window document */
+
 // Modules
 import React, { Component } from 'react';
 import Relay from 'react-relay';
-import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card';
-import FontIcon from 'material-ui/FontIcon';
+import { Card, CardMedia, CardActions, CardTitle, CardText } from 'material-ui/Card';
 import moment from 'moment';
-import Truncate from 'react-truncate';
+import FontIcon from 'material-ui/FontIcon';
 
 // Child Components icons
-import MeetupIcon from '../../shared/icons/meetup.es6';
-import { sanitizeText } from '../../../utils/sanitize.es6';
-import AchievementForm from './form.es6';
-import AchievementActions from './actions.es6';
+import YoutubeIcon from '../../../shared/icons/youtube.es6';
+import { sanitizeText } from '../../../../utils/sanitize.es6';
+import AchievementForm from '../form.es6';
+import AchievementActions from '../actions.es6';
 
-class Meetup extends Component {
+class Youtube extends Component {
   constructor(props) {
     super(props);
     this.edit = this.edit.bind(this);
     this.state = {
       editing: false,
     };
+  }
+
+  componentDidMount() {
+    setTimeout(() => {
+      this.iframe.setAttribute('src', this.iframe.getAttribute('data-src'));
+    }, 1000);
   }
 
   edit(event) {
@@ -30,18 +37,24 @@ class Meetup extends Component {
 
   render() {
     const { achievement, remove, update } = this.props;
+    const embedVideoStyle = {
+      display: 'block',
+      width: '100%',
+      height: 300,
+    };
+
     return (
       <div className={`achievement ${achievement.source_name}`}>
         <div className="achievement-block">
           <div className={`achievement-point ${achievement.source_name}`}>
-            <MeetupIcon />
+            <YoutubeIcon />
           </div>
           <div className="achievement-content">
             <Card className="achievement-card full-width">
               <div className="achievement-card-content">
                 <h2 className="intro">
-                  <i className="icon material-icons">event</i>
-                  Meetup
+                  <i className="icon material-icons">video_library</i>
+                  Talk
                 </h2>
 
                 {achievement.is_owner ?
@@ -67,48 +80,39 @@ class Meetup extends Component {
                     edit={this.edit}
                   /> :
                   <div className="achievement-content">
+                    <CardMedia
+                      className="achievement-card-media"
+                    >
+                      <div className="video-embed" style={embedVideoStyle}>
+                        <iframe
+                          ref={node => (this.iframe = node)}
+                          style={embedVideoStyle}
+                          frameBorder="0"
+                          data-src={`//youtube.com/embed/${achievement.source_id}`}
+                        />
+                      </div>
+                    </CardMedia>
+
                     <CardTitle
                       className="achievement-card-header"
                       title={
                         <div className="title">
-                          <a
-                            href={achievement.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            {achievement.title}
-                          </a>
+                          {achievement.title}
                         </div>
                       }
                     />
-
-                    <Truncate
-                      lines={5}
+                    <CardText
                       className="achievement-card-description"
-                      ellipsis={
-                        <span>...
-                          <a
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            href={achievement.link}
-                          >
-                            Read more
-                          </a>
-                        </span>
-                      }
-                    >
-                      <CardText
-                        dangerouslySetInnerHTML={{
-                          __html: sanitizeText(achievement.description).replace(/&nbsp;/g, ''),
-                        }}
-                      />
-                    </Truncate>
+                      dangerouslySetInnerHTML={{
+                        __html: sanitizeText(achievement.description),
+                      }}
+                    />
                   </div>
                 }
 
                 <CardActions className="meta">
                   <span className="badge">
-                    {`${achievement.yes_rsvp_count}`}
+                    {`${achievement.likeCount}`}
                     <FontIcon
                       color="#fff"
                       className="material-icons"
@@ -118,7 +122,22 @@ class Meetup extends Component {
                         marginLeft: 5,
                       }}
                     >
-                      people
+                      thumb_up
+                    </FontIcon>
+                  </span>
+
+                  <span className="badge">
+                    {`${achievement.viewCount}`}
+                    <FontIcon
+                      color="#fff"
+                      className="material-icons"
+                      style={{
+                        fontSize: 20,
+                        verticalAlign: 'middle',
+                        marginLeft: 5,
+                      }}
+                    >
+                      visibility
                     </FontIcon>
                   </span>
                 </CardActions>
@@ -131,25 +150,26 @@ class Meetup extends Component {
   }
 }
 
-Meetup.propTypes = {
+Youtube.propTypes = {
   achievement: React.PropTypes.object,
   remove: React.PropTypes.func,
   update: React.PropTypes.func,
 };
 
-const MeetupContainer = Relay.createContainer(Meetup, {
+const YoutubeContainer = Relay.createContainer(Youtube, {
   fragments: {
     achievement: () => Relay.QL`
       fragment on Achievement {
         id,
         title,
-        description,
         source_name,
-        import_id,
-        link,
-        is_owner,
-        yes_rsvp_count,
+        source_id,
+        description,
         developer_id,
+        import_id,
+        is_owner,
+        likeCount,
+        viewCount,
         date,
         ${AchievementActions.getFragment('achievement')},
         ${AchievementForm.getFragment('achievement')},
@@ -158,4 +178,4 @@ const MeetupContainer = Relay.createContainer(Meetup, {
   },
 });
 
-export default MeetupContainer;
+export default YoutubeContainer;

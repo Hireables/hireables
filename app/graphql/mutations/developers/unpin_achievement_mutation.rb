@@ -1,6 +1,6 @@
 module Developers
-  RemoveAchievementMutation = GraphQL::Relay::Mutation.define do
-    name 'RemoveAchievement'
+  UnpinAchievementMutation = GraphQL::Relay::Mutation.define do
+    name 'UnpinAchievement'
     description 'Remove an achievement from profile'
 
     # Define input and return field

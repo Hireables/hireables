@@ -1,17 +1,18 @@
 // Modules
 import React, { Component } from 'react';
 import Relay from 'react-relay';
-import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card';
-import moment from 'moment';
+import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card';
 import FontIcon from 'material-ui/FontIcon';
+import moment from 'moment';
+import Truncate from 'react-truncate';
 
 // Child Components icons
-import ProductHuntIcon from '../../shared/icons/producthunt.es6';
-import { sanitizeText } from '../../../utils/sanitize.es6';
-import AchievementForm from './form.es6';
-import AchievementActions from './actions.es6';
+import MeetupIcon from '../../../shared/icons/meetup.es6';
+import { sanitizeText } from '../../../../utils/sanitize.es6';
+import AchievementForm from '../form.es6';
+import AchievementActions from '../actions.es6';
 
-class ProductHunt extends Component {
+class Meetup extends Component {
   constructor(props) {
     super(props);
     this.edit = this.edit.bind(this);
@@ -29,20 +30,18 @@ class ProductHunt extends Component {
 
   render() {
     const { achievement, remove, update } = this.props;
-
     return (
       <div className={`achievement ${achievement.source_name}`}>
         <div className="achievement-block">
           <div className={`achievement-point ${achievement.source_name}`}>
-            <ProductHuntIcon />
+            <MeetupIcon />
           </div>
-
           <div className="achievement-content">
             <Card className="achievement-card full-width">
               <div className="achievement-card-content">
                 <h2 className="intro">
-                  <i className="icon material-icons">apps</i>
-                  <span>App/Product</span>
+                  <i className="icon material-icons">event</i>
+                  Meetup
                 </h2>
 
                 {achievement.is_owner ?
@@ -83,18 +82,33 @@ class ProductHunt extends Component {
                       }
                     />
 
-                    <CardText
+                    <Truncate
+                      lines={5}
                       className="achievement-card-description"
-                      dangerouslySetInnerHTML={{
-                        __html: sanitizeText(achievement.description),
-                      }}
-                    />
+                      ellipsis={
+                        <span>...
+                          <a
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            href={achievement.link}
+                          >
+                            Read more
+                          </a>
+                        </span>
+                      }
+                    >
+                      <CardText
+                        dangerouslySetInnerHTML={{
+                          __html: sanitizeText(achievement.description).replace(/&nbsp;/g, ''),
+                        }}
+                      />
+                    </Truncate>
                   </div>
                 }
 
                 <CardActions className="meta">
                   <span className="badge">
-                    {`${achievement.comments_count}`}
+                    {`${achievement.yes_rsvp_count}`}
                     <FontIcon
                       color="#fff"
                       className="material-icons"
@@ -104,22 +118,7 @@ class ProductHunt extends Component {
                         marginLeft: 5,
                       }}
                     >
-                      comment
-                    </FontIcon>
-                  </span>
-
-                  <span className="badge">
-                    {`${achievement.votes_count}`}
-                    <FontIcon
-                      color="#fff"
-                      className="material-icons"
-                      style={{
-                        fontSize: 20,
-                        verticalAlign: 'top',
-                        marginLeft: 5,
-                      }}
-                    >
-                      thumb_up
+                      people
                     </FontIcon>
                   </span>
                 </CardActions>
@@ -132,27 +131,25 @@ class ProductHunt extends Component {
   }
 }
 
-ProductHunt.propTypes = {
+Meetup.propTypes = {
   achievement: React.PropTypes.object,
   remove: React.PropTypes.func,
   update: React.PropTypes.func,
 };
 
-const ProductHuntContainer = Relay.createContainer(ProductHunt, {
+const MeetupContainer = Relay.createContainer(Meetup, {
   fragments: {
     achievement: () => Relay.QL`
       fragment on Achievement {
         id,
         title,
-        source_name,
-        developer_id,
-        import_id,
-        is_owner,
-        votes_count,
-        comments_count,
-        link,
         description,
-        thumbnail,
+        source_name,
+        import_id,
+        link,
+        is_owner,
+        yes_rsvp_count,
+        developer_id,
         date,
         ${AchievementActions.getFragment('achievement')},
         ${AchievementForm.getFragment('achievement')},
@@ -161,4 +158,4 @@ const ProductHuntContainer = Relay.createContainer(ProductHunt, {
   },
 });
 
-export default ProductHuntContainer;
+export default MeetupContainer;

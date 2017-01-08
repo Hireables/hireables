@@ -5,10 +5,10 @@ import { Card, CardTitle, CardActions, CardText } from 'material-ui/Card';
 import moment from 'moment';
 
 // Child Components icons
-import LinkedinIcon from '../../shared/icons/linkedin.es6';
-import { sanitizeText } from '../../../utils/sanitize.es6';
-import AchievementForm from './form.es6';
-import AchievementActions from './actions.es6';
+import LinkedinIcon from '../../../shared/icons/linkedin.es6';
+import { sanitizeText } from '../../../../utils/sanitize.es6';
+import AchievementForm from '../form.es6';
+import AchievementActions from '../actions.es6';
 
 class Linkedin extends Component {
   constructor(props) {

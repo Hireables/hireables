@@ -2,12 +2,12 @@ import Relay from 'react-relay';
 
 export default class extends Relay.Mutation {
   getMutation() {
-    return Relay.QL`mutation{ RemoveAchievement }`;
+    return Relay.QL`mutation{ UnpinAchievement }`;
   }
 
   getFatQuery() {
     return Relay.QL`
-      fragment on RemoveAchievementPayload {
+      fragment on UnpinAchievementPayload {
         deletedId,
         import {
           id,

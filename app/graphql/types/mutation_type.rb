@@ -13,8 +13,8 @@ MutationType = GraphQL::ObjectType.define do
 
   # Achievements
   field :ConnectOauth, field: Developers::ConnectOauthMutation.field
-  field :AddAchievement, field: Developers::AddAchievementMutation.field
-  field :RemoveAchievement, field: Developers::RemoveAchievementMutation.field
+  field :PinAchievement, field: Developers::PinAchievementMutation.field
+  field :UnpinAchievement, field: Developers::UnpinAchievementMutation.field
 
   # Mailbox
   field :CreateConversation, field: Mailbox::Conversations::Create.field

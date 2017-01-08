@@ -2,12 +2,12 @@ import Relay from 'react-relay';
 
 export default class extends Relay.Mutation {
   getMutation() {
-    return Relay.QL`mutation{ AddAchievement }`;
+    return Relay.QL`mutation{ PinAchievement }`;
   }
 
   getFatQuery() {
     return Relay.QL`
-      fragment on AddAchievementPayload {
+      fragment on PinAchievementPayload {
         achievementEdge,
 
         developer {

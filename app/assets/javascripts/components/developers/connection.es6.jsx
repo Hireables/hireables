@@ -26,8 +26,8 @@ import StackOverflowLogin from '../../connectors/stackexchange.es6';
 
 // Mutations
 import ConnectOAuth from '../../mutations/developer/connectOauth.es6';
-import AddAchievement from '../../mutations/developer/addAchievement.es6';
-import RemoveAchievement from '../../mutations/developer/removeAchievement.es6';
+import PinAchievement from '../../mutations/developer/pinAchievement.es6';
+import UnpinAchievement from '../../mutations/developer/unpinAchievement.es6';
 
 // Map icon component to string names
 const iconsMap = new Map();
@@ -152,7 +152,7 @@ class Connection extends Component {
     };
 
     const onSuccess = () => (this.toggleDisableOnList());
-    Relay.Store.commitUpdate(new AddAchievement({
+    Relay.Store.commitUpdate(new PinAchievement({
       id: item.id,
       developerId: this.props.developer.id,
     }), { onFailure, onSuccess });
@@ -169,7 +169,7 @@ class Connection extends Component {
 
     const onSuccess = () => (this.toggleDisableOnList());
 
-    Relay.Store.commitUpdate(new RemoveAchievement({
+    Relay.Store.commitUpdate(new UnpinAchievement({
       id: item.id,
       developerId: this.props.developer.id,
     }), { onFailure, onSuccess });

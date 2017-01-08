@@ -1,31 +1,23 @@
-/* global $ window document */
-
 // Modules
 import React, { Component } from 'react';
 import Relay from 'react-relay';
-import { Card, CardMedia, CardActions, CardTitle, CardText } from 'material-ui/Card';
+import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card';
 import moment from 'moment';
 import FontIcon from 'material-ui/FontIcon';
 
 // Child Components icons
-import YoutubeIcon from '../../shared/icons/youtube.es6';
-import { sanitizeText } from '../../../utils/sanitize.es6';
-import AchievementForm from './form.es6';
-import AchievementActions from './actions.es6';
+import ProductHuntIcon from '../../../shared/icons/producthunt.es6';
+import { sanitizeText } from '../../../../utils/sanitize.es6';
+import AchievementForm from '../form.es6';
+import AchievementActions from '../actions.es6';
 
-class Youtube extends Component {
+class ProductHunt extends Component {
   constructor(props) {
     super(props);
     this.edit = this.edit.bind(this);
     this.state = {
       editing: false,
     };
-  }
-
-  componentDidMount() {
-    setTimeout(() => {
-      this.iframe.setAttribute('src', this.iframe.getAttribute('data-src'));
-    }, 1000);
   }
 
   edit(event) {
@@ -37,24 +29,20 @@ class Youtube extends Component {
 
   render() {
     const { achievement, remove, update } = this.props;
-    const embedVideoStyle = {
-      display: 'block',
-      width: '100%',
-      height: 300,
-    };
 
     return (
       <div className={`achievement ${achievement.source_name}`}>
         <div className="achievement-block">
           <div className={`achievement-point ${achievement.source_name}`}>
-            <YoutubeIcon />
+            <ProductHuntIcon />
           </div>
+
           <div className="achievement-content">
             <Card className="achievement-card full-width">
               <div className="achievement-card-content">
                 <h2 className="intro">
-                  <i className="icon material-icons">video_library</i>
-                  Talk
+                  <i className="icon material-icons">apps</i>
+                  <span>App/Product</span>
                 </h2>
 
                 {achievement.is_owner ?
@@ -80,27 +68,21 @@ class Youtube extends Component {
                     edit={this.edit}
                   /> :
                   <div className="achievement-content">
-                    <CardMedia
-                      className="achievement-card-media"
-                    >
-                      <div className="video-embed" style={embedVideoStyle}>
-                        <iframe
-                          ref={node => (this.iframe = node)}
-                          style={embedVideoStyle}
-                          frameBorder="0"
-                          data-src={`//youtube.com/embed/${achievement.source_id}`}
-                        />
-                      </div>
-                    </CardMedia>
-
                     <CardTitle
                       className="achievement-card-header"
                       title={
                         <div className="title">
-                          {achievement.title}
+                          <a
+                            href={achievement.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            {achievement.title}
+                          </a>
                         </div>
                       }
                     />
+
                     <CardText
                       className="achievement-card-description"
                       dangerouslySetInnerHTML={{
@@ -112,7 +94,22 @@ class Youtube extends Component {
 
                 <CardActions className="meta">
                   <span className="badge">
-                    {`${achievement.likeCount}`}
+                    {`${achievement.comments_count}`}
+                    <FontIcon
+                      color="#fff"
+                      className="material-icons"
+                      style={{
+                        fontSize: 20,
+                        verticalAlign: 'top',
+                        marginLeft: 5,
+                      }}
+                    >
+                      comment
+                    </FontIcon>
+                  </span>
+
+                  <span className="badge">
+                    {`${achievement.votes_count}`}
                     <FontIcon
                       color="#fff"
                       className="material-icons"
@@ -125,21 +122,6 @@ class Youtube extends Component {
                       thumb_up
                     </FontIcon>
                   </span>
-
-                  <span className="badge">
-                    {`${achievement.viewCount}`}
-                    <FontIcon
-                      color="#fff"
-                      className="material-icons"
-                      style={{
-                        fontSize: 20,
-                        verticalAlign: 'middle',
-                        marginLeft: 5,
-                      }}
-                    >
-                      visibility
-                    </FontIcon>
-                  </span>
                 </CardActions>
               </div>
             </Card>
@@ -150,26 +132,27 @@ class Youtube extends Component {
   }
 }
 
-Youtube.propTypes = {
+ProductHunt.propTypes = {
   achievement: React.PropTypes.object,
   remove: React.PropTypes.func,
   update: React.PropTypes.func,
 };
 
-const YoutubeContainer = Relay.createContainer(Youtube, {
+const ProductHuntContainer = Relay.createContainer(ProductHunt, {
   fragments: {
     achievement: () => Relay.QL`
       fragment on Achievement {
         id,
         title,
         source_name,
-        source_id,
-        description,
         developer_id,
         import_id,
         is_owner,
-        likeCount,
-        viewCount,
+        votes_count,
+        comments_count,
+        link,
+        description,
+        thumbnail,
         date,
         ${AchievementActions.getFragment('achievement')},
         ${AchievementForm.getFragment('achievement')},
@@ -178,4 +161,4 @@ const YoutubeContainer = Relay.createContainer(Youtube, {
   },
 });
 
-export default YoutubeContainer;
+export default ProductHuntContainer;

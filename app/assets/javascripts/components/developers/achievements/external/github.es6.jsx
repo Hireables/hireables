@@ -1,43 +1,24 @@
-/* global $ */
-
 // Modules
 import React, { Component } from 'react';
 import Relay from 'react-relay';
-import hljs from 'highlight.js';
-import FontIcon from 'material-ui/FontIcon';
-import { Card, CardTitle, CardActions, CardText } from 'material-ui/Card';
+import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card';
 import moment from 'moment';
-import 'highlight.js/styles/tomorrow-night-eighties.css';
+import FontIcon from 'material-ui/FontIcon';
+import Languages from '../../../../utils/languages.json';
 
 // Child Components icons
-import StackOverflowIcon from '../../shared/icons/stackoverflow.es6';
-import { sanitizeText } from '../../../utils/sanitize.es6';
-import AchievementForm from './form.es6';
-import AchievementActions from './actions.es6';
+import GithubIcon from '../../../shared/icons/github.es6';
+import { sanitizeRichText } from '../../../../utils/sanitize.es6';
+import AchievementForm from '../form.es6';
+import AchievementActions from '../actions.es6';
 
-class StackOverflow extends Component {
+class Github extends Component {
   constructor(props) {
     super(props);
     this.edit = this.edit.bind(this);
     this.state = {
       editing: false,
     };
-  }
-
-  componentDidMount() {
-    setTimeout(() => {
-      $('code').each((i, block) => {
-        hljs.highlightBlock(block);
-      });
-    }, 500);
-  }
-
-  componentDidUpdate(prevProps) {
-    if (prevProps.achievement.description !== this.props.achievement.description) {
-      $('code').each((i, block) => {
-        hljs.highlightBlock(block);
-      });
-    }
   }
 
   edit(event) {
@@ -49,19 +30,22 @@ class StackOverflow extends Component {
 
   render() {
     const { achievement, remove, update } = this.props;
+    const starFields = { pr: 'comments', repo: 'stargazers_count' };
+    const count = achievement[starFields[achievement.category]];
 
     return (
       <div className={`achievement ${achievement.source_name}`}>
         <div className="achievement-block">
           <div className={`achievement-point ${achievement.source_name}`}>
-            <StackOverflowIcon />
+            <GithubIcon />
           </div>
+
           <div className="achievement-content">
             <Card className="achievement-card full-width">
               <div className="achievement-card-content">
                 <h2 className="intro">
-                  <i className="icon material-icons">question_answer</i>
-                  <span>Answer</span>
+                  <i className="icon material-icons">lock_open</i>
+                  <span>Open Source</span>
                 </h2>
 
                 {achievement.is_owner ?
@@ -101,24 +85,33 @@ class StackOverflow extends Component {
                         </div>
                       }
                     />
-
                     <CardText
                       className="achievement-card-description"
                       dangerouslySetInnerHTML={{
-                        __html: sanitizeText(achievement.description),
+                        __html: sanitizeRichText(achievement.description),
                       }}
                     />
                   </div>
                 }
 
                 <CardActions className="meta">
-                  {achievement.is_accepted ?
-                    <span className="badge">
-                      Accepted
+                  <span className="badge">
+                    {achievement.category}
+                  </span>
+
+                  {achievement.language ?
+                    <span
+                      className="badge"
+                      style={{
+                        backgroundColor: Languages[achievement.language],
+                      }}
+                    >
+                      {achievement.language}
                     </span> : ''
                   }
+
                   <span className="badge">
-                    {`${achievement.up_vote_count}`}
+                    {`${count}`}
                     <FontIcon
                       color="#fff"
                       className="material-icons"
@@ -131,21 +124,6 @@ class StackOverflow extends Component {
                       star
                     </FontIcon>
                   </span>
-
-                  <span className="badge">
-                    {`${achievement.comment_count}`}
-                    <FontIcon
-                      color="#fff"
-                      className="material-icons"
-                      style={{
-                        fontSize: 20,
-                        verticalAlign: 'middle',
-                        marginLeft: 5,
-                      }}
-                    >
-                      comment
-                    </FontIcon>
-                  </span>
                 </CardActions>
               </div>
             </Card>
@@ -156,13 +134,13 @@ class StackOverflow extends Component {
   }
 }
 
-StackOverflow.propTypes = {
+Github.propTypes = {
   achievement: React.PropTypes.object,
   remove: React.PropTypes.func,
   update: React.PropTypes.func,
 };
 
-const StackOverflowContainer = Relay.createContainer(StackOverflow, {
+const GithubContainer = Relay.createContainer(Github, {
   fragments: {
     achievement: () => Relay.QL`
       fragment on Achievement {
@@ -170,13 +148,14 @@ const StackOverflowContainer = Relay.createContainer(StackOverflow, {
         title,
         description,
         source_name,
-        is_accepted,
-        comment_count,
+        category,
         developer_id,
         import_id,
-        is_owner,
+        language,
         link,
-        up_vote_count,
+        is_owner,
+        comments,
+        stargazers_count,
         date,
         ${AchievementActions.getFragment('achievement')},
         ${AchievementForm.getFragment('achievement')},
@@ -185,4 +164,4 @@ const StackOverflowContainer = Relay.createContainer(StackOverflow, {
   },
 });
 
-export default StackOverflowContainer;
+export default GithubContainer;
