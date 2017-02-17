@@ -36,8 +36,15 @@ var defaults = {
   },
   // Extensions to resolve
   resolve: {
-    modulesDirectories: ['node_modules', './app/assets/javascripts/'],
-    extensions: ['', '.js', '.jsx', '.es6.js'],
+    modules: [
+      path.resolve('./app/assets/javascripts'),
+      path.resolve('./node_modules'),
+    ],
+    extensions: ['.js', '.jsx', '.es6.js'],
+  },
+
+  resolveLoader: {
+    modules: [path.resolve('./node_modules')],
   },
 
   plugins: [
@@ -47,7 +54,7 @@ var defaults = {
       },
     }),
 
-    new ExtractTextPlugin('vendor-bundle.css', { allChunks: true }),
+    new ExtractTextPlugin({ filename: 'vendor-bundle.css', allChunks: true }),
 
     // https://webpack.github.io/docs/list-of-plugins.html#2-explicit-vendor-chunk
     new webpack.optimize.CommonsChunkPlugin({
@@ -61,29 +68,66 @@ var defaults = {
       minChunks: Infinity,
     }),
   ],
-  sassLoader: {
-    includePaths: [path.resolve(__dirname, './app/assets/javascripts/')],
-  },
   module: {
-    loaders: [
+    rules: [
       // For react-rails we need to expose these deps to global object
       {
         test: /\.jsx?$/,
-        loader: 'babel',
+        loader: 'babel-loader',
         exclude: /node_modules/,
       },
       {
         test: /\.css$/,
-        loader: ExtractTextPlugin.extract('style-loader', 'css-loader', 'autoprefixer'),
+        loader: ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader' }),
       },
       {
         test: /\.sass$/,
-        loaders: ['style', 'css', 'sass'],
+        use: [{
+          loader: 'style-loader',
+        }, {
+          loader: 'css-loader',
+        }, {
+          loader: 'sass-loader',
+          options: {
+            includePaths: [path.resolve(__dirname, './app/assets/javascripts/')],
+          },
+        }],
       },
+      {
+        test: require.resolve('jquery'),
+        use: [
+          {
+            loader: 'expose-loader',
+            query: 'jQuery',
+          },
+          {
+            loader: 'expose-loader',
+            query: '$',
+          },
+        ],
+      },
+
+      {
+        test: require.resolve('react'),
+        use: [
+          {
+            loader: 'expose-loader',
+            query: 'React',
+          },
+        ],
+      },
+
+      {
+        test: require.resolve('react-dom'),
+        use: [
+          {
+            loader: 'expose-loader',
+            query: 'ReactDOM',
+          },
+        ],
+      },
+
       { test: /\.json$/, loader: 'json-loader' },
-      { test: require.resolve('react'), loader: 'expose?React' },
-      { test: require.resolve('jquery'), loader: 'expose?$!expose?jQuery' },
-      { test: require.resolve('react-dom'), loader: 'expose?ReactDOM' },
     ],
   },
 };
