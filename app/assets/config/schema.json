@@ -417,7 +417,7 @@
         {
           "kind": "OBJECT",
           "name": "DeveloperConnection",
-          "description": null,
+          "description": "The connection type for Developer.",
           "fields": [
             {
               "name": "edges",
@@ -1184,7 +1184,7 @@
         {
           "kind": "OBJECT",
           "name": "AchievementConnection",
-          "description": null,
+          "description": "The connection type for Achievement.",
           "fields": [
             {
               "name": "edges",
@@ -1926,7 +1926,7 @@
         {
           "kind": "OBJECT",
           "name": "ImportConnection",
-          "description": null,
+          "description": "The connection type for Import.",
           "fields": [
             {
               "name": "edges",
@@ -3034,7 +3034,7 @@
         {
           "kind": "OBJECT",
           "name": "ConversationConnection",
-          "description": null,
+          "description": "The connection type for Conversation.",
           "fields": [
             {
               "name": "edges",
@@ -3486,7 +3486,7 @@
         {
           "kind": "OBJECT",
           "name": "ReceiptConnection",
-          "description": null,
+          "description": "The connection type for Receipt.",
           "fields": [
             {
               "name": "edges",
@@ -3755,7 +3755,7 @@
         {
           "kind": "OBJECT",
           "name": "ParticipantConnection",
-          "description": null,
+          "description": "The connection type for Participant.",
           "fields": [
             {
               "name": "edges",
