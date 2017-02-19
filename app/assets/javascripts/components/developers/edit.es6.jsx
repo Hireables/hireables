@@ -276,9 +276,10 @@ class DeveloperEdit extends Component {
                     fullWidth
                     onKeyDown={DeveloperEdit.onKeyPress}
                     defaultValue={developer.blog}
-                    floatingLabelText="Blog or Website"
+                    floatingLabelText="Blog or Website*"
                     floatingLabelFixed
                     updateImmediately
+                    required
                     validations={{
                       isUrl: true,
                     }}
