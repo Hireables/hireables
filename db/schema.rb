@@ -32,7 +32,7 @@ ActiveRecord::Schema.define(version: 20161231115337) do
     t.datetime "updated_at",   null: false
     t.index ["category"], name: "index_achievements_on_category", using: :btree
     t.index ["data"], name: "index_achievements_on_data", using: :gin
-    t.index ["date"], name: "index_achievements_on_date", using: :btree
+    t.index ["developer_id", "date"], name: "developer_achievements_by_date", using: :btree
     t.index ["developer_id"], name: "index_achievements_on_developer_id", using: :btree
     t.index ["import_id"], name: "index_achievements_on_import_id", using: :btree
     t.index ["source_id"], name: "index_achievements_on_source_id", using: :btree
