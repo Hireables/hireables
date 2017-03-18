@@ -24,7 +24,7 @@ const JobTypes = (props) => {
             <div className="header-separator">Job Preferences</div>
             {developer.full_time ?
               <Chip
-                labelStyle={{ fontSize: 14 }}
+                labelStyle={{ fontSize: 14, fontWeight: 500 }}
                 key={Math.random()}
                 className={css(iconStyles.linkIcon)}
               >
@@ -41,7 +41,7 @@ const JobTypes = (props) => {
 
             {developer.part_time ?
               <Chip
-                labelStyle={{ fontSize: 14 }}
+                labelStyle={{ fontSize: 14, fontWeight: 500 }}
                 key={Math.random()}
                 className={css(iconStyles.linkIcon)}
               >
@@ -58,7 +58,7 @@ const JobTypes = (props) => {
 
             {developer.contract ?
               <Chip
-                labelStyle={{ fontSize: 14 }}
+                labelStyle={{ fontSize: 14, fontWeight: 500 }}
                 key={Math.random()}
                 className={css(iconStyles.linkIcon)}
               >
@@ -76,7 +76,7 @@ const JobTypes = (props) => {
 
             {developer.freelance ?
               <Chip
-                labelStyle={{ fontSize: 14 }}
+                labelStyle={{ fontSize: 14, fontWeight: 500 }}
                 key={Math.random()}
                 className={css(iconStyles.linkIcon)}
               >
@@ -93,7 +93,7 @@ const JobTypes = (props) => {
 
             {developer.startup ?
               <Chip
-                labelStyle={{ fontSize: 14 }}
+                labelStyle={{ fontSize: 14, fontWeight: 500 }}
                 key={Math.random()}
                 className={css(iconStyles.linkIcon)}
               >
@@ -110,7 +110,7 @@ const JobTypes = (props) => {
 
             {developer.internship ?
               <Chip
-                labelStyle={{ fontSize: 14 }}
+                labelStyle={{ fontSize: 14, fontWeight: 500 }}
                 key={Math.random()}
                 className={css(iconStyles.linkIcon)}
               >

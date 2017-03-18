@@ -6,7 +6,7 @@ const Company = props => (
   <div
     className="company"
     style={{
-      color: 'rgba(0, 0, 0, 0.7)',
+      color: '#333',
       fontWeight: 500,
       whiteSpace: 'nowrap',
       width: 200,

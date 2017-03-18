@@ -114,7 +114,7 @@ class Youtube extends Component {
                   <span className="badge">
                     {`${achievement.likeCount}`}
                     <FontIcon
-                      color="#fff"
+                      color="#333"
                       className="material-icons"
                       style={{
                         fontSize: 20,
@@ -129,7 +129,7 @@ class Youtube extends Component {
                   <span className="badge">
                     {`${achievement.viewCount}`}
                     <FontIcon
-                      color="#fff"
+                      color="#333"
                       className="material-icons"
                       style={{
                         fontSize: 20,

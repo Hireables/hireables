@@ -53,8 +53,5 @@ module Hireables
         resource '*', headers: :any, methods: [:get, :options, :head]
       end
     end
-
-    # Don't silence errors
-    ActiveSupport.halt_callback_chains_on_return_false = false
   end
 end

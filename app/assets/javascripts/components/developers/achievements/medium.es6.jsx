@@ -1,18 +1,19 @@
 // Modules
 import React, { Component } from 'react';
 import Relay from 'react-relay';
-import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card';
-import moment from 'moment';
+import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card';
 import FontIcon from 'material-ui/FontIcon';
-import Languages from '../../../utils/languages.json';
+import moment from 'moment';
+import Truncate from 'react-truncate';
 
 // Child Components icons
-import GithubIcon from '../../shared/icons/github.es6';
-import { sanitizeRichText } from '../../../utils/sanitize.es6';
+import MediumIcon from '../../shared/icons/medium.es6';
+import HeartIcon from '../../shared/icons/heart.es6';
+import { sanitizeText } from '../../../utils/sanitize.es6';
 import AchievementForm from './form.es6';
 import AchievementActions from './actions.es6';
 
-class Github extends Component {
+class Medium extends Component {
   constructor(props) {
     super(props);
     this.edit = this.edit.bind(this);
@@ -30,22 +31,18 @@ class Github extends Component {
 
   render() {
     const { achievement, remove, update } = this.props;
-    const starFields = { pr: 'comments', repo: 'stargazers_count' };
-    const count = achievement[starFields[achievement.category]];
-
     return (
       <div className={`achievement ${achievement.source_name}`}>
         <div className="achievement-block">
           <div className={`achievement-point ${achievement.source_name}`}>
-            <GithubIcon />
+            <MediumIcon />
           </div>
-
           <div className="achievement-content">
             <Card className="achievement-card full-width">
               <div className="achievement-card-content">
                 <h2 className="intro">
-                  <i className="icon material-icons">lock_open</i>
-                  <span>Open Source</span>
+                  <i className="icon material-icons">rss_feed</i>
+                  Medium
                 </h2>
 
                 {achievement.is_owner ?
@@ -76,52 +73,52 @@ class Github extends Component {
                       title={
                         <div className="title">
                           <a
-                            href={achievement.link}
+                            href={achievement.mediumUrl}
                             target="_blank"
                             rel="noopener noreferrer"
                           >
                             {achievement.title}
                           </a>
-                          <span className="category">
-                            {achievement.category}
-                          </span>
                         </div>
                       }
                     />
-                    <CardText
+
+                    <Truncate
+                      lines={5}
                       className="achievement-card-description"
-                      dangerouslySetInnerHTML={{
-                        __html: sanitizeRichText(achievement.description),
-                      }}
-                    />
+                      ellipsis={
+                        <span>...
+                          <a
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            href={achievement.link}
+                          >
+                            Read more
+                          </a>
+                        </span>
+                      }
+                    >
+                      <CardText
+                        dangerouslySetInnerHTML={{
+                          __html: sanitizeText(achievement.description).replace(/&nbsp;/g, ''),
+                        }}
+                      />
+                    </Truncate>
                   </div>
                 }
 
                 <CardActions className="meta">
-                  {achievement.language ?
-                    <span
-                      className="badge"
-                      style={{
-                        color: Languages[achievement.language],
-                      }}
-                    >
-                      {achievement.language}
-                    </span> : ''
-                  }
-
-                  <span className="badge">
-                    <FontIcon
-                      color="#333"
-                      className="material-icons"
-                      style={{
-                        fontSize: 20,
-                        verticalAlign: 'top',
-                        marginRight: 5,
-                      }}
-                    >
-                      star
-                    </FontIcon>
-                    {`${count}`}
+                  <span
+                    className="badge"
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <span style={{ marginRight: 10 }}>
+                      <HeartIcon />
+                    </span>
+                    {`${achievement.recommends}`}
                   </span>
                 </CardActions>
               </div>
@@ -133,13 +130,13 @@ class Github extends Component {
   }
 }
 
-Github.propTypes = {
+Medium.propTypes = {
   achievement: React.PropTypes.object,
   remove: React.PropTypes.func,
   update: React.PropTypes.func,
 };
 
-const GithubContainer = Relay.createContainer(Github, {
+const MediumContainer = Relay.createContainer(Medium, {
   fragments: {
     achievement: () => Relay.QL`
       fragment on Achievement {
@@ -147,14 +144,10 @@ const GithubContainer = Relay.createContainer(Github, {
         title,
         description,
         source_name,
-        category,
-        developer_id,
         import_id,
-        language,
-        link,
-        is_owner,
-        comments,
-        stargazers_count,
+        mediumUrl,
+        recommends,
+        developer_id,
         date,
         ${AchievementActions.getFragment('achievement')},
         ${AchievementForm.getFragment('achievement')},
@@ -163,4 +156,4 @@ const GithubContainer = Relay.createContainer(Github, {
   },
 });
 
-export default GithubContainer;
+export default MediumContainer;

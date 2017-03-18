@@ -110,7 +110,7 @@ class Meetup extends Component {
                   <span className="badge">
                     {`${achievement.yes_rsvp_count}`}
                     <FontIcon
-                      color="#fff"
+                      color="#333"
                       className="material-icons"
                       style={{
                         fontSize: 20,

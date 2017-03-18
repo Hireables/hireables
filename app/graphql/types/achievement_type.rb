@@ -24,6 +24,8 @@ AchievementType = GraphQL::ObjectType.define do
   field :comment_count, types.Int, 'Total comments (so)'
   field :comments_count, types.Int, 'Total comments (ph)'
   field :votes_count, types.Int, 'Total votes count (ph)'
+  field :recommends, types.Int, 'Total recommends count (medium)'
+  field :mediumUrl, types.String, 'Medium URL'
   field :yes_rsvp_count, types.Int, 'Total attendess for event(meetup)'
   field :viewCount, types.Int, 'Total views (youtube)'
   field :comments, types.Int, 'Total comments (github pr)'

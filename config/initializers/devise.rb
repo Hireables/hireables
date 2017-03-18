@@ -245,7 +245,7 @@ Devise.setup do |config|
     prompt: 'select_account',
     redirect_uri: "#{ENV['SITE_DOMAIN']}/developers/auth/google/callback"
   }
-  config.omniauth :medium, ENV['MEDIUM_API_KEY'], ENV['MEDIUM_API_SECRET'], callback_url: "#{ENV['SITE_DOMAIN']}/developers/auth/linkedin/callback"
+  config.omniauth :medium, ENV['MEDIUM_API_KEY'], ENV['MEDIUM_API_SECRET'], callback_url: "#{ENV['SITE_DOMAIN']}/developers/auth/medium/callback"
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or

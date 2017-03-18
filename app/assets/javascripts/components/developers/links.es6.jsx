@@ -74,7 +74,7 @@ class Links extends Component {
             this.props.developer.email &&
             this.props.developer.hireable ?
               <Chip
-                labelStyle={{ fontSize: 14 }}
+                labelStyle={{ fontSize: 14, fontWeight: 500 }}
                 className={css(iconStyles.linkIcon, iconStyles.hover)}
                 onClick={event =>
                   (this.props.developer.premium ?
@@ -97,7 +97,7 @@ class Links extends Component {
 
           {this.props.developer.blog ?
             <Chip
-              labelStyle={{ fontSize: 14 }}
+              labelStyle={{ fontSize: 14, fontWeight: 500 }}
               className={css(iconStyles.linkIcon, iconStyles.hover)}
               style={{ cursor: 'pointer' }}
               onClick={event => Links.openUrl(event, this.props.developer.blog)}
@@ -115,7 +115,7 @@ class Links extends Component {
           }
 
           <Chip
-            labelStyle={{ fontSize: 14 }}
+            labelStyle={{ fontSize: 14, fontWeight: 500 }}
             className={css(iconStyles.linkIcon, iconStyles.hover)}
             style={{ cursor: 'pointer' }}
             onClick={event => Links.openUrl(event, this.props.developer.html_url)}
@@ -133,7 +133,7 @@ class Links extends Component {
 
           {this.props.developer.linkedin ?
             <Chip
-              labelStyle={{ fontSize: 15, paddingLeft: 5 }}
+              labelStyle={{ fontSize: 14, fontWeight: 500, paddingLeft: 5 }}
               className={css(iconStyles.linkIcon, iconStyles.hover)}
               style={{ cursor: 'pointer' }}
               onClick={event => Links.openUrl(event, this.props.developer.linkedin)}

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AddQue < ActiveRecord::Migration
+class AddQue < ActiveRecord::Migration[5.0]
   def self.up
     # The current version as of this migration's creation.
     Que.migrate! :version => 3

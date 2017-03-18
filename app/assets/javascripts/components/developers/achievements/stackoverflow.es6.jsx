@@ -120,7 +120,7 @@ class StackOverflow extends Component {
                   <span className="badge">
                     {`${achievement.up_vote_count}`}
                     <FontIcon
-                      color="#fff"
+                      color="#333"
                       className="material-icons"
                       style={{
                         fontSize: 20,
@@ -135,7 +135,7 @@ class StackOverflow extends Component {
                   <span className="badge">
                     {`${achievement.comment_count}`}
                     <FontIcon
-                      color="#fff"
+                      color="#333"
                       className="material-icons"
                       style={{
                         fontSize: 20,

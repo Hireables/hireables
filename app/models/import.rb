@@ -12,7 +12,7 @@ class Import < ApplicationRecord
                  :description, :title, :name, :full_name, :language,
                  :yes_rsvp_count, :votes_count, :comments_count, :tagline,
                  :discussion_url, :redirect_url, :featured, :thumbnail,
-                 :comments
+                 :comments, :recommends, :cover
 
   def self.by_source(source)
     where(source_name: source)

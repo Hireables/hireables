@@ -9,6 +9,7 @@ import StackOverflow from './achievements/stackoverflow.es6';
 import Youtube from './achievements/youtube.es6';
 import Linkedin from './achievements/linkedin.es6';
 import Meetup from './achievements/meetup.es6';
+import Medium from './achievements/medium.es6';
 import ProductHunt from './achievements/producthunt.es6';
 import Connections from './connections.es6';
 
@@ -23,6 +24,7 @@ componentsMap.set('stackoverflow', StackOverflow);
 componentsMap.set('youtube', Youtube);
 componentsMap.set('linkedin', Linkedin);
 componentsMap.set('meetup', Meetup);
+componentsMap.set('medium', Medium);
 componentsMap.set('producthunt', ProductHunt);
 
 const renderEmptyPlaceholder = () => (
@@ -209,7 +211,8 @@ const DeveloperAchievementsContainer = Relay.createContainer(DeveloperAchievemen
               ${Youtube.getFragment('achievement')},
               ${Linkedin.getFragment('achievement')},
               ${Meetup.getFragment('achievement')},
-              ${ProductHunt.getFragment('achievement')}
+              ${ProductHunt.getFragment('achievement')},
+              ${Medium.getFragment('achievement')}
             }
           }
         }

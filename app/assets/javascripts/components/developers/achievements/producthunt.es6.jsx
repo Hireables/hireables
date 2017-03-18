@@ -96,7 +96,7 @@ class ProductHunt extends Component {
                   <span className="badge">
                     {`${achievement.comments_count}`}
                     <FontIcon
-                      color="#fff"
+                      color="#333"
                       className="material-icons"
                       style={{
                         fontSize: 20,
@@ -111,7 +111,7 @@ class ProductHunt extends Component {
                   <span className="badge">
                     {`${achievement.votes_count}`}
                     <FontIcon
-                      color="#fff"
+                      color="#333"
                       className="material-icons"
                       style={{
                         fontSize: 20,

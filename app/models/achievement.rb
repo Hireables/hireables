@@ -10,5 +10,5 @@ class Achievement < ApplicationRecord
                  :viewCount, :comment_count, :score, :full_name, :language,
                  :yes_rsvp_count, :votes_count, :comments_count,
                  :discussion_url, :redirect_url, :featured, :thumbnail,
-                 :comments
+                 :comments, :recommends, :mediumUrl
 end

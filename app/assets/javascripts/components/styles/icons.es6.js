@@ -12,7 +12,8 @@ const iconStyles = StyleSheet.create({
     color: '#555',
     padding: 0,
     borderRadius: 0,
-    fontSize: 13,
+    fontSize: 15,
+    fontWeight: 500,
     backgroundColor: 'transparent',
   },
 
