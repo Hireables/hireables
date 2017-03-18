@@ -1,18 +1,16 @@
 // Modules
 import React, { Component } from 'react';
 import Relay from 'react-relay';
-import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card';
-import FontIcon from 'material-ui/FontIcon';
+import { Card, CardTitle, CardActions, CardText } from 'material-ui/Card';
 import moment from 'moment';
-import Truncate from 'react-truncate';
 
 // Child Components icons
-import MeetupIcon from '../../../shared/icons/meetup.es6';
-import { sanitizeText } from '../../../../utils/sanitize.es6';
-import AchievementForm from '../form.es6';
-import AchievementActions from '../actions.es6';
+import LinkedinIcon from '../../shared/icons/linkedin.es6';
+import { sanitizeText } from '../../../utils/sanitize.es6';
+import AchievementForm from './form.es6';
+import AchievementActions from './actions.es6';
 
-class Meetup extends Component {
+class Linkedin extends Component {
   constructor(props) {
     super(props);
     this.edit = this.edit.bind(this);
@@ -34,14 +32,14 @@ class Meetup extends Component {
       <div className={`achievement ${achievement.source_name}`}>
         <div className="achievement-block">
           <div className={`achievement-point ${achievement.source_name}`}>
-            <MeetupIcon />
+            <LinkedinIcon />
           </div>
           <div className="achievement-content">
             <Card className="achievement-card full-width">
               <div className="achievement-card-content">
                 <h2 className="intro">
-                  <i className="icon material-icons">event</i>
-                  Meetup
+                  <i className="icon material-icons">work</i>
+                  Position
                 </h2>
 
                 {achievement.is_owner ?
@@ -71,56 +69,26 @@ class Meetup extends Component {
                       className="achievement-card-header"
                       title={
                         <div className="title">
-                          <a
-                            href={achievement.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            {achievement.title}
-                          </a>
+                          {achievement.title}
                         </div>
                       }
+                      subtitle={achievement.company}
                     />
-
-                    <Truncate
-                      lines={5}
+                    <CardText
                       className="achievement-card-description"
-                      ellipsis={
-                        <span>...
-                          <a
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            href={achievement.link}
-                          >
-                            Read more
-                          </a>
-                        </span>
-                      }
-                    >
-                      <CardText
-                        dangerouslySetInnerHTML={{
-                          __html: sanitizeText(achievement.description).replace(/&nbsp;/g, ''),
-                        }}
-                      />
-                    </Truncate>
+                      dangerouslySetInnerHTML={{
+                        __html: sanitizeText(achievement.description),
+                      }}
+                    />
                   </div>
                 }
 
                 <CardActions className="meta">
-                  <span className="badge">
-                    {`${achievement.yes_rsvp_count}`}
-                    <FontIcon
-                      color="#fff"
-                      className="material-icons"
-                      style={{
-                        fontSize: 20,
-                        verticalAlign: 'top',
-                        marginLeft: 5,
-                      }}
-                    >
-                      people
-                    </FontIcon>
-                  </span>
+                  {achievement.isCurrent ?
+                    <span className="badge">
+                      Current Position
+                    </span> : 'Position'
+                  }
                 </CardActions>
               </div>
             </Card>
@@ -131,13 +99,13 @@ class Meetup extends Component {
   }
 }
 
-Meetup.propTypes = {
+Linkedin.propTypes = {
   achievement: React.PropTypes.object,
   remove: React.PropTypes.func,
   update: React.PropTypes.func,
 };
 
-const MeetupContainer = Relay.createContainer(Meetup, {
+const LinkedinContainer = Relay.createContainer(Linkedin, {
   fragments: {
     achievement: () => Relay.QL`
       fragment on Achievement {
@@ -145,11 +113,11 @@ const MeetupContainer = Relay.createContainer(Meetup, {
         title,
         description,
         source_name,
-        import_id,
-        link,
-        is_owner,
-        yes_rsvp_count,
         developer_id,
+        import_id,
+        company,
+        is_owner,
+        isCurrent,
         date,
         ${AchievementActions.getFragment('achievement')},
         ${AchievementForm.getFragment('achievement')},
@@ -158,4 +126,4 @@ const MeetupContainer = Relay.createContainer(Meetup, {
   },
 });
 
-export default MeetupContainer;
+export default LinkedinContainer;

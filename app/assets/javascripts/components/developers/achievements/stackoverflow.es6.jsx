@@ -1,19 +1,21 @@
-/* global $ window document */
+/* global $ */
 
 // Modules
 import React, { Component } from 'react';
 import Relay from 'react-relay';
-import { Card, CardMedia, CardActions, CardTitle, CardText } from 'material-ui/Card';
-import moment from 'moment';
+import hljs from 'highlight.js';
 import FontIcon from 'material-ui/FontIcon';
+import { Card, CardTitle, CardActions, CardText } from 'material-ui/Card';
+import moment from 'moment';
+import 'highlight.js/styles/tomorrow-night-eighties.css';
 
 // Child Components icons
-import YoutubeIcon from '../../../shared/icons/youtube.es6';
-import { sanitizeText } from '../../../../utils/sanitize.es6';
-import AchievementForm from '../form.es6';
-import AchievementActions from '../actions.es6';
+import StackOverflowIcon from '../../shared/icons/stackoverflow.es6';
+import { sanitizeText } from '../../../utils/sanitize.es6';
+import AchievementForm from './form.es6';
+import AchievementActions from './actions.es6';
 
-class Youtube extends Component {
+class StackOverflow extends Component {
   constructor(props) {
     super(props);
     this.edit = this.edit.bind(this);
@@ -24,8 +26,18 @@ class Youtube extends Component {
 
   componentDidMount() {
     setTimeout(() => {
-      this.iframe.setAttribute('src', this.iframe.getAttribute('data-src'));
-    }, 1000);
+      $('code').each((i, block) => {
+        hljs.highlightBlock(block);
+      });
+    }, 500);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.achievement.description !== this.props.achievement.description) {
+      $('code').each((i, block) => {
+        hljs.highlightBlock(block);
+      });
+    }
   }
 
   edit(event) {
@@ -37,24 +49,19 @@ class Youtube extends Component {
 
   render() {
     const { achievement, remove, update } = this.props;
-    const embedVideoStyle = {
-      display: 'block',
-      width: '100%',
-      height: 300,
-    };
 
     return (
       <div className={`achievement ${achievement.source_name}`}>
         <div className="achievement-block">
           <div className={`achievement-point ${achievement.source_name}`}>
-            <YoutubeIcon />
+            <StackOverflowIcon />
           </div>
           <div className="achievement-content">
             <Card className="achievement-card full-width">
               <div className="achievement-card-content">
                 <h2 className="intro">
-                  <i className="icon material-icons">video_library</i>
-                  Talk
+                  <i className="icon material-icons">question_answer</i>
+                  <span>Answer</span>
                 </h2>
 
                 {achievement.is_owner ?
@@ -80,27 +87,21 @@ class Youtube extends Component {
                     edit={this.edit}
                   /> :
                   <div className="achievement-content">
-                    <CardMedia
-                      className="achievement-card-media"
-                    >
-                      <div className="video-embed" style={embedVideoStyle}>
-                        <iframe
-                          ref={node => (this.iframe = node)}
-                          style={embedVideoStyle}
-                          frameBorder="0"
-                          data-src={`//youtube.com/embed/${achievement.source_id}`}
-                        />
-                      </div>
-                    </CardMedia>
-
                     <CardTitle
                       className="achievement-card-header"
                       title={
                         <div className="title">
-                          {achievement.title}
+                          <a
+                            href={achievement.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            {achievement.title}
+                          </a>
                         </div>
                       }
                     />
+
                     <CardText
                       className="achievement-card-description"
                       dangerouslySetInnerHTML={{
@@ -111,8 +112,13 @@ class Youtube extends Component {
                 }
 
                 <CardActions className="meta">
+                  {achievement.is_accepted ?
+                    <span className="badge">
+                      Accepted
+                    </span> : ''
+                  }
                   <span className="badge">
-                    {`${achievement.likeCount}`}
+                    {`${achievement.up_vote_count}`}
                     <FontIcon
                       color="#fff"
                       className="material-icons"
@@ -122,12 +128,12 @@ class Youtube extends Component {
                         marginLeft: 5,
                       }}
                     >
-                      thumb_up
+                      star
                     </FontIcon>
                   </span>
 
                   <span className="badge">
-                    {`${achievement.viewCount}`}
+                    {`${achievement.comment_count}`}
                     <FontIcon
                       color="#fff"
                       className="material-icons"
@@ -137,7 +143,7 @@ class Youtube extends Component {
                         marginLeft: 5,
                       }}
                     >
-                      visibility
+                      comment
                     </FontIcon>
                   </span>
                 </CardActions>
@@ -150,26 +156,27 @@ class Youtube extends Component {
   }
 }
 
-Youtube.propTypes = {
+StackOverflow.propTypes = {
   achievement: React.PropTypes.object,
   remove: React.PropTypes.func,
   update: React.PropTypes.func,
 };
 
-const YoutubeContainer = Relay.createContainer(Youtube, {
+const StackOverflowContainer = Relay.createContainer(StackOverflow, {
   fragments: {
     achievement: () => Relay.QL`
       fragment on Achievement {
         id,
         title,
-        source_name,
-        source_id,
         description,
+        source_name,
+        is_accepted,
+        comment_count,
         developer_id,
         import_id,
         is_owner,
-        likeCount,
-        viewCount,
+        link,
+        up_vote_count,
         date,
         ${AchievementActions.getFragment('achievement')},
         ${AchievementForm.getFragment('achievement')},
@@ -178,4 +185,4 @@ const YoutubeContainer = Relay.createContainer(Youtube, {
   },
 });
 
-export default YoutubeContainer;
+export default StackOverflowContainer;

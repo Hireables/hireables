@@ -1,43 +1,23 @@
-/* global $ */
-
 // Modules
 import React, { Component } from 'react';
 import Relay from 'react-relay';
-import hljs from 'highlight.js';
-import FontIcon from 'material-ui/FontIcon';
-import { Card, CardTitle, CardActions, CardText } from 'material-ui/Card';
+import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card';
 import moment from 'moment';
-import 'highlight.js/styles/tomorrow-night-eighties.css';
+import FontIcon from 'material-ui/FontIcon';
 
 // Child Components icons
-import StackOverflowIcon from '../../../shared/icons/stackoverflow.es6';
-import { sanitizeText } from '../../../../utils/sanitize.es6';
-import AchievementForm from '../form.es6';
-import AchievementActions from '../actions.es6';
+import ProductHuntIcon from '../../shared/icons/producthunt.es6';
+import { sanitizeText } from '../../../utils/sanitize.es6';
+import AchievementForm from './form.es6';
+import AchievementActions from './actions.es6';
 
-class StackOverflow extends Component {
+class ProductHunt extends Component {
   constructor(props) {
     super(props);
     this.edit = this.edit.bind(this);
     this.state = {
       editing: false,
     };
-  }
-
-  componentDidMount() {
-    setTimeout(() => {
-      $('code').each((i, block) => {
-        hljs.highlightBlock(block);
-      });
-    }, 500);
-  }
-
-  componentDidUpdate(prevProps) {
-    if (prevProps.achievement.description !== this.props.achievement.description) {
-      $('code').each((i, block) => {
-        hljs.highlightBlock(block);
-      });
-    }
   }
 
   edit(event) {
@@ -54,14 +34,15 @@ class StackOverflow extends Component {
       <div className={`achievement ${achievement.source_name}`}>
         <div className="achievement-block">
           <div className={`achievement-point ${achievement.source_name}`}>
-            <StackOverflowIcon />
+            <ProductHuntIcon />
           </div>
+
           <div className="achievement-content">
             <Card className="achievement-card full-width">
               <div className="achievement-card-content">
                 <h2 className="intro">
-                  <i className="icon material-icons">question_answer</i>
-                  <span>Answer</span>
+                  <i className="icon material-icons">apps</i>
+                  <span>App/Product</span>
                 </h2>
 
                 {achievement.is_owner ?
@@ -112,13 +93,8 @@ class StackOverflow extends Component {
                 }
 
                 <CardActions className="meta">
-                  {achievement.is_accepted ?
-                    <span className="badge">
-                      Accepted
-                    </span> : ''
-                  }
                   <span className="badge">
-                    {`${achievement.up_vote_count}`}
+                    {`${achievement.comments_count}`}
                     <FontIcon
                       color="#fff"
                       className="material-icons"
@@ -128,22 +104,22 @@ class StackOverflow extends Component {
                         marginLeft: 5,
                       }}
                     >
-                      star
+                      comment
                     </FontIcon>
                   </span>
 
                   <span className="badge">
-                    {`${achievement.comment_count}`}
+                    {`${achievement.votes_count}`}
                     <FontIcon
                       color="#fff"
                       className="material-icons"
                       style={{
                         fontSize: 20,
-                        verticalAlign: 'middle',
+                        verticalAlign: 'top',
                         marginLeft: 5,
                       }}
                     >
-                      comment
+                      thumb_up
                     </FontIcon>
                   </span>
                 </CardActions>
@@ -156,27 +132,27 @@ class StackOverflow extends Component {
   }
 }
 
-StackOverflow.propTypes = {
+ProductHunt.propTypes = {
   achievement: React.PropTypes.object,
   remove: React.PropTypes.func,
   update: React.PropTypes.func,
 };
 
-const StackOverflowContainer = Relay.createContainer(StackOverflow, {
+const ProductHuntContainer = Relay.createContainer(ProductHunt, {
   fragments: {
     achievement: () => Relay.QL`
       fragment on Achievement {
         id,
         title,
-        description,
         source_name,
-        is_accepted,
-        comment_count,
         developer_id,
         import_id,
         is_owner,
+        votes_count,
+        comments_count,
         link,
-        up_vote_count,
+        description,
+        thumbnail,
         date,
         ${AchievementActions.getFragment('achievement')},
         ${AchievementForm.getFragment('achievement')},
@@ -185,4 +161,4 @@ const StackOverflowContainer = Relay.createContainer(StackOverflow, {
   },
 });
 
-export default StackOverflowContainer;
+export default ProductHuntContainer;

@@ -4,12 +4,12 @@ import Relay from 'react-relay';
 import Snackbar from 'material-ui/Snackbar';
 
 // Child Components icons
-import Github from './achievements/external/github.es6';
-import StackOverflow from './achievements/external/stackoverflow.es6';
-import Youtube from './achievements/external/youtube.es6';
-import Linkedin from './achievements/external/linkedin.es6';
-import Meetup from './achievements/external/meetup.es6';
-import ProductHunt from './achievements/external/producthunt.es6';
+import Github from './achievements/github.es6';
+import StackOverflow from './achievements/stackoverflow.es6';
+import Youtube from './achievements/youtube.es6';
+import Linkedin from './achievements/linkedin.es6';
+import Meetup from './achievements/meetup.es6';
+import ProductHunt from './achievements/producthunt.es6';
 import Connections from './connections.es6';
 
 // Mutation

@@ -4,12 +4,15 @@ import Relay from 'react-relay';
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card';
 import moment from 'moment';
 import FontIcon from 'material-ui/FontIcon';
-import { sanitizeRichText } from '../../../../utils/sanitize.es6';
-import AchievementForm from '../form.es6';
-import AchievementActions from '../actions.es6';
-import EducationIcon from '../../../shared/icons/education.es6';
+import Languages from '../../../utils/languages.json';
 
-class Education extends Component {
+// Child Components icons
+import GithubIcon from '../../shared/icons/github.es6';
+import { sanitizeRichText } from '../../../utils/sanitize.es6';
+import AchievementForm from './form.es6';
+import AchievementActions from './actions.es6';
+
+class Github extends Component {
   constructor(props) {
     super(props);
     this.edit = this.edit.bind(this);
@@ -34,7 +37,7 @@ class Education extends Component {
       <div className={`achievement ${achievement.source_name}`}>
         <div className="achievement-block">
           <div className={`achievement-point ${achievement.source_name}`}>
-            <EducationIcon />
+            <GithubIcon />
           </div>
 
           <div className="achievement-content">
@@ -131,13 +134,13 @@ class Education extends Component {
   }
 }
 
-Education.propTypes = {
+Github.propTypes = {
   achievement: React.PropTypes.object,
   remove: React.PropTypes.func,
   update: React.PropTypes.func,
 };
 
-const EducationContainer = Relay.createContainer(Education, {
+const GithubContainer = Relay.createContainer(Github, {
   fragments: {
     achievement: () => Relay.QL`
       fragment on Achievement {
@@ -147,7 +150,12 @@ const EducationContainer = Relay.createContainer(Education, {
         source_name,
         category,
         developer_id,
+        import_id,
+        language,
+        link,
         is_owner,
+        comments,
+        stargazers_count,
         date,
         ${AchievementActions.getFragment('achievement')},
         ${AchievementForm.getFragment('achievement')},
