@@ -204,6 +204,7 @@ class Composer extends Component {
                 placeholder="(ex: Type 'ad' to search for adam)"
                 floatingLabelFixed
                 fullWidth
+                autoFocus
                 animated={false}
                 dataSource={
                   this.props.composer.recipients.edges.map(({ node }) => node)

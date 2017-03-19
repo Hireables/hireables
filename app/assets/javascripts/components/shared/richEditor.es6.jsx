@@ -43,7 +43,6 @@ class RichEditor extends Component {
         toolbarConfig={toolbarConfig}
         placeholder={this.props.placeholder || 'Enter your message'}
         spellcheck
-        autoFocus
       />
     );
   }
