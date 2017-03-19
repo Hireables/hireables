@@ -2,6 +2,7 @@ class Connection < ApplicationRecord
   include HttpClient
   include Github
   include Meetup
+  include Medium
   include Linkedin
   include Producthunt
   include Stackoverflow
@@ -40,11 +41,12 @@ class Connection < ApplicationRecord
       'linkedin' => 'fetch_positions',
       'youtube' => 'fetch_talks',
       'producthunt' => 'fetch_products',
-      'meetup' => 'fetch_events'
+      'meetup' => 'fetch_events',
+      'medium' => 'fetch_posts'
     }.freeze
   end
 
   def expiring
-    %w(stackoverflow producthunt meetup linkedin youtube)
+    %w(stackoverflow producthunt medium linkedin youtube meetup)
   end
 end

@@ -4,6 +4,7 @@ MutationType = GraphQL::ObjectType.define do
   description 'The mutation root of this schema for creating or changing data.'
   # Profile updates
   field :UpdateDeveloper, field: Developers::UpdateMutation.field
+  field :UpdateAchievement, field: Developers::UpdateAchievement.field
   field :UpdateEmployer, field: Employers::UpdateMutation.field
   field :EmployerFileUpload, field: Employers::FileUploadMutation.field
 
@@ -12,8 +13,8 @@ MutationType = GraphQL::ObjectType.define do
 
   # Achievements
   field :ConnectOauth, field: Developers::ConnectOauthMutation.field
-  field :ToggleAchievement, field: Developers::ToggleAchievementMutation.field
-  field :RemoveAchievement, field: Developers::RemoveAchievementMutation.field
+  field :PinAchievement, field: Developers::PinAchievementMutation.field
+  field :UnpinAchievement, field: Developers::UnpinAchievementMutation.field
 
   # Mailbox
   field :CreateConversation, field: Mailbox::Conversations::Create.field

@@ -6,15 +6,24 @@ import Relay from 'react-relay';
 import hljs from 'highlight.js';
 import FontIcon from 'material-ui/FontIcon';
 import { Card, CardTitle, CardActions, CardText } from 'material-ui/Card';
-import IconButton from 'material-ui/IconButton';
-import 'highlight.js/styles/tomorrow-night-eighties.css';
 import moment from 'moment';
+import 'highlight.js/styles/tomorrow-night-eighties.css';
 
 // Child Components icons
 import StackOverflowIcon from '../../shared/icons/stackoverflow.es6';
 import { sanitizeText } from '../../../utils/sanitize.es6';
+import AchievementForm from './form.es6';
+import AchievementActions from './actions.es6';
 
 class StackOverflow extends Component {
+  constructor(props) {
+    super(props);
+    this.edit = this.edit.bind(this);
+    this.state = {
+      editing: false,
+    };
+  }
+
   componentDidMount() {
     setTimeout(() => {
       $('code').each((i, block) => {
@@ -23,8 +32,23 @@ class StackOverflow extends Component {
     }, 500);
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.achievement.description !== this.props.achievement.description) {
+      $('code').each((i, block) => {
+        hljs.highlightBlock(block);
+      });
+    }
+  }
+
+  edit(event) {
+    if (event) {
+      event.preventDefault();
+    }
+    this.setState({ editing: !this.state.editing });
+  }
+
   render() {
-    const { achievement, remove } = this.props;
+    const { achievement, remove, update } = this.props;
 
     return (
       <div className={`achievement ${achievement.source_name}`}>
@@ -41,45 +65,51 @@ class StackOverflow extends Component {
                 </h2>
 
                 {achievement.is_owner ?
-                  <IconButton
-                    className="remove"
-                    tooltip="Remove"
-                    tooltipStyles={{ top: 25 }}
-                    onClick={event => remove(event, achievement)}
-                  >
-                    <FontIcon className="material-icons">close</FontIcon>
-                  </IconButton> : ''
+                  <AchievementActions
+                    achievement={achievement}
+                    remove={remove}
+                    edit={this.edit}
+                  /> : ''
                 }
 
                 <time className="date">
                   {
-                    moment(achievement.created_at, 'YYYY-MM-DD HH:mm:ss [UTC]')
+                    moment(achievement.date, 'YYYY-MM-DD HH:mm:ss [UTC]')
                     .format('MMMM Do YYYY')
                     .toString()
                   }
                 </time>
 
-                <CardTitle
-                  className="achievement-card-header"
-                  title={
-                    <div className="title">
-                      <a
-                        href={achievement.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        {achievement.title}
-                      </a>
-                    </div>
-                  }
-                />
+                {this.state.editing ?
+                  <AchievementForm
+                    achievement={achievement}
+                    update={update}
+                    edit={this.edit}
+                  /> :
+                  <div className="achievement-content">
+                    <CardTitle
+                      className="achievement-card-header"
+                      title={
+                        <div className="title">
+                          <a
+                            href={achievement.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            {achievement.title}
+                          </a>
+                        </div>
+                      }
+                    />
 
-                <CardText
-                  className="achievement-card-description"
-                  dangerouslySetInnerHTML={{
-                    __html: sanitizeText(achievement.body),
-                  }}
-                />
+                    <CardText
+                      className="achievement-card-description"
+                      dangerouslySetInnerHTML={{
+                        __html: sanitizeText(achievement.description),
+                      }}
+                    />
+                  </div>
+                }
 
                 <CardActions className="meta">
                   {achievement.is_accepted ?
@@ -90,7 +120,7 @@ class StackOverflow extends Component {
                   <span className="badge">
                     {`${achievement.up_vote_count}`}
                     <FontIcon
-                      color="#fff"
+                      color="#333"
                       className="material-icons"
                       style={{
                         fontSize: 20,
@@ -105,7 +135,7 @@ class StackOverflow extends Component {
                   <span className="badge">
                     {`${achievement.comment_count}`}
                     <FontIcon
-                      color="#fff"
+                      color="#333"
                       className="material-icons"
                       style={{
                         fontSize: 20,
@@ -129,25 +159,27 @@ class StackOverflow extends Component {
 StackOverflow.propTypes = {
   achievement: React.PropTypes.object,
   remove: React.PropTypes.func,
+  update: React.PropTypes.func,
 };
 
 const StackOverflowContainer = Relay.createContainer(StackOverflow, {
   fragments: {
     achievement: () => Relay.QL`
-      fragment on Import {
+      fragment on Achievement {
         id,
         title,
-        body,
+        description,
         source_name,
         is_accepted,
         comment_count,
         developer_id,
-        connection_id,
+        import_id,
         is_owner,
         link,
         up_vote_count,
-        pinned,
-        created_at,
+        date,
+        ${AchievementActions.getFragment('achievement')},
+        ${AchievementForm.getFragment('achievement')},
       }
     `,
   },

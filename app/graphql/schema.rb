@@ -49,6 +49,7 @@ def models
     'Favourite' => Favourite,
     'Viewer' => Viewer,
     'Composer' => Composer,
+    'Achievement' => Achievement,
     'Conversation' => Mailboxer::Conversation,
     'Message' => Mailboxer::Message,
     'Mailbox' => Mailboxer::Mailbox,

@@ -1,6 +1,7 @@
 // Modules
 import React, { Component } from 'react';
 import Relay from 'react-relay';
+import Snackbar from 'material-ui/Snackbar';
 
 // Child Components icons
 import Github from './achievements/github.es6';
@@ -8,11 +9,13 @@ import StackOverflow from './achievements/stackoverflow.es6';
 import Youtube from './achievements/youtube.es6';
 import Linkedin from './achievements/linkedin.es6';
 import Meetup from './achievements/meetup.es6';
+import Medium from './achievements/medium.es6';
 import ProductHunt from './achievements/producthunt.es6';
 import Connections from './connections.es6';
 
 // Mutation
-import RemoveAchievement from '../../mutations/developer/removeAchievement.es6';
+import UnpinAchievement from '../../mutations/developer/unpinAchievement.es6';
+import UpdateAchievement from '../../mutations/developer/updateAchievement.es6';
 
 // Register components to a Map()
 const componentsMap = new Map();
@@ -21,6 +24,7 @@ componentsMap.set('stackoverflow', StackOverflow);
 componentsMap.set('youtube', Youtube);
 componentsMap.set('linkedin', Linkedin);
 componentsMap.set('meetup', Meetup);
+componentsMap.set('medium', Medium);
 componentsMap.set('producthunt', ProductHunt);
 
 const renderEmptyPlaceholder = () => (
@@ -41,8 +45,58 @@ const renderEmptyPlaceholder = () => (
 class DeveloperAchievements extends Component {
   constructor(props) {
     super(props);
+    this.setNotification = this.setNotification.bind(this);
+    this.handleRequestClose = this.handleRequestClose.bind(this);
     this.loadMore = this.loadMore.bind(this);
     this.remove = this.remove.bind(this);
+    this.update = this.update.bind(this);
+    this.state = {
+      notification: '',
+      open: false,
+    };
+  }
+
+  setNotification(notification) {
+    this.setState({
+      notification,
+    }, () => {
+      this.setState({ open: true });
+    });
+  }
+
+  handleRequestClose() {
+    this.setState({
+      open: false,
+    });
+  }
+
+  update(achievement, newData) {
+    const updatePromise = new Promise((resolve, reject) => {
+      const onFailure = (transaction) => {
+        const error = transaction.getError() || new Error('Mutation failed.');
+        let errorMessage;
+
+        if (error.list.errors && Array.isArray(error.list.errors)) {
+          errorMessage = error.list.errors[0].message;
+        } else {
+          errorMessage = error.message;
+        }
+        this.setNotification(errorMessage);
+        reject(false);
+      };
+
+      const onSuccess = () => {
+        this.setNotification('Successfully updated');
+        resolve(true);
+      };
+
+      Relay.Store.commitUpdate(new UpdateAchievement({
+        id: achievement.id,
+        ...newData,
+      }), { onFailure, onSuccess });
+    });
+
+    return updatePromise;
   }
 
   remove(event, achievement) {
@@ -60,10 +114,9 @@ class DeveloperAchievements extends Component {
       this.setNotification(errorMessage);
     };
 
-    Relay.Store.commitUpdate(new RemoveAchievement({
-      id: achievement.id,
+    Relay.Store.commitUpdate(new UnpinAchievement({
+      id: achievement.import_id,
       developerId: achievement.developer_id,
-      connectionId: achievement.connection_id,
     }), { onFailure });
   }
 
@@ -82,6 +135,7 @@ class DeveloperAchievements extends Component {
           achievement={achievement}
           key={achievement.id}
           remove={this.remove}
+          update={this.update}
         />
       );
     };
@@ -116,6 +170,17 @@ class DeveloperAchievements extends Component {
             renderAchievementComponent(node)
           )) : developer.is_owner ? '' : renderEmptyPlaceholder()
         }
+
+        <div className="notifications">
+          <Snackbar
+            open={this.state.open}
+            ref={node => (this.notification = node)}
+            message={this.state.notification}
+            autoHideDuration={5000}
+            action={'Dismiss'}
+            onRequestClose={this.handleRequestClose}
+          />
+        </div>
       </section>
     );
   }
@@ -146,7 +211,8 @@ const DeveloperAchievementsContainer = Relay.createContainer(DeveloperAchievemen
               ${Youtube.getFragment('achievement')},
               ${Linkedin.getFragment('achievement')},
               ${Meetup.getFragment('achievement')},
-              ${ProductHunt.getFragment('achievement')}
+              ${ProductHunt.getFragment('achievement')},
+              ${Medium.getFragment('achievement')}
             }
           }
         }

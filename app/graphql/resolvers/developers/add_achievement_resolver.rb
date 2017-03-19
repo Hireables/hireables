@@ -1,6 +1,6 @@
 module Developers
-  class RemoveAchievementResolver
-    attr_reader :current_developer, :import, :params, :ctx
+  class AddAchievementResolver
+    attr_reader :current_developer, :import
 
     def self.call(*args)
       new(*args).call
@@ -8,23 +8,22 @@ module Developers
 
     def initialize(_obj, inputs, ctx)
       @current_developer = ctx[:current_developer]
-      @params = inputs
-      @ctx = ctx
       raise StandardError, 'Unauthorised' unless @current_developer.present?
       @import = Schema.object_from_id(inputs[:id], ctx)
       raise StandardError, 'Unauthorised' unless owner?
     end
 
     def call
-      import.update!(pinned: false)
-      achievement = Achievement.find_by(import: import)
-      return if achievement.nil?
-      achievement.destroy!
-
+      import.update!(pinned: true)
+      achievement = current_developer.add_achievement(import)
+      achievements_connection = GraphQL::Relay::RelationConnection.new(
+        current_developer.achievements, {}
+      )
+      edge = GraphQL::Relay::Edge.new(achievement, achievements_connection)
       {
         developer: current_developer.reload,
         import: import.reload,
-        deletedId: Schema.id_from_object(achievement, AchievementType, ctx)
+        achievementEdge: edge
       }
     end
 

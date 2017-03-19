@@ -2,19 +2,21 @@ import Relay from 'react-relay';
 
 export default class extends Relay.Mutation {
   getMutation() {
-    return Relay.QL`mutation{ ToggleAchievement }`;
+    return Relay.QL`mutation{ PinAchievement }`;
   }
 
   getFatQuery() {
     return Relay.QL`
-      fragment on ToggleAchievementPayload {
+      fragment on PinAchievementPayload {
+        achievementEdge,
+
         developer {
           id,
-          achievements,
         },
-        connection {
+
+        import {
           id,
-          imports,
+          pinned,
         },
       }
     `;
@@ -27,11 +29,21 @@ export default class extends Relay.Mutation {
         fieldIDs: {
           developer: this.props.developerId,
         },
-      },
-      {
+      }, {
         type: 'FIELDS_CHANGE',
         fieldIDs: {
-          connection: this.props.connectionId,
+          import: this.props.id,
+        },
+      }, {
+        type: 'RANGE_ADD',
+        parentName: 'developer',
+        parentID: this.props.developerId,
+        connectionName: 'achievements',
+        edgeName: 'achievementEdge',
+        rangeBehaviors: {
+          '': 'prepend',
+          'order(date)': 'append',
+          'order(-date)': 'prepend',
         },
       },
     ];

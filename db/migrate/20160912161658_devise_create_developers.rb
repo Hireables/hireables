@@ -1,4 +1,4 @@
-class DeviseCreateDevelopers < ActiveRecord::Migration
+class DeviseCreateDevelopers < ActiveRecord::Migration[5.0]
   def change
     enable_extension 'citext'
     create_table :developers do |t|

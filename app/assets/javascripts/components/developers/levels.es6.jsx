@@ -23,7 +23,7 @@ const Levels = (props) => {
           <div className={css(iconStyles.links)}>
             {developer.cto ?
               <Chip
-                labelStyle={{ fontSize: 14 }}
+                labelStyle={{ fontSize: 14, fontWeight: 500 }}
                 key={Math.random()}
                 className={css(iconStyles.linkIcon)}
               >
@@ -41,7 +41,7 @@ const Levels = (props) => {
 
             {developer.lead ?
               <Chip
-                labelStyle={{ fontSize: 14 }}
+                labelStyle={{ fontSize: 14, fontWeight: 500 }}
                 key={Math.random()}
                 className={css(iconStyles.linkIcon)}
               >
@@ -59,7 +59,7 @@ const Levels = (props) => {
 
             {developer.senior ?
               <Chip
-                labelStyle={{ fontSize: 14 }}
+                labelStyle={{ fontSize: 14, fontWeight: 500 }}
                 key={Math.random()}
                 className={css(iconStyles.linkIcon)}
               >
@@ -78,7 +78,7 @@ const Levels = (props) => {
 
             {developer.mid ?
               <Chip
-                labelStyle={{ fontSize: 14 }}
+                labelStyle={{ fontSize: 14, fontWeight: 500 }}
                 key={Math.random()}
                 className={css(iconStyles.linkIcon)}
               >
@@ -96,7 +96,7 @@ const Levels = (props) => {
 
             {developer.junior ?
               <Chip
-                labelStyle={{ fontSize: 14 }}
+                labelStyle={{ fontSize: 14, fontWeight: 500 }}
                 key={Math.random()}
                 className={css(iconStyles.linkIcon)}
               >
@@ -114,7 +114,7 @@ const Levels = (props) => {
 
             {developer.student ?
               <Chip
-                labelStyle={{ fontSize: 14 }}
+                labelStyle={{ fontSize: 14, fontWeight: 500 }}
                 key={Math.random()}
                 className={css(iconStyles.linkIcon)}
               >

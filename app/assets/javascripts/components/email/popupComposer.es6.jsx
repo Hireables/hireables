@@ -190,6 +190,7 @@ class PopupComposer extends Component {
                   updateImmediately
                   name="subject"
                   fullWidth
+                  autoFocus
                   className="subject-input"
                   onKeyDown={PopupComposer.onKeyPress}
                   required

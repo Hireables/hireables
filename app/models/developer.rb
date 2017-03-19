@@ -9,7 +9,8 @@ class Developer < ApplicationRecord
   validates_uniqueness_of :login
 
   has_many :connections, dependent: :destroy
-  has_many :achievements, -> { where(pinned: true) }, class_name: 'Import'
+  has_many :achievements, dependent: :destroy
+  has_many :imports, dependent: :destroy
 
   before_save :format_languages, unless: :empty_languages?
   after_commit :seed_available_connections, on: :create
@@ -51,6 +52,20 @@ class Developer < ApplicationRecord
 
   def set_premium!
     update!(premium: profile_completed?)
+  end
+
+  def add_achievement(import)
+    achievements.create!(
+      source_id: import.source_id,
+      source_name: import.source_name,
+      category: import.category,
+      title: import.get_field(:title),
+      description: import.get_field(:description),
+      date: import.created_at,
+      data: import.data,
+      import: import,
+      link: import.get_field(:link)
+    )
   end
 
   private

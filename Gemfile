@@ -33,13 +33,14 @@ gem 'rack-attack'
 gem 'turbolinks', '~> 5.0.x'
 
 # Omniauth login
-gem 'omniauth-github'
-gem 'omniauth-producthunt', git: 'https://github.com/gauravtiwari/omniauth-producthunt.git'
-gem 'omniauth-meetup'
-gem 'omniauth-stackexchange', git: 'https://github.com/gauravtiwari/omniauth-stackexchange.git'
-gem 'omniauth-linkedin-oauth2', git: 'https://github.com/decioferreira/omniauth-linkedin-oauth2'
-gem 'omniauth-google-oauth2'
 gem 'devise'
+gem 'omniauth-github'
+gem 'omniauth-google-oauth2'
+gem 'omniauth-linkedin-oauth2', git: 'https://github.com/decioferreira/omniauth-linkedin-oauth2'
+gem 'omniauth-producthunt', git: 'https://github.com/gauravtiwari/omniauth-producthunt.git'
+gem 'omniauth-medium', git: 'https://github.com/gauravtiwari/omniauth-medium.git'
+gem 'omniauth-stackexchange', git: 'https://github.com/gauravtiwari/omniauth-stackexchange.git'
+gem 'omniauth-meetup'
 
 # CORS
 gem 'rack-cors', require: 'rack/cors'

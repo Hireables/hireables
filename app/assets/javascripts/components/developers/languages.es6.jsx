@@ -41,7 +41,7 @@ const Languages = (props) => {
           {developer.languages.map(platform => (
             <Chip
               key={Math.random()}
-              labelStyle={{ fontSize: 14 }}
+              labelStyle={{ fontSize: 14, fontWeight: 500 }}
               style={{ cursor: 'pointer' }}
               className={css(iconStyles.linkIcon, iconStyles.hover, iconStyles.bordered)}
               onClick={() => Turbolinks.visit(`/search?${query(platform)}`)}

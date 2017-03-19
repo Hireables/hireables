@@ -1,5 +1,5 @@
-<% if @auth_hash[:access_token].present? %>
-  <% auth_json = raw @auth_hash.to_json %>
+<% if @oauth[:access_token].present? %>
+  <% auth_json = raw @oauth.to_json %>
   <%= javascript_tag do %>
     window.opener.postMessage({ auth: '<%= auth_json %>' }, '<%= root_url %>');
   <% end %>

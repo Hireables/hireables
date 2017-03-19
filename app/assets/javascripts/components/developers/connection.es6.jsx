@@ -14,19 +14,22 @@ import StackOverflow from '../shared/icons/stackoverflow.es6';
 import Youtube from '../shared/icons/youtube.es6';
 import Linkedin from '../shared/icons/linkedin.es6';
 import Meetup from '../shared/icons/meetup.es6';
+import Medium from '../shared/icons/medium.es6';
 import ProductHunt from '../shared/icons/producthunt.es6';
 import Item from './imports/item.es6';
 
 // Provider authentication
 import GoogleLogin from '../../connectors/google.es6';
 import MeetupLogin from '../../connectors/meetup.es6';
+import MediumLogin from '../../connectors/medium.es6';
 import LinkedinLogin from '../../connectors/linkedin.es6';
 import ProductHuntLogin from '../../connectors/producthunt.es6';
 import StackOverflowLogin from '../../connectors/stackexchange.es6';
 
 // Mutations
 import ConnectOAuth from '../../mutations/developer/connectOauth.es6';
-import ToggleAchievement from '../../mutations/import/toggle.es6';
+import PinAchievement from '../../mutations/developer/pinAchievement.es6';
+import UnpinAchievement from '../../mutations/developer/unpinAchievement.es6';
 
 // Map icon component to string names
 const iconsMap = new Map();
@@ -36,6 +39,7 @@ iconsMap.set('youtube', Youtube);
 iconsMap.set('meetup', Meetup);
 iconsMap.set('producthunt', ProductHunt);
 iconsMap.set('linkedin', Linkedin);
+iconsMap.set('medium', Medium);
 
 // Map connection js adapters
 const adapterMap = new Map();
@@ -44,13 +48,15 @@ adapterMap.set('stackoverflow', StackOverflowLogin);
 adapterMap.set('linkedin', LinkedinLogin);
 adapterMap.set('producthunt', ProductHuntLogin);
 adapterMap.set('meetup', MeetupLogin);
+adapterMap.set('medium', MediumLogin);
 
 class Connection extends Component {
   constructor(props) {
     super(props);
     this.toggleList = this.toggleList.bind(this);
     this.connect = this.connect.bind(this);
-    this.toggleItemOnServer = this.toggleItemOnServer.bind(this);
+    this.pinImport = this.pinImport.bind(this);
+    this.unpinImport = this.unpinImport.bind(this);
     this.setNotification = this.setNotification.bind(this);
     this.showErrorNotification = this.showErrorNotification.bind(this);
     this.handleRequestClose = this.handleRequestClose.bind(this);
@@ -140,7 +146,7 @@ class Connection extends Component {
     }
   }
 
-  toggleItemOnServer(event, item) {
+  pinImport(event, item) {
     event.preventDefault();
     this.toggleDisableOnList();
 
@@ -150,10 +156,26 @@ class Connection extends Component {
     };
 
     const onSuccess = () => (this.toggleDisableOnList());
-    Relay.Store.commitUpdate(new ToggleAchievement({
+    Relay.Store.commitUpdate(new PinAchievement({
       id: item.id,
       developerId: this.props.developer.id,
-      connectionId: this.props.connection.id,
+    }), { onFailure, onSuccess });
+  }
+
+  unpinImport(event, item) {
+    event.preventDefault();
+    this.toggleDisableOnList();
+
+    const onFailure = (transaction) => {
+      this.showErrorNotification(transaction);
+      this.toggleDisableOnList();
+    };
+
+    const onSuccess = () => (this.toggleDisableOnList());
+
+    Relay.Store.commitUpdate(new UnpinAchievement({
+      id: item.id,
+      developerId: this.props.developer.id,
     }), { onFailure, onSuccess });
   }
 
@@ -249,7 +271,8 @@ class Connection extends Component {
                   <Item
                     item={node}
                     key={node.id}
-                    toggleItemOnServer={this.toggleItemOnServer}
+                    unpinImport={this.unpinImport}
+                    pinImport={this.pinImport}
                   />
                 ))}
                 <div className="actions">

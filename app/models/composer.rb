@@ -1,6 +1,6 @@
 ComposerId = Struct.new :id
 class Composer < ComposerId
-  STATIC = new(id: 'root').freeze
+  STATIC = new(id: 'composer').freeze
 
   def self.find(_)
     STATIC

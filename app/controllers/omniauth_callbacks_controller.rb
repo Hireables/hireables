@@ -5,9 +5,9 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def self.provides_callback_for(provider)
     class_eval %(
       def #{provider}
-        @auth_hash = {
-          uid: auth_hash.uid,
-          access_token: auth_hash.credentials.token,
+        @oauth = {
+          uid: uid,
+          access_token: oauth.credentials.token,
           expires_at: expires_at
         }
         render :callback, layout: false
@@ -17,15 +17,17 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
   [
     :producthunt,
-    :meetup, :stackexchange,
+    :meetup,
+    :stackexchange,
     :linkedin,
-    :google
+    :google,
+    :medium
   ].each do |provider|
     provides_callback_for provider
   end
 
   def github
-    @developer = Authenticator.call(auth_hash)
+    @developer = Authenticator.call(oauth)
     if @developer.persisted?
       remember_me(@developer)
       sign_in @developer, event: :authentication
@@ -58,20 +60,24 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
   private
 
+  def uid
+    oauth.provider == 'medium' ? "@#{oauth.info.username}" : oauth.uid
+  end
+
   def expires_at
-    return Time.at(auth_hash.credentials.expires_at).utc if expires?
+    return Time.at(oauth.credentials.expires_at).utc if expires?
     Time.now + 5.days
   end
 
   def expires?
-    auth_hash.credentials.expires
+    oauth.credentials.expires
   end
 
-  def auth_hash
+  def oauth
     request.env['omniauth.auth']
   end
 
   def malformed_auth?
-    auth_hash.nil? || auth_hash.credentials.nil?
+    oauth.nil? || oauth.credentials.nil?
   end
 end

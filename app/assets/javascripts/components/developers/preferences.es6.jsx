@@ -17,7 +17,7 @@ const Links = props => (
     <div className={css(iconStyles.links)}>
       {props.developer.remote ?
         <Chip
-          labelStyle={{ fontSize: 14 }}
+          labelStyle={{ fontSize: 14, fontWeight: 500 }}
           className={css(iconStyles.linkIcon)}
         >
           <Avatar
@@ -34,7 +34,7 @@ const Links = props => (
 
       {props.developer.relocate ?
         <Chip
-          labelStyle={{ fontSize: 14 }}
+          labelStyle={{ fontSize: 14, fontWeight: 500 }}
           className={css(iconStyles.linkIcon)}
         >
           <Avatar
