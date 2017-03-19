@@ -16,9 +16,12 @@ import PopupComposer from '../email/popupComposer.es6';
 import composerRoute from '../../routes/composerRoute.es6';
 import LoadingComponent from '../shared/loadingComponent';
 import ErrorComponent from '../shared/errorComponent';
+import CurrentUser from '../../helpers/currentUser.es6';
 
 // Stylesheet
 import iconStyles from '../styles/icons.es6';
+
+const currentUser = new CurrentUser();
 
 class Links extends Component {
   static openUrl(event, url) {
@@ -77,7 +80,7 @@ class Links extends Component {
                 labelStyle={{ fontSize: 14, fontWeight: 500 }}
                 className={css(iconStyles.linkIcon, iconStyles.hover)}
                 onClick={event =>
-                  (this.props.developer.premium ?
+                  (currentUser.isEmployer && this.props.developer.premium ?
                     this.openComposer(event) : this.openMail(event))
                 }
                 style={{ cursor: 'pointer' }}
